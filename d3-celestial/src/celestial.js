@@ -328,9 +328,14 @@ Celestial.display = function(config) {
 
   function drawGridPolygons(){
     container.selectAll(".mw").each(function(d) {
+      if(d.properties.count < 5)
+        return;
       setStyle(cfg.polygons.style);
-      context.fillStyle = '#'+Math.min(d.properties.count*1+55, 255).toString(16) +'0000';
-      context.fillStyle = '#ff0000';
+      context.fillStyle = '#'+Math.min(d.properties.count*3+55, 255).toString(16) +'0000';
+      // context.fillStyle = '#'+Math.ceil(Math.random()*255).toString(16) +
+      //                         Math.ceil(Math.random()*255).toString(16) +
+      //                         Math.ceil(Math.random()*255).toString(16);
+      // context.fillStyle = '#ff0000';
       context.globalAlpha = Math.min(1, d.properties.count/100);
       map(d);
       if(inside(mousePosition, d.geometry.coordinates[0])){
@@ -349,7 +354,8 @@ Celestial.display = function(config) {
   function drawMoon(){
     container.selectAll(".moon").each(function(d) {
         // if (clip(d.pos)) {
-          var r = 20;
+          var r = cfg.moon.size * width/960;
+          // console.log(cfg.moon.size, width/960)
           var pt = prjMap(d.pos);
           setStyle(cfg.moon.style);
           // context.fillStyle = d.style.fill; 

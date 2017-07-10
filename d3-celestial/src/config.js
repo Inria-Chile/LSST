@@ -24,6 +24,7 @@ var settings = {
   moon: {
     show: true,
     pos : [30, 315],
+    size: 15,
     style: { fill: "#ffffff", opacity: "1" }
   },
   lines: {
