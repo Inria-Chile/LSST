@@ -63,7 +63,7 @@ Celestial.display = function(config) {
 
   zoom = d3.geo.zoom().projection(prjMap).center([width/2, height/2]).scaleExtent([scale, scale*5]).on("zoom.redraw", zoomRedraw);
 
-  var canvas = d3.selectAll("canvas");
+  var canvas = d3.selectAll("#"+cfg.container + "canvas");
   if (canvas[0].length === 0) canvas = d3.select(par).append("canvas");
   canvas.attr("width", width).attr("height", height);
   var context = canvas.node().getContext("2d");  

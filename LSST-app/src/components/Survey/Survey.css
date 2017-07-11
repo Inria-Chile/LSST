@@ -1,0 +1,18 @@
+.minimap {
+  width: 400px;
+  display: inline-block;
+}
+
+.minimap-container {
+  display: inline-block;
+  width: 800px;
+}
+
+.mainSkymap {
+  display: inline-block;  
+  width: 1100px;
+}
+
+.survey-container {
+  display: inline-block;  
+}
