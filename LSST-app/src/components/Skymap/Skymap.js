@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 const makeCelestial = window.makeCelestial;
 
 class Skymap extends Component {
-
+  
   setupCelestial(containerId){
     var config = {
       width: 0,     // Default width, 0 = full parent width; height is determined by projection
@@ -28,9 +28,7 @@ class Skymap extends Component {
       },
       lines: {
         graticule: { show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
-          // grid values: "outline", "center", or [lat,...] specific position
           lon: {pos: ["center"], fill: "#eee", font: "18px Helvetica, Arial, sans-serif"}, 
-          // grid values: "outline", "center", or [lon,...] specific position
           lat: {pos: ["center"], fill: "#eee", font: "18px Helvetica, Arial, sans-serif"}},
         equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
         ecliptic: { show: true, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
@@ -48,15 +46,16 @@ class Skymap extends Component {
   }
 
   componentDidMount() {
-    var mainNode = this.refs.skymapDiv;
-    mainNode.id = "mainNode";
+    // var mainNode = this.refs.skymapDiv;
+    var nodeRef = this.refs[this.props.nodeRef];
+    nodeRef.id = this.props.nodeRef;
     // set el height and width etc.
-    this.setupCelestial(mainNode.id);
+    this.setupCelestial(nodeRef.id);
   }
 
   render() {
     return (
-      <div className="mainSkymap" ref="skymapDiv"></div>
+      <div ref={this.props.nodeRef} className={this.props.className}></div>
     );
   }
 }
