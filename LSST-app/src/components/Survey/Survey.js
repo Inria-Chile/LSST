@@ -6,14 +6,31 @@ import MiniSkymaps from '../Skymap/MiniSkymaps';
 import './Survey.css';
 
 class Survey extends Component {
-  render() {
-    return (
-      <div className="survey-container">
-        <MainSkymap />
-        <MiniSkymaps />
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.children = [];
+    }
+
+    drawFrame = (timestamp) => {
+        // console.log('Parent Drawframe')
+        this.children.forEach(function (child) {
+            child.drawFrame(timestamp);
+        });
+        requestAnimationFrame(this.drawFrame);
+    }
+
+    componentDidMount() {
+        requestAnimationFrame(this.drawFrame);
+    }
+
+    render() {
+        return (
+            <div className="survey-container">
+                <MainSkymap ref={instance => { this.children.push(instance); }} />
+                <MiniSkymaps ref={instance => { this.children.push(instance); }} />
+            </div>
+        );
+    }
 }
 
 export default Survey;

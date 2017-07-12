@@ -3,11 +3,25 @@ import React, { Component } from 'react';
 import Skymap from './Skymap';
 
 class MainSkymap extends Component {
-  render() {
-    return (
-      <Skymap nodeRef='mainNode' className="mainSkymap" />
-    );
-  }
+    drawFrame = () => {
+        // console.log('drawFrame MainSkymap');
+        var Celestial = this.skymap.getCelestial();
+        var step = 1.6;
+        var tileN = 0;
+
+        // reqID = window.requestAnimationFrame(animate);
+        var rot = Celestial.rotate();
+        rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
+        rot[2] = 0;
+        Celestial.rotate({center:rot});
+        Celestial.updateCell(Math.floor(Math.random()*857));
+    }
+
+    render() {
+        return (
+            <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap" />
+        );
+    }
 }
 
 export default MainSkymap;

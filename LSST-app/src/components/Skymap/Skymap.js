@@ -4,7 +4,11 @@ import React, { Component } from 'react';
 const makeCelestial = window.makeCelestial;
 
 class Skymap extends Component {
-  
+
+  getCelestial(){
+    return this.Celestial;
+  }
+
   setupCelestial(containerId){
     var config = {
       width: 0,     // Default width, 0 = full parent width; height is determined by projection
@@ -43,6 +47,7 @@ class Skymap extends Component {
     };
     var Celestial = makeCelestial();
     Celestial.display(config);
+    this.Celestial = Celestial;
   }
 
   componentDidMount() {
