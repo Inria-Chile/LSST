@@ -12,7 +12,7 @@ class MiniSkymaps extends Component {
 
   drawFrame = (timestamp) => {
     // console.log('drawFrame MiniSkymaps');
-    console.log(timestamp);
+    // console.log(timestamp);
     this.children.forEach(function (child) {
       var Celestial = child.getCelestial();
       var step = 1.6;

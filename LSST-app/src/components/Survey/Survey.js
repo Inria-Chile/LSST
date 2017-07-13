@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
+import Chart from '../Histogram/Chart';
 import './Survey.css';
 
 class Survey extends Component {
@@ -26,8 +27,9 @@ class Survey extends Component {
     render() {
         return (
             <div className="survey-container">
-                <MainSkymap ref={instance => { this.children.push(instance); }} />
-                <MiniSkymaps ref={instance => { this.children.push(instance); }} />
+                {/* <MainSkymap ref={instance => { this.children.push(instance); }} /> */}
+                {/* <MiniSkymaps ref={instance => { this.children.push(instance); }} /> */}
+                <Chart />
             </div>
         );
     }
