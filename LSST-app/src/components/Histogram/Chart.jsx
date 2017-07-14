@@ -30,13 +30,6 @@ class Chart extends Component {
       else {
           this.setState({svgDimensions : {width: 800,  height: 500}});
       }
-    // if(window.innerWidth < 500) {
-    //   this.setState({ width: 450, height: 102 });
-    // } else {
-    //   let update_width  = window.innerWidth-100;
-    //   let update_height = Math.round(update_width/4.4);
-    //   this.setState({ width: update_width, height: update_height });
-    // }
   }
   componentDidMount() {
     this.updateDimensions();

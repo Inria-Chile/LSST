@@ -27,9 +27,9 @@ class Survey extends Component {
     render() {
         return (
             <div className="survey-container">
-                {/* <MainSkymap ref={instance => { this.children.push(instance); }} /> */}
-                {/* <MiniSkymaps ref={instance => { this.children.push(instance); }} /> */}
-                <Chart />
+                 <Chart />
+                 <MainSkymap ref={instance => { this.children.push(instance); }} /> 
+                 <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
             </div>
         );
     }

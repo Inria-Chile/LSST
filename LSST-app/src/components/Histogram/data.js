@@ -1,15 +1,31 @@
 
 export default [
-  { title: 'Terminator', value: 21, year: 1984 },
-  { title: 'Terminator2', value: 20, year: 1984 },
-  { title: 'Commando', value: 81, year: 1985 },
-  { title: 'Predator', value: 25, year: 1987 },
-  { title: 'Raw Deal', value: 26, year: 1986 },
-  { title: 'The Running Man', value: 11, year: 1987 },
-  { title: 'Total Recall', value: 44, year: 1990 },
-  { title: 'Terminator 2', value: 0, year: 1991 },
-  { title: 'Last Action Hero', value: 22, year: 1993 },
-  { title: 'True Lies', value: 51, year: 1994 },
-  { title: 'Eraser', value: 29, year: 1996 },
-  { title: 'Terminator 3', value: 2, year: 2003 },
+  {title: 'a1', value: 21 },{title: 'a2', value: 24} ,
+  { title: 'b1', value: 30 },{ title: 'b2', value: 20},
+  { title: 'c1', value: 25 },{ title: 'c2', value: 44},
+  { title: 'd1', value: 22 },{ title: 'd2', value: 36},
+  { title: 'e1', value: 38 },{ title: 'e2', value: 18},
+  { title: 'f1', value: 45 },{ title: 'f2', value: 49},
+  { title: 'g1', value: 15 },{ title: 'g2', value: 39},
+  { title: 'h1', value: 27 },{ title: 'h2', value: 42},
+  { title: 'i1', value: 40 },{ title: 'i2', value: 27},
+  { title: 'j1', value: 33 },{ title: 'j2', value: 29},
+  { title: 'k1', value: 37 },{ title: 'j2', value: 32},
+  { title: 'l1', value: 24 },{ title: 'l2', value: 31},
 ]
+
+// export default [
+//   [{title: 'a1', value: 21 },{title: 'a2', value: 24}] ,
+//   [{ title: 'b1', value: 30 },{ title: 'b2', value: 20}],
+//   [{ title: 'c1', value: 25 },{ title: 'c2', value: 44}],
+//   [{ title: 'd1', value: 22 },{ title: 'd2', value: 36}],
+//   [{ title: 'e1', value: 38 },{ title: 'e2', value: 18}],
+//   [{ title: 'f1', value: 45 },{ title: 'f2', value: 49}],
+//   [{ title: 'g1', value: 15 },{ title: 'g2', value: 39}],
+//   [{ title: 'h1', value: 27 },{ title: 'h2', value: 42}],
+//   [{ title: 'i1', value: 40 },{ title: 'i2', value: 27}],
+//   [{ title: 'j1', value: 33 },{ title: 'j2', value: 29}],
+//   [{ title: 'k1', value: 37 },{ title: 'j2', value: 32}],
+//   [{ title: 'l1', value: 24 },{ title: 'l2', value: 31}],
+// ]
+
