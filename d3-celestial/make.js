@@ -8,7 +8,7 @@ var shell = require('shelljs/make'),
     // begin = "!(function() {",
     // end = "this.Celestial = Celestial;\n})();",
     begin = "var makeCelestial = function() {",
-    end = "return Celestial;\n};",
+    end = "return Celestial;\n};window.Celestial = makeCelestial();\n",
     filename = './celestial',
     filelist = [
     './src/celestial.js', 

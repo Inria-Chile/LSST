@@ -27,9 +27,16 @@ class Skymap extends Component {
       container: containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'
       polygons: {
-        show: true,    // Show grid polygons
+        show: false,    // Show grid polygons
         style: { fill: "#ff00ff", opacity: 0.45 }
       },
+      horizon: {  //Show horizon marker, if geo-position is set
+        show: true, 
+        stroke: "#00ffff", // Line
+        width: 3.0, 
+        fill: "#00ffff", // Area below horizon
+        opacity: 0.9
+      },  
       lines: {
         graticule: { show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
           lon: {pos: ["center"], fill: "#eee", font: "18px Helvetica, Arial, sans-serif"}, 
@@ -47,6 +54,7 @@ class Skymap extends Component {
     };
     var Celestial = makeCelestial();
     Celestial.display(config);
+    Celestial.cfg = config;
     this.Celestial = Celestial;
   }
 

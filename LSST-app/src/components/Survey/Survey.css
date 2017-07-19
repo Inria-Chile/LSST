@@ -16,3 +16,31 @@
 .survey-container {
   display: inline-block;  
 }
+
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    text-align: left;
+    padding: 15px;  
+    z-index: 1;
+    top: 0;
+    right: -200px;
+    background-color: #fff;
+    border-left: 1px solid #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.sidebar-open {
+  width: 200px;
+  right: 0px;
+  padding: 15px;  
+}
+
+.settings-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+}
