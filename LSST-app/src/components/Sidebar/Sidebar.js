@@ -10,7 +10,9 @@ class Sidebar extends Component {
             showEcliptic: true,
             showGalactic: true,
             showMoon: true,
-            sidebarOpen: false
+            showTelescopeRange: true,
+            sidebarOpen: false,
+            projection: "aitoff"
         }
         this.skymap = props.skymap;
     }
@@ -33,8 +35,19 @@ class Sidebar extends Component {
         this.props.setMoon(!this.state.showMoon);
     }
 
+    toggleTelescopeRange = (e) => {
+        console.log("toggleTelescopeRange", e);
+        this.setState({showTelescopeRange: !this.state.showTelescopeRange});
+        this.props.setTelescopeRange(!this.state.showTelescopeRange);
+    }
+
     toggleSidebar = (e) => {
         this.props.setSidebar(!this.state.sidebarOpen);
+    }
+
+    setProjection = (e) => {
+        this.setState({projection: e.target.value});
+        this.props.setProjection(e.target.value);
     }
 
     render() {
@@ -50,8 +63,22 @@ class Sidebar extends Component {
                     <label><input type="checkbox" value="" onChange={this.toggleGalactic} defaultChecked={this.state.showGalactic}/> Galactic plane</label>
                 </div>
                 <div className="checkbox">
+                    <label><input type="checkbox" value="" onChange={this.toggleTelescopeRange} defaultChecked={this.state.showTelescopeRange}/> Elevation limit</label>
+                </div>
+                <div className="checkbox">
                     <label><input type="checkbox" value="" onChange={this.toggleMoon} defaultChecked={this.state.showMoon}/> Moon</label>
                 </div>
+                <label>
+                    Barebones 
+                    <select className="selectpicker" onChange={this.setProjection}>
+                        <option>airy</option>
+                        <option>aitoff</option>
+                        <option>armadillo</option>
+                        <option>august</option>
+                        <option>azimuthalEqualArea</option>
+                        <option>azimuthalEquidistant</option>
+                    </select>
+                </label>
             </div>
         );
     }

@@ -16,10 +16,10 @@ class Survey extends Component {
     drawFrame = (timestamp) => {
         // console.log('Parent Drawframe')
         this.mainSkymap.drawFrame(timestamp);
-        this.children.forEach(function (child) {
-            child.drawFrame(timestamp);
-        });
-        requestAnimationFrame(this.drawFrame);
+        // this.children.forEach(function (child) {
+        //     child.drawFrame(timestamp);
+        // });
+        // requestAnimationFrame(this.drawFrame);
     }
 
     componentDidMount() {
@@ -48,10 +48,24 @@ class Survey extends Component {
         this.cel.cfg = cfg;
     }
 
+    setTelescopeRange = (show) => {
+        let cfg = this.cel.cfg;
+        cfg.telescopeRange.show = show;
+        this.cel.apply(cfg);
+        this.cel.cfg = cfg;
+    }
+
     setSidebar = (show) => {
         this.sidebar.setState({
             sidebarOpen: show
         })
+    }
+
+    setProjection = (proj) => {
+        let cfg = this.cel.cfg;
+        cfg.projection = proj;
+        this.cel.reproject(cfg);
+        this.cel.cfg = cfg;
     }
 
     render() {
@@ -59,12 +73,14 @@ class Survey extends Component {
             setEcliptic: this.setEcliptic,
             setGalactic: this.setGalactic,
             setMoon: this.setMoon,
-            setSidebar: this.setSidebar
+            setTelescopeRange: this.setTelescopeRange,
+            setSidebar: this.setSidebar,
+            setProjection: this.setProjection
         }
         return (
             <div className="survey-container">
                 <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
-                <MiniSkymaps ref={instance => { this.children.push(instance); }} />
+                 <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
                 <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
                     <i className="fa fa-cog" aria-hidden="true"></i>
