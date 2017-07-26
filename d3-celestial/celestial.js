@@ -12,7 +12,7 @@ var ANIMDISTANCE = 0.035,  // Rotation animation threshold, ~2deg in radians
     ANIMINTERVAL_P = 2500, // Projection duration in ms
     ANIMINTERVAL_Z = 1500; // Zoom duration scale in ms
     
-var cfg, prjMap, zoom, map, circle;
+var cfg, prjMap, prjMapStatic, zoom, map, mapStatic, circle;
 
 // Show it all, with the given config, otherwise with default settings
 Celestial.display = function(config) {
@@ -151,8 +151,6 @@ Celestial.display = function(config) {
       }
     }
     var key = "telescopeRange"
-    console.log("telescopeRange")
-    console.log(poles[key], euler[trans])
     container.append("path")
       .datum(d3.geo.circle().angle([70]).origin(transformDeg(poles[key], euler[trans])) )
       .attr("class", key);
@@ -293,6 +291,7 @@ Celestial.display = function(config) {
     
     var prjTo = Celestial.projection(config.projection).center(ctr).translate([width/2, width/prj.ratio/2]).scale([prj.scale * width/1024]);
     var bAdapt = cfg.adaptable;
+    var drawTelescopeRange = cfg.telescopeRange.show;
 
     if (sc > ext[0]) {
       delay = zoomBy(0.1);
@@ -303,7 +302,9 @@ Celestial.display = function(config) {
     showHorizon(prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
+    
     cfg.adaptable = false;
+    cfg.telescopeRange.show = false;
 
     d3.select({}).transition().duration(interval).tween("projection", function () {
       return function(_) {
@@ -329,6 +330,9 @@ Celestial.display = function(config) {
       setClip(proj.clip); 
       zoom.projection(prjMap).scaleExtent([scale, scale*5]).scale(scale);
       cfg.adaptable = bAdapt;
+      cfg.telescopeRange.show = drawTelescopeRange;
+      prjMapStatic = Celestial.projection(config.projection).translate([width/2, height/2]).scale(scale);
+      mapStatic.projection(prjMapStatic);
       redraw("projection");
     });
     return interval;
