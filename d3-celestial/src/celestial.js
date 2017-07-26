@@ -420,9 +420,8 @@ Celestial.display = function(config) {
     }
 
     //telescope
-    {
-      var key = 'telescopeRange';
-      var self = this;
+    var key = 'telescopeRange';
+    if (cfg[key].show) {
       setStyle(cfg[key]);
       container.selectAll("."+key).attr("d", function(x){
         return mapStatic(x);

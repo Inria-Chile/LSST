@@ -68,8 +68,7 @@ var eulerAngles = {
 var poles = {
   "equatorial": [0.0, 90.0],
   "ecliptic": [-90.0, 66.5607],
-  "galactic": [-30.240722, -70.736583],
-  // "telescopeRange": [-70.736583, -30.240722],
+  "galactic": [-167.1405, 27.1283],
   "telescopeRange": [0, -30.240722],
   "supergalactic": [-76.2458, 15.7089]
 //  "mars": [-42.3186, 52.8865]
