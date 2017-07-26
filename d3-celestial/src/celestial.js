@@ -56,6 +56,7 @@ Celestial.display = function(config) {
   if (par != "body") $(cfg.container).style.height = px(height);
   
   prjMap = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
+  prjMapStatic = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
 
   var zoomRedraw = function(){
     redraw("zoom");
@@ -70,8 +71,8 @@ Celestial.display = function(config) {
 
   
   var graticule = d3.geo.graticule().minorStep([15,10]);
-  
   map = d3.geo.path().projection(prjMap).context(context);
+  mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
 
   // 
@@ -148,6 +149,12 @@ Celestial.display = function(config) {
           .attr("class", key);
       }
     }
+    var key = "telescopeRange"
+    console.log("telescopeRange")
+    console.log(poles[key], euler[trans])
+    container.append("path")
+      .datum(d3.geo.circle().angle([70]).origin(transformDeg(poles[key], euler[trans])) )
+      .attr("class", key);
 
     //Polygon grid data outline
     d3.json(path + "grid.geojson", function(error, json) {
@@ -409,7 +416,18 @@ Celestial.display = function(config) {
       if (cfg.lines[key].show !== true) continue;
       setStyle(cfg.lines[key]);
       container.selectAll("."+key).attr("d", map);  
-      context.stroke();    
+      context.stroke();
+    }
+
+    //telescope
+    {
+      var key = 'telescopeRange';
+      var self = this;
+      setStyle(cfg[key]);
+      container.selectAll("."+key).attr("d", function(x){
+        return mapStatic(x);
+      });  
+      context.stroke();
     }
 
     if (has(cfg.lines.graticule, "lon")) {

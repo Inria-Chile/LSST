@@ -57,6 +57,7 @@ Celestial.display = function(config) {
   if (par != "body") $(cfg.container).style.height = px(height);
   
   prjMap = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
+  prjMapStatic = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
 
   var zoomRedraw = function(){
     redraw("zoom");
@@ -71,8 +72,8 @@ Celestial.display = function(config) {
 
   
   var graticule = d3.geo.graticule().minorStep([15,10]);
-  
   map = d3.geo.path().projection(prjMap).context(context);
+  mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
 
   // 
@@ -149,6 +150,12 @@ Celestial.display = function(config) {
           .attr("class", key);
       }
     }
+    var key = "telescopeRange"
+    console.log("telescopeRange")
+    console.log(poles[key], euler[trans])
+    container.append("path")
+      .datum(d3.geo.circle().angle([70]).origin(transformDeg(poles[key], euler[trans])) )
+      .attr("class", key);
 
     //Polygon grid data outline
     d3.json(path + "grid.geojson", function(error, json) {
@@ -410,7 +417,19 @@ Celestial.display = function(config) {
       if (cfg.lines[key].show !== true) continue;
       setStyle(cfg.lines[key]);
       container.selectAll("."+key).attr("d", map);  
-      context.stroke();    
+      context.stroke();
+    }
+
+    //telescope
+    {
+      var key = 'telescopeRange';
+      var self = this;
+      setStyle(cfg[key]);
+      // container.selectAll("."+key).attr("d", map);  
+      container.selectAll("."+key).attr("d", function(x){
+        return mapStatic(x);
+      });  
+      context.stroke();
     }
 
     if (has(cfg.lines.graticule, "lon")) {
@@ -708,10 +727,12 @@ function projectionTween(a, b) {
   return prj.alpha(0);
 }
 
+//Pachon: -30.240722, -70.736583
 var eulerAngles = {
   "equatorial": [0.0, 0.0, 0.0],
   "ecliptic": [0.0, 0.0, 23.4393],
   "galactic": [93.5949, 28.9362, -58.5988],
+  "telescopeRange": [0.0, 0.0, 0.0],
   "supergalactic": [137.3100, 59.5283, 57.7303]
 //  "mars": [97.5,23.5,29]
 };
@@ -719,7 +740,9 @@ var eulerAngles = {
 var poles = {
   "equatorial": [0.0, 90.0],
   "ecliptic": [-90.0, 66.5607],
-  "galactic": [-167.1405, 27.1283],
+  "galactic": [-30.240722, -70.736583],
+  // "telescopeRange": [-70.736583, -30.240722],
+  "telescopeRange": [0, -30.240722],
   "supergalactic": [-76.2458, 15.7089]
 //  "mars": [-42.3186, 52.8865]
 };
@@ -790,6 +813,7 @@ var euler = {
   "ecliptic": [-90.0, 23.4393, 90.0],
   "inverse ecliptic": [90.0, 23.4393, -90.0],
   "galactic": [-167.1405, 62.8717, 122.9319], 
+  "telescopeRange": [-90.0, 23.4393, 90.0],
   "inverse galactic": [122.9319, 62.8717, -167.1405],
   "supergalactic": [283.7542, 74.2911, 26.4504],
   "inverse supergalactic": [26.4504, 74.2911, 283.7542],
@@ -1072,11 +1096,15 @@ var settings = {
 			// grid values: "outline", "center", or [lon,...] specific position
 		  lat: {pos: [""], fill: "#eee", font: "10px Helvetica, Arial, sans-serif"}},
     equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
-    ecliptic: { show: true, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
+    ecliptic: { show: false, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
     galactic: { show: false, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 
-    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 } // Show supergalactic plane 
+    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 }, // Show supergalactic plane 
+    // telescopeRange: {show: true, stroke:"#cc0000", width: 2.3, opacity: 0.7 }
    //mars: { show: false, stroke:"#cc0000", width:1.3, opacity:.7 }
   }, // Background style
+  telescopeRange: {
+    show: true, stroke:"#cc0000", width: 1.3, opacity: 0.7, dash: []
+  },
   background: { 
     fill: "#000000", 
     opacity: 1, 
