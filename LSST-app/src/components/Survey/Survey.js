@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Sidebar from '../Sidebar/Sidebar';
+import SurveyControls from '../SurveyControls/SurveyControls';
 import './Survey.css';
 
 class Survey extends Component {
@@ -23,8 +24,8 @@ class Survey extends Component {
     }
 
     componentDidMount() {
-        this.cel = this.mainSkymap.getCelestial();
-        requestAnimationFrame(this.drawFrame);
+        // this.cel = this.mainSkymap.getCelestial();
+        // requestAnimationFrame(this.drawFrame);
     }
 
     setEcliptic = (show) => {
@@ -79,12 +80,26 @@ class Survey extends Component {
         }
         return (
             <div className="survey-container">
-                <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
-                 <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
-                <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
-                <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
-                    <i className="fa fa-cog" aria-hidden="true"></i>
-                </button>
+                <div>
+                     <h2>
+                        SURVEY PROGRESS MONITOR
+                    </h2> 
+                     <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
+                        <i className="fa fa-cog" aria-hidden="true"></i>
+                    </button> 
+                </div>
+                <div className="main-container">
+                    <div className="left-container">
+                         <SurveyControls/> 
+                         <div className="main-skymap-wrapper">
+                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} /> 
+                         </div>
+                    </div>
+                    <div className="right-container">                
+                        <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
+                    </div>
+                </div>
+                <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} /> 
             </div>
         );
     }

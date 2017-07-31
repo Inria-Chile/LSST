@@ -1,20 +1,27 @@
 {
-  "name": "react-test",
-  "version": "0.1.0",
+  "name": "LSST-app",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "font-awesome": "^4.7.0",
+    "moment": "^2.18.1",
+    "node-sass-chokidar": "0.0.3",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
+    "react-bootstrap": "^0.31.1",
+    "react-day-picker": "^6.1.0",
     "react-dom": "^15.6.1",
+    "react-player-controls": "^0.5.15",
     "reactstrap": "^4.8.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"
   },
   "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

@@ -1,0 +1,15 @@
+.minimap-wrapper {
+    display: inline-block;
+    width: 45%;
+    margin: 5px;
+}
+
+.filter-name {
+    margin: 5px;
+    text-align: center;
+}
+
+.all-filter {
+    margin: auto;
+    display: block;
+}

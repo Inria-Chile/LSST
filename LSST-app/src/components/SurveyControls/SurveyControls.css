@@ -1,0 +1,28 @@
+
+.survey-control-bar{
+    height: 10%;
+    background: #fff;
+}
+
+.mode-selection{
+    vertical-align: top;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.date-selection{
+    vertical-align: top;
+    display: inline-block;
+}
+
+.player-controls{
+    vertical-align: top;
+    display: inline-block;
+}
+
+.survey-controls {
+    position: relative; 
+}
+
+.survey-controls h6{
+}

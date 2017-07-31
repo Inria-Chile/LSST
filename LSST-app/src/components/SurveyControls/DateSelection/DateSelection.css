@@ -1,0 +1,20 @@
+.date-selection {
+    margin: 0px 10px;
+}
+
+.DayPickerInput {
+    display: inline-block;
+} 
+
+.date-selection p {
+    margin: 0px 10px;
+    display: inline-block;    
+} 
+
+.DayPickerInput-OverlayWrapper {
+    z-index: 10;
+}
+
+.date-input {
+    display: inline-block;
+}
