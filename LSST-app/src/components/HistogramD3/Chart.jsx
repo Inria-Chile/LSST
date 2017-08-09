@@ -15,20 +15,32 @@ class Chart extends Component {
   randomData(length, start, end) {
     var array = new Array(length);
     for (let i = 0; i < length; i++) {
-      array[i] = { date: this.randomDate(start, end), value: Math.floor(Math.random() * 6) + 1 };
+      array[i] = {
+        date: this.randomDate(start, end),
+        U: Math.floor(Math.random() * 6) + 1,
+        G: Math.floor(Math.random() * 6) + 1,
+        R: Math.floor(Math.random() * 6) + 1,
+        I: Math.floor(Math.random() * 6) + 1,
+        Z: Math.floor(Math.random() * 6) + 1,
+        Y: Math.floor(Math.random() * 6) + 1
+      };
     }
     return array;
   }
+
+  roundMinutes(date){
+   date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+    date.setMinutes(0);
+
+    return date;
+  }  
 
   createChart(dom, props) {
     var width = this.props.width;
     var height = this.props.height;
     var today = new Date();
     today.setDate(today.getDate() - 1);
-    // console.log(yesterday);
-    var data = this.randomData(1000, today, new Date())
-    console.log(data);
-
+    var data = this.randomData(1, today, new Date())
     var formatCount = d3.format(",.0f");
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height),
@@ -73,14 +85,75 @@ class Chart extends Component {
       .call(d3.axisBottom(x));
   }
 
+
+  createStackedHistogram(dom, props) {
+    var self = this;
+    var width = this.props.width;
+    var height = this.props.height;
+    var today = new Date();
+    today.setDate(today.getDate() - 1);
+    var data = this.randomData(10, today, new Date())
+
+    var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
+    var margin = { top: 0, right: 0, bottom: 20, left: 0 };
+    width = +svg.attr("width") - margin.left - margin.right;
+    height = +svg.attr("height") - margin.top - margin.bottom;
+    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+    var x = d3.scaleTime().domain([today, new Date()]);
+
+    var y = d3.scaleLinear().range([height, 0]);
+
+
+    var z = d3.scaleOrdinal()
+      .range(["#992f8f","#2f2fcc","#2cdd37","#fff704","#f19437","#c80f0f"]);
+
+    var keys = ["U", "G", "R", "I","Z", "Y"];
+    z.domain(keys);
+
+    var stack = d3.stack()
+      .keys(keys)
+      .order(d3.stackOrderNone)
+      .offset(d3.stackOffsetNone);
+
+    var series = stack(data);
+    y.domain([0, d3.max(series[series.length - 1], function (d) { return d[0] + d[1]; })]).nice();
+
+    var layer = svg.selectAll(".layer")
+      .data(series)
+      .enter().append("g")
+      .attr("class", "layer")
+      .style("fill", function (d, i) { return z(i); });
+
+    // var barPadding = 5;
+    var barWidth = (width)/data.length;
+    x.range([0,width]);
+    layer.selectAll("rect")
+      .data(function (d) { return d; })
+      .enter().append("rect")
+      .attr("x", function (d) {
+        console.log(d.data.date);
+        return x(self.roundMinutes(d.data.date));
+      })
+      .attr("y", function (d) { return y(d[1]); })
+      .attr("height", function (d) { return y(d[0]) - y(d[1]); })
+      .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
+    g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).ticks(d3.utcHour));
+
+  }
+
   componentDidMount() {
     var dom = ReactDOM.findDOMNode(this);
-    this.createChart(dom, this.props);
+    this.createStackedHistogram(dom, this.props);
   }
 
   shouldComponentUpdate() {
     var dom = ReactDOM.findDOMNode(this);
-    this.createChart(dom, this.props);
+    this.createStackedHistogram(dom, this.props);
   }
 
   render() {
@@ -94,7 +167,7 @@ class Chart extends Component {
 
 Chart.defaultProps = {
   width: 1000,
-  height: 400,
+  height: 300,
   title: '',
   Legend: true,
 
