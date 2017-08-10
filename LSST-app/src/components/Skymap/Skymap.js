@@ -15,7 +15,6 @@ class Skymap extends Component {
       projection: "aitoff",
       transform: "equatorial", // Coordinate transformation: equatorial (default), ecliptic, galactic, supergalactic
       center: null,       // Initial center coordinates in equatorial transformation [hours, degrees, degrees], 
-                          // otherwise [degrees, degrees, degrees], 3rd parameter is orientation, null = default center
       orientationfixed: true,  // Keep orientation angle the same as center[2]
       background: { fill: "#000000", stroke: "#000000", opacity: 1 }, // Background style
       adaptable: true,    // Sizes are increased with higher zoom-levels
@@ -39,14 +38,19 @@ class Skymap extends Component {
         galactic: { show: true, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 
         supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 } // Show supergalactic plane 
       },
+      telescopeRange: {
+        show: true, dash: [10, 10], stroke:"#cccccc", width: 2.3, opacity: 0.7
+      },
       moon: {
         show: true,
         pos : [30, 315],
         style: { fill: "#cccccc", opacity: "1.0" }
       }
     };
+    
     var Celestial = makeCelestial();
     Celestial.display(config);
+    Celestial.cfg = config;
     this.Celestial = Celestial;
   }
 

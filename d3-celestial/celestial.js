@@ -12,7 +12,7 @@ var ANIMDISTANCE = 0.035,  // Rotation animation threshold, ~2deg in radians
     ANIMINTERVAL_P = 2500, // Projection duration in ms
     ANIMINTERVAL_Z = 1500; // Zoom duration scale in ms
     
-var cfg, prjMap, zoom, map, circle;
+var cfg, prjMap, prjMapStatic, zoom, map, mapStatic, circle;
 
 // Show it all, with the given config, otherwise with default settings
 Celestial.display = function(config) {
@@ -57,6 +57,7 @@ Celestial.display = function(config) {
   if (par != "body") $(cfg.container).style.height = px(height);
   
   prjMap = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
+  prjMapStatic = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
 
   var zoomRedraw = function(){
     redraw("zoom");
@@ -71,8 +72,8 @@ Celestial.display = function(config) {
 
   
   var graticule = d3.geo.graticule().minorStep([15,10]);
-  
   map = d3.geo.path().projection(prjMap).context(context);
+  mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
 
   // 
@@ -149,6 +150,10 @@ Celestial.display = function(config) {
           .attr("class", key);
       }
     }
+    var key = "telescopeRange"
+    container.append("path")
+      .datum(d3.geo.circle().angle([70]).origin(transformDeg(poles[key], euler[trans])) )
+      .attr("class", key);
 
     //Polygon grid data outline
     d3.json(path + "grid.geojson", function(error, json) {
@@ -286,6 +291,7 @@ Celestial.display = function(config) {
     
     var prjTo = Celestial.projection(config.projection).center(ctr).translate([width/2, width/prj.ratio/2]).scale([prj.scale * width/1024]);
     var bAdapt = cfg.adaptable;
+    var drawTelescopeRange = cfg.telescopeRange.show;
 
     if (sc > ext[0]) {
       delay = zoomBy(0.1);
@@ -296,7 +302,9 @@ Celestial.display = function(config) {
     showHorizon(prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
+    
     cfg.adaptable = false;
+    cfg.telescopeRange.show = false;
 
     d3.select({}).transition().duration(interval).tween("projection", function () {
       return function(_) {
@@ -322,6 +330,9 @@ Celestial.display = function(config) {
       setClip(proj.clip); 
       zoom.projection(prjMap).scaleExtent([scale, scale*5]).scale(scale);
       cfg.adaptable = bAdapt;
+      cfg.telescopeRange.show = drawTelescopeRange;
+      prjMapStatic = Celestial.projection(config.projection).translate([width/2, height/2]).scale(scale);
+      mapStatic.projection(prjMapStatic);
       redraw("projection");
     });
     return interval;
@@ -410,7 +421,17 @@ Celestial.display = function(config) {
       if (cfg.lines[key].show !== true) continue;
       setStyle(cfg.lines[key]);
       container.selectAll("."+key).attr("d", map);  
-      context.stroke();    
+      context.stroke();
+    }
+
+    //telescope
+    var key = 'telescopeRange';
+    if (cfg[key].show) {
+      setStyle(cfg[key]);
+      container.selectAll("."+key).attr("d", function(x){
+        return mapStatic(x);
+      });  
+      context.stroke();
     }
 
     if (has(cfg.lines.graticule, "lon")) {
@@ -708,10 +729,12 @@ function projectionTween(a, b) {
   return prj.alpha(0);
 }
 
+//Pachon: -30.240722, -70.736583
 var eulerAngles = {
   "equatorial": [0.0, 0.0, 0.0],
   "ecliptic": [0.0, 0.0, 23.4393],
   "galactic": [93.5949, 28.9362, -58.5988],
+  "telescopeRange": [0.0, 0.0, 0.0],
   "supergalactic": [137.3100, 59.5283, 57.7303]
 //  "mars": [97.5,23.5,29]
 };
@@ -720,6 +743,7 @@ var poles = {
   "equatorial": [0.0, 90.0],
   "ecliptic": [-90.0, 66.5607],
   "galactic": [-167.1405, 27.1283],
+  "telescopeRange": [0, -30.240722],
   "supergalactic": [-76.2458, 15.7089]
 //  "mars": [-42.3186, 52.8865]
 };
@@ -790,6 +814,7 @@ var euler = {
   "ecliptic": [-90.0, 23.4393, 90.0],
   "inverse ecliptic": [90.0, 23.4393, -90.0],
   "galactic": [-167.1405, 62.8717, 122.9319], 
+  "telescopeRange": [-90.0, 23.4393, 90.0],
   "inverse galactic": [122.9319, 62.8717, -167.1405],
   "supergalactic": [283.7542, 74.2911, 26.4504],
   "inverse supergalactic": [26.4504, 74.2911, 283.7542],
@@ -1072,11 +1097,14 @@ var settings = {
 			// grid values: "outline", "center", or [lon,...] specific position
 		  lat: {pos: [""], fill: "#eee", font: "10px Helvetica, Arial, sans-serif"}},
     equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
-    ecliptic: { show: true, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
+    ecliptic: { show: false, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
     galactic: { show: false, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 
-    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 } // Show supergalactic plane 
+    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 }, // Show supergalactic plane 
    //mars: { show: false, stroke:"#cc0000", width:1.3, opacity:.7 }
   }, // Background style
+  telescopeRange: {
+    show: true, stroke:"#cc0000", width: 1.3, opacity: 0.7, dash: []
+  },
   background: { 
     fill: "#000000", 
     opacity: 1, 
@@ -1552,12 +1580,13 @@ function geo(cfg) {
   }
 
   function here() {
-    navigator.geolocation.getCurrentPosition( function(pos) {
+    // navigator.geolocation.getCurrentPosition( function(pos) {
+      pos = {coords: {latitude: -33.4181672, longitude: -70.600455}}
       geopos = [pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4)];
       d3.select("#lat").attr("value", geopos[0]);
       d3.select("#lon").attr("value", geopos[1]);
       go();
-    });  
+    // });
   }
   
   function showpick() {
@@ -1577,16 +1606,19 @@ function geo(cfg) {
   }  
   
   function go() {
-    var lon = $("lon").value,
-        lat = $("lat").value,
-        dm = !!$("horizon-show").checked; 
+    // var lon = $("lon").value,
+        // lat = $("lat").value,
+    var dm = !!$("horizon-show").checked; 
+
+    var lon = -70.600455;
+    var lat = -33.4181672;
 
     dt = dtFormat.parse($("datetime").value.slice(0,-6));
 
     var tz = dt.getTimezoneOffset();
     var dtc = new Date(dt.valueOf() + (zone - tz) * 60000);
 
-    cfg.horizon.show = dm;
+    // cfg.horizon.show = dm;
     
     if (lon !== "" && lat !== "") {
       geopos = [parseFloat(lat), parseFloat(lon)];
@@ -2070,4 +2102,4 @@ function d3_eventDispatch(target) {
 
 })();
 return Celestial;
-};
+};window.Celestial = makeCelestial();

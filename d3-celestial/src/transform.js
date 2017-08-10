@@ -61,6 +61,7 @@ var euler = {
   "ecliptic": [-90.0, 23.4393, 90.0],
   "inverse ecliptic": [90.0, 23.4393, -90.0],
   "galactic": [-167.1405, 62.8717, 122.9319], 
+  "telescopeRange": [-90.0, 23.4393, 90.0],
   "inverse galactic": [122.9319, 62.8717, -167.1405],
   "supergalactic": [283.7542, 74.2911, 26.4504],
   "inverse supergalactic": [26.4504, 74.2911, 283.7542],

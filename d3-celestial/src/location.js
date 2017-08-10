@@ -50,12 +50,13 @@ function geo(cfg) {
   }
 
   function here() {
-    navigator.geolocation.getCurrentPosition( function(pos) {
+    // navigator.geolocation.getCurrentPosition( function(pos) {
+      pos = {coords: {latitude: -33.4181672, longitude: -70.600455}}
       geopos = [pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4)];
       d3.select("#lat").attr("value", geopos[0]);
       d3.select("#lon").attr("value", geopos[1]);
       go();
-    });  
+    // });
   }
   
   function showpick() {
@@ -75,16 +76,19 @@ function geo(cfg) {
   }  
   
   function go() {
-    var lon = $("lon").value,
-        lat = $("lat").value,
-        dm = !!$("horizon-show").checked; 
+    // var lon = $("lon").value,
+        // lat = $("lat").value,
+    var dm = !!$("horizon-show").checked; 
+
+    var lon = -70.600455;
+    var lat = -33.4181672;
 
     dt = dtFormat.parse($("datetime").value.slice(0,-6));
 
     var tz = dt.getTimezoneOffset();
     var dtc = new Date(dt.valueOf() + (zone - tz) * 60000);
 
-    cfg.horizon.show = dm;
+    // cfg.horizon.show = dm;
     
     if (lon !== "" && lat !== "") {
       geopos = [parseFloat(lat), parseFloat(lon)];

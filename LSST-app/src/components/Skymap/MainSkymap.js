@@ -3,11 +3,15 @@ import React, { Component } from 'react';
 import Skymap from './Skymap';
 
 class MainSkymap extends Component {
+
+    getCelestial(){
+        return this.skymap.getCelestial();
+    }
+
     drawFrame = () => {
         // console.log('drawFrame MainSkymap');
         var Celestial = this.skymap.getCelestial();
         var step = 1.6;
-        var tileN = 0;
 
         // reqID = window.requestAnimationFrame(animate);
         var rot = Celestial.rotate();

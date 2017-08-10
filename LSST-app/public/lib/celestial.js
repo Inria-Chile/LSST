@@ -1,6 +1,5 @@
-/*global Celestial*/
 // Copyright 2015 Olaf Frohn https://github.com/ofrohn, see LICENSE
-!(function() {
+var makeCelestial = function() {
 var Celestial = {
   version: '0.5.11',
   container: null,
@@ -13,7 +12,7 @@ var ANIMDISTANCE = 0.035,  // Rotation animation threshold, ~2deg in radians
     ANIMINTERVAL_P = 2500, // Projection duration in ms
     ANIMINTERVAL_Z = 1500; // Zoom duration scale in ms
     
-var cfg, prjMap, zoom, map, circle;
+var cfg, prjMap, prjMapStatic, zoom, map, mapStatic, circle;
 
 // Show it all, with the given config, otherwise with default settings
 Celestial.display = function(config) {
@@ -22,8 +21,6 @@ Celestial.display = function(config) {
   
   //Mash config with default settings
   cfg = settings.set(config); 
-  cfg.stars.size = cfg.stars.size || 7;  // Nothing works without these
-	cfg.stars.exponent = cfg.stars.exponent || -0.28;
   cfg.center = cfg.center || [0,0];     
   if (!cfg.lang || cfg.lang.search(/^de|es$/) === -1) cfg.lang = "name";
   
@@ -51,10 +48,6 @@ Celestial.display = function(config) {
       ratio = proj.ratio,
       height = width / ratio,
       scale = proj.scale * width/1024,
-      starbase = cfg.stars.size, 
-      dsobase = cfg.dsos.size || starbase,
-      starexp = cfg.stars.exponent,
-      dsoexp = cfg.dsos.exponent || starexp, //Object size base & exponent
       adapt = 1,
       rotation = getAngles(cfg.center),
       path = cfg.datapath || "";
@@ -64,23 +57,23 @@ Celestial.display = function(config) {
   if (par != "body") $(cfg.container).style.height = px(height);
   
   prjMap = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
+  prjMapStatic = Celestial.projection(cfg.projection).rotate(rotation).translate([width/2, height/2]).scale(scale);
 
   var zoomRedraw = function(){
     redraw("zoom");
   }
 
   zoom = d3.geo.zoom().projection(prjMap).center([width/2, height/2]).scaleExtent([scale, scale*5]).on("zoom.redraw", zoomRedraw);
-  // zoom = d3.geo.zoom().projection(prjMap).center([width/2, height/2]).scaleExtent([scale, scale*5]);
 
-  var canvas = d3.selectAll("canvas");
+  var canvas = d3.selectAll("#"+cfg.container + "canvas");
   if (canvas[0].length === 0) canvas = d3.select(par).append("canvas");
   canvas.attr("width", width).attr("height", height);
   var context = canvas.node().getContext("2d");  
 
   
   var graticule = d3.geo.graticule().minorStep([15,10]);
-  
   map = d3.geo.path().projection(prjMap).context(context);
+  mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
 
   // 
@@ -96,24 +89,7 @@ Celestial.display = function(config) {
 
   canvas[0][0].addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(canvas[0][0], evt);
-    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-    // console.log(canvas[0][0], message);
-    // console.log(prjMap.invert([mousePos.x, mousePos.y]))
     mousePosition = prjMap.invert([mousePos.x, mousePos.y]);
-    // container.selectAll(".mw").each(function(d) {
-    //   if(inside(mousePosition, d.geometry.coordinates[0]) && d != selectedCell){
-    //     selectedCell = d;
-    //     redraw('mousemove');
-    //     map(d);
-    //     // context.fillStyle = '#000000';
-    //     // context.globalAlpha = 1.0;
-    //     // context.fill();
-    //     setStyle(cfg.mw.style);
-    //     context.fillStyle = '#00ff00';
-    //     context.fill();
-    //   }
-    // });
-
   }, false);
 
   canvas[0][0].addEventListener('mousedown', function(evt) {
@@ -123,26 +99,6 @@ Celestial.display = function(config) {
   canvas[0][0].addEventListener('mouseup', function(evt) {
     mousedown = false;
   });  
-
-  function inside(point, vs) {
-    // ray-casting algorithm based on
-    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-    if(!point)
-      return false;
-    var x = point[0], y = point[1];
-
-    var inside = false;
-    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-      var xi = vs[i][0], yi = vs[i][1];
-      var xj = vs[j][0], yj = vs[j][1];
-
-      var intersect = ((yi > y) != (yj > y))
-          && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-      if (intersect) inside = !inside;
-    }
-
-    return inside;
-  };
 
   //parent div with id #celestial-map or body
   if (container) container.selectAll("*").remove();
@@ -194,17 +150,21 @@ Celestial.display = function(config) {
           .attr("class", key);
       }
     }
+    var key = "telescopeRange"
+    container.append("path")
+      .datum(d3.geo.circle().angle([70]).origin(transformDeg(poles[key], euler[trans])) )
+      .attr("class", key);
 
-    //Milky way outline
+    //Polygon grid data outline
     d3.json(path + "grid.geojson", function(error, json) {
       if (error) { 
         window.alert("Your Browser doesn't support local file loading or the file doesn't exist. See readme.md");
         return console.warn(error);  
       }
 
-      var mw = getData(json, trans);
-      container.selectAll(".mway")
-         .data(mw.features, function(d){return d.properties.id;})
+      var polys = getData(json, trans);
+      container.selectAll(".grid-polygons")
+         .data(polys.features, function(d){return d.properties.id;})
          .enter().append("path")
          .attr("class", function(d){return "mw " + d.properties.id;})
          .attr("count", function(d){return d.properties.count;});
@@ -212,78 +172,10 @@ Celestial.display = function(config) {
     }); 
 
     //Add moon
-    //cfg.moon.pos
     container.selectAll(".moon")
          .data([cfg.moon])
          .enter().append("path")
          .attr("class", "moon");
-
-    //Constellation names or designation
-    d3.json(path + "constellations.json", function(error, json) {
-      if (error) return console.warn(error);
-      
-      var con = getData(json, trans);
-      
-      container.selectAll(".constnames")
-         .data(con.features)
-         .enter().append("text")
-         .attr("class", "constname");
-      redraw("load");
-    });
-
-    //Constellation boundaries
-    d3.json(path + "constellations.bounds.json", function(error, json) {
-      if (error) return console.warn(error);
-
-      var conb = getData(json, trans);
-
-      container.selectAll(".bounds")
-         .data(conb.features)
-         .enter().append("path")
-         .attr("class", "boundaryline");
-      redraw("load");
-    });
-
-    //Constellation lines
-    d3.json(path + "constellations.lines.json", function(error, json) {
-      if (error) return console.warn(error);
-
-      var conl = getData(json, trans);
-
-      container.selectAll(".lines")
-         .data(conl.features)
-         .enter().append("path")
-         .attr("class", "constline");
-      redraw("load");
-    });
-    
-    //Stars
-    d3.json(path + cfg.stars.data, function(error, json) {
-      if (error) return console.warn(error);
-
-      var st = getData(json, trans);
-
-      container.selectAll(".stars")
-         .data(st.features)
-         .enter().append("path")
-         .attr("class", "star");
-
-      redraw("load");
-    });
-
-    //Deep space objects
-    d3.json(path + cfg.dsos.data, function(error, json) {
-      if (error) return console.warn(error);
-      
-      var ds = getData(json, trans);
-
-      container.selectAll(".dsos")
-         .data(ds.features)
-         .enter().append("path")
-         .attr("class", "dso" );
-
-      redraw("load");
-    });
 
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
@@ -399,6 +291,7 @@ Celestial.display = function(config) {
     
     var prjTo = Celestial.projection(config.projection).center(ctr).translate([width/2, width/prj.ratio/2]).scale([prj.scale * width/1024]);
     var bAdapt = cfg.adaptable;
+    var drawTelescopeRange = cfg.telescopeRange.show;
 
     if (sc > ext[0]) {
       delay = zoomBy(0.1);
@@ -409,7 +302,9 @@ Celestial.display = function(config) {
     showHorizon(prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
+    
     cfg.adaptable = false;
+    cfg.telescopeRange.show = false;
 
     d3.select({}).transition().duration(interval).tween("projection", function () {
       return function(_) {
@@ -435,33 +330,33 @@ Celestial.display = function(config) {
       setClip(proj.clip); 
       zoom.projection(prjMap).scaleExtent([scale, scale*5]).scale(scale);
       cfg.adaptable = bAdapt;
+      cfg.telescopeRange.show = drawTelescopeRange;
+      prjMapStatic = Celestial.projection(config.projection).translate([width/2, height/2]).scale(scale);
+      mapStatic.projection(prjMapStatic);
       redraw("projection");
     });
     return interval;
   }
 
-  function drawMw(){
+  function drawGridPolygons(){
     container.selectAll(".mw").each(function(d) {
-      // console.log('MILKYWAY', d);
-      setStyle(cfg.mw.style);
-      // context.fillStyle = colors[d.height];  
-      context.fillStyle = '#'+Math.min(d.properties.count*1+55, 255).toString(16) +'0000';
-      context.fillStyle = '#ff0000';
+      if(d.properties.count < 5)
+        return;
+      setStyle(cfg.polygons.style);
+      context.fillStyle = '#'+Math.min(d.properties.count*3+55, 255).toString(16) +'0000';
+      // context.fillStyle = '#'+Math.ceil(Math.random()*255).toString(16) +
+      //                         Math.ceil(Math.random()*255).toString(16) +
+      //                         Math.ceil(Math.random()*255).toString(16);
+      // context.fillStyle = '#ff0000';
       context.globalAlpha = Math.min(1, d.properties.count/100);
-      // context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);  
       map(d);
-      var projCoords;
-      projCoords = d.geometry.coordinates[0];
-      if(inside(mousePosition, projCoords)){
-        console.log('MILKYWAY', inside(mousePosition, d.geometry.coordinates[0]), mousePosition, d.geometry.coordinates[0]);
-        // context.fillStyle = '#000000';
-        // context.globalAlpha = 1.0;
-        // context.fill();
-        setStyle(cfg.mw.style);
+      if(inside(mousePosition, d.geometry.coordinates[0])){
+        context.fillStyle = '#000000';
+        context.globalAlpha = 1.0;
+        context.fill();
+        setStyle(cfg.polygons.style);
         map(d);
         context.fillStyle = '#00ff00';
-        context.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16);  
-        
       }
       
       context.fill();
@@ -471,9 +366,9 @@ Celestial.display = function(config) {
   function drawMoon(){
     container.selectAll(".moon").each(function(d) {
         // if (clip(d.pos)) {
-          var r = 20;
+          var r = cfg.moon.size * width/960;
+          // console.log(cfg.moon.size, width/960)
           var pt = prjMap(d.pos);
-          // console.log(pt);
           setStyle(cfg.moon.style);
           // context.fillStyle = d.style.fill; 
           // context.globalAlpha = 1.0; 
@@ -500,10 +395,6 @@ Celestial.display = function(config) {
     
     if (cfg.adaptable) adapt = Math.sqrt(prjMap.scale()/scale);
     if (!adapt) adapt = 1;
-    starbase = cfg.stars.size;
-    starexp = cfg.stars.exponent;
-    dsobase = cfg.dsos.size || starbase;
-    dsoexp = cfg.dsos.exponent;
     
     if (cfg.orientationfixed) {
       rot[2] = cfg.center[2]; 
@@ -516,14 +407,9 @@ Celestial.display = function(config) {
     
     drawOutline();
 
-    var colors = ['#ffffff',
-                    '#ff0000',
-                    '#00ff00',
-                    '#0000ff',
-                    '#ff00ff']
-    //Draw all types of objects on the canvas
-    if (cfg.mw.show) {
-      drawMw();
+    //Draw grid polygons on the canvas
+    if (cfg.polygons.show) {
+      drawGridPolygons();
     }
 
     if (cfg.moon && cfg.moon.show) {
@@ -535,7 +421,17 @@ Celestial.display = function(config) {
       if (cfg.lines[key].show !== true) continue;
       setStyle(cfg.lines[key]);
       container.selectAll("."+key).attr("d", map);  
-      context.stroke();    
+      context.stroke();
+    }
+
+    //telescope
+    var key = 'telescopeRange';
+    if (cfg[key].show) {
+      setStyle(cfg[key]);
+      container.selectAll("."+key).attr("d", function(x){
+        return mapStatic(x);
+      });  
+      context.stroke();
     }
 
     if (has(cfg.lines.graticule, "lon")) {
@@ -561,72 +457,6 @@ Celestial.display = function(config) {
 	  }
     
     drawOutline(true);
-
-    if (cfg.constellations.show) {     
-      if (cfg.constellations.bounds) { 
-        container.selectAll(".boundaryline").each(function(d) { setStyle(cfg.constellations.boundstyle); map(d); context.stroke(); });
-        drawOutline(true);
-      }
-
-      if (cfg.constellations.names) { 
-        setTextStyle(cfg.constellations.namestyle);
-        container.selectAll(".constname").each( function(d) { 
-          if (clip(d.geometry.coordinates)) {
-            setConstStyle(d.properties.rank, cfg.constellations.namestyle.font);
-            var pt = prjMap(d.geometry.coordinates);
-            context.fillText(constName(d), pt[0], pt[1]); 
-          }
-        });
-      }
-
-      if (cfg.constellations.lines) { 
-        container.selectAll(".constline").each(function(d) { setStyle(cfg.constellations.linestyle); map(d); context.stroke(); });
-      }
-      
-    }
-      
-
-    if (cfg.stars.show) { 
-      setStyle(cfg.stars.style);
-      container.selectAll(".star").each(function(d) {
-        if (clip(d.geometry.coordinates) && d.properties.mag <= cfg.stars.limit) {
-          var pt = prjMap(d.geometry.coordinates),
-              r = starSize(d);
-          context.fillStyle = starColor(d); 
-          context.beginPath();
-          context.arc(pt[0], pt[1], r, 0, 2 * Math.PI);
-          context.closePath();
-          context.fill();
-          if (cfg.stars.names && d.properties.mag <= cfg.stars.namelimit*adapt) {
-            setTextStyle(cfg.stars.namestyle);
-            context.fillText(starName(d), pt[0]+r, pt[1]);         
-          }
-          if (cfg.stars.proper && d.properties.mag <= cfg.stars.propernamelimit*adapt) {
-            setTextStyle(cfg.stars.propernamestyle);
-            context.fillText(starProperName(d), pt[0]-r, pt[1]);         
-          }
-        }
-      });
-    }
-    
-    if (cfg.dsos.show) { 
-      container.selectAll(".dso").each(function(d) {
-        if (clip(d.geometry.coordinates) && dsoDisplay(d.properties, cfg.dsos.limit)) {
-          var pt = prjMap(d.geometry.coordinates),
-              type = d.properties.type;
-          setStyle(cfg.dsos.symbols[type]);
-          var r = dsoSymbol(d, pt);
-          if (has(cfg.dsos.symbols[type], "stroke")) context.stroke();
-          else context.fill();
-          
-          if (cfg.dsos.names && dsoDisplay(d.properties, cfg.dsos.namelimit)) {
-            setTextStyle(cfg.dsos.namestyle);
-            context.fillStyle = cfg.dsos.symbols[type].fill;
-            context.fillText(dsoName(d), pt[0]+r, pt[1]-r);         
-          }         
-        }
-      });
-    }
     
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
@@ -666,7 +496,26 @@ Celestial.display = function(config) {
   }
 
   // Helper functions -------------------------------------------------
-  
+  function inside(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+    if(!point)
+      return false;
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      var xi = vs[i][0], yi = vs[i][1];
+      var xj = vs[j][0], yj = vs[j][1];
+
+      var intersect = ((yi > y) != (yj > y))
+          && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+    }
+
+    return inside;
+  };
+
   function clip(coords) {
     return proj.clip && d3.geo.distance(cfg.center, coords) > halfπ ? 0 : 1;
   }
@@ -688,14 +537,6 @@ Celestial.display = function(config) {
     context.globalAlpha = s.opacity || 1;  
     context.font = s.font;
   }
-
-  function setConstStyle(rank, font) {
-    if (!isArray(font)) context.font = font;
-    else if (font.length === 1) context.font = font[0];
-    else if (rank > font.length) context.font = font[font.length-1];
-    else context.font = font[rank-1];
-  }
-
   
   function zoomState(sc) {
     var czi = $("celestial-zoomin"),
@@ -717,67 +558,6 @@ Celestial.display = function(config) {
     }        
   }
   
-  function dsoDisplay(prop, limit) {
-    return prop.mag === 999 && Math.sqrt(parseInt(prop.dim)) > limit ||
-           prop.mag !== 999 && prop.mag <= limit;
-  }
-  
-  function dsoSymbol(d, pt) {
-    var prop = d.properties;
-    var size = dsoSize(prop) || 9,
-        type = dsoShape(prop.type);
-    Canvas.symbol().type(type).size(size).position(pt)(context);
-    return Math.sqrt(size)/2;
-  }
-
-  function dsoShape(type) {
-    if (!type || !has(cfg.dsos.symbols, type)) return "circle"; 
-    else return cfg.dsos.symbols[type].shape; 
-  }
-
-  function dsoSize(prop) {
-    if (!prop.mag || prop.mag == 999) return Math.pow(parseInt(prop.dim) * dsobase * adapt / 7, 0.5); 
-    return Math.pow(2 * dsobase * adapt - prop.mag, dsoexp);
-  }
- 
-
-  function dsoName(d) {
-    var prop = d.properties;
-    if (prop.name === "") return; 
-    if (cfg.dsos.desig && prop.desig) return prop.desig; 
-    return prop.name;
-  }
-  
-  /*Star designation, if desig = false, no long desigs  */
-  function starName(d) {
-    var name = d.properties.desig;
-    if (!cfg.stars.desig) return name.replace(/^(HD|HIP|V\d{3}).+/, ""); 
-    return name; 
-  }
-
-  function starProperName(d) {
-    var name = d.properties.name;
-    
-    return name; 
-  }
-  
-  function starSize(d) {
-    var mag = d.properties.mag;
-    if (mag === null) return 0.1; 
-    var r = starbase * adapt * Math.exp(starexp * (mag+2));
-    return Math.max(r, 0.1);
-  }
-  
-  function starColor(d) {
-    var bv = d.properties.bv;
-    if (!cfg.stars.colors || isNaN(bv)) {return cfg.stars.style.fill; }
-    return bvcolor(bv);
-  }
-  
-  function constName(d) { 
-    return cfg.constellations.desig ? d.properties.desig : d.properties[cfg.lang]; 
-  }
-
   function gridOrientation(pos, orient) {
     var o = orient.split(""), h = "center", v = "middle"; 
     for (var i = o.length-1; i >= 0; i--) {
@@ -849,7 +629,6 @@ Celestial.display = function(config) {
   this.context = context;
   this.setStyle = setStyle;
   this.setTextStyle = setTextStyle;
-  this.setConstStyle = setConstStyle;
   this.redraw = redraw; 
   this.resize = function(config) { 
     if (config && has(config, "width")) cfg.width = config.width; 
@@ -871,7 +650,6 @@ Celestial.display = function(config) {
   this.zoomBy = function(factor) { if (!factor) return prjMap.scale()/scale; return zoomBy(factor); };
   this.color = function(type) {
     if (!type) return "#000";
-    if (has(cfg.dsos.symbols, type)) return cfg.dsos.symbols[type].fill;
     return "#000";
   };
   this.animate = function(anims, dorepeat) { 
@@ -951,10 +729,12 @@ function projectionTween(a, b) {
   return prj.alpha(0);
 }
 
+//Pachon: -30.240722, -70.736583
 var eulerAngles = {
   "equatorial": [0.0, 0.0, 0.0],
   "ecliptic": [0.0, 0.0, 23.4393],
   "galactic": [93.5949, 28.9362, -58.5988],
+  "telescopeRange": [0.0, 0.0, 0.0],
   "supergalactic": [137.3100, 59.5283, 57.7303]
 //  "mars": [97.5,23.5,29]
 };
@@ -963,6 +743,7 @@ var poles = {
   "equatorial": [0.0, 90.0],
   "ecliptic": [-90.0, 66.5607],
   "galactic": [-167.1405, 27.1283],
+  "telescopeRange": [0, -30.240722],
   "supergalactic": [-76.2458, 15.7089]
 //  "mars": [-42.3186, 52.8865]
 };
@@ -1033,6 +814,7 @@ var euler = {
   "ecliptic": [-90.0, 23.4393, 90.0],
   "inverse ecliptic": [90.0, 23.4393, -90.0],
   "galactic": [-167.1405, 62.8717, 122.9319], 
+  "telescopeRange": [-90.0, 23.4393, 90.0],
   "inverse galactic": [122.9319, 62.8717, -167.1405],
   "supergalactic": [283.7542, 74.2911, 26.4504],
   "inverse supergalactic": [26.4504, 74.2911, 283.7542],
@@ -1298,72 +1080,14 @@ var settings = {
                       // Default:en or empty string for english
   container: "celestial-map",   // ID of parent element, e.g. div
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
-  stars: {
-    show: true,    // Show stars
-    limit: 6,      // Show only stars brighter than limit magnitude
-    colors: true,  // Show stars in spectral colors, if not use fill-style
-    style: { fill: "#ffffff", opacity: 1 }, // Default style for stars
-    names: true,   // Show star names (Bayer, Flamsteed, Variable star, Gliese, whichever applies first)
-    proper: false, // Show proper name (if present)
-    desig: false,  // Show all names, including Draper and Hipparcos
-    namestyle: { fill: "#ddddbb", font: "11px Georgia, Times, 'Times Roman', serif", align: "left", baseline: "top" },
-    namelimit: 2.5,  // Show only names for stars brighter than namelimit
-    propernamestyle: { fill: "#ddddbb", font: "11px Georgia, Times, 'Times Roman', serif", align: "right", baseline: "bottom" },
-    propernamelimit: 1.5,  // Show proper names for stars brighter than propernamelimit
-    size: 7,       // Scale size (radius) of star circle in pixels
-    exponent: -0.28, // Scale exponent for star size, larger = more linear
-    data: "stars.6.json" // Data source for stellar data
-  },
-  dsos: {
-    show: true,    // Show Deep Space Objects 
-    limit: 6,      // Show only DSOs brighter than limit magnitude
-    names: true,   // Show DSO names
-    desig: true,   // Show short DSO names
-    namestyle: { fill: "#cccccc", font: "11px Helvetica, Arial, serif", align: "left", baseline: "top" },
-    namelimit: 4,  // Show only names for DSOs brighter than namelimit
-    size: null,    // Optional seperate scale size for DSOs, null = stars.size
-    exponent: 1.4, // Scale exponent for DSO size, larger = more non-linear
-    data: "dsos.bright.json",  // Data source for DSOs
-    symbols: {  // DSO symbol styles
-      gg: {shape: "circle", fill: "#ff0000"},                                 // Galaxy cluster
-      g:  {shape: "ellipse", fill: "#ff0000"},                                // Generic galaxy
-      s:  {shape: "ellipse", fill: "#ff0000"},                                // Spiral galaxy
-      s0: {shape: "ellipse", fill: "#ff0000"},                                // Lenticular galaxy
-      sd: {shape: "ellipse", fill: "#ff0000"},                                // Dwarf galaxy
-      e:  {shape: "ellipse", fill: "#ff0000"},                                // Elliptical galaxy
-      i:  {shape: "ellipse", fill: "#ff0000"},                                // Irregular galaxy
-      oc: {shape: "circle", fill: "#ff9900", stroke: "#ff9900", width: 2},    // Open cluster
-      gc: {shape: "circle", fill: "#ff9900"},                                 // Globular cluster
-      en: {shape: "square", fill: "#ff00cc"},                                 // Emission nebula
-      bn: {shape: "square", fill: "#ff00cc"},                                 // Generic bright nebula
-      sfr:{shape: "square", fill: "#cc00ff"},                                 // Star forming region
-      rn: {shape: "square", fill: "#0000ff"},                                 // Reflection nebula
-      pn: {shape: "diamond", fill: "#00cccc"},                                // Planetary nebula 
-      snr:{shape: "diamond", fill: "#ff00cc"},                                // Supernova remnant
-      dn: {shape: "square", fill: "#999999", stroke: "#999999", width: 2},    // Dark nebula 
-      pos:{shape: "marker", fill: "#cccccc", stroke: "#cccccc", width: 1.5}   // Generic marker
-    }
-  },
-  constellations: {
-    show: true,    // Show constellations 
-    names: true,   // Show constellation names 
-    desig: true,   // Show short constellation names (3 letter designations)
-    namestyle: { fill:"#cccc99", align: "center", baseline: "middle", opacity:0.8, 
-		             font: ["14px Helvetica, Arial, sans-serif",  // Different fonts for brighter &
-								        "12px Helvetica, Arial, sans-serif",  // sdarker constellations
-												"11px Helvetica, Arial, sans-serif"]},
-    lines: true,   // Show constellation lines 
-    linestyle: { stroke: "#cccccc", width: 1.5, opacity: 0.6 },
-    bounds: false,  // Show constellation boundaries 
-    boundstyle: { stroke: "#ccff00", width: 1, opacity: 0.8, dash: [2, 4] }
-  },
-  mw: {
+  polygons: {
     show: true,    // Show Milky Way as filled polygons 
     style: { fill: "#ffffff", opacity: "0.15" } // style for each MW-layer (5 on top of each other)
   },
   moon: {
     show: true,
     pos : [30, 315],
+    size: 15,
     style: { fill: "#ffffff", opacity: "1" }
   },
   lines: {
@@ -1373,11 +1097,14 @@ var settings = {
 			// grid values: "outline", "center", or [lon,...] specific position
 		  lat: {pos: [""], fill: "#eee", font: "10px Helvetica, Arial, sans-serif"}},
     equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
-    ecliptic: { show: true, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
+    ecliptic: { show: false, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
     galactic: { show: false, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 
-    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 } // Show supergalactic plane 
+    supergalactic: { show: false, stroke: "#cc66cc", width: 1.3, opacity: 0.7 }, // Show supergalactic plane 
    //mars: { show: false, stroke:"#cc0000", width:1.3, opacity:.7 }
   }, // Background style
+  telescopeRange: {
+    show: true, stroke:"#cc0000", width: 1.3, opacity: 0.7, dash: []
+  },
   background: { 
     fill: "#000000", 
     opacity: 1, 
@@ -1853,12 +1580,13 @@ function geo(cfg) {
   }
 
   function here() {
-    navigator.geolocation.getCurrentPosition( function(pos) {
+    // navigator.geolocation.getCurrentPosition( function(pos) {
+      pos = {coords: {latitude: -33.4181672, longitude: -70.600455}}
       geopos = [pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4)];
       d3.select("#lat").attr("value", geopos[0]);
       d3.select("#lon").attr("value", geopos[1]);
       go();
-    });  
+    // });
   }
   
   function showpick() {
@@ -1878,16 +1606,19 @@ function geo(cfg) {
   }  
   
   function go() {
-    var lon = $("lon").value,
-        lat = $("lat").value,
-        dm = !!$("horizon-show").checked; 
+    // var lon = $("lon").value,
+        // lat = $("lat").value,
+    var dm = !!$("horizon-show").checked; 
+
+    var lon = -70.600455;
+    var lat = -33.4181672;
 
     dt = dtFormat.parse($("datetime").value.slice(0,-6));
 
     var tz = dt.getTimezoneOffset();
     var dtc = new Date(dt.valueOf() + (zone - tz) * 60000);
 
-    cfg.horizon.show = dm;
+    // cfg.horizon.show = dm;
     
     if (lon !== "" && lat !== "") {
       geopos = [parseFloat(lat), parseFloat(lon)];
@@ -2370,5 +2101,5 @@ function d3_eventDispatch(target) {
 }
 
 })();
-this.Celestial = Celestial;
-})();
+return Celestial;
+};window.Celestial = makeCelestial();

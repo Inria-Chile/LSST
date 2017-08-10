@@ -55,10 +55,12 @@ function projectionTween(a, b) {
   return prj.alpha(0);
 }
 
+//Pachon: -30.240722, -70.736583
 var eulerAngles = {
   "equatorial": [0.0, 0.0, 0.0],
   "ecliptic": [0.0, 0.0, 23.4393],
   "galactic": [93.5949, 28.9362, -58.5988],
+  "telescopeRange": [0.0, 0.0, 0.0],
   "supergalactic": [137.3100, 59.5283, 57.7303]
 //  "mars": [97.5,23.5,29]
 };
@@ -67,6 +69,7 @@ var poles = {
   "equatorial": [0.0, 90.0],
   "ecliptic": [-90.0, 66.5607],
   "galactic": [-167.1405, 27.1283],
+  "telescopeRange": [0, -30.240722],
   "supergalactic": [-76.2458, 15.7089]
 //  "mars": [-42.3186, 52.8865]
 };

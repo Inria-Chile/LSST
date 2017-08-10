@@ -1,0 +1,20 @@
+
+.progress,
+.progress__bar {
+  min-height: 0.5rem;
+}
+
+.progress__value {
+  position: absolute;
+  top: .0625rem;
+  right: .25rem;
+}
+
+.progress {
+  background-color: #545454;
+  position: relative;
+}
+
+.progress__bar {
+  background-color: #43b7e1;
+}

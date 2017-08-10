@@ -149,6 +149,7 @@ class Chart extends Component {
   componentDidMount() {
     var dom = ReactDOM.findDOMNode(this);
     this.createStackedHistogram(dom, this.props);
+        
   }
 
   shouldComponentUpdate() {
@@ -158,7 +159,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <div>
+      <div ref="container">
         <h4> {this.props.title} </h4>
       </div>
     );
