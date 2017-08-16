@@ -131,7 +131,7 @@
     height: 100%; }
   .ProgressBar.isLoading {
     opacity: 0.5;
-    background: #c00;
+    background: #ccc;
     animation: barLoading 2s infinite; }
 
 .VolumeSlider {
