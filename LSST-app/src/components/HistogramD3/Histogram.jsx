@@ -51,6 +51,7 @@ class Histogram extends Component {
     data.forEach((d)=>{
       let itemDate = d.expDate;
       if(date==null){
+        console.log(d.expDate);
        item.date = d.expDate
        this.addValueToFilter(item, d.filter, d.expTime);
        date = d.expDate;
@@ -83,6 +84,7 @@ class Histogram extends Component {
       }
     });
     newData.push(item);
+    console.log(newData[1]);
     return newData;
   }
 
@@ -169,7 +171,8 @@ class Histogram extends Component {
     today.setDate(today.getDate() + 1);
     // var data = this.randomData(10, today, new Date())
     var data = this.adaptData();
-    // console.log(data);
+    console.log(data);
+    // console.log(this.props.data);
     // console.log(data2);
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
@@ -179,7 +182,7 @@ class Histogram extends Component {
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-    var x = d3.scaleTime().domain([new Date(), today]);
+    var x = d3.scaleTime().domain([data[0].date, data[data.length-1].date]);
 
     var y = d3.scaleLinear().range([height, 0]);
 
@@ -196,9 +199,9 @@ class Histogram extends Component {
       .offset(d3.stackOffsetNone);
 
     var series = stack(data);
-    console.log(series);
+    // console.log(series);
     // console.log(series[series.length - 1]);
-    y.domain([0, d3.max(series[series.length - 1], function (d) { console.log(d);return d[0] + d[1]; })]).nice();
+    y.domain([0, d3.max(series[series.length - 1], function (d) {return d[0] + d[1]; })]).nice();
 
     var layer = svg.selectAll(".layer")
       .data(series)
@@ -208,16 +211,17 @@ class Histogram extends Component {
 
     // var barPadding = 5;
     var barWidth = (width)/data.length;
+    console.log(barWidth);
     x.range([0,width]);
     layer.selectAll("rect")
       .data(function (d) { return d; })
       .enter().append("rect")
       .attr("x", function (d) {
-        console.log(d.data.date);
-        return x(self.roundMinutes(d.data.date));
+        // console.log(d.data.date);
+        return x(d.data.date);
       })
       .attr("y", function (d) { 
-        console.log(y(d[1]));
+        // console.log(y(d[1]));
         // return 1;})
         return y(d[1]); })
       .attr("height", function (d) { return y(d[0]) - y(d[1]); })
@@ -255,7 +259,7 @@ class Histogram extends Component {
 }
 
 Histogram.defaultProps = {
-  width: 1000,
+  width: 600,
   height: 300,
   title: '',
   Legend: true,
