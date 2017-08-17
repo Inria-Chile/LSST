@@ -34,9 +34,9 @@ class Charts extends Component {
         var today = new Date();
         today.setDate(today.getDate() - 1);
         var data = this.randomData(1500, today, new Date());
-        data.forEach(function(d){
-            console.log(d);
-        })
+        // data.forEach(function(d){
+        //     console.log(d);
+        // })
         return (
             <div className="charts-container">
                 <div className="histogram-container">

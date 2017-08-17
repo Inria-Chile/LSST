@@ -37,9 +37,76 @@ class Histogram extends Component {
   
   adaptData(){
     let data = this.props.data;
+    let newData = [];
+    let date = null;
+    let item ={
+      date: null,
+      U: 0,
+      G: 0,
+      R: 0,
+      I: 0,
+      Z: 0,
+      Y: 0
+    };
     data.forEach((d)=>{
-      console.log(d);
+      let itemDate = d.expDate;
+      if(date==null){
+       item.date = d.expDate
+       this.addValueToFilter(item, d.filter, d.expTime);
+       date = d.expDate;
+      }
+      else if((itemDate.toDateString().localeCompare(date.toDateString()) == 0 && itemDate.getHours() == date.getHours())){
+        this.addValueToFilter(item, d.filter, d.expTime);
+      }
+      else{
+        let newItem ={
+          date: item.date,
+          U: item.U,
+          G: item.G,
+          R: item.R,
+          I: item.I,
+          Z: item.Z,
+          Y: item.Y
+        };
+        newData.push(newItem);
+        item ={
+          date: d.expDate,
+          U: 0,
+          G: 0,
+          R: 0,
+          I: 0,
+          Z: 0,
+          Y: 0
+        };
+        date=d.expDate;
+        this.addValueToFilter(item, d.filter, d.expTime);
+      }
     });
+    newData.push(item);
+    return newData;
+  }
+
+  addValueToFilter(item,filter,value){
+    switch(filter){
+      case 1:
+        item.U += value;
+        break;
+      case 2:
+        item.G += value;
+        break;
+      case 3:
+        item.R += value;
+        break;
+      case 4:
+        item.I += value;
+        break;
+      case 5:
+        item.Z += value;
+        break;
+      case 6:
+        item.Y += value;
+        break;
+    }
   }
 
   createChart(dom, props) {
@@ -48,6 +115,7 @@ class Histogram extends Component {
     var today = new Date();
     today.setDate(today.getDate() - 1);
     var data = this.randomData(1, today, new Date())
+
     var formatCount = d3.format(",.0f");
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height),
@@ -98,8 +166,11 @@ class Histogram extends Component {
     var width = this.props.width;
     var height = this.props.height;
     var today = new Date();
-    today.setDate(today.getDate() - 1);
-    var data = this.randomData(10, today, new Date())
+    today.setDate(today.getDate() + 1);
+    // var data = this.randomData(10, today, new Date())
+    var data = this.adaptData();
+    // console.log(data);
+    // console.log(data2);
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
     var margin = { top: 0, right: 0, bottom: 20, left: 0 };
@@ -108,7 +179,7 @@ class Histogram extends Component {
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-    var x = d3.scaleTime().domain([today, new Date()]);
+    var x = d3.scaleTime().domain([new Date(), today]);
 
     var y = d3.scaleLinear().range([height, 0]);
 
@@ -125,7 +196,9 @@ class Histogram extends Component {
       .offset(d3.stackOffsetNone);
 
     var series = stack(data);
-    y.domain([0, d3.max(series[series.length - 1], function (d) { return d[0] + d[1]; })]).nice();
+    console.log(series);
+    // console.log(series[series.length - 1]);
+    y.domain([0, d3.max(series[series.length - 1], function (d) { console.log(d);return d[0] + d[1]; })]).nice();
 
     var layer = svg.selectAll(".layer")
       .data(series)
@@ -140,10 +213,13 @@ class Histogram extends Component {
       .data(function (d) { return d; })
       .enter().append("rect")
       .attr("x", function (d) {
-        // console.log(d.data.date);
+        console.log(d.data.date);
         return x(self.roundMinutes(d.data.date));
       })
-      .attr("y", function (d) { return y(d[1]); })
+      .attr("y", function (d) { 
+        console.log(y(d[1]));
+        // return 1;})
+        return y(d[1]); })
       .attr("height", function (d) { return y(d[0]) - y(d[1]); })
       .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
     g.append("g")
@@ -166,7 +242,7 @@ class Histogram extends Component {
 
   render() {
     let data = this.props.data;
-    this.adaptData();
+    // this.adaptData();
   //   data.forEach(function(d){
   //     console.log(d);
   // })
