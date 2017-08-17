@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
-import './Chart.css'
+import './Histogram.css'
 
 
 
-class Chart extends Component {
+class Histogram extends Component {
 
   randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -33,7 +33,14 @@ class Chart extends Component {
     date.setMinutes(0);
 
     return date;
-  }  
+  }
+  
+  adaptData(){
+    let data = this.props.data;
+    data.forEach((d)=>{
+      console.log(d);
+    });
+  }
 
   createChart(dom, props) {
     var width = this.props.width;
@@ -133,7 +140,7 @@ class Chart extends Component {
       .data(function (d) { return d; })
       .enter().append("rect")
       .attr("x", function (d) {
-        console.log(d.data.date);
+        // console.log(d.data.date);
         return x(self.roundMinutes(d.data.date));
       })
       .attr("y", function (d) { return y(d[1]); })
@@ -158,6 +165,11 @@ class Chart extends Component {
   }
 
   render() {
+    let data = this.props.data;
+    this.adaptData();
+  //   data.forEach(function(d){
+  //     console.log(d);
+  // })
     return (
       <div ref="container">
         <h4> {this.props.title} </h4>
@@ -166,7 +178,7 @@ class Chart extends Component {
   }
 }
 
-Chart.defaultProps = {
+Histogram.defaultProps = {
   width: 1000,
   height: 300,
   title: '',
@@ -174,4 +186,4 @@ Chart.defaultProps = {
 
 };
 
-export default Chart;
+export default Histogram;
