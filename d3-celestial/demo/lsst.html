@@ -71,7 +71,7 @@ var config = {
 };
   
 Celestial.display(config);
-
+console.log(Celestial)
 var step = 1.6;
 var tileN = 0;
 function animate() {
@@ -80,14 +80,14 @@ function animate() {
   rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
   rot[2] = 0;
   Celestial.rotate({center:rot});
-  Celestial.updateCell(Math.floor(Math.random()*857));
+  // Celestial.updateCell(Math.floor(Math.random()*857));
   // Celestial.updateCell((tileN++)%857);
 }
 
   d3.select('#celestial-map').on('mousedown', function() { window.cancelAnimationFrame(reqID) } )
   d3.select('#celestial-map').on('mouseup', function() { window.requestAnimationFrame(animate) } )
 
-// reqID = window.requestAnimationFrame(animate);
+reqID = window.requestAnimationFrame(animate);
 </script>
 <!--<footer style="position:absolute; bottom:0; width:99%">
 <p><a href="https://github.com/ofrohn/d3-celestial"><b>D3-Celestial</b></a> released under <a href="http://opensource.org/licenses/BSD-3-Clause">BSD license</a>. 

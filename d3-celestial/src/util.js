@@ -67,3 +67,29 @@ function interpolateAngle(a1, a2, t) {
   }
   return d3.interpolateNumber(a1/deg2rad, a2/deg2rad);
 }
+
+function int2hex(num) {
+  var hex = Math.round(num).toString(16);
+  if (hex.length == 1)
+      hex = '0' + hex;
+  return hex;
+}
+
+function rgb2hex(rgb) {
+  return '#'+int2hex(rgb[0])+int2hex(rgb[1])+int2hex(rgb[2]);
+}
+
+function hex2rgb(hex) {
+  return [parseInt(hex[1] + hex[2], 16), parseInt(hex[3] + hex[4], 16), parseInt(hex[5] + hex[6], 16)];
+}
+
+function blendColors(colors, weights) {
+  retColor = [0,0,0];
+  for(var i=0;i<colors.length;i++){
+    retColor[0] += colors[i][0]*weights[i];
+    retColor[1] += colors[i][1]*weights[i];
+    retColor[2] += colors[i][2]*weights[i];
+  }
+  return retColor;
+}
+

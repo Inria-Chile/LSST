@@ -19,7 +19,17 @@ var settings = {
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {
     show: true,    // Show Milky Way as filled polygons 
-    style: { fill: "#ffffff", opacity: "0.15" } // style for each MW-layer (5 on top of each other)
+    style: { fill: "#ffffff", opacity: "0.15" }, // style for each MW-layer (5 on top of each other)
+    filterColors: {
+      "u": "#0000ff",
+      "g": "#008000",
+      "r": "#ffff00",
+      "i": "#ff0000",
+      "z": "#ee82ee",
+      "y": "#ffffff"
+    },
+    displayedFilters: ["u","g","r","i","z","y"]
+    // displayedFilters: ["u","r","i","y"]
   },
   moon: {
     show: true,
