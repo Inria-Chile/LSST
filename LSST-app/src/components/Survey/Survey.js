@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
+import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import './Survey.css';
@@ -91,6 +92,7 @@ class Survey extends Component {
                 <div className="main-container">
                     <div className="left-container">
                          <SurveyControls/> 
+                         <Charts/>
                          <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} /> 
                          </div>
