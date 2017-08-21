@@ -198,9 +198,10 @@ class Histogram extends Component {
       .offset(d3.stackOffsetNone);
 
     var series = stack(data);
-    // console.log(series);
+    console.log(series);
     // console.log(series[series.length - 1]);
-    y.domain([0, d3.max(series[series.length - 1], function (d) {return d[0] + d[1]; })]).nice();
+    y.domain([0, d3.max(series[series.length - 1], function (d) {
+      console.log(d);return  d[1]; })]).nice();
 
     var layer = svg.selectAll(".layer")
       .data(series)
@@ -229,6 +230,10 @@ class Histogram extends Component {
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x).ticks(d3.utcHour));
+      // g.append("g")
+      // .attr("class", "axis axis--y")
+      // .attr("transform", "translate(0," + w + ")")
+      // .call(d3.axisLeft(y));
 
   }
 
@@ -255,7 +260,7 @@ class Histogram extends Component {
 
 Histogram.defaultProps = {
   width: 865,
-  height: 300,
+  height: 160,
   title: '',
   Legend: true,
 

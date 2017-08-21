@@ -166,7 +166,7 @@ var itemRects = g.append("g")
 
 Timeline.defaultProps = {
   width: 1000,
-  height: 300,
+  height: 200,
   title: '',
   Legend: true,
 
