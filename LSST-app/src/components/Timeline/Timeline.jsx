@@ -136,7 +136,7 @@ var itemRects = main.append("g")
     });
   
   rects.enter().append("rect")
-    .attr("class", function(d) {return "miniItem" + d.st;})
+    .attr("class", function(d) {return "item" + (d.st-1);})
     .attr("x", function(d) {
       // console.log(x1(d));
       // return w-10;
@@ -151,7 +151,7 @@ var itemRects = main.append("g")
       var copiedDate = new Date(d.expDate.getTime());
       var seconds = copiedDate.getSeconds()+d.expTime;
       copiedDate.setSeconds(seconds);
-      return x1(copiedDate)-x1(d.expDate);
+      return (x1(copiedDate)-x1(d.expDate))*2;
     }
       // console.log(d);return x1(d.expDate+d.expTime) - x1(d.expDate);}return x1(d.expDate+d.expTime) - x1(d.expDate);
     )

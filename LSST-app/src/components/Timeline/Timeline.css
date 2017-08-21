@@ -10,22 +10,33 @@
   font: 12px sans-serif;	
 }
 
-.miniItem0 {
-  fill: darksalmon;
+.item0 {
+  fill:	#0c1a4a;
   stroke-width: 6;	
 }
 
-.miniItem1 {
-  fill: darkolivegreen;
+.item1 {
+  fill:#3e55a3;
   fill-opacity: .7;
   stroke-width: 6;	
 }
 
-.miniItem2 {
-  fill: slategray;
+.item2 {
+  fill: #ff9936;
   fill-opacity: .7;
   stroke-width: 6;	
 }
+.item3{
+  fill: #33f8ff;
+  stroke-width: 6;	
+}
+
+.item4 {
+  fill: 	#fbadcd	;
+  fill-opacity: .7;
+  stroke-width: 6;	
+}
+
 
 .brush .extent {
   stroke: gray;
