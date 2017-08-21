@@ -93,13 +93,13 @@ class Survey extends Component {
                     <div className="left-container">
                          <SurveyControls/> 
                          <Charts/>
-                         <div className="main-skymap-wrapper">
+                         {/* <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} /> 
-                         </div>
+                         </div> */}
                     </div>
-                    <div className="right-container">                
+                    {/* <div className="right-container">                
                         <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
-                    </div>
+                    </div> */}
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} /> 
             </div>

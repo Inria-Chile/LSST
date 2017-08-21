@@ -40,10 +40,10 @@ class Charts extends Component {
         return (
             <div className="charts-container">
                 <div className="histogram-container">
-                    <Histogram data={data}/>
+                    {/* <Histogram data={data}/> */}
                 </div>
                 <div className="timeline-container">
-                     <Timeline/>
+                     <Timeline data={data}/>
                 </div>
             </div>
         );
