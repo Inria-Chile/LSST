@@ -10,7 +10,7 @@ class Timeline extends Component {
 
 
   createTimeline(dom, props) {
-    var lanes = ["Science type1","Science type2","Science type3", "ST4", "ST5"],
+    var lanes = ["Dark Matter","Dark Energy","Solar System", "Changing Sky", "Milky Way"],
     laneLength = lanes.length,
     data = this.props.data,
     // items = [{"lane": 0, "id": "Qin", "start": 5, "end": 205},
@@ -145,9 +145,14 @@ var itemRects = main.append("g")
       // console.log(x1(parser(d.expDate)));
       // return x1(parser(d.expDate));
     })
-    .attr("y", function(d) {return y1(d.st-1) + 10;})
+    .attr("y", function(d) {return y1(d.st-1) +2.5 ;})
     .attr("width", function(d) {
-      return 1;}
+      // return 1;
+      var copiedDate = new Date(d.expDate.getTime());
+      var seconds = copiedDate.getSeconds()+d.expTime;
+      copiedDate.setSeconds(seconds);
+      return x1(copiedDate)-x1(d.expDate);
+    }
       // console.log(d);return x1(d.expDate+d.expTime) - x1(d.expDate);}return x1(d.expDate+d.expTime) - x1(d.expDate);
     )
     .attr("height", function(d) {return .8 * y1(1);});
