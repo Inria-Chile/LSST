@@ -13,3 +13,17 @@
     margin: auto;
     display: block;
 }
+
+canvas {
+    display: block;
+    margin: 0px auto;
+    position: relative;
+}
+
+.selected-filter {
+    border: 1px solid red;
+}
+
+.minimap {
+    width: 100%;
+}

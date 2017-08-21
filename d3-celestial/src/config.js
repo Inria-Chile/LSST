@@ -40,9 +40,9 @@ var settings = {
   lines: {
     graticule: { show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
 			// grid values: "outline", "center", or [lat,...] specific position
-      lon: {pos: [""], fill: "#eee", font: "10px Helvetica, Arial, sans-serif"}, 
+      lon: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif"}, 
 			// grid values: "outline", "center", or [lon,...] specific position
-		  lat: {pos: [""], fill: "#eee", font: "10px Helvetica, Arial, sans-serif"}},
+		  lat: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif"}},
     equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
     ecliptic: { show: false, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
     galactic: { show: false, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 

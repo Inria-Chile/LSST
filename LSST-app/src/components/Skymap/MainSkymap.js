@@ -8,9 +8,13 @@ class MainSkymap extends Component {
         return this.skymap.getCelestial();
     }
 
+    getConfig(){
+        return this.skymap.getConfig();
+    }
+
     drawFrame = () => {
         // console.log('drawFrame MainSkymap');
-        var Celestial = this.skymap.getCelestial();
+        var Celestial = this.getCelestial();
         var step = 1.6;
 
         // reqID = window.requestAnimationFrame(animate);
@@ -19,6 +23,37 @@ class MainSkymap extends Component {
         rot[2] = 0;
         Celestial.rotate({center:rot});
         Celestial.updateCell(Math.floor(Math.random()*857));
+    }
+
+    setEcliptic(show){
+        this.skymap.setEcliptic(show);
+    }
+
+    setGalactic = (show) => {
+        this.skymap.setGalactic(show);
+    }
+
+    setMoon = (show) => {
+        this.skymap.setMoon(show);        
+    }
+
+    setTelescopeRange = (show) => {
+        this.skymap.setTelescopeRange(show);        
+    }
+
+    setProjection = (proj) => {
+        this.skymap.setProjection(proj);        
+    }
+
+    setDisplayedFilter(filter){
+        if(filter === 'all')
+            this.skymap.displayAllFilters();
+        else
+            this.skymap.displayFilter(filter);
+    }
+
+    componentDidMount() {
+        this.skymap.displayAllFilters();
     }
 
     render() {
