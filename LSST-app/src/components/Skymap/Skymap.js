@@ -80,6 +80,14 @@ class Skymap extends Component {
     this.updateConfig(config);
   }
 
+  setGridOpacity(opacity) {
+    var config = this.Celestial.cfg;
+    if(opacity === 0)
+      config.lines.graticule.show = false;
+    config.lines.graticule.opacity = opacity;    
+    this.updateConfig(config);
+  }
+
   setDisplayedFilters(filtersArray) {
     var config = this.Celestial.cfg;
     config.polygons.displayedFilters = filtersArray;
@@ -127,7 +135,6 @@ class Skymap extends Component {
     let cfg = this.Celestial.cfg;
     let cel = this.getCelestial();
     cfg.projection = proj;
-    // cel.reproject(cfg);
     cel.apply(cfg);
     cel.cfg = cfg;
   }
@@ -144,16 +151,13 @@ class Skymap extends Component {
 
   updateConfig(config) {
     this.Celestial.apply(config);
-    // this.Celestial.display(config);
     this.Celestial.cfg = config;
   }
 
   componentDidMount() {
-    // var mainNode = this.refs.skymapDiv;
     var nodeRef = this.refs[this.props.nodeRef];
     nodeRef.id = this.props.nodeRef;
     this.containerId = nodeRef.id;
-    // set el height and width etc.
     this.setupCelestial();
   }
 

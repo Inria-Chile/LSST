@@ -18,10 +18,10 @@ class Survey extends Component {
     drawFrame = (timestamp) => {
         // console.log('Parent Drawframe')
         this.mainSkymap.drawFrame(timestamp);
-        // this.children.forEach(function (child) {
-        //     child.drawFrame(timestamp);
-        // });
-        // requestAnimationFrame(this.drawFrame);
+        this.children.forEach(function (child) {
+            child.drawFrame(timestamp);
+        });
+        requestAnimationFrame(this.drawFrame);
     }
 
     componentDidMount() {

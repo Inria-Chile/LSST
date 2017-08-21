@@ -35,9 +35,11 @@ class MiniSkymaps extends Component {
     for(let i=0;i<filters.length;++i){
       this.children[i].displayFilter(filters[i]);
       this.children[i].setFontSize(0);
+      this.children[i].setGridOpacity(0);
     }
     this.children[this.children.length-1].displayAllFilters();
     this.children[this.children.length-1].setFontSize(0);
+    this.children[this.children.length-1].setGridOpacity(0);
   }
 
   handleClick = (filterName) => {
