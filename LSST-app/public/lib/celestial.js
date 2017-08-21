@@ -309,7 +309,7 @@ Celestial.display = function(config) {
     d3.select({}).transition().duration(interval).tween("projection", function () {
       return function(_) {
         prjMap.alpha(_).rotate(rot);
-        map.projection(prjMap);
+        m8ap.projection(prjMap);
         setClip(prj.clip);
         ratio = rTween(_);
         height = width/ratio;
@@ -338,22 +338,36 @@ Celestial.display = function(config) {
     return interval;
   }
 
+    window.tempCount = 0;
   function drawGridPolygons(){
     container.selectAll(".mw").each(function(d) {
-      if(d.properties.count < 5)
-        return;
+      // if(d.properties.count[0][1] < 5)
+      //   return;
+      var style = cfg.polygons.style;
       setStyle(cfg.polygons.style);
-      context.fillStyle = '#'+Math.min(d.properties.count*3+55, 255).toString(16) +'0000';
-      // context.fillStyle = '#'+Math.ceil(Math.random()*255).toString(16) +
-      //                         Math.ceil(Math.random()*255).toString(16) +
-      //                         Math.ceil(Math.random()*255).toString(16);
-      // context.fillStyle = '#ff0000';
-      context.globalAlpha = Math.min(1, d.properties.count/100);
+      var totalObs = 0;
+      for(var i=0;i<d.properties.count.length;++i)
+        totalObs += d.properties.count[i][1];
+      var colors = [], weights = [];
+      for(var i=0;i<d.properties.count.length;i++){
+        var filterName = d.properties.count[i][0];
+        // console.log(filterName, cfg.polygons.displayedFilters, cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+        if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+          continue;
+        var hexColor = cfg.polygons.filterColors[filterName];
+        // console.log(hexColor)
+        colors.push(hex2rgb(hexColor));
+        weights.push(d.properties.count[i][1]/totalObs);
+      }
+      var paintColor = rgb2hex(blendColors(colors, weights));
+      context.fillStyle = '#000000';
+      context.fillStyle = paintColor;
+      context.globalAlpha = Math.min(1.0, totalObs/200);
       map(d);
-      if(inside(mousePosition, d.geometry.coordinates[0])){
+      if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
         context.fillStyle = '#000000';
         context.globalAlpha = 1.0;
-        context.fill();
+        // context.fill();
         setStyle(cfg.polygons.style);
         map(d);
         context.fillStyle = '#00ff00';
@@ -387,6 +401,27 @@ Celestial.display = function(config) {
       d3.selectAll(".t"+n).each(function(d){
         d.properties.count = (parseInt(d.properties.count) + 10) + "";
       })    
+  }
+
+  //Receives list of observations, index of ra, dec and filter in each observation
+  Celestial.updateCells = function(observations, iRa, iDec, iFilter, iCount){
+    container.selectAll(".mw").each(function(d) {
+      for(var i=0;i<d.properties.count.length;++i)
+            d.properties.count[i][1] = 0;
+    });
+    for(var i=0;i<observations.length;++i){
+      var obs = observations[i];
+      var ra = obs[iRa];
+      var dec = obs[iDec];
+      var filterName = obs[iFilter];
+      var newCount = obs[iCount];
+      container.selectAll(".mw").each(function(d) {
+        if(Celestial.inside([ra,dec], d.geometry.coordinates[0])){
+          for(var i=0;i<d.properties.count.length;++i)
+            d.properties.count[i][1] = newCount;
+        }
+      });
+    };
   }
   
   function realRedraw(){
@@ -496,7 +531,7 @@ Celestial.display = function(config) {
   }
 
   // Helper functions -------------------------------------------------
-  function inside(point, vs) {
+  Celestial.inside = function(point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
     if(!point)
@@ -1082,7 +1117,17 @@ var settings = {
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {
     show: true,    // Show Milky Way as filled polygons 
-    style: { fill: "#ffffff", opacity: "0.15" } // style for each MW-layer (5 on top of each other)
+    style: { fill: "#ffffff", opacity: "0.15" }, // style for each MW-layer (5 on top of each other)
+    filterColors: {
+      "u": "#0000ff",
+      "g": "#008000",
+      "r": "#ffff00",
+      "i": "#ff0000",
+      "z": "#ee82ee",
+      "y": "#ffffff"
+    },
+    displayedFilters: ["u","g","r","i","z","y"]
+    // displayedFilters: ["u","r","i","y"]
   },
   moon: {
     show: true,
@@ -1528,6 +1573,33 @@ function interpolateAngle(a1, a2, t) {
   }
   return d3.interpolateNumber(a1/deg2rad, a2/deg2rad);
 }
+
+function int2hex(num) {
+  var hex = Math.round(num).toString(16);
+  if (hex.length == 1)
+      hex = '0' + hex;
+  return hex;
+}
+
+function rgb2hex(rgb) {
+  return '#'+int2hex(rgb[0])+int2hex(rgb[1])+int2hex(rgb[2]);
+}
+
+function hex2rgb(hex) {
+  return [parseInt(hex[1] + hex[2], 16), parseInt(hex[3] + hex[4], 16), parseInt(hex[5] + hex[6], 16)];
+}
+
+function blendColors(colors, weights) {
+  retColor = [0,0,0];
+  for(var i=0;i<colors.length;i++){
+    retColor[0] += colors[i][0]*weights[i];
+    retColor[1] += colors[i][1]*weights[i];
+    retColor[2] += colors[i][2]*weights[i];
+  }
+  return retColor;
+}
+
+
 
 var zenith = [0,0];
 

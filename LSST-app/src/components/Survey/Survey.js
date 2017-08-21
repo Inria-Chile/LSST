@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
-import Charts from '../Charts/Charts';
+// import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import './Survey.css';
@@ -18,10 +18,10 @@ class Survey extends Component {
     drawFrame = (timestamp) => {
         // console.log('Parent Drawframe')
         this.mainSkymap.drawFrame(timestamp);
-        // this.children.forEach(function (child) {
-        //     child.drawFrame(timestamp);
-        // });
-        // requestAnimationFrame(this.drawFrame);
+        this.children.forEach(function (child) {
+            child.drawFrame(timestamp);
+        });
+        requestAnimationFrame(this.drawFrame);
     }
 
     componentDidMount() {
@@ -30,31 +30,19 @@ class Survey extends Component {
     }
 
     setEcliptic = (show) => {
-        let cfg = this.cel.cfg;
-        cfg.lines.ecliptic.show = show;
-        this.cel.apply(cfg);
-        this.cel.cfg = cfg;
+        this.mainSkymap.setEcliptic(show);
     }
 
     setGalactic = (show) => {
-        let cfg = this.cel.cfg;
-        cfg.lines.galactic.show = show;
-        this.cel.apply(cfg);
-        this.cel.cfg = cfg;
+        this.mainSkymap.setGalactic(show);
     }
 
     setMoon = (show) => {
-        let cfg = this.cel.cfg;
-        cfg.moon.show = show;
-        this.cel.apply(cfg);
-        this.cel.cfg = cfg;
+        this.mainSkymap.setMoon(show);        
     }
 
     setTelescopeRange = (show) => {
-        let cfg = this.cel.cfg;
-        cfg.telescopeRange.show = show;
-        this.cel.apply(cfg);
-        this.cel.cfg = cfg;
+        this.mainSkymap.setTelescopeRange(show);        
     }
 
     setSidebar = (show) => {
@@ -64,10 +52,11 @@ class Survey extends Component {
     }
 
     setProjection = (proj) => {
-        let cfg = this.cel.cfg;
-        cfg.projection = proj;
-        this.cel.reproject(cfg);
-        this.cel.cfg = cfg;
+        this.mainSkymap.setProjection(proj);
+    }
+
+    setDisplayedFilter = (filter) => {
+        this.mainSkymap.setDisplayedFilter(filter);
     }
 
     render() {
@@ -92,13 +81,13 @@ class Survey extends Component {
                 <div className="main-container">
                     <div className="left-container">
                          <SurveyControls/> 
-                         <Charts/>
+                         {/* <Charts/> */}
                          <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} /> 
                          </div>
                     </div>
                     <div className="right-container">                
-                        <MiniSkymaps ref={instance => { this.children.push(instance); }} /> 
+                        <MiniSkymaps ref={instance => { this.children.push(instance); }} onMinimapClick={this.setDisplayedFilter}/> 
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} /> 

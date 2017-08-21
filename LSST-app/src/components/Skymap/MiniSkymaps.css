@@ -1,5 +1,6 @@
 .minimap-wrapper {
     display: inline-block;
+    position: relative;
     width: 45%;
     margin: 5px;
 }
@@ -12,4 +13,35 @@
 .all-filter {
     margin: auto;
     display: block;
+}
+
+canvas {
+    display: block;
+    margin: 0px auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.selected-filter {
+    /* border: 1px solid red; */
+    box-shadow: inset 0px 0px 0px 2px #f00;
+}
+
+.selected-filter::after {
+    content: 'Current';
+    vertical-align: bottom;
+    color: white;
+    text-align: center;
+    height: 18px;
+    width: 42%;
+    position: absolute;    
+    top: -17px;
+    left: 0;
+    font-size: 14px;
+    border-bottom: 15px solid red;
+    border-right: 15px solid transparent;
+}
+
+.minimap {
+    width: 100%;
 }
