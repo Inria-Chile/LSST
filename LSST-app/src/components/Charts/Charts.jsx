@@ -43,7 +43,7 @@ class Charts extends Component {
                     <Histogram data={data}/>
                 </div>
                 <div className="timeline-container">
-                     <Timeline/>
+                     <Timeline data={data}/>
                 </div>
             </div>
         );
