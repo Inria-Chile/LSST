@@ -1,10 +1,20 @@
 import sys
 import time
 import datetime
+import random
 
 from SALPY_scheduler import *
 from flask_socketio import send, emit
 from flask_socketio import SocketIO
+
+filters =  ['u','g','r','i','z','y']
+
+def start_listening_fake(app, socketio):
+    while True:
+        time.sleep(0.510)
+        with app.test_request_context('/'):
+            # print('Emitting')
+            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1})
 
 #Get data from ts_sal connection
 def start_listening(app, socketio):

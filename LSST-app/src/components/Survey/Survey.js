@@ -3,16 +3,24 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
-import Charts from '../Charts/Charts';
+// import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import './Survey.css';
+import openSocket from 'socket.io-client';
 
 class Survey extends Component {
     constructor(props) {
         super(props);
         this.mainSkymap = null;
         this.miniSkymap = null;
+        this.data = [];
+        this.socket = openSocket('http://localhost:3000');
+        this.socket.on('data', timestamp => this.receiveMsg(timestamp));
+    }
+
+    receiveMsg(msg){
+        this.addObservation(msg);
     }
 
     drawFrame = (timestamp) => {
@@ -32,9 +40,6 @@ class Survey extends Component {
     
     setMoon = (show) => {
         this.mainSkymap.setMoon(show);
-        fetch('survey/playback/observationsCount', {
-            
-        });
     }
     
     setTelescopeRange = (show) => {
@@ -55,13 +60,33 @@ class Survey extends Component {
         this.mainSkymap.setDisplayedFilter(filter);
     }
     
-    setDataByDate = (startDate, endDate, cb) => {
+    fetchDataByDate = (startDate, endDate, cb) => {
         return fetch(`survey/playback/observationsCount?start_date=${startDate}&end_date=${endDate}`, {
             accept: "application/json"
         })
         .then(this.checkStatus)
         .then(this.parseJSON)
         .then(cb);
+    }
+
+    setData = (data) => {
+        this.data = data;
+        this.mainSkymap.setData(data);
+        this.miniSkymap.setData(data);
+    }
+
+    addObservation = (obs) => {
+        let added = false;
+        for(let i=0;i<this.data.length;++i){
+            if(this.data[i]['fieldID'] === obs['fieldID'] && this.data[i]['filterName'] === obs['filterName']){
+                // console.log('adding', obs, ' to ', this.data[i]); // eslint-disable-line no-console          
+                this.data[i]['count']++;
+                added = true;
+            }
+        }
+        if(!added)
+            this.data.push(obs);
+        this.setData(this.data);
     }
     
     checkStatus(response) {
@@ -78,14 +103,14 @@ class Survey extends Component {
     parseJSON(response) {
         return response.json();
     }
-    
 
     componentDidMount() {
-        this.setDataByDate(0, 99994323, (res) => {
+        console.log("componentDidMount")
+        // this.fetchDataByDate(0, 99994323, (res) => {
+        this.fetchDataByDate(0, 2, (res) => {
             for(var i=0;i<res.results.length;++i)
                 res.results[i][2] += 30;
-            this.mainSkymap.setData(res.results);
-            this.miniSkymap.setData(res.results);
+            // this.setData(res.results);
         });
     }
     
@@ -111,7 +136,7 @@ class Survey extends Component {
                 <div className="main-container">
                     <div className="left-container">
                         <SurveyControls />
-                        <Charts/>
+                        {/* <Charts/> */}
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
                         </div>

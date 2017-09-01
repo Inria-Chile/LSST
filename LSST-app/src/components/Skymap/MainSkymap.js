@@ -53,7 +53,7 @@ class MainSkymap extends Component {
     }
 
     setData(data){
-        this.skymap.getCelestial().updateCells(data, 1,2,3,4);
+        this.skymap.getCelestial().updateCells(data);
         this.skymap.getCelestial().redraw();
     }
 

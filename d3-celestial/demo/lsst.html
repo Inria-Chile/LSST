@@ -69,7 +69,60 @@ var config = {
     style: { fill: "#eeeeee", opacity: "1.0" }
   }
 };
-  
+
+
+var data = [
+  {
+    "count": 4,
+    "fieldRA": -40,
+    "fieldID": 39,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": -5,
+    "fieldID": 39,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": -10,
+    "fieldID": 39,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": -15,
+    "fieldID": 39,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": -20,
+    "fieldID": 390,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": -25,
+    "fieldID": 390,
+    "fieldDec": -20,
+    "filterName": "z"
+  },
+  {
+    "count": 4,
+    "fieldRA": 335,
+    "fieldID": 390,
+    "fieldDec": -20,
+    "filterName": "z"
+  }
+];
+
 Celestial.display(config);
 console.log(Celestial)
 var step = 1.6;
@@ -79,11 +132,13 @@ function animate() {
   var rot = Celestial.rotate();
   rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
   rot[2] = 0;
-  Celestial.rotate({center:rot});
+  // Celestial.rotate({center:rot});
   // Celestial.updateCell(Math.floor(Math.random()*857));
   // Celestial.updateCell((tileN++)%857);
 }
-
+setTimeout(function(){
+  Celestial.updateCells(data);
+}, 1000)
   d3.select('#celestial-map').on('mousedown', function() { window.cancelAnimationFrame(reqID) } )
   d3.select('#celestial-map').on('mouseup', function() { window.requestAnimationFrame(animate) } )
 

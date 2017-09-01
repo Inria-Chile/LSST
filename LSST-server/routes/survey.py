@@ -130,7 +130,11 @@ def api_observationsCount():
         end_date = int(data['end_date'])
     query_result = session.query(Observation, func.count()).filter(Observation.expDate > start_date, Observation.expDate < end_date).group_by(Observation.fieldID, Observation.filterName)
     serialized_labels = [dict(serialize(obs[0]), **{'count': obs[1]}) for obs in query_result.all()]
-    serialized_labels = [[row['fieldID'], round(row['fieldRA']*180.0/math.pi, 3), round(row['fieldDec']*180.0/math.pi, 3), row['filterName'], row['count']] for row in serialized_labels]
+    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count') if k in adict} for adict in serialized_labels]
+    for adict in serialized_labels:
+        adict['fieldRA'] = round(adict['fieldRA']*180.0/math.pi, 3)
+        adict['fieldDec'] = round(adict['fieldDec']*180.0/math.pi, 3)
+    # serialized_labels = [[row['fieldID'], round(row['fieldRA']*180.0/math.pi, 3), round(row['fieldDec']*180.0/math.pi, 3), row['filterName'], row['count']] for row in serialized_labels]
     your_json = dumps(serialized_labels)
     return jsonify(results=serialized_labels)
 

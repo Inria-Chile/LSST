@@ -169,7 +169,13 @@ Celestial.display = function(config) {
          .attr("class", function(d){return "mw " + d.properties.id;})
          .attr("count", function(d){return d.properties.count;});
       redraw("load");
+      container.selectAll(".mw").each(function(d) {
+        for(var i=0;i<d.geometry.coordinates;i++)
+          if(d.geometry.coordinates[i][0] > 180)
+            d.geometry.coordinates[i][0] = d.geometry.coordinates[i][0]-360;
+      });
     }); 
+
 
     //Add moon
     container.selectAll(".moon")
@@ -340,30 +346,39 @@ Celestial.display = function(config) {
 
     window.tempCount = 0;
   function drawGridPolygons(){
+    var totalObs = 0;
+    var maxFieldObs = 0;
     container.selectAll(".mw").each(function(d) {
-      // if(d.properties.count[0][1] < 5)
-      //   return;
+      var fieldObs = 0;
+      for(var i=0;i<d.properties.count.length;++i){
+        totalObs += d.properties.count[i][1];
+        fieldObs += d.properties.count[i][1];
+      }
+      if(fieldObs > maxFieldObs)
+        maxFieldObs = fieldObs;
+    });
+    container.selectAll(".mw").each(function(d) {
+      // if(d.properties.count[0][1] > 2)
+      //   console.log(d)
       var style = cfg.polygons.style;
       setStyle(cfg.polygons.style);
-      var totalObs = 0;
+      var fieldObs = 0;
       for(var i=0;i<d.properties.count.length;++i)
-        totalObs += d.properties.count[i][1];
+        fieldObs += d.properties.count[i][1];
       var colors = [], weights = [];
       for(var i=0;i<d.properties.count.length;i++){
         var filterName = d.properties.count[i][0];
-        // console.log(filterName, cfg.polygons.displayedFilters, cfg.polygons.displayedFilters.indexOf(filterName) < 0)
         if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
           continue;
         var hexColor = cfg.polygons.filterColors[filterName];
-        // console.log(hexColor)
         colors.push(hex2rgb(hexColor));
-        weights.push(d.properties.count[i][1]/totalObs);
+        weights.push(d.properties.count[i][1]/fieldObs);
       }
       var paintColor = rgb2hex(blendColors(colors, weights));
       context.fillStyle = '#000000';
       context.fillStyle = paintColor;
-      // context.globalAlpha = Math.min(1.0, totalObs/200);
-      context.globalAlpha = Math.min(1.0, totalObs/50);
+      // context.globalAlpha = Math.min(1.0, 0.9);
+      context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.5));
       map(d);
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
         context.fillStyle = '#000000';
@@ -405,21 +420,30 @@ Celestial.display = function(config) {
   }
 
   //Receives list of observations, index of ra, dec and filter in each observation
-  Celestial.updateCells = function(observations, iRa, iDec, iFilter, iCount){
+  Celestial.updateCells = function(observations){
     container.selectAll(".mw").each(function(d) {
       for(var i=0;i<d.properties.count.length;++i)
             d.properties.count[i][1] = 0;
     });
     for(var i=0;i<observations.length;++i){
       var obs = observations[i];
-      var ra = obs[iRa];
-      var dec = obs[iDec];
-      var filterName = obs[iFilter];
-      var newCount = obs[iCount];
+      var id = obs['fieldID']
+      var ra = obs['fieldRA'];
+      ra > 180 ? ra = ra-360 : ra = ra;
+      var dec = obs['fieldDec'];
+      var filterName = obs['filterName'];
+      var newCount = obs['count'];
       container.selectAll(".mw").each(function(d) {
         if(Celestial.inside([ra,dec], d.geometry.coordinates[0])){
-          for(var i=0;i<d.properties.count.length;++i)
-            d.properties.count[i][1] = newCount;
+          var added = false;
+          for(var i=0;i<d.properties.count.length;++i){
+            if(d.properties.count[i][0] == filterName){
+              d.properties.count[i][1] = newCount;
+              added = true;
+            }
+          }
+          if(!added)
+            d.properties.count.push([filterName, newCount]);
         }
       });
     };
