@@ -16,7 +16,9 @@ class Survey extends Component {
         this.miniSkymap = null;
         this.data = [];
         this.socket = openSocket('http://localhost:3000');
-        this.socket.on('data', timestamp => this.receiveMsg(timestamp));
+        this.state = {
+            selectedMode: 'playback',
+        }
     }
 
     receiveMsg(msg){
@@ -58,6 +60,33 @@ class Survey extends Component {
     
     setDisplayedFilter = (filter) => {
         this.mainSkymap.setDisplayedFilter(filter);
+    }
+
+    setLiveMode = () => {
+        console.log('setlivemode')
+        this.setState({
+            selectedMode: 'live'
+        })
+        this.setData([]);
+        console.log('SCOKERT', this.socket.on('data', timestamp => this.receiveMsg(timestamp)));
+    }
+
+    setPlaybackMode = () => {
+        this.setState({
+            selectedMode: 'playback'
+        })
+        this.socket.off('data');
+        this.setData([]);
+    }
+
+    setDataByDate = (startDate, endDate) => {
+        console.log('survey', 'Ssetdatabytdate')
+        this.fetchDataByDate(startDate, endDate, (res) => {
+            console.log(res)
+            for(var i=0;i<res.results.length;++i)
+                res.results[i]['fieldDec'] += 30;
+            this.setData(res.results)
+        })
     }
     
     fetchDataByDate = (startDate, endDate, cb) => {
@@ -135,7 +164,10 @@ class Survey extends Component {
                 </div>
                 <div className="main-container">
                     <div className="left-container">
-                        <SurveyControls />
+                        <SurveyControls setPlaybackMode={this.setPlaybackMode} 
+                                        setLiveMode={this.setLiveMode} 
+                                        setDataByDate={this.setDataByDate}
+                                        selectedMode={this.state.selectedMode}/>
                         {/* <Charts/> */}
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} />

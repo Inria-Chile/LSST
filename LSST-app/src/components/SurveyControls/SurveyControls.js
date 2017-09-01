@@ -7,7 +7,6 @@ import DateSelection from './DateSelection/DateSelection';
 import PlayerControls from './PlayerControls/PlayerControls';
 
 class SurveyControls extends Component {
-
     render() {
         return (
             <div className="survey-control-bar">
@@ -15,9 +14,9 @@ class SurveyControls extends Component {
                     <h3>Survey</h3>
                 </div>
                 <div className="survey-controls">
-                    <ModeSelection/>
-                    <DateSelection/>
-                    <PlayerControls/>
+                    <ModeSelection setPlaybackMode={this.props.setPlaybackMode} setLiveMode={this.props.setLiveMode} />
+                    { this.props.selectedMode === 'playback' && <DateSelection setDataByDate={this.props.setDataByDate} /> }
+                    { this.props.selectedMode === 'playback' && <PlayerControls/> }
                 </div>
             </div>
         );
