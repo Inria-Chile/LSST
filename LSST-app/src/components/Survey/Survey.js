@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
-// import Charts from '../Charts/Charts';
+import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import './Survey.css';
@@ -94,7 +94,7 @@ class Survey extends Component {
         return fetch(`survey/playback/observationsCount?start_date=${startDate}&end_date=${endDate}`, {
             accept: "application/json"
         })
-        .then(this.checkStatus)
+        // .then(this.checkStatus)
         .then(this.parseJSON)
         .then(cb);
     }
@@ -165,6 +165,7 @@ class Survey extends Component {
                 </div>
                 <div className="main-container">
                     <div className="left-container">
+                        <Charts/>
                         <SurveyControls setPlaybackMode={this.setPlaybackMode} 
                                         setLiveMode={this.setLiveMode} 
                                         setDataByDate={this.setDataByDate}

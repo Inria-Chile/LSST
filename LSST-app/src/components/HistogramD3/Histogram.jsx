@@ -173,7 +173,7 @@ class Histogram extends Component {
     console.log(data);
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    var margin = { top: 0, right: 20, bottom: 20, left: 20 };
+    var margin = { top: 0, right: 15, bottom: 20, left: 120 };
     width = +svg.attr("width") - margin.left - margin.right;
     height = +svg.attr("height") - margin.top - margin.bottom;
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -184,7 +184,6 @@ class Histogram extends Component {
     var x = d3.scaleTime().domain([start, end]);
 
     var y = d3.scaleLinear().range([height, 0]);
-
 
     var z = d3.scaleOrdinal()
       .range(["#992f8f","#2f2fcc","#2cdd37","#fff704","#f19437","#c80f0f"]);
@@ -198,10 +197,9 @@ class Histogram extends Component {
       .offset(d3.stackOffsetNone);
 
     var series = stack(data);
-    console.log(series);
-    // console.log(series[series.length - 1]);
-    y.domain([0, d3.max(series[series.length - 1], function (d) {
-      console.log(d);return  d[1]; })]).nice();
+    var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
+    console.log(ydom);  
+    y.domain([0, ydom]).nice();
 
     var layer = svg.selectAll(".layer")
       .data(series)
@@ -209,7 +207,6 @@ class Histogram extends Component {
       .attr("class", "layer")
       .style("fill", function (d, i) { return z(i); });
 
-    // var barPadding = 5;
     var barWidth = (width)/data.length;
     console.log(barWidth);
     x.range([0,width]);
@@ -217,12 +214,9 @@ class Histogram extends Component {
       .data(function (d) { return d; })
       .enter().append("rect")
       .attr("x", function (d) {
-        // console.log(d.data.date);
         return x(d.data.date)+margin.left;
       })
       .attr("y", function (d) { 
-        // console.log(y(d[1]));
-        // return 1;})
         return y(d[1]); })
       .attr("height", function (d) { return y(d[0]) - y(d[1]); })
       .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
@@ -230,11 +224,17 @@ class Histogram extends Component {
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x).ticks(d3.utcHour));
-      // g.append("g")
-      // .attr("class", "axis axis--y")
-      // .attr("transform", "translate(0," + w + ")")
-      // .call(d3.axisLeft(y));
 
+    var ticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
+    ticks.forEach((t)=>{
+      console.log(t);
+    })
+    
+      g.append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", "translate(0,0)")
+      .call(d3.axisLeft(y).tickValues(ticks));
+ 
   }
 
   componentDidMount() {
@@ -259,7 +259,7 @@ class Histogram extends Component {
 }
 
 Histogram.defaultProps = {
-  width: 865,
+  width: 1000,
   height: 160,
   title: '',
   Legend: true,
