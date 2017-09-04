@@ -10,6 +10,7 @@ from flask_socketio import SocketIO
 filters =  ['u','g','r','i','z','y']
 
 def start_listening_fake(app, socketio):
+    print('Emitting fake telemetry')
     while True:
         time.sleep(0.510)
         with app.test_request_context('/'):
@@ -18,6 +19,7 @@ def start_listening_fake(app, socketio):
 
 #Get data from ts_sal connection
 def start_listening(app, socketio):
+    print("SAL starting")
     sal = SAL_scheduler()
     sal.setDebugLevel(0)
 
@@ -40,19 +42,17 @@ def start_listening(app, socketio):
     print("SAL listening")
     try:
         while True:
-            time.sleep(0.110)
+            time.sleep(1.510)
             scode = sal.getNextSample_timeHandler(topicTime)
             if scode == 0 and topicTime.timestamp != 0:
 
                 targetId += 1
 
                 topicTarget.targetId = targetId
-                topicTarget.fieldId  = 1234
-                topicTarget.filter   = "z"
-                topicTarget.ra       = 10.0
-                topicTarget.dec      = 30.0
-                topicTarget.angle    = 45.0
-                topicTarget.num_exposures = 2
+                topicTarget.fieldId  = random.randint(1,100)
+                topicTarget.filter   = filters[random.randrange(len(filters))]
+                topicTarget.ra       = random.randint(-40,40)
+                topicTarget.dec      = random.randint(-60,0)
                 sal.putSample_target(topicTarget)
 
                 while True:
@@ -75,4 +75,4 @@ def start_listening(app, socketio):
 def publish(app, socketio, topicObservation):
     print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1])
     with app.test_request_context('/'):
-        socketio.emit('data', [topicObservation.targetId, topicObservation.ra, topicObservation.dec, topicObservation.filter, 1])
+        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1})
