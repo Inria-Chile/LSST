@@ -51,7 +51,7 @@ class Histogram extends Component {
     data.forEach((d)=>{
       let itemDate = d.expDate;
       if(date==null){
-        console.log(d.expDate);
+        // console.log(d.expDate);
        item.date = d.expDate
        this.addValueToFilter(item, d.filter, d.expTime);
        date = d.expDate;
@@ -84,7 +84,7 @@ class Histogram extends Component {
       }
     });
     newData.push(item);
-    console.log(newData[1]);
+    // console.log(newData[1]);
     return newData;
   }
 
@@ -170,7 +170,7 @@ class Histogram extends Component {
     var today = new Date();
     today.setDate(today.getDate() + 1);
     var data = this.adaptData();
-    console.log(data);
+    // console.log(data);
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
     var margin = { top: 0, right: 15, bottom: 20, left: 120 };
@@ -198,7 +198,7 @@ class Histogram extends Component {
 
     var series = stack(data);
     var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
-    console.log(ydom);  
+    // console.log(ydom);  
     y.domain([0, ydom]).nice();
 
     var layer = svg.selectAll(".layer")
@@ -208,7 +208,7 @@ class Histogram extends Component {
       .style("fill", function (d, i) { return z(i); });
 
     var barWidth = (width)/data.length;
-    console.log(barWidth);
+    // console.log(barWidth);
     x.range([0,width]);
     layer.selectAll("rect")
       .data(function (d) { return d; })
@@ -226,9 +226,9 @@ class Histogram extends Component {
       .call(d3.axisBottom(x).ticks(d3.utcHour));
 
     var ticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-    ticks.forEach((t)=>{
-      console.log(t);
-    })
+    // ticks.forEach((t)=>{
+    //   // console.log(t);
+    // })
     
       g.append("g")
       .attr("class", "axis axis--y")
@@ -243,10 +243,10 @@ class Histogram extends Component {
         
   }
 
-  shouldComponentUpdate() {
-    var dom = ReactDOM.findDOMNode(this);
-    this.createStackedHistogram(dom, this.props);
-  }
+  // shouldComponentUpdate() {
+  //   var dom = ReactDOM.findDOMNode(this);
+  //   this.createStackedHistogram(dom, this.props);
+  // }
 
   render() {
     let data = this.props.data;

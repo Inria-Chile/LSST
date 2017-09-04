@@ -35,8 +35,8 @@ var y1 = d3.scaleLinear()
 
 var start = data[0].expDate;
 var end = data[data.length-1].expDate;
-console.log("start", start);
-console.log("end", end);
+// console.log("start", start);
+// console.log("end", end);
 var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
 // var x1 = d3.scaleTime().domain([start, end]).range([0,w]);
 
@@ -149,10 +149,10 @@ var itemRects = g.append("g")
         
   }
 
-  shouldComponentUpdate() {
-    var dom = ReactDOM.findDOMNode(this);
-    this.createTimeline(dom, this.props);
-  }
+  // shouldComponentUpdate() {
+  //   var dom = ReactDOM.findDOMNode(this);
+  //   this.createTimeline(dom, this.props);
+  // }
 
   render() {
     // console.log(this.props.data);

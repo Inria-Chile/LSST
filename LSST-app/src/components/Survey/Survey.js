@@ -14,6 +14,7 @@ class Survey extends Component {
         super(props);
         this.mainSkymap = null;
         this.miniSkymap = null;
+        this.charts = null;
         this.data = [];
         this.socket = openSocket('http://localhost:3000');
         this.state = {
@@ -93,7 +94,7 @@ class Survey extends Component {
         return fetch(`survey/playback/observationsCount?start_date=${startDate}&end_date=${endDate}`, {
             accept: "application/json"
         })
-        // .then(this.checkStatus)
+        .then(this.checkStatus)
         .then(this.parseJSON)
         .then(cb);
     }
@@ -102,6 +103,7 @@ class Survey extends Component {
         this.data = data;
         this.mainSkymap.setData(data);
         this.miniSkymap.setData(data);
+        this.charts.setData(data);
     }
 
     addObservation = (obs) => {
@@ -142,6 +144,7 @@ class Survey extends Component {
             // this.setData(res.results);
         });
     }
+
     
     render() {
         let setters = {
@@ -164,12 +167,11 @@ class Survey extends Component {
                 </div>
                 <div className="main-container">
                     <div className="left-container">
-                        <Charts/>
                         <SurveyControls setPlaybackMode={this.setPlaybackMode} 
                                         setLiveMode={this.setLiveMode} 
                                         setDataByDate={this.setDataByDate}
                                         selectedMode={this.state.selectedMode}/>
-                        {/* <Charts/> */}
+                        <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
                         </div>
