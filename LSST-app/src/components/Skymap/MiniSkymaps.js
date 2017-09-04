@@ -30,6 +30,14 @@ class MiniSkymaps extends Component {
     });
   }
 
+
+  setData = (data) => {
+    for(let i=0;i<this.children.length;++i){
+        this.children[i].getCelestial().updateCells(data);
+        this.children[i].getCelestial().redraw();
+    }
+  }
+
   componentDidMount() {
     let filters = ["u","g","r","i","z","y"];
     for(let i=0;i<filters.length;++i){
@@ -51,6 +59,7 @@ class MiniSkymaps extends Component {
   }
 
   render() {
+    this.children = [];
     return (
       <div className="minimap-container">
         <div>
@@ -58,31 +67,31 @@ class MiniSkymaps extends Component {
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='u' ? 'selected-filter' : '')} onClick={ () => this.handleClick('u')}>
           <p className="filter-name"> u filter </p>
-          <Skymap nodeRef='node1' className="minimap" ref={instance => { this.children.push(instance); }}/>
+          <Skymap nodeRef='node1' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='g' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('g')}>
           <p className="filter-name"> g filter </p>          
-          <Skymap nodeRef='node2' className="minimap" ref={instance => { this.children.push(instance); }}/>
+          <Skymap nodeRef='node2' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='r' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('r')}>
           <p className="filter-name"> r filter </p>          
-          <Skymap nodeRef='node3' className="minimap" ref={instance => { this.children.push(instance); }} />
+          <Skymap nodeRef='node3' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='i' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('i')}>
           <p className="filter-name"> i filter </p>          
-          <Skymap nodeRef='node4' className="minimap" ref={instance => { this.children.push(instance); }} />
+          <Skymap nodeRef='node4' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='z' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('z')}>
           <p className="filter-name"> z filter </p>          
-          <Skymap nodeRef='node5' className="minimap" ref={instance => { this.children.push(instance); }} />
+          <Skymap nodeRef='node5' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
         </div>
         <div className={"minimap-wrapper " + (this.state.selectedFilter==='y' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('y')}>
           <p className="filter-name"> y filter </p>          
-          <Skymap nodeRef='node6' className="minimap" ref={instance => { this.children.push(instance); }} />
+          <Skymap nodeRef='node6' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
         </div>
         <div className={"minimap-wrapper all-filter "  + (this.state.selectedFilter==='all' ? 'selected-filter' : '')} onClick={ () => this.handleClick('all')}>
           <p className="filter-name"> all filters </p>          
-          <Skymap nodeRef='node7' className="minimap" ref={instance => { this.children.push(instance); }} />
+          <Skymap nodeRef='node7' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
         </div>
       </div>
     );

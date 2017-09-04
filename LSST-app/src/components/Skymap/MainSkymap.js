@@ -52,8 +52,12 @@ class MainSkymap extends Component {
             this.skymap.displayFilter(filter);
     }
 
+    setData(data){
+        this.skymap.getCelestial().updateCells(data);
+        this.skymap.getCelestial().redraw();
+    }
+
     componentDidMount() {
-        this.skymap.displayAllFilters();
     }
 
     render() {

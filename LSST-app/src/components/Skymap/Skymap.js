@@ -23,7 +23,7 @@ class Skymap extends Component {
       orientationfixed: true,  // Keep orientation angle the same as center[2]
       background: { fill: "#000000", stroke: "#000000", opacity: 1 }, // Background style
       adaptable: true,    // Sizes are increased with higher zoom-levels
-      interactive: true,  // Enable zooming and rotation with mousewheel and dragging
+      interactive: false,  // Enable zooming and rotation with mousewheel and dragging
       form: false,        // Display settings form
       location: false,    // Display location settings 
       controls: false,     // Display zoom controls

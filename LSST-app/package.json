@@ -14,17 +14,21 @@
     "react-day-picker": "^6.1.0",
     "react-dom": "^15.6.1",
     "react-player-controls": "^0.5.15",
-    "reactstrap": "^4.8.0"
+    "reactstrap": "^4.8.0",
+    "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
+    "concurrently": "^3.5.0",
+    "d3": "^4.10.0",
     "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.10"
   },
+  "proxy": "http://localhost:5000/",
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
+    "start": "./node_modules/.bin/concurrently \"npm-run-all -p watch-css start-js\" \"cd ../LSST-server && python server.py\"",
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
