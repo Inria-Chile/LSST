@@ -378,7 +378,7 @@ Celestial.display = function(config) {
       context.fillStyle = '#000000';
       context.fillStyle = paintColor;
       // context.globalAlpha = Math.min(1.0, 0.9);
-      context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.5));
+      context.globalAlpha = Math.min(1.0, Math.pow(2*fieldObs/maxFieldObs, 1.0/3.5));
       map(d);
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
         context.fillStyle = '#000000';

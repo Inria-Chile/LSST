@@ -22,6 +22,7 @@ class Survey extends Component {
     }
 
     receiveMsg(msg){
+        console.log("received" + msg['fieldID']);
         this.addObservation(msg);
     }
 
