@@ -60,13 +60,19 @@ class Charts extends Component {
 
 
     setData(newData){
+        newData.sort((a,b)=>{
+            if(a.expDate > b.expDate) return 1;
+            if(a.expDate < b.expDate) return -1;
+            return 0;
+        })
+
         newData.map((d)=>{
             d.expDate=this.toDate(d.expDate);
             return null;
         });
         this.setState({data:newData});
         // this.props.data = data;
-        // console.log(data);
+        console.log(newData);
     }
 
     // Date comes from database as number and as MJD.
@@ -78,22 +84,10 @@ class Charts extends Component {
         date.setSeconds(seconds);
         return date;
     }
-    
-    // componentWillReceiveProps(){
-    //     console.log("componentWillreceiveprops");    
-    //   }
-    // //   shouldComponentUpdate(){
-    // //     console.log("shouldComponentUpdate");    
-        
-    // //   }
-    //   componentWillUpdate(){
-    //     console.log("componentWillUpdate");    
-        
-    //   }
-    //   componentDidUpdate(){
-    //     console.log("componentdidupdate");    
-        
-    //   }
+
+    orderByDate(){
+
+    }
 
     render() {
         return (
