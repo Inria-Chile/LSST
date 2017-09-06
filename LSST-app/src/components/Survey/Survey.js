@@ -84,7 +84,7 @@ class Survey extends Component {
     setDataByDate = (startDate, endDate) => {
         console.log('survey', 'Ssetdatabytdate')
         this.fetchDataByDate(startDate, endDate, (res) => {
-            console.log(res)
+            // console.log(res)
             for(var i=0;i<res.results.length;++i)
                 res.results[i]['fieldDec'] += 30;
             this.setData(res.results)
@@ -137,7 +137,7 @@ class Survey extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount")
+        // console.log("componentDidMount")
         // this.fetchDataByDate(0, 99994323, (res) => {
         this.fetchDataByDate(0, 2, (res) => {
             for(var i=0;i<res.results.length;++i)

@@ -6,10 +6,15 @@ import Timeline from '../Timeline/Timeline';
 import './Charts.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
-import * as d3Axis from 'd3-axis';
-import { select as d3Select } from 'd3-selection'
+// import * as d3Axis from 'd3-axis';
+// import { select as d3Select } from 'd3-selection'
 
 class Charts extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={data: this.randomData(1500, this.props.start, this.props.end)};
+    }
     
     randomData(length, start, end) {
         var array = new Array(length);
@@ -17,16 +22,15 @@ class Charts extends Component {
         today.setHours(21);
         today.setSeconds(0);
         let secs = 0;
-        let hrs = 0;
         for (let i = 0; i < length; i++) {
             today.setSeconds(secs);
             array[i] = {
                 expDate: new Date(today.valueOf()),
                 expTime: Math.random()*20,
-                filter: Math.floor(Math.random()*6)+1,
-                st: Math.floor(Math.random()*5)+1
+                filterName: Math.floor(Math.random()*6)+1,
+                lst: Math.floor(Math.random()*5)+1
             };
-            if(secs == 60) secs = 20;
+            if(secs === 60) secs = 20;
             else{
                 secs=secs+20;
             } 
@@ -52,26 +56,53 @@ class Charts extends Component {
     componentDidMount() {
         var dom = ReactDOM.findDOMNode(this);
         this.createSlider(dom, this.props);
-            
     }
 
 
-    setData(data){
-        this.data = data;
-        console.log(data);
+    setData(newData){
+        newData.map((d)=>{
+            d.expDate=this.toDate(d.expDate);
+            return null;
+        });
+        this.setState({data:newData});
+        // this.props.data = data;
+        // console.log(data);
     }
-      
+
+    // Date comes from database as number and as MJD.
+    // This function is meant to make the numerical date 
+    // (number of seconds since 1994-01-01 00:00:00 UTC. *allegedly*) match that of the MJV
+    toDate(numberDate){
+        var date = new Date(1994,0,1);
+        let seconds = date.getSeconds() + numberDate;
+        date.setSeconds(seconds);
+        return date;
+    }
+    
+    // componentWillReceiveProps(){
+    //     console.log("componentWillreceiveprops");    
+    //   }
+    // //   shouldComponentUpdate(){
+    // //     console.log("shouldComponentUpdate");    
+        
+    // //   }
+    //   componentWillUpdate(){
+    //     console.log("componentWillUpdate");    
+        
+    //   }
+    //   componentDidUpdate(){
+    //     console.log("componentdidupdate");    
+        
+    //   }
+
     render() {
-        var today = new Date();
-        today.setDate(today.getDate() - 1);
-        var data = this.randomData(1500, this.props.start, this.props.end);
         return (
             <div className="charts-container">
                 <div className="histogram-container">
-                    <Histogram data={data}/>
+                    <Histogram data={this.state.data}/>
                 </div>
                 <div className="timeline-container">
-                     <Timeline data={data}/>
+                     <Timeline data={this.state.data}/>
                 </div>
             </div>
         );
@@ -87,8 +118,7 @@ Charts.defaultProps = {
     height: 500,
     title: '',
     start: today,
-    end: new Date(),
-    data: null
+    end: new Date()
   };
   
 
