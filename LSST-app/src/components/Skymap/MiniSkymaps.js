@@ -33,8 +33,14 @@ class MiniSkymaps extends Component {
 
   setData = (data) => {
     for(let i=0;i<this.children.length;++i){
-        this.children[i].getCelestial().updateCells(data);
-        this.children[i].getCelestial().redraw();
+      this.children[i].getCelestial().updateCells(data);
+      this.children[i].getCelestial().redraw();
+    }
+  }
+
+  setDate = (date) => {
+    for(let i=0;i<this.children.length;++i){
+      this.children[i].getCelestial().goToDate(date);
     }
   }
 

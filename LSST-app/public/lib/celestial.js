@@ -183,20 +183,6 @@ Celestial.display = function(config) {
          .enter().append("path")
          .attr("class", "moon");
 
-    //Planets, Sun & (Moon tbi)
-    d3.json(path + "planets.json", function(error, json) {
-      if (error) return console.warn(error);
-      
-      var pl = getPlanets(json, trans);
-
-      container.selectAll(".planets")
-         .data(pl)
-         .enter().append("path")
-         .attr("class", "planet");
-
-      redraw();
-    });
-
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
         if (has(d, "file")) d3.json(d.file, d.callback);
