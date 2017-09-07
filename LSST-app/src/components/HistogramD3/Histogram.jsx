@@ -37,54 +37,57 @@ class Histogram extends Component {
   
   adaptData(){
     let data = this.props.data;
-    let newData = [];
-    let date = null;
-    let item ={
-      date: null,
-      U: 0,
-      G: 0,
-      R: 0,
-      I: 0,
-      Z: 0,
-      Y: 0
-    };
-    data.forEach((d)=>{
-      let itemDate = d.expDate;
-      if(date==null){
-       item.date = d.expDate
-       this.addValueToFilter(item, d.filterName, d.expTime);
-       date = d.expDate;
-      }
-      else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && itemDate.getHours() === date.getHours())){
-        this.addValueToFilter(item, d.filterName, d.expTime);
-      }
-      else{
-        let newItem ={
-          date: item.date,
-          U: item.U,
-          G: item.G,
-          R: item.R,
-          I: item.I,
-          Z: item.Z,
-          Y: item.Y
-        };
-        newData.push(newItem);
-        item ={
-          date: d.expDate,
-          U: 0,
-          G: 0,
-          R: 0,
-          I: 0,
-          Z: 0,
-          Y: 0
-        };
-        date=d.expDate;
-        this.addValueToFilter(item, d.filterName, d.expTime);
-      }
-    });
-    newData.push(item);
-    // console.log(newData[1]);
-    return newData;
+    if(data!=null){
+      let newData = [];
+      let date = null;
+      let item ={
+        date: null,
+        U: 0,
+        G: 0,
+        R: 0,
+        I: 0,
+        Z: 0,
+        Y: 0
+      };
+      data.forEach((d)=>{
+        let itemDate = d.expDate;
+        if(date==null){
+         item.date = d.expDate
+         this.addValueToFilter(item, d.filterName, d.expTime);
+         date = d.expDate;
+        }
+        else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && itemDate.getHours() === date.getHours())){
+          this.addValueToFilter(item, d.filterName, d.expTime);
+        }
+        else{
+          let newItem ={
+            date: item.date,
+            U: item.U,
+            G: item.G,
+            R: item.R,
+            I: item.I,
+            Z: item.Z,
+            Y: item.Y
+          };
+          newData.push(newItem);
+          item ={
+            date: d.expDate,
+            U: 0,
+            G: 0,
+            R: 0,
+            I: 0,
+            Z: 0,
+            Y: 0
+          };
+          date=d.expDate;
+          this.addValueToFilter(item, d.filterName, d.expTime);
+        }
+      });
+      newData.push(item);
+      // console.log(newData[1]);
+      return newData;
+    }
+    return null;
   }
 
   addValueToFilter(item,filter,value){
@@ -181,73 +184,85 @@ class Histogram extends Component {
       .call(d3.axisBottom(x));
   }
 
+  drawAxes(dom,yPosition,xticks,yticks,x,y){
+    dom.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + yPosition + ")")
+    .call(d3.axisBottom(x).ticks(xticks));
+    dom.append("g")
+    .attr("class", "axis axis--y")
+    .attr("transform", "translate(0,0)")
+    .call(d3.axisLeft(y).tickValues(yticks));
+  }
+
+
 
   createStackedHistogram(dom, props) {
     var width = this.props.width;
     var height = this.props.height;
-    var today = new Date();
-    today.setDate(today.getDate() + 1);
-    var data = this.adaptData();
-    console.log(data);
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
     var margin = { top: 0, right: 15, bottom: 20, left: 120 };
     width = +svg.attr("width") - margin.left - margin.right;
     height = +svg.attr("height") - margin.top - margin.bottom;
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var x,y,xticks,yticks;
+    var data = this.adaptData();
+    if(data!=null){
+      // console.log(data);
+      var start = data[0].date;
+      var endDate = new Date(data[data.length-1].date);
+      var end = endDate.setHours(endDate.getHours()+1);
+      var keys = ["U", "G", "R", "I","Z", "Y"];
+       x = d3.scaleTime().domain([start, end]);  
+       y = d3.scaleLinear().range([height, 0]);
+      var z = d3.scaleOrdinal()
+        .range(["#992f8f","#2f2fcc","#2cdd37","#fff704","#f19437","#c80f0f"]).domain(keys);
+  
+      var stack = d3.stack()
+        .keys(keys)
+        .order(d3.stackOrderNone)
+        .offset(d3.stackOffsetNone);
+      var series = stack(data);
 
-    var start = data[0].date;
-    var endDate = new Date(data[data.length-1].date);
-    var end = endDate.setHours(endDate.getHours()+1);
-    var x = d3.scaleTime().domain([start, end]);
+      var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
+      y.domain([0, ydom]).nice();
+  
+      var layer = svg.selectAll(".layer")
+        .data(series)
+        .enter().append("g")
+        .attr("class", "layer")
+        .style("fill", function (d, i) { return z(i); });
+  
+      var barWidth = (width)/data.length;
 
-    var y = d3.scaleLinear().range([height, 0]);
+      x.range([0,width]);
+      layer.selectAll("rect")
+        .data(function (d) { return d; })
+        .enter().append("rect")
+        .attr("x", function (d) {
+          return x(d.data.date)+margin.left;
+        })
+        .attr("y", function (d) { 
+          return y(d[1]); })
+        .attr("height", function (d) { return y(d[0]) - y(d[1]); })
+        .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
+        
+       yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
+       xticks = d3.utcHour;
+      this.drawAxes(g,height,xticks,yticks,x,y);  
 
-    var z = d3.scaleOrdinal()
-      .range(["#992f8f","#2f2fcc","#2cdd37","#fff704","#f19437","#c80f0f"]);
 
-    var keys = ["U", "G", "R", "I","Z", "Y"];
-    z.domain(keys);
-
-    var stack = d3.stack()
-      .keys(keys)
-      .order(d3.stackOrderNone)
-      .offset(d3.stackOffsetNone);
-
-    var series = stack(data);
-    var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
-    // console.log(ydom);  
-    y.domain([0, ydom]).nice();
-
-    var layer = svg.selectAll(".layer")
-      .data(series)
-      .enter().append("g")
-      .attr("class", "layer")
-      .style("fill", function (d, i) { return z(i); });
-
-    var barWidth = (width)/data.length;
-    // console.log(barWidth);
-    x.range([0,width]);
-    layer.selectAll("rect")
-      .data(function (d) { return d; })
-      .enter().append("rect")
-      .attr("x", function (d) {
-        return x(d.data.date)+margin.left;
-      })
-      .attr("y", function (d) { 
-        return y(d[1]); })
-      .attr("height", function (d) { return y(d[0]) - y(d[1]); })
-      .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
-    g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).ticks(d3.utcHour));
-
-    var ticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-      g.append("g")
-      .attr("class", "axis axis--y")
-      .attr("transform", "translate(0,0)")
-      .call(d3.axisLeft(y).tickValues(ticks));
- 
+    }
+    else{
+      var today = new Date();
+      today.setDate(today.getDate() + 1);
+       x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
+       y = d3.scaleLinear().range([height, 0]); 
+       xticks = d3.utcHour;
+       yticks =5;
+      this.drawAxes(g,height,xticks,yticks,x,y);  
+    }
+    
   }
 
   removeHistogram(dom){
@@ -287,7 +302,7 @@ class Histogram extends Component {
 
 Histogram.defaultProps = {
   width: 1000,
-  height: 160,
+  height: 200,
   title: '',
   Legend: true,
 

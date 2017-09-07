@@ -13,7 +13,8 @@ class Charts extends Component {
 
     constructor(props){
         super(props);
-        this.state={data: this.randomData(1500, this.props.start, this.props.end)};
+        // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
+        this.state={data: null};
     }
     
     randomData(length, start, end) {
@@ -109,7 +110,7 @@ today.setDate(today.getDate() - 1);
 
 Charts.defaultProps = {
     width: 1000,
-    height: 500,
+    height: 700,
     title: '',
     start: today,
     end: new Date()
