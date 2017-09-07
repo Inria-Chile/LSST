@@ -13,8 +13,8 @@ class Charts extends Component {
 
     constructor(props){
         super(props);
-        // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
-        this.state={data: null};
+        this.state={data: this.randomData(1500, this.props.start, this.props.end)};
+        // this.state={data: null};
     }
     
     randomData(length, start, end) {

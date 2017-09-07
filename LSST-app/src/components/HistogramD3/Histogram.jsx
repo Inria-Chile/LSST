@@ -248,8 +248,9 @@ class Histogram extends Component {
         .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
         
        yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-       xticks = d3.utcHour;
-      this.drawAxes(g,height,xticks,yticks,x,y);  
+      //  xticks = d3.utcHour;
+       xticks = 10;
+       this.drawAxes(g,height,xticks,yticks,x,y);  
 
 
     }
@@ -258,7 +259,8 @@ class Histogram extends Component {
       today.setDate(today.getDate() + 1);
        x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
        y = d3.scaleLinear().range([height, 0]); 
-       xticks = d3.utcHour;
+       xticks = 10;
+      //  xticks = d3.utcHour;
        yticks =5;
       this.drawAxes(g,height,xticks,yticks,x,y);  
     }
@@ -274,22 +276,13 @@ class Histogram extends Component {
     this.createStackedHistogram(dom, this.props);
         
   }
-
-  shouldComponentUpdate(){
-    console.log("shouldComponentUpdate");    
-    return true;
-  }
  
   componentDidUpdate(){
-    console.log("componentdidupdate");
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
     this.createStackedHistogram(dom, this.props);
-    
   }
   
-  
-
   render() {
     // let data = this.props.data;
     return (

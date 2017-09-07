@@ -9,6 +9,12 @@ import './Timeline.css'
 class Timeline extends Component {
 
   drawAxes(dom, lanes, y,x, yposition, xposition, xticks){
+
+    dom.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + (yposition-50) + ")")
+    .call(d3.axisBottom(x).ticks(xticks));
+
     dom.append("g").selectAll(".laneText")
     .data(lanes)
     .enter().append("text")
@@ -19,19 +25,7 @@ class Timeline extends Component {
     .attr("text-anchor", "end")
     .attr("class", "laneText");
 
-    dom.append("g")
-    .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + (yposition-50) + ")")
-    .call(d3.axisBottom(x).ticks(xticks));
 
-    // g.append("g").selectAll(".laneLines")
-    // .data(data)
-    // .enter().append("line")
-    // .attr("x1", m[1])
-    // .attr("y1", function(d) {return y1(d.lst-2);})
-    // .attr("x2", w)
-    // .attr("y2", function(d) {return y1(d.lst-2);})
-    // .attr("stroke", "lightgray")
   }
 
   createTimeline(dom, props) {
@@ -66,8 +60,15 @@ class Timeline extends Component {
       var start = data[0].expDate;
       var end = data[data.length-1].expDate;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,m[1],d3.utcHour);
-
+      this.drawAxes(g,lanes,y1,x1,h,m[1],10);
+          g.append("g").selectAll(".laneLines")
+    .data(data)
+    .enter().append("line")
+    .attr("x1", m[1])
+    .attr("y1", function(d) {return y1(d.lst-2);})
+    .attr("x2", w)
+    .attr("y2", function(d) {return y1(d.lst-2);})
+    .attr("stroke", "lightgray")
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
         var rects = itemRects.selectAll("rect")
@@ -83,7 +84,7 @@ class Timeline extends Component {
         var copiedDate = new Date(d.expDate.getTime());
         var seconds = copiedDate.getSeconds()+d.expTime;
         copiedDate.setSeconds(seconds);
-        return (x1(copiedDate)-x1(d.expDate))*2;
+        return (x1(copiedDate)-x1(d.expDate));
       }).attr("height", function(d) {return .8 * y1(1);});
 
     rects.exit().remove();
@@ -92,8 +93,9 @@ class Timeline extends Component {
       var today = new Date();
       today.setDate(today.getDate() + 1);
       var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
-      var xticks = d3.utcHour;
-      this.drawAxes(g,lanes,y1,x,h,m[1],xticks);
+      // var xticks = d3.utcHour;
+      // var xticks = d3.utcDay;
+      this.drawAxes(g,lanes,y1,x,h,m[1],10);
     }
   }
 
@@ -115,8 +117,19 @@ class Timeline extends Component {
     var dom = ReactDOM.findDOMNode(this);
     this.adaptData();
     this.createTimeline(dom, this.props);
-        
   }
+
+  componentDidUpdate(){
+    var dom = ReactDOM.findDOMNode(this);
+    this.adaptData();
+    this.removeTimeline(dom);    
+    this.createTimeline(dom, this.props);
+  }
+
+  removeTimeline(dom){
+    d3.select(dom).select('svg').remove();
+  }
+
 
   render() {
     return (
