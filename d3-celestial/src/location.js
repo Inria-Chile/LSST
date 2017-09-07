@@ -1,11 +1,12 @@
-/* global Celestial, horizontal, datetimepicker, config, $, pad, testNumber, hasParent */
-var zenith = [0,0];
+/* global Celestial, horizontal, datetimepicker, config, $, pad, testNumber, fldEnable, Round, has, hasParent */
 
 function geo(cfg) {
   var ctrl = d3.select("#celestial-form").append("div").attr("id", "loc"),
-      dt = new Date(), geopos = [0,0], 
       dtFormat = d3.time.format("%Y-%m-%d %H:%M:%S"),
-      zone = dt.getTimezoneOffset();
+      zenith = [0,0],
+      geopos = [0,0], 
+      date = new Date(),
+      zone = date.getTimezoneOffset();
 
   var dtpick = new datetimepicker( function(date, tz) { 
     $("datetime").value = dateFormat(date, tz); 
@@ -13,6 +14,7 @@ function geo(cfg) {
     go(); 
   });
   
+  if (has(cfg, "geopos") && cfg.geopos!== null && cfg.geopos.length === 2) geopos = cfg.geopos;
   var col = ctrl.append("div").attr("class", "col");
   //Latitude & longitude fields
   col.append("label").attr("title", "Location coordinates long/lat").attr("for", "lat").html("Location");
@@ -26,41 +28,44 @@ function geo(cfg) {
   }
   //Datetime field with dtpicker-button
   col.append("label").attr("title", "Local date/time").attr("for", "datetime").html(" Date/time");
-  col.append("input").attr("type", "text").attr("id", "datetime").attr("title", "Date and time").attr("value", dateFormat(dt, zone))
+  col.append("input").attr("type", "button").attr("id", "day-left").attr("title", "One day back").on("click", function () { date.setDate(date.getDate() - 1); $("datetime").value = dateFormat(date, zone); go(); });
+  col.append("input").attr("type", "text").attr("id", "datetime").attr("title", "Date and time").attr("value", dateFormat(date, zone))
   .on("click", showpick, true).on("input", function () { 
-    this.value = dateFormat(dt, zone); 
+    this.value = dateFormat(date, zone); 
     if (!dtpick.isVisible()) showpick(); 
   });
   col.append("div").attr("id", "datepick").on("click", showpick);
+  col.append("input").attr("type", "button").attr("id", "day-right").attr("title", "One day forward").on("click", function () { date.setDate(date.getDate() + 1); $("datetime").value = dateFormat(date, zone); go(); });
   //Now -button sets current time & date of device  
   col.append("input").attr("type", "button").attr("value", "Now").attr("id", "now").on("click", now);
   //Horizon marker
   col.append("br");
   col.append("label").attr("title", "Show horizon marker").attr("for", "horizon-show").html(" Horizon marker");
   col.append("input").attr("type", "checkbox").attr("id", "horizon-show").property("checked", cfg.horizon.show).on("change", go);    
+  col.append("label").attr("title", "Show solar system objects").attr("for", "planets-show").html(" Planets, Sun & Moon");
+  col.append("input").attr("type", "checkbox").attr("id", "planets-show").property("checked", cfg.planets.show).on("change", go);    
   
   d3.select(document).on("mousedown", function () { 
     if (!hasParent(d3.event.target, "celestial-date") && dtpick.isVisible()) dtpick.hide(); 
   });
   
   function now() {
-    dt.setTime(Date.now());
-    $("datetime").value = dateFormat(dt, zone);
+    date.setTime(Date.now());
+    $("datetime").value = dateFormat(date, zone);
     go();
   }
 
   function here() {
-    // navigator.geolocation.getCurrentPosition( function(pos) {
-      pos = {coords: {latitude: -33.4181672, longitude: -70.600455}}
-      geopos = [pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4)];
-      d3.select("#lat").attr("value", geopos[0]);
-      d3.select("#lon").attr("value", geopos[1]);
+    navigator.geolocation.getCurrentPosition( function(pos) {
+      geopos = [Round(pos.coords.latitude, 4), Round(pos.coords.longitude, 4)];
+      $("lat").value = geopos[0];
+      $("lon").value = geopos[1];
       go();
-    // });
+    });  
   }
   
   function showpick() {
-    dtpick.show(dt);
+    dtpick.show(date);
   }
   
   function dateFormat(dt, tz) {
@@ -74,21 +79,18 @@ function geo(cfg) {
     }
     return dtFormat(dt) + tzs;
   }  
-  
+
   function go() {
-    // var lon = $("lon").value,
-        // lat = $("lat").value,
-    var dm = !!$("horizon-show").checked; 
+    var lon = $("lon").value,
+        lat = $("lat").value;
+    console.log("go", $("datetime").value, $("datetime").value.slice(0,-6))
+    date = dtFormat.parse($("datetime").value.slice(0,-6));
 
-    var lon = -70.600455;
-    var lat = -33.4181672;
+    var tz = date.getTimezoneOffset();
+    var dtc = new Date(date.valueOf() + (zone - tz) * 60000);
 
-    dt = dtFormat.parse($("datetime").value.slice(0,-6));
-
-    var tz = dt.getTimezoneOffset();
-    var dtc = new Date(dt.valueOf() + (zone - tz) * 60000);
-
-    // cfg.horizon.show = dm;
+    cfg.horizon.show = !!$("horizon-show").checked;
+    cfg.planets.show = !!$("planets-show").checked;
     
     if (lon !== "" && lat !== "") {
       geopos = [parseFloat(lat), parseFloat(lon)];
@@ -98,20 +100,22 @@ function geo(cfg) {
     }
   }
 
+
+  Celestial.date = function (dt) { 
+    if (!dt) return date;  
+    date.setTime(dt.valueOf());
+    $("datetime").value = dateFormat(dt, zone); 
+    Celestial.redraw();
+  };
+  Celestial.position = function () { return geopos; };
+  Celestial.zenith = function () { return zenith; };
+  Celestial.nadir = function () {
+    var b = -zenith[1],
+        l = zenith[0] + 180;
+    if (l > 180) l -= 360;    
+    return [l, b-0.001]; 
+  };
+
   setTimeout(go, 1000); 
+ 
 }
-
-function showHorizon(clip) {
-  var hs = $("horizon-show");
-  if (!hs) return;
-  hs.style.display = clip === true ? "none" : "inline-block";
-  hs.previousSibling.style.display = hs.style.display;    
-}
-
-Celestial.zenith = function () { return zenith; };
-Celestial.nadir = function () {
-  var b = -zenith[1],
-      l = zenith[0] + 180;
-  if (l > 180) l -= 360;    
-  return [l, b-0.001]; 
-};

@@ -1,11 +1,11 @@
-/* global settings, bvcolor, projections, projectionTween, poles, eulerAngles, euler, transformDeg, getData, getGridValues, Canvas, halfπ, $, px, Round, has, isArray, form, geo, setCenter, showHorizon, interpolateAngle */
+/* global settings, bvcolor, projections, projectionTween, poles, eulerAngles, euler, transformDeg, getData, getPlanets, getGridValues, Canvas, halfπ, $, px, Round, has, isArray, form, geo, fldEnable, setCenter, interpolateAngle */
 var Celestial = {
-  version: '0.5.11',
+  version: '0.6.2',
   container: null,
   data: []
 };
 
-var ANIMDISTANCE = 0.035,  // Rotation animation threshold, ~2deg in radians
+var ANIMDISTANCE = 3.035,  // Rotation animation threshold, ~2deg in radians
     ANIMSCALE = 1.4,       // Zoom animation threshold, scale factor
     ANIMINTERVAL_R = 2000, // Rotation duration scale in ms
     ANIMINTERVAL_P = 2500, // Projection duration in ms
@@ -120,7 +120,7 @@ Celestial.display = function(config) {
     container.append("path").datum(circle).attr("class", "horizon");
     if ($("loc") === null) geo(cfg);
     else rotate({center:Celestial.zenith()});
-    showHorizon(proj.clip);
+    fldEnable("horizon-show", proj.clip);
   }
   
   if (cfg.form === true && $("params") === null) form(cfg);
@@ -304,7 +304,7 @@ Celestial.display = function(config) {
       return delay + interval;
     }
     
-    showHorizon(prj.clip);
+    fldEnable("horizon-show", prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
     
@@ -516,7 +516,7 @@ Celestial.display = function(config) {
 	  }
     
     drawOutline(true);
-    
+
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
         d.redraw("Celestial.data");
@@ -678,6 +678,21 @@ Celestial.display = function(config) {
     clearTimeout(aID);
     //current = 0;
     //repeat = false;
+  }
+
+  Celestial.goToDate = function(date){
+    var lon = -70,
+    lat = 0,
+    zone = date.getTimezoneOffset();
+    var tz = date.getTimezoneOffset();
+    var dtc = new Date(date.valueOf() + (zone - tz) * 60000);
+
+    if (lon !== "" && lat !== "") {
+      geopos = [parseFloat(lat), parseFloat(lon)];
+      zenith = Celestial.getPoint(horizontal.inverse(dtc, [90, 0], geopos), cfg.transform);
+      zenith[2] = 0;
+      Celestial.rotate({center:zenith, horizon:cfg.horizon});
+    }
   }
   
   // Exported objects and functions for adding data

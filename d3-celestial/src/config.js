@@ -6,6 +6,7 @@ var settings = {
   transform: "equatorial", // Coordinate transformation: equatorial (default), ecliptic, galactic, supergalactic
   center: null,       // Initial center coordinates in equatorial transformation [hours, degrees, degrees], 
                       // otherwise [degrees, degrees, degrees], 3rd parameter is orientation, null = default center
+  geopos: null,       // optional initial geographic position [lat,lon] in degrees, overrides center
   orientationfixed: true,  // Keep orientation angle the same as center[2]
   adaptable: true,    // Sizes are increased with higher zoom-levels
   interactive: true,  // Enable zooming and rotation with mousewheel and dragging
@@ -58,13 +59,34 @@ var settings = {
     stroke: "#000000", // Outline
     width: 1.5 
   }, 
-  horizon: {  //Show horizon marker, if geo-position is set
+  horizon: {  //Show horizon marker, if geo-position and date-time is set
     show: false, 
-    stroke: null, // Line
+    stroke: "#000099", // Line
     width: 1.0, 
     fill: "#000000", // Area below horizon
     opacity: 0.5
   },  
+  planets: {  //Show planet locations, if date-time is set
+    show: false,
+    which: ["sol", "mer", "ven", "ter", "lun", "mar", "jup", "sat", "ura", "nep"],
+    style: { fill: "#00ccff", font: "bold 17px 'Lucida Sans Unicode', Consolas, sans-serif", align: "center", baseline: "middle" },
+    symbols: {
+      "sol": {symbol: "\u2609", fill: "#ffff00"},
+      "mer": {symbol: "\u263f", fill: "#cccccc"},
+      "ven": {symbol: "\u2640", fill: "#eeeecc"},
+      "ter": {symbol: "\u2295", fill: "#00ffff"},
+      "lun": {symbol: "\u25cf", fill: "#ffffff"},
+      "mar": {symbol: "\u2642", fill: "#ff9999"},
+      "cer": {symbol: "\u26b3", fill: "#cccccc"},
+      "ves": {symbol: "\u26b6", fill: "#cccccc"},
+      "jup": {symbol: "\u2643", fill: "#ff9966"},
+      "sat": {symbol: "\u2644", fill: "#ffcc66"},
+      "ura": {symbol: "\u2645", fill: "#66ccff"},
+      "nep": {symbol: "\u2646", fill: "#6666ff"},
+      "plu": {symbol: "\u2647", fill: "#aaaaaa"},
+      "eri": {symbol: "\u26aa", fill: "#eeeeee"}
+    }
+  },
   daylight: {  // Show daylight marker (tbi)
     show: false, 
     fill: "#fff", 

@@ -11,11 +11,14 @@ filters =  ['u','g','r','i','z','y']
 
 def start_listening_fake(app, socketio):
     print('Emitting fake telemetry')
+    initial_date = 10000
+    date_step = 1000
     while True:
         time.sleep(0.510)
         with app.test_request_context('/'):
             # print('Emitting')
-            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1})
+            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1, 'request_time': initial_date})
+            initial_date = initial_date + date_step
 
 #Get data from ts_sal connection
 def start_listening(app, socketio):
@@ -41,6 +44,8 @@ def start_listening(app, socketio):
     stime = time.time()
     print("SAL listening")
     try:
+        initial_date = 10000
+        date_step = 1000
         while True:
             time.sleep(1.510)
             scode = sal.getNextSample_timeHandler(topicTime)
@@ -53,11 +58,14 @@ def start_listening(app, socketio):
                 topicTarget.filter   = filters[random.randrange(len(filters))]
                 topicTarget.ra       = random.randint(-40,40)
                 topicTarget.dec      = random.randint(-60,0)
+                topicTarget.request_time = initial_date
+                initial_date = initial_date + date_step
                 sal.putSample_target(topicTarget)
 
                 while True:
                     scode = sal.getNextSample_observation(topicObservation)
                     if scode == 0 and topicObservation.targetId != 0:
+                        topicObservation.observation_start_time = topicTarget.request_time
                         publish(app, socketio, topicObservation)
                         measCount += 1
                         visitCount += 1
@@ -73,6 +81,6 @@ def start_listening(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicObservation):
-    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1])
+    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1, topicObservation.observation_start_time])
     with app.test_request_context('/'):
-        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1})
+        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time})
