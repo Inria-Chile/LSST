@@ -57,6 +57,10 @@ class MainSkymap extends Component {
         this.skymap.getCelestial().redraw();
     }
 
+    setDate(date){
+        this.skymap.getCelestial().goToDate(new Date(2017, 5));
+    }
+
     componentDidMount() {
     }
 

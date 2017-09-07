@@ -1,12 +1,12 @@
 // Copyright 2015 Olaf Frohn https://github.com/ofrohn, see LICENSE
 var makeCelestial = function() {
 var Celestial = {
-  version: '0.5.11',
+  version: '0.6.2',
   container: null,
   data: []
 };
 
-var ANIMDISTANCE = 0.035,  // Rotation animation threshold, ~2deg in radians
+var ANIMDISTANCE = 3.035,  // Rotation animation threshold, ~2deg in radians
     ANIMSCALE = 1.4,       // Zoom animation threshold, scale factor
     ANIMINTERVAL_R = 2000, // Rotation duration scale in ms
     ANIMINTERVAL_P = 2500, // Projection duration in ms
@@ -121,7 +121,7 @@ Celestial.display = function(config) {
     container.append("path").datum(circle).attr("class", "horizon");
     if ($("loc") === null) geo(cfg);
     else rotate({center:Celestial.zenith()});
-    showHorizon(proj.clip);
+    fldEnable("horizon-show", proj.clip);
   }
   
   if (cfg.form === true && $("params") === null) form(cfg);
@@ -182,6 +182,20 @@ Celestial.display = function(config) {
          .data([cfg.moon])
          .enter().append("path")
          .attr("class", "moon");
+
+    //Planets, Sun & (Moon tbi)
+    d3.json(path + "planets.json", function(error, json) {
+      if (error) return console.warn(error);
+      
+      var pl = getPlanets(json, trans);
+
+      container.selectAll(".planets")
+         .data(pl)
+         .enter().append("path")
+         .attr("class", "planet");
+
+      redraw();
+    });
 
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
@@ -305,7 +319,7 @@ Celestial.display = function(config) {
       return delay + interval;
     }
     
-    showHorizon(prj.clip);
+    fldEnable("horizon-show", prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
     
@@ -517,7 +531,7 @@ Celestial.display = function(config) {
 	  }
     
     drawOutline(true);
-    
+
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
         d.redraw("Celestial.data");
@@ -679,6 +693,21 @@ Celestial.display = function(config) {
     clearTimeout(aID);
     //current = 0;
     //repeat = false;
+  }
+
+  Celestial.goToDate = function(date){
+    var lon = -70,
+    lat = 0,
+    zone = date.getTimezoneOffset();
+    var tz = date.getTimezoneOffset();
+    var dtc = new Date(date.valueOf() + (zone - tz) * 60000);
+
+    if (lon !== "" && lat !== "") {
+      geopos = [parseFloat(lat), parseFloat(lon)];
+      zenith = Celestial.getPoint(horizontal.inverse(dtc, [90, 0], geopos), cfg.transform);
+      zenith[2] = 0;
+      Celestial.rotate({center:zenith, horizon:cfg.horizon});
+    }
   }
   
   // Exported objects and functions for adding data
@@ -991,6 +1020,7 @@ Celestial.add = function(dat) {
 
 //load data and transform coordinates
 
+
 function getPoint(coords, trans) {
   return transformDeg(coords, euler[trans]);
 }
@@ -1005,6 +1035,25 @@ function getData(d, trans) {
     coll[i].geometry.coordinates = translate(coll[i], leo);
   
   return d;
+}
+
+function getPlanets(d) {
+  var res = [];
+  
+  for (var key in d) {
+    if (!has(d, key)) continue;
+    if (cfg.planets.which.indexOf(key) === -1) continue;
+    var dat = Kepler().id(key);
+    if (has(d[key], "parent")) dat.parentBody(d[key].parent);
+    dat.elements(d[key].elements[0]);
+  
+    if (key === "ter") 
+      Celestial.origin = dat;
+    else res.push(dat);
+  }
+  res.push(Kepler().id("sol"));
+  res.push(Kepler().id("lun"));
+  return res;
 }
 
 function translate(d, leo) {
@@ -1129,6 +1178,7 @@ var settings = {
   transform: "equatorial", // Coordinate transformation: equatorial (default), ecliptic, galactic, supergalactic
   center: null,       // Initial center coordinates in equatorial transformation [hours, degrees, degrees], 
                       // otherwise [degrees, degrees, degrees], 3rd parameter is orientation, null = default center
+  geopos: null,       // optional initial geographic position [lat,lon] in degrees, overrides center
   orientationfixed: true,  // Keep orientation angle the same as center[2]
   adaptable: true,    // Sizes are increased with higher zoom-levels
   interactive: true,  // Enable zooming and rotation with mousewheel and dragging
@@ -1181,13 +1231,34 @@ var settings = {
     stroke: "#000000", // Outline
     width: 1.5 
   }, 
-  horizon: {  //Show horizon marker, if geo-position is set
+  horizon: {  //Show horizon marker, if geo-position and date-time is set
     show: false, 
-    stroke: null, // Line
+    stroke: "#000099", // Line
     width: 1.0, 
     fill: "#000000", // Area below horizon
     opacity: 0.5
   },  
+  planets: {  //Show planet locations, if date-time is set
+    show: false,
+    which: ["sol", "mer", "ven", "ter", "lun", "mar", "jup", "sat", "ura", "nep"],
+    style: { fill: "#00ccff", font: "bold 17px 'Lucida Sans Unicode', Consolas, sans-serif", align: "center", baseline: "middle" },
+    symbols: {
+      "sol": {symbol: "\u2609", fill: "#ffff00"},
+      "mer": {symbol: "\u263f", fill: "#cccccc"},
+      "ven": {symbol: "\u2640", fill: "#eeeecc"},
+      "ter": {symbol: "\u2295", fill: "#00ffff"},
+      "lun": {symbol: "\u25cf", fill: "#ffffff"},
+      "mar": {symbol: "\u2642", fill: "#ff9999"},
+      "cer": {symbol: "\u26b3", fill: "#cccccc"},
+      "ves": {symbol: "\u26b6", fill: "#cccccc"},
+      "jup": {symbol: "\u2643", fill: "#ff9966"},
+      "sat": {symbol: "\u2644", fill: "#ffcc66"},
+      "ura": {symbol: "\u2645", fill: "#66ccff"},
+      "nep": {symbol: "\u2646", fill: "#6666ff"},
+      "plu": {symbol: "\u2647", fill: "#aaaaaa"},
+      "eri": {symbol: "\u26aa", fill: "#eeeeee"}
+    }
+  },
   daylight: {  // Show daylight marker (tbi)
     show: false, 
     fill: "#fff", 
@@ -1313,6 +1384,7 @@ Canvas.symbol = function () {
   // parameters and default values
   var type = d3.functor("circle"), 
       size = d3.functor(64), 
+      age = d3.functor(Math.PI), //crescent shape 0..2Pi
       color = d3.functor("#fff"),  
       text = d3.functor(""),  
       padding = d3.functor([2,2]),  
@@ -1405,6 +1477,33 @@ Canvas.symbol = function () {
       ctx.arc(pos[0], pos[1], r, 0, 2 * Math.PI);    
       ctx.closePath();
       return r;
+    }, 
+    "crescent": function(ctx) {
+      var s = Math.sqrt(size()), 
+          r = s/2,
+          ag = age(),
+          ph = 0.5 * (1 - Math.cos(ag)),
+          e = 1.6 * Math.abs(ph - 0.5) + 0.01,
+          dir = ag > Math.PI,
+          termdir = Math.abs(ph) > 0.5 ? dir : !dir; 
+
+      ctx.save();
+      ctx.fillStyle = "#557";
+      ctx.moveTo(pos[0], pos[1]);
+      ctx.arc(pos[0], pos[1], r, 0, 2 * Math.PI);    
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#eee";
+      ctx.beginPath();
+      ctx.moveTo(pos[0], pos[1]);
+      ctx.arc(pos[0], pos[1], r, -Math.PI/2, Math.PI/2, dir); 
+      ctx.scale(e, 1);
+      ctx.arc(pos[0]/e, pos[1], r, Math.PI/2, -Math.PI/2, termdir); 
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      
+      return r;
     } 
   };
 
@@ -1417,6 +1516,11 @@ Canvas.symbol = function () {
   canvas_symbol.size = function(_) {
     if (!arguments.length) return size; 
     size = d3.functor(_);
+    return canvas_symbol;
+  };
+  canvas_symbol.age = function(_) {
+    if (!arguments.length) return age; 
+    age = d3.functor(_);
     return canvas_symbol;
   };
   canvas_symbol.text = function(_) {
@@ -1588,11 +1692,24 @@ function dateDiff(dt1, dt2, type) {
   return Math.floor(diff);
 }
 
+function dateParse(s) {
+  if (!s) return; 
+  var t = s.split(".");
+  if (t.length < 1) return; 
+  t = t[0].split("-");
+  t[0] = t[0].replace(/\D/g, "");
+  if (!t[0]) return; 
+  t[1] = t[1] ? t[1].replace(/\D/g, "") : "1";
+  t[2] = t[2] ? t[2].replace(/\D/g, "") : "1";
+  //Fraction -> h:m:s
+  return new Date(Date.UTC(t[0], t[1]-1, t[2]));
+}
+
+
 function interpolateAngle(a1, a2, t) {
   a1 = (a1*deg2rad +τ) % τ;
   a2 = (a2*deg2rad + τ) % τ;
-  var diff = Math.abs(a1 - a2);
-  if (diff > Math.PI) {
+  if (Math.abs(a1 - a2) > Math.PI) {
     if (a1 > a2) a1 = a1 - τ;
     else if (a2 > a1) a2 = a2 - τ;
   }
@@ -1624,15 +1741,35 @@ function blendColors(colors, weights) {
   return retColor;
 }
 
+var Trig = {
+  sinh: function (val) { return (Math.pow(Math.E, val)-Math.pow(Math.E, -val))/2; },
+  cosh: function (val) { return (Math.pow(Math.E, val)+Math.pow(Math.E, -val))/2; },
+  tanh: function (val) { return 2.0 / (1.0 + Math.exp(-2.0 * val)) - 1.0; },
+  asinh: function (val) { return Math.log(val + Math.sqrt(val * val + 1)); },
+  acosh: function (val) { return Math.log(val + Math.sqrt(val * val - 1)); },
+  normalize0: function(val) {  return ((val + Math.PI*3) % (Math.PI*2)) - Math.PI; },
+  normalize: function(val) {  return ((val + Math.PI*2) % (Math.PI*2)); },  
+  cartesian: function(p) {
+    var ϕ = p[0], θ = halfπ - p[1], r = p[2];
+    return {"x": r * Math.sin(θ) * Math.cos(ϕ), "y": r * Math.sin(θ) * Math.sin(ϕ), "z": r * Math.cos(θ)};
+  },
+  spherical: function(p) {
+    var r = Math.sqrt(p.x * p.x + p.y * p.y + p.z * p.z),
+        θ = Math.atan(p.y / p.x),
+        ϕ = Math.acos(p.z / r);
+    return  [θ / deg2rad, ϕ / deg2rad, r];
+  }
+};
 
 
-var zenith = [0,0];
 
 function geo(cfg) {
   var ctrl = d3.select("#celestial-form").append("div").attr("id", "loc"),
-      dt = new Date(), geopos = [0,0], 
       dtFormat = d3.time.format("%Y-%m-%d %H:%M:%S"),
-      zone = dt.getTimezoneOffset();
+      zenith = [0,0],
+      geopos = [0,0], 
+      date = new Date(),
+      zone = date.getTimezoneOffset();
 
   var dtpick = new datetimepicker( function(date, tz) { 
     $("datetime").value = dateFormat(date, tz); 
@@ -1640,6 +1777,7 @@ function geo(cfg) {
     go(); 
   });
   
+  if (has(cfg, "geopos") && cfg.geopos!== null && cfg.geopos.length === 2) geopos = cfg.geopos;
   var col = ctrl.append("div").attr("class", "col");
   //Latitude & longitude fields
   col.append("label").attr("title", "Location coordinates long/lat").attr("for", "lat").html("Location");
@@ -1653,41 +1791,44 @@ function geo(cfg) {
   }
   //Datetime field with dtpicker-button
   col.append("label").attr("title", "Local date/time").attr("for", "datetime").html(" Date/time");
-  col.append("input").attr("type", "text").attr("id", "datetime").attr("title", "Date and time").attr("value", dateFormat(dt, zone))
+  col.append("input").attr("type", "button").attr("id", "day-left").attr("title", "One day back").on("click", function () { date.setDate(date.getDate() - 1); $("datetime").value = dateFormat(date, zone); go(); });
+  col.append("input").attr("type", "text").attr("id", "datetime").attr("title", "Date and time").attr("value", dateFormat(date, zone))
   .on("click", showpick, true).on("input", function () { 
-    this.value = dateFormat(dt, zone); 
+    this.value = dateFormat(date, zone); 
     if (!dtpick.isVisible()) showpick(); 
   });
   col.append("div").attr("id", "datepick").on("click", showpick);
+  col.append("input").attr("type", "button").attr("id", "day-right").attr("title", "One day forward").on("click", function () { date.setDate(date.getDate() + 1); $("datetime").value = dateFormat(date, zone); go(); });
   //Now -button sets current time & date of device  
   col.append("input").attr("type", "button").attr("value", "Now").attr("id", "now").on("click", now);
   //Horizon marker
   col.append("br");
   col.append("label").attr("title", "Show horizon marker").attr("for", "horizon-show").html(" Horizon marker");
   col.append("input").attr("type", "checkbox").attr("id", "horizon-show").property("checked", cfg.horizon.show).on("change", go);    
+  col.append("label").attr("title", "Show solar system objects").attr("for", "planets-show").html(" Planets, Sun & Moon");
+  col.append("input").attr("type", "checkbox").attr("id", "planets-show").property("checked", cfg.planets.show).on("change", go);    
   
   d3.select(document).on("mousedown", function () { 
     if (!hasParent(d3.event.target, "celestial-date") && dtpick.isVisible()) dtpick.hide(); 
   });
   
   function now() {
-    dt.setTime(Date.now());
-    $("datetime").value = dateFormat(dt, zone);
+    date.setTime(Date.now());
+    $("datetime").value = dateFormat(date, zone);
     go();
   }
 
   function here() {
-    // navigator.geolocation.getCurrentPosition( function(pos) {
-      pos = {coords: {latitude: -33.4181672, longitude: -70.600455}}
-      geopos = [pos.coords.latitude.toFixed(4), pos.coords.longitude.toFixed(4)];
-      d3.select("#lat").attr("value", geopos[0]);
-      d3.select("#lon").attr("value", geopos[1]);
+    navigator.geolocation.getCurrentPosition( function(pos) {
+      geopos = [Round(pos.coords.latitude, 4), Round(pos.coords.longitude, 4)];
+      $("lat").value = geopos[0];
+      $("lon").value = geopos[1];
       go();
-    // });
+    });  
   }
   
   function showpick() {
-    dtpick.show(dt);
+    dtpick.show(date);
   }
   
   function dateFormat(dt, tz) {
@@ -1701,21 +1842,18 @@ function geo(cfg) {
     }
     return dtFormat(dt) + tzs;
   }  
-  
+
   function go() {
-    // var lon = $("lon").value,
-        // lat = $("lat").value,
-    var dm = !!$("horizon-show").checked; 
+    var lon = $("lon").value,
+        lat = $("lat").value;
+    console.log("go", $("datetime").value, $("datetime").value.slice(0,-6))
+    date = dtFormat.parse($("datetime").value.slice(0,-6));
 
-    var lon = -70.600455;
-    var lat = -33.4181672;
+    var tz = date.getTimezoneOffset();
+    var dtc = new Date(date.valueOf() + (zone - tz) * 60000);
 
-    dt = dtFormat.parse($("datetime").value.slice(0,-6));
-
-    var tz = dt.getTimezoneOffset();
-    var dtc = new Date(dt.valueOf() + (zone - tz) * 60000);
-
-    // cfg.horizon.show = dm;
+    cfg.horizon.show = !!$("horizon-show").checked;
+    cfg.planets.show = !!$("planets-show").checked;
     
     if (lon !== "" && lat !== "") {
       geopos = [parseFloat(lat), parseFloat(lon)];
@@ -1725,24 +1863,25 @@ function geo(cfg) {
     }
   }
 
+
+  Celestial.date = function (dt) { 
+    if (!dt) return date;  
+    date.setTime(dt.valueOf());
+    $("datetime").value = dateFormat(dt, zone); 
+    Celestial.redraw();
+  };
+  Celestial.position = function () { return geopos; };
+  Celestial.zenith = function () { return zenith; };
+  Celestial.nadir = function () {
+    var b = -zenith[1],
+        l = zenith[0] + 180;
+    if (l > 180) l -= 360;    
+    return [l, b-0.001]; 
+  };
+
   setTimeout(go, 1000); 
+ 
 }
-
-function showHorizon(clip) {
-  var hs = $("horizon-show");
-  if (!hs) return;
-  hs.style.display = clip === true ? "none" : "inline-block";
-  hs.previousSibling.style.display = hs.style.display;    
-}
-
-Celestial.zenith = function () { return zenith; };
-Celestial.nadir = function () {
-  var b = -zenith[1],
-      l = zenith[0] + 180;
-  if (l > 180) l -= 360;    
-  return [l, b-0.001]; 
-};
-
 
 var datetimepicker = function(callback) {
   var date = new Date(), 

@@ -1,5 +1,6 @@
-/* global Celestial, euler, transformDeg, isArray, isNumber, cfg */
+/* global Celestial, Kepler, euler, transformDeg, isArray, isNumber, has, cfg */
 //load data and transform coordinates
+
 
 function getPoint(coords, trans) {
   return transformDeg(coords, euler[trans]);
@@ -15,6 +16,25 @@ function getData(d, trans) {
     coll[i].geometry.coordinates = translate(coll[i], leo);
   
   return d;
+}
+
+function getPlanets(d) {
+  var res = [];
+  
+  for (var key in d) {
+    if (!has(d, key)) continue;
+    if (cfg.planets.which.indexOf(key) === -1) continue;
+    var dat = Kepler().id(key);
+    if (has(d[key], "parent")) dat.parentBody(d[key].parent);
+    dat.elements(d[key].elements[0]);
+  
+    if (key === "ter") 
+      Celestial.origin = dat;
+    else res.push(dat);
+  }
+  res.push(Kepler().id("sol"));
+  res.push(Kepler().id("lun"));
+  return res;
 }
 
 function translate(d, leo) {
