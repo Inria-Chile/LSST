@@ -25,7 +25,7 @@ class Survey extends Component {
     receiveMsg(msg){
         console.log("received" + msg);
         this.addObservation(msg);
-        this.setDate(new Date(parseInt(msg.request_time*1000)));
+        this.setDate(new Date(parseInt(msg.request_time*1000, 10)));
     }
 
     drawFrame = (timestamp) => {
@@ -89,7 +89,7 @@ class Survey extends Component {
             for(var i=0;i<res.results.length;++i)
                 res.results[i]['fieldDec'] += 30;
             this.setData(res.results)
-            this.setDate(new Date(parseInt(endDate*1000)));
+            this.setDate(new Date(parseInt(endDate*1000, 10)));
         })
     }
 
