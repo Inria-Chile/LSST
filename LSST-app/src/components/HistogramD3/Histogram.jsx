@@ -51,13 +51,12 @@ class Histogram extends Component {
     data.forEach((d)=>{
       let itemDate = d.expDate;
       if(date==null){
-        // console.log(d.expDate);
        item.date = d.expDate
-       this.addValueToFilter(item, d.filter, d.expTime);
+       this.addValueToFilter(item, d.filterName, d.expTime);
        date = d.expDate;
       }
-      else if((itemDate.toDateString().localeCompare(date.toDateString()) == 0 && itemDate.getHours() == date.getHours())){
-        this.addValueToFilter(item, d.filter, d.expTime);
+      else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && itemDate.getHours() === date.getHours())){
+        this.addValueToFilter(item, d.filterName, d.expTime);
       }
       else{
         let newItem ={
@@ -80,7 +79,7 @@ class Histogram extends Component {
           Y: 0
         };
         date=d.expDate;
-        this.addValueToFilter(item, d.filter, d.expTime);
+        this.addValueToFilter(item, d.filterName, d.expTime);
       }
     });
     newData.push(item);
@@ -108,6 +107,26 @@ class Histogram extends Component {
       case 6:
         item.Y += value;
         break;
+      case 'u':
+        item.U += value;
+        break;
+      case 'g':
+        item.G += value;
+        break;
+      case 'r':
+        item.R += value;
+        break;
+      case 'i':
+        item.I += value;
+        break;
+      case 'z':
+        item.Z += value;
+        break;
+      case 'y':
+        item.Y += value;
+        break;
+      default:
+        break;
     }
   }
 
@@ -122,8 +141,8 @@ class Histogram extends Component {
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height),
       margin = { top: 30, right: 30, bottom: 30, left: 30 },
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom,
+      // width = +svg.attr("width") - margin.left - margin.right,
+      // height = +svg.attr("height") - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
@@ -164,14 +183,12 @@ class Histogram extends Component {
 
 
   createStackedHistogram(dom, props) {
-    var self = this;
     var width = this.props.width;
     var height = this.props.height;
     var today = new Date();
     today.setDate(today.getDate() + 1);
     var data = this.adaptData();
-    // console.log(data);
-
+    console.log(data);
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
     var margin = { top: 0, right: 15, bottom: 20, left: 120 };
     width = +svg.attr("width") - margin.left - margin.right;
@@ -226,15 +243,15 @@ class Histogram extends Component {
       .call(d3.axisBottom(x).ticks(d3.utcHour));
 
     var ticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-    // ticks.forEach((t)=>{
-    //   // console.log(t);
-    // })
-    
       g.append("g")
       .attr("class", "axis axis--y")
       .attr("transform", "translate(0,0)")
       .call(d3.axisLeft(y).tickValues(ticks));
  
+  }
+
+  removeHistogram(dom){
+    d3.select(dom).select('svg').remove();
   }
 
   componentDidMount() {
@@ -243,13 +260,23 @@ class Histogram extends Component {
         
   }
 
-  // shouldComponentUpdate() {
-  //   var dom = ReactDOM.findDOMNode(this);
-  //   this.createStackedHistogram(dom, this.props);
-  // }
+  shouldComponentUpdate(){
+    console.log("shouldComponentUpdate");    
+    return true;
+  }
+ 
+  componentDidUpdate(){
+    console.log("componentdidupdate");
+    var dom = ReactDOM.findDOMNode(this);
+    this.removeHistogram(dom);    
+    this.createStackedHistogram(dom, this.props);
+    
+  }
+  
+  
 
   render() {
-    let data = this.props.data;
+    // let data = this.props.data;
     return (
       <div ref="container">
         <h4> {this.props.title} </h4>
