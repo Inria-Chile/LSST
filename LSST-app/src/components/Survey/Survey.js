@@ -15,17 +15,20 @@ class Survey extends Component {
         this.mainSkymap = null;
         this.miniSkymap = null;
         this.charts = null;
+        this.displayedData = [];
         this.data = [];
         this.socket = openSocket('http://localhost:3000');
         this.state = {
             selectedMode: 'playback',
+            startDate: null,
+            endDate: null
         }
     }
 
     receiveMsg(msg){
         console.log("received" + msg);
         this.addObservation(msg);
-        this.setDate(new Date(parseInt(msg.request_time*1000, 10)));
+        this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
 
     drawFrame = (timestamp) => {
@@ -64,6 +67,12 @@ class Survey extends Component {
     setDisplayedFilter = (filter) => {
         this.mainSkymap.setDisplayedFilter(filter);
     }
+    
+    setDisplayedDateLimits = (startDate, endDate) => {
+        this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
+        this.miniSkymap.setDisplayedDateLimits(startDate, endDate);
+        this.setDate(endDate);
+    }
 
     setLiveMode = () => {
         console.log('setlivemode')
@@ -85,11 +94,11 @@ class Survey extends Component {
     setDataByDate = (startDate, endDate) => {
         console.log('survey', 'Ssetdatabytdate')
         this.fetchDataByDate(startDate, endDate, (res) => {
-            // console.log(res)
             for(var i=0;i<res.results.length;++i)
                 res.results[i]['fieldDec'] += 30;
-            this.setData(res.results)
-            this.setDate(new Date(parseInt(endDate*1000, 10)));
+            this.setData(res.results);
+            this.setState({startDate: startDate, endDate: endDate});
+            this.setDate(new Date(parseInt(endDate, 10)));
         })
     }
 
@@ -108,7 +117,7 @@ class Survey extends Component {
     }
 
     setData = (data) => {
-        this.data = data;
+        this.displayedData = data;
         this.mainSkymap.setData(data);
         this.miniSkymap.setData(data);
         this.charts.setData(data);
@@ -116,16 +125,16 @@ class Survey extends Component {
 
     addObservation = (obs) => {
         let added = false;
-        for(let i=0;i<this.data.length;++i){
-            if(this.data[i]['fieldID'] === obs['fieldID'] && this.data[i]['filterName'] === obs['filterName']){
-                // console.log('adding', obs, ' to ', this.data[i]); // eslint-disable-line no-console          
-                this.data[i]['count']++;
+        for(let i=0;i<this.displayedData.length;++i){
+            if(this.displayedData[i]['fieldID'] === obs['fieldID'] && this.displayedData[i]['filterName'] === obs['filterName']){
+                // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console          
+                this.displayedData[i]['count']++;
                 added = true;
             }
         }
         if(!added)
-            this.data.push(obs);
-        this.setData(this.data);
+            this.displayedData.push(obs);
+        this.setData(this.displayedData);
     }
     
     checkStatus(response) {
@@ -178,7 +187,10 @@ class Survey extends Component {
                         <SurveyControls setPlaybackMode={this.setPlaybackMode} 
                                         setLiveMode={this.setLiveMode} 
                                         setDataByDate={this.setDataByDate}
-                                        selectedMode={this.state.selectedMode}/>
+                                        selectedMode={this.state.selectedMode}
+                                        startDate={this.state.startDate} 
+                                        endDate={this.state.endDate} 
+                                        setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} />

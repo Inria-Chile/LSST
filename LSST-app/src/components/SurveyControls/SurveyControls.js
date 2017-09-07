@@ -16,7 +16,9 @@ class SurveyControls extends Component {
                 <div className="survey-controls">
                     <ModeSelection setPlaybackMode={this.props.setPlaybackMode} setLiveMode={this.props.setLiveMode} />
                     { this.props.selectedMode === 'playback' && <DateSelection setDataByDate={this.props.setDataByDate} /> }
-                    { this.props.selectedMode === 'playback' && <PlayerControls/> }
+                    { this.props.selectedMode === 'playback' && <PlayerControls startDate={this.props.startDate} 
+                                                                                endDate={this.props.endDate} 
+                                                                                setDisplayedDateLimits={this.props.setDisplayedDateLimits} /> }
                 </div>
             </div>
         );

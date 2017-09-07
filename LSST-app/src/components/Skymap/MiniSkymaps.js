@@ -32,15 +32,29 @@ class MiniSkymaps extends Component {
 
 
   setData = (data) => {
-    for(let i=0;i<this.children.length;++i){
-      this.children[i].getCelestial().updateCells(data);
-      this.children[i].getCelestial().redraw();
-    }
+    this.data = data;
+    this.setDisplayedDateLimits();
   }
 
   setDate = (date) => {
     for(let i=0;i<this.children.length;++i){
       this.children[i].getCelestial().goToDate(date);
+    }
+  }
+
+  setDisplayedDateLimits(startDate, endDate){
+    let displayedData = [];
+    if(!startDate || !endDate)
+        displayedData = this.data;
+    else if(this.data){
+        for(let i=0;i<this.data.length;++i){
+          if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
+            displayedData.push(this.data[i]);
+        }
+    }
+    for(let i=0;i<this.children.length;++i){
+      this.children[i].getCelestial().updateCells(displayedData);
+      this.children[i].getCelestial().redraw();
     }
   }
 

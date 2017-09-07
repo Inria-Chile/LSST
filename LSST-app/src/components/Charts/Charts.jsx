@@ -60,7 +60,8 @@ class Charts extends Component {
     }
 
 
-    setData(newData){
+    setData(data){
+        let newData = JSON.parse(JSON.stringify(data));
         newData.sort((a,b)=>{
             if(a.expDate > b.expDate) return 1;
             if(a.expDate < b.expDate) return -1;
@@ -73,7 +74,7 @@ class Charts extends Component {
         });
         this.setState({data:newData});
         // this.props.data = data;
-        console.log(newData);
+        // console.log('newData', newData);
     }
 
     // Date comes from database as number and as MJD.

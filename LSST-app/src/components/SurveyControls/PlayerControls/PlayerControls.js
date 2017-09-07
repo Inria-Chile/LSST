@@ -10,16 +10,48 @@ class PlayerControls extends Component {
 
     constructor() {
         super();
+        this.playbackTimerId = null;
+        this.timeInterval = 10000;
         this.state = {
             totalTime: 190,
-            currentTime: 0,
+            currentTime: Infinity,
             isSeekable: true,
             isPlayable: true,
             hasPrevious: true,
         };
     }
 
+    playbackChange = (isPlaying) => {
+        console.log(this.state.currentTime, "playing", isPlaying);
+        if(isPlaying)
+            this.playbackTimerId = setInterval(this.animate, 500);
+        else
+            this.stopAnimating();
+        this.setState({ ...this.state, isPlaying })
+    }
 
+    showPrevious = () => {
+        console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
+        this.setState({currentTime: this.props.startDate});
+        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.startDate));
+    }
+
+    animate = () => {
+        if(this.state.currentTime > this.props.endDate){
+            this.stopAnimating();
+            return;            
+        }
+        console.log('animating', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime + this.timeInterval));
+        this.setState({currentTime: this.state.currentTime + this.timeInterval});
+        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(Math.min(this.props.endDate, this.state.currentTime + this.timeInterval)));
+    }
+
+    stopAnimating = () => {
+        clearInterval(this.playbackTimerId);
+        this.playbackTimerId = null;
+        this.setState({isPlaying: false});
+    }
+    
     render() {
         return (
             <div className="player-controls">
@@ -33,13 +65,13 @@ class PlayerControls extends Component {
                     hasPrevious={this.state.hasPrevious}
                     showNext={this.state.showNext}
                     hasNext={this.state.hasNext}
-                    onPlaybackChange={isPlaying => this.setState({ ...this.state, isPlaying })}
-                    onPrevious={() => alert('Go to previous')}
+                    onPlaybackChange={isPlaying => this.playbackChange(isPlaying)}
+                    onPrevious={this.showPrevious}
                     onNext={() => alert('Go to next')}
                 />
 
                 <ProgressBar
-                    totalTime={this.state.totalTime}
+                    totalTime={this.props.endDate}
                     currentTime={this.state.currentTime}
                     isSeekable={this.state.isSeekable}
                     onSeek={time => this.setState(() => ({ currentTime: time }))}

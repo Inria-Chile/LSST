@@ -4,6 +4,11 @@ import Skymap from './Skymap';
 
 class MainSkymap extends Component {
 
+    constructor(props) {
+        super(props);
+        this.data = [];
+    }
+
     getCelestial(){
         return this.skymap.getCelestial();
     }
@@ -53,7 +58,21 @@ class MainSkymap extends Component {
     }
 
     setData(data){
-        this.skymap.getCelestial().updateCells(data);
+        this.data = data;
+        this.setDisplayedDateLimits();
+    }
+
+    setDisplayedDateLimits(startDate, endDate){
+        let displayedData = [];
+        if(!startDate && !endDate)
+            displayedData = this.data;
+        else{
+            for(let i=0;i<this.data.length;++i){
+                if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
+                    displayedData.push(this.data[i]);
+            }
+        }
+        this.skymap.getCelestial().updateCells(displayedData);            
         this.skymap.getCelestial().redraw();
     }
 
