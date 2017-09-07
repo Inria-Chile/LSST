@@ -251,7 +251,7 @@ class Histogram extends Component {
   }
 
   removeHistogram(dom){
-    var svg = d3.select(dom).select('svg').remove();
+    d3.select(dom).select('svg').remove();
   }
 
   componentDidMount() {
