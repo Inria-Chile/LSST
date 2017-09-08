@@ -43,24 +43,39 @@ class Charts extends Component {
     }
 
     createSlider(dom){
-        var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', this.props.width).attr('height', 30);
+        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', this.props.width).attr('height', 30);
         var margin = { top: 10, right: 10, bottom: 10, left: 10 };
         var width = +svg.attr("width") - margin.left - margin.right;
-        var height = +svg.attr("height") - margin.top - margin.bottom;
-        var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        console.log(this.state.start);
-        console.log(this.state.end);
+        // var height = +svg.attr("height") - margin.top - margin.bottom;
+        var g = svg.append("g").attr('class', 'slider').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
-        .attr("transform", "translate(0," + height-15 + ")")
         .call(d3.axisBottom(x).ticks(10));
+
+        // var brush = d3.brushX();
+        // svg.append("g")
+        // .attr("class", "brush")
+        // .call(brush);
     }
+
+
 
     updateSlider(dom){
         d3.select(dom).select('.x').remove();
-        this.createSlider(dom);
-    
+        d3.select(dom).select('.brush').remove();
+        var g = d3.select(dom).select(".slider");
+        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,this.props.width]);
+        g.append("g")
+        .attr("class", "x")
+        .attr("transform", "translate(0," + this.props.height-15 + ")")
+        .call(d3.axisBottom(x).ticks(10));
+
+        var brush = d3.brushX();
+        var svg = d3.select(dom).select('.slider-container');
+        svg.append("g")
+        .attr("class", "brush")
+        .call(brush);
     }
 
     componentDidMount(){
