@@ -56,7 +56,7 @@ class Timeline extends Component {
           .attr("height", mainHeight)
           .attr("class", "main");
 
-    if(data!=null){
+    if(data && data.length > 0){
       var start = data[0].expDate;
       var end = data[data.length-1].expDate;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
