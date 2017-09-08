@@ -13,8 +13,11 @@ class Charts extends Component {
 
     constructor(props){
         super(props);
-        this.state={data: this.randomData(1500, this.props.start, this.props.end)};
-        // this.state={data: null};
+        var today = new Date();
+        today.setDate(today.getDate() + 1);
+        // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
+        this.state={data: null, start: new Date(), end: today};
+    
     }
     
     randomData(length, start, end) {
@@ -39,24 +42,35 @@ class Charts extends Component {
         return array;
     }
 
-    createSlider(dom, props){
+    createSlider(dom){
         var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', this.props.width).attr('height', 30);
         var margin = { top: 10, right: 10, bottom: 10, left: 10 };
         var width = +svg.attr("width") - margin.left - margin.right;
         var height = +svg.attr("height") - margin.top - margin.bottom;
         var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        var x = d3.scaleTime().domain([this.props.start, this.props.end]).range([0,width]);
+        console.log(this.state.start);
+        console.log(this.state.end);
+        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
-        .attr("class", "axis axis--x")
+        .attr("class", "x")
         .attr("transform", "translate(0," + height-15 + ")")
-        .call(d3.axisBottom(x).ticks(d3.utcHour));
-
-  
+        .call(d3.axisBottom(x).ticks(10));
     }
 
-    componentDidMount() {
+    updateSlider(dom){
+        d3.select(dom).select('.x').remove();
+        this.createSlider(dom);
+    
+    }
+
+    componentDidMount(){
         var dom = ReactDOM.findDOMNode(this);
-        this.createSlider(dom, this.props);
+        this.createSlider(dom);
+    }
+
+    componentDidUpdate(){
+        var dom = ReactDOM.findDOMNode(this);
+        this.updateSlider(dom);
     }
 
 
@@ -72,7 +86,11 @@ class Charts extends Component {
             d.expDate=this.toDate(d.expDate);
             return null;
         });
-        this.setState({data:newData});
+        this.setState({
+            data:newData, 
+            start:newData[0].expDate, 
+            end:newData[newData.length-1].expDate 
+        });
         // this.props.data = data;
         // console.log('newData', newData);
     }
@@ -85,10 +103,6 @@ class Charts extends Component {
         let seconds = date.getSeconds() + numberDate;
         date.setSeconds(seconds);
         return date;
-    }
-
-    orderByDate(){
-
     }
 
     render() {
@@ -106,15 +120,11 @@ class Charts extends Component {
     
 }
 
-var today = new Date();
-today.setDate(today.getDate() - 1);
 
 Charts.defaultProps = {
     width: 1000,
     height: 700,
-    title: '',
-    start: today,
-    end: new Date()
+    title: ''
   };
   
 
