@@ -64,16 +64,19 @@ class MainSkymap extends Component {
 
     setDisplayedDateLimits(startDate, endDate){
         let displayedData = [];
-        if(!startDate && !endDate)
+        let oldData = this.data;
+        if(!startDate && !endDate){
             displayedData = this.data;
-        else{
+            this.skymap.getCelestial().updateCells(displayedData);            
+            this.skymap.getCelestial().redraw();
+            return;
+        }else{
             for(let i=0;i<this.data.length;++i){
                 if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
                     displayedData.push(this.data[i]);
             }
         }
         this.skymap.getCelestial().updateCells(displayedData);            
-        this.skymap.getCelestial().redraw();
     }
 
     setDate(date){

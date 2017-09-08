@@ -18,13 +18,14 @@ class PlayerControls extends Component {
             isSeekable: true,
             isPlayable: true,
             hasPrevious: true,
+            hasNext: true,
         };
     }
 
     playbackChange = (isPlaying) => {
         console.log(this.state.currentTime, "playing", isPlaying);
         if(isPlaying)
-            this.playbackTimerId = setInterval(this.animate, 500);
+            this.playbackTimerId = setInterval(this.animate, 300);
         else
             this.stopAnimating();
         this.setState({ ...this.state, isPlaying })
@@ -34,6 +35,12 @@ class PlayerControls extends Component {
         console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: this.props.startDate});
         this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.startDate));
+    }
+
+    showNext = () => {
+        console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
+        this.setState({currentTime: this.props.endDate});
+        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.endDate));
     }
 
     animate = () => {
@@ -67,7 +74,7 @@ class PlayerControls extends Component {
                     hasNext={this.state.hasNext}
                     onPlaybackChange={isPlaying => this.playbackChange(isPlaying)}
                     onPrevious={this.showPrevious}
-                    onNext={() => alert('Go to next')}
+                    onNext={this.showNext}
                 />
 
                 <ProgressBar
