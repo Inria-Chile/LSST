@@ -57,8 +57,8 @@ class Timeline extends Component {
           .attr("class", "main");
 
     if(data && data.length > 0){
-      var start = data[0].expDate;
-      var end = data[data.length-1].expDate;
+      var start = this.props.start;
+      var end = this.props.end;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
       this.drawAxes(g,lanes,y1,x1,h,m[1],10);
           g.append("g").selectAll(".laneLines")

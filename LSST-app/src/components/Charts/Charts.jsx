@@ -74,18 +74,12 @@ class Charts extends Component {
         // var newStart, newEnd;
         var self = this;
         var brush = d3.brushX(x).on("end", function(){
-            console.log(this);
             var brushValues = d3.brushSelection(this);
             if (brushValues!=null){
-                console.log(self);
-                console.log(self.state.startAt);
-                console.log(self.state.endAt);
                 self.setState({
                     startAt: x.invert(brushValues[0]),
                     endAt:x.invert(brushValues[1])
                 });
-                console.log(self.state.startAt);
-                console.log(self.state.endAt);
             }
         });
         var svg = d3.select(dom).select('.slider-container');
@@ -146,7 +140,7 @@ class Charts extends Component {
                     <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
                 </div>
                 <div className="timeline-container">
-                     <Timeline data={this.state.data}/>
+                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
                 </div>
             </div>
         );
