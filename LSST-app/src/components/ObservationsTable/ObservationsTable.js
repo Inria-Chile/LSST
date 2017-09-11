@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { filterColors } from "../Utils/Utils"
+import { filterColors, lstToTypeOfScience } from "../Utils/Utils"
 
 class ObservationsTable extends Component {
 
@@ -54,7 +54,8 @@ class ObservationsTable extends Component {
                         },
                         {
                             Header: "Science type",
-                            accessor: "lst"
+                            id: "lst",
+                            accessor: d => lstToTypeOfScience(d.lst) + ' ' + d.lst
                         }
                     ]}
                     defaultPageSize={data.length}
