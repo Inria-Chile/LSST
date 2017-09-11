@@ -17,6 +17,8 @@ class Charts extends Component {
         today.setDate(today.getDate() + 1);
         // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
         this.state={data: null, start: new Date(), end: today};
+        this.startAt = new Date();
+        this.endAt=today;
     
     }
     
@@ -52,14 +54,7 @@ class Charts extends Component {
         g.append("g")
         .attr("class", "x")
         .call(d3.axisBottom(x).ticks(10));
-
-        // var brush = d3.brushX();
-        // svg.append("g")
-        // .attr("class", "brush")
-        // .call(brush);
     }
-
-
 
     updateSlider(dom){
         d3.select(dom).select('.x').remove();
@@ -71,11 +66,15 @@ class Charts extends Component {
         .attr("transform", "translate(0," + this.props.height-15 + ")")
         .call(d3.axisBottom(x).ticks(10));
 
-        var brush = d3.brushX();
+        var brush = d3.brushX().on("brush",this.handleBursh);
         var svg = d3.select(dom).select('.slider-container');
         svg.append("g")
         .attr("class", "brush")
         .call(brush);
+    }
+
+    handleBursh(){
+        console.log("lalala");
     }
 
     componentDidMount(){
@@ -107,6 +106,8 @@ class Charts extends Component {
                 start:newData[0].expDate, 
                 end:newData[newData.length-1].expDate 
             });
+            this.startAt = newData[0].expDate;
+            this.endAt = newData[newData.length-1].expDate;
         }
         // this.props.data = data;
         // console.log('newData', newData);
@@ -126,7 +127,7 @@ class Charts extends Component {
         return (
             <div className="charts-container">
                 <div className="histogram-container">
-                    <Histogram data={this.state.data}/>
+                    <Histogram data={this.state.data} start={this.startAt} end={this.endAt}/>
                 </div>
                 <div className="timeline-container">
                      <Timeline data={this.state.data}/>

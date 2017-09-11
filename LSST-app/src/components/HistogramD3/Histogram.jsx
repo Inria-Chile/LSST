@@ -209,9 +209,10 @@ class Histogram extends Component {
     var data = this.adaptData();
     if(data!=null){
       // console.log(data);
-      var start = data[0].date;
-      var endDate = new Date(data[data.length-1].date);
-      var end = endDate.setHours(endDate.getHours()+1);
+      var start = this.props.start;
+      // var endDate = this.props.end;
+      // var end = endDate.setHours(endDate.getHours()+1);
+      var end = this.props.end;
       var keys = ["U", "G", "R", "I","Z", "Y"];
        x = d3.scaleTime().domain([start, end]);  
        y = d3.scaleLinear().range([height, 0]);
