@@ -101,11 +101,13 @@ class Charts extends Component {
             d.expDate=this.toDate(d.expDate);
             return null;
         });
-        this.setState({
-            data:newData, 
-            start:newData[0].expDate, 
-            end:newData[newData.length-1].expDate 
-        });
+        if(data && data.length > 0){
+            this.setState({
+                data:newData, 
+                start:newData[0].expDate, 
+                end:newData[newData.length-1].expDate 
+            });
+        }
         // this.props.data = data;
         // console.log('newData', newData);
     }
