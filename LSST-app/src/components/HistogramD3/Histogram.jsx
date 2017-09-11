@@ -7,6 +7,10 @@ import './Histogram.css'
 
 
 class Histogram extends Component {
+  constructor(props){
+    super(props);
+    // this.state={data: null, start: new Date(), end: today};
+}
 
   randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -277,12 +281,24 @@ class Histogram extends Component {
     this.createStackedHistogram(dom, this.props);
         
   }
- 
+  // shouldComponentUpdate(){
+  //   console.log("should component update?")
+  //   if(this.props.start==null || this.props.start== undefined){
+  //     return false;
+  //   }
+  //   else if(this.props.end==null || this.props.end== undefined){
+  //     return false;
+  //   }
+  //   return true;
+  // }
   componentDidUpdate(){
+    console.log("I should update");
+    
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
     this.createStackedHistogram(dom, this.props);
   }
+
   
   render() {
     // let data = this.props.data;
