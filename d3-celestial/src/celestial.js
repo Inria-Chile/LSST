@@ -38,8 +38,10 @@ Celestial.display = function(config) {
       proj = getProjection(cfg.projection);
   var mousedown = false;
   var mousePosition = null;
+  var lastSeletedCell = null;
   var mappedIds = {};
   var displayedObservations = null;
+  var allPolygons = [];
   
   var selectedCell = null;
   if (cfg.lines.graticule.lat && cfg.lines.graticule.lat.pos[0] === "outline") proj.scale -= 2;
@@ -92,6 +94,8 @@ Celestial.display = function(config) {
   canvas[0][0].addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(canvas[0][0], evt);
     mousePosition = prjMap.invert([mousePos.x, mousePos.y]);
+    if(cfg.cellSelectedCallback)
+      checkMouseInsideCell(cfg.cellSelectedCallback);
   }, false);
 
   canvas[0][0].addEventListener('mousedown', function(evt) {
@@ -344,6 +348,19 @@ Celestial.display = function(config) {
       redraw("projection");
     });
     return interval;
+  }
+
+  function checkMouseInsideCell(callback){
+    var selectedPolygons = container.selectAll(".mw");
+    selectedPolygons.each(function(d) {
+      if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
+        if(lastSeletedCell != d){
+          lastSeletedCell = d;
+          callback(d);
+        }
+        return;
+      }
+    });
   }
 
     window.tempCount = 0;

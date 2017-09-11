@@ -28,6 +28,9 @@ var config = {
   center: null,       // Initial center coordinates in equatorial transformation [hours, degrees, degrees], 
                       // otherwise [degrees, degrees, degrees], 3rd parameter is orientation, null = default center
   orientationfixed: true,  // Keep orientation angle the same as center[2]
+  cellSelectedCallback: function(e){
+    console.log(e); 
+  },
   background: { fill: "#000000", stroke: "#000000", opacity: 1 }, // Background style
   adaptable: true,    // Sizes are increased with higher zoom-levels
   interactive: true,  // Enable zooming and rotation with mousewheel and dragging
@@ -136,11 +139,11 @@ function animate() {
   // Celestial.updateCell(Math.floor(Math.random()*857));
   // Celestial.updateCell((tileN++)%857);
 }
-setTimeout(function(){
-  Celestial.updateCells(data);
-}, 1000)
-  d3.select('#celestial-map').on('mousedown', function() { window.cancelAnimationFrame(reqID) } )
-  d3.select('#celestial-map').on('mouseup', function() { window.requestAnimationFrame(animate) } )
+// setTimeout(function(){
+//   Celestial.updateCells(data);
+// }, 1000)
+  // d3.select('#celestial-map').on('mousedown', function() { window.cancelAnimationFrame(reqID) } )
+  // d3.select('#celestial-map').on('mouseup', function() { window.requestAnimationFrame(animate) } )
 
 reqID = window.requestAnimationFrame(animate);
 </script>
