@@ -44,7 +44,6 @@ class MiniSkymaps extends Component {
 
   setDisplayedDateLimits(startDate, endDate){
     let displayedData = [];
-    let oldData = this.data;
     if(!startDate || !endDate){
       displayedData = this.data;
       for(let i=0;i<this.children.length;++i){

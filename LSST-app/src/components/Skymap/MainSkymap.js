@@ -64,7 +64,6 @@ class MainSkymap extends Component {
 
     setDisplayedDateLimits(startDate, endDate){
         let displayedData = [];
-        let oldData = this.data;
         if(!startDate && !endDate){
             displayedData = this.data;
             this.skymap.getCelestial().updateCells(displayedData);            
