@@ -14,7 +14,8 @@ class Skymap extends Component {
     return this.Celestial.cfg;
   }
 
-  getDefaultConfig() {
+  getDefaultConfig = () => {
+    let f = this.props.cellHoverCallback;
     return {
       width: 0,     // Default width, 0 = full parent width; height is determined by projection
       projection: "aitoff",
@@ -27,6 +28,7 @@ class Skymap extends Component {
       form: false,        // Display settings form
       location: false,    // Display location settings 
       controls: false,     // Display zoom controls
+      cellSelectedCallback: f ? f : null,
       lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
       container: this.containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'

@@ -355,8 +355,9 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
         if(lastSeletedCell != d){
+          var fieldID = findFieldId(d, displayedObservations);
           lastSeletedCell = d;
-          callback(d);
+          callback(fieldID, d);
         }
         return;
       }
@@ -466,6 +467,17 @@ Celestial.display = function(config) {
     };
   }
 
+  findFieldId = function(selectedPolygon, observations){
+    var keys = Object.keys(mappedIds);
+    var polygonID = selectedPolygon.properties.id;
+    for(var i=0;i<keys.length;++i){
+      var key = keys[i];
+      if(mappedIds[key] == polygonID)
+        return key;
+    }
+    return null;
+  }
+
   findPolygonId = function(selectedPolygons, obs){
     var polygonID = null;
     var fieldID = obs['fieldID'];
@@ -489,10 +501,10 @@ Celestial.display = function(config) {
   }
 
   Celestial.updateCells = function(observations){
-    if(displayedObservations && displayedData.length==observations.length && displayedData.every(function(v,i) { return v === observations[i]})){
+    if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
       return;
     }
-      
+    displayedObservations = observations;
     var selectedPolygons = container.selectAll(".mw");
     selectedPolygons.each(function(d) {
       for(var i=0;i<d.properties.count.length;++i)

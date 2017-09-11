@@ -194,7 +194,22 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
+                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} cellHoverCallback={(fieldID, polygon) => {
+                                if(fieldID){
+                                    console.log(fieldID, this.displayedData);
+                                    let latestExpDate = 0;
+                                    let latestField = null;
+                                    for(let i=0;i<this.displayedData.length;++i){
+                                        if(this.displayedData[i].fieldID == fieldID){
+                                            if(this.displayedData[i].expDate > latestExpDate){
+                                                latestExpDate = this.displayedData[i].expDate;
+                                                latestField = this.displayedData[i];
+                                            }
+                                        }
+                                    }
+                                    console.log(latestField);
+                                }
+                            }}/>
                         </div>
                         <div>
                             <ObservationsTable />
