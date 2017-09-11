@@ -10,59 +10,7 @@ class ObservationsTable extends Component {
     constructor() {
         super();
         this.state = {
-            data: [{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "u",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            },{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "g",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            }
-            ,{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "r",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            }
-            ,{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "i",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            }
-            ,{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "z",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            }
-            ,{
-                count: 1,
-                request_time: 322000,
-                fieldDec: -10,
-                fieldRA: 33,
-                filterName: "y",
-                fieldID: 54,
-                scienceType: "Dark matter"
-            },]
+            data: [{}]
         };
         console.log('ObservationsTable', filterColors);
     }
@@ -79,12 +27,12 @@ class ObservationsTable extends Component {
             <div>
                 <ReactTable
                     sortable={false}
-                    data={data}
+                    data={this.props.selectedField === null ? [] : [this.props.selectedField]}
                     columns={[
                         {
                             Header: "Timestamp",
-                            id: "request_time",
-                            accessor: d => d.request_time
+                            id: "expDate",
+                            accessor: d => d.expDate
                         },
                         {
                             Header: "Filter",
@@ -106,7 +54,7 @@ class ObservationsTable extends Component {
                         },
                         {
                             Header: "Science type",
-                            accessor: "scienceType"
+                            accessor: "lst"
                         }
                     ]}
                     defaultPageSize={data.length}

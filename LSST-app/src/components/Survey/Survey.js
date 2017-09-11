@@ -21,6 +21,8 @@ class Survey extends Component {
         this.socket = openSocket('http://localhost:3000');
         this.state = {
             selectedMode: 'playback',
+            selectedField: [],
+            displayedFilter: 'all',
             startDate: null,
             endDate: null
         }
@@ -66,6 +68,9 @@ class Survey extends Component {
     }
     
     setDisplayedFilter = (filter) => {
+        this.setState({
+            displayedFilter: filter
+        })
         this.mainSkymap.setDisplayedFilter(filter);
     }
     
@@ -195,24 +200,28 @@ class Survey extends Component {
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} cellHoverCallback={(fieldID, polygon) => {
+                                let latestField = null;
+                                let latestExpDate = 0;
+                                {/* if(fieldID) */}
                                 if(fieldID){
-                                    console.log(fieldID, this.displayedData);
-                                    let latestExpDate = 0;
-                                    let latestField = null;
                                     for(let i=0;i<this.displayedData.length;++i){
-                                        if(this.displayedData[i].fieldID === fieldID){
+                                        if(String(this.displayedData[i].fieldID) === String(fieldID) &&
+                                            (this.state.displayedFilter == this.displayedData[i].filterName || this.state.displayedFilter == 'all')){                                            
                                             if(this.displayedData[i].expDate > latestExpDate){
                                                 latestExpDate = this.displayedData[i].expDate;
                                                 latestField = this.displayedData[i];
                                             }
                                         }
                                     }
-                                    console.log(latestField);
                                 }
+                                console.log(latestField);
+                                this.setState({
+                                    selectedField: latestField
+                                })
                             }}/>
                         </div>
                         <div>
-                            <ObservationsTable />
+                            <ObservationsTable selectedField={this.state.selectedField} />
                         </div>
                     </div>
                     <div className="right-container">

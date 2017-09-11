@@ -126,6 +126,13 @@ class Timeline extends Component {
     this.createTimeline(dom, this.props);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props && JSON.stringify(this.props.data) === JSON.stringify(nextProps.data)){//Component should not update
+      return false;
+    }
+    return true;
+  }
+
   removeTimeline(dom){
     d3.select(dom).select('svg').remove();
   }
