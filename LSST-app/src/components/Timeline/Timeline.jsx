@@ -29,11 +29,13 @@ class Timeline extends Component {
   }
 
   createTimeline(dom, props) {
+    let elem = ReactDOM.findDOMNode(this);
+    let width = elem.offsetWidth;
     var lanes = ["Dark Matter","Dark Energy","Solar System", "Changing Sky", "Milky Way"],
     laneLength = lanes.length,
     data = this.props.data,
     m = [20, 15, 15, 120], //top right bottom left
-    w = props.width - m[1] - m[3],
+    w = width - m[1] - m[3],
     h = props.height - m[0] - m[2],
     mainHeight = h  - 50;
     var y1 = d3.scaleLinear()
@@ -141,7 +143,7 @@ class Timeline extends Component {
 }
 
 Timeline.defaultProps = {
-  width: 1000,
+
   height: 250,
   title: '',
   Legend: true,

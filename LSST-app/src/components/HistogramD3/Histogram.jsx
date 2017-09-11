@@ -7,10 +7,7 @@ import './Histogram.css'
 
 
 class Histogram extends Component {
-  constructor(props){
-    super(props);
-    // this.state={data: null, start: new Date(), end: today};
-}
+
 
   randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -60,7 +57,9 @@ class Histogram extends Component {
          this.addValueToFilter(item, d.filterName, d.expTime);
          date = d.expDate;
         }
-        else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && itemDate.getHours() === date.getHours())){
+        else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && 
+          itemDate.getHours() === date.getHours()) &&
+          itemDate.getMinutes() === date.getMinutes()){
           this.addValueToFilter(item, d.filterName, d.expTime);
         }
         else{
@@ -148,8 +147,6 @@ class Histogram extends Component {
 
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height),
       margin = { top: 30, right: 30, bottom: 30, left: 30 },
-      // width = +svg.attr("width") - margin.left - margin.right,
-      // height = +svg.attr("height") - margin.top - margin.bottom,
       g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
@@ -202,8 +199,9 @@ class Histogram extends Component {
 
 
   createStackedHistogram(dom, props) {
-    var width = this.props.width;
     var height = this.props.height;
+    let elem = ReactDOM.findDOMNode(this);
+    let width = elem.offsetWidth;
     var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
     var margin = { top: 0, right: 15, bottom: 20, left: 120 };
     width = +svg.attr("width") - margin.left - margin.right;
@@ -212,10 +210,7 @@ class Histogram extends Component {
     var x,y,xticks,yticks;
     var data = this.adaptData();
     if(data!=null){
-      // console.log(data);
       var start = this.props.start;
-      // var endDate = this.props.end;
-      // var end = endDate.setHours(endDate.getHours()+1);
       var end = this.props.end;
       var keys = ["U", "G", "R", "I","Z", "Y"];
        x = d3.scaleTime().domain([start, end]);  
@@ -253,7 +248,6 @@ class Histogram extends Component {
         .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
         
        yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-      //  xticks = d3.utcHour;
        xticks = 10;
        this.drawAxes(g,height,xticks,yticks,x,y);  
 
@@ -265,7 +259,6 @@ class Histogram extends Component {
        x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
        y = d3.scaleLinear().range([height, 0]); 
        xticks = 10;
-      //  xticks = d3.utcHour;
        yticks =5;
       this.drawAxes(g,height,xticks,yticks,x,y);  
     }
@@ -279,21 +272,9 @@ class Histogram extends Component {
   componentDidMount() {
     var dom = ReactDOM.findDOMNode(this);
     this.createStackedHistogram(dom, this.props);
-        
   }
-  // shouldComponentUpdate(){
-  //   console.log("should component update?")
-  //   if(this.props.start==null || this.props.start== undefined){
-  //     return false;
-  //   }
-  //   else if(this.props.end==null || this.props.end== undefined){
-  //     return false;
-  //   }
-  //   return true;
-  // }
+
   componentDidUpdate(){
-    console.log("I should update");
-    
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
     this.createStackedHistogram(dom, this.props);
@@ -311,10 +292,7 @@ class Histogram extends Component {
 }
 
 Histogram.defaultProps = {
-  width: 1000,
   height: 200,
-  title: '',
-  Legend: true,
 
 };
 

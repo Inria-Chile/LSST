@@ -51,9 +51,11 @@ class Charts extends Component {
     }
 
     createSlider(dom){
-        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', this.props.width).attr('height', 30);
+        let elem = ReactDOM.findDOMNode(this);
+        let width = elem.offsetWidth;
+        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 30);
         var margin = { top: 10, right: 10, bottom: 10, left: 10 };
-        var width = +svg.attr("width") - margin.left - margin.right;
+        width = +svg.attr("width") - margin.left - margin.right;
         // var height = +svg.attr("height") - margin.top - margin.bottom;
         var g = svg.append("g").attr('class', 'slider')
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
@@ -63,10 +65,12 @@ class Charts extends Component {
     }
 
     updateSlider(dom){
+        let elem = ReactDOM.findDOMNode(this);
+        let width = elem.offsetWidth;
         d3.select(dom).select('.x').remove();
         d3.select(dom).select('.brush').remove();
         var g = d3.select(dom).select(".slider");
-        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,this.props.width]);
+        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
         .attr("transform", "translate(0," + this.props.height-15 + ")")
@@ -150,7 +154,6 @@ class Charts extends Component {
 
 
 Charts.defaultProps = {
-    width: 1000,
     height: 700,
     title: ''
   };
