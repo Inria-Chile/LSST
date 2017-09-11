@@ -200,7 +200,7 @@ class Survey extends Component {
                                     let latestExpDate = 0;
                                     let latestField = null;
                                     for(let i=0;i<this.displayedData.length;++i){
-                                        if(this.displayedData[i].fieldID == fieldID){
+                                        if(this.displayedData[i].fieldID === fieldID){
                                             if(this.displayedData[i].expDate > latestExpDate){
                                                 latestExpDate = this.displayedData[i].expDate;
                                                 latestField = this.displayedData[i];
