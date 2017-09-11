@@ -202,11 +202,10 @@ class Survey extends Component {
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} cellHoverCallback={(fieldID, polygon) => {
                                 let latestField = null;
                                 let latestExpDate = 0;
-                                {/* if(fieldID) */}
                                 if(fieldID){
                                     for(let i=0;i<this.displayedData.length;++i){
                                         if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                                            (this.state.displayedFilter == this.displayedData[i].filterName || this.state.displayedFilter == 'all')){                                            
+                                            (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){                                            
                                             if(this.displayedData[i].expDate > latestExpDate){
                                                 latestExpDate = this.displayedData[i].expDate;
                                                 latestField = this.displayedData[i];
