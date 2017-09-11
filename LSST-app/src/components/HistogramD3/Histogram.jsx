@@ -295,7 +295,7 @@ class Histogram extends Component {
 
 Histogram.defaultProps = {
   width: 1000,
-  height: 200,
+  height: 100,
   title: '',
   Legend: true,
 

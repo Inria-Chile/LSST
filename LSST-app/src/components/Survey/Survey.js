@@ -6,6 +6,7 @@ import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
+import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import './Survey.css';
 import openSocket from 'socket.io-client';
 
@@ -194,6 +195,9 @@ class Survey extends Component {
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
+                        </div>
+                        <div>
+                            <ObservationsTable />
                         </div>
                     </div>
                     <div className="right-container">

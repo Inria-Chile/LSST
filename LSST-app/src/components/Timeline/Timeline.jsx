@@ -142,7 +142,7 @@ class Timeline extends Component {
 
 Timeline.defaultProps = {
   width: 1000,
-  height: 250,
+  height: 150,
   title: '',
   Legend: true,
 
