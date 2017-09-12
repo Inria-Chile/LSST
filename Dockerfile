@@ -72,9 +72,11 @@ RUN cp ./*/cpp/src/*.so /home/root/workspace/ts_sal/test/lib
 
 COPY . /home/docker/lsst
 
-RUN npm install ~/../docker/lsst/LSST-app
-
 WORKDIR /home/docker/lsst/LSST-app
+
+RUN npm install
+
+RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db tsunamilab.inria.cl/circumpolar.db 
 
 # entrypoint
 RUN chmod +x run.sh
