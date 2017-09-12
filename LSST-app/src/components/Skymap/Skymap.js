@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
+import { filterColors } from "../Utils/Utils"
 
 const makeCelestial = window.makeCelestial;
 
@@ -35,14 +36,15 @@ class Skymap extends Component {
       polygons: {
         show: true,    // Show grid polygons
         style: { fill: "#ff00ff", opacity: 0.45 },
-        filterColors: {
-          "u": "#0000ff",
-          "g": "#008000",
-          "r": "#ffff00",
-          "i": "#ff0000",
-          "z": "#ee82ee",
-          "y": "#ffffff"
-        },
+        // filterColors: {
+        //   "u": "#0000ff",
+        //   "g": "#008000",
+        //   "r": "#ffff00",
+        //   "i": "#ff0000",
+        //   "z": "#ee82ee",
+        //   "y": "#ffffff"
+        // },
+        filterColors: filterColors,
         displayedFilters: ["u", "g", "r", "i", "z", "y"]
       },
       lines: {

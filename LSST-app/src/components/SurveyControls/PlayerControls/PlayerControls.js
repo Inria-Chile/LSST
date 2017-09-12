@@ -11,7 +11,7 @@ class PlayerControls extends Component {
     constructor() {
         super();
         this.playbackTimerId = null;
-        this.timeInterval = 10000;
+        this.timeInterval = 1000;
         this.state = {
             totalTime: 190,
             currentTime: Infinity,
@@ -23,34 +23,48 @@ class PlayerControls extends Component {
     }
 
     playbackChange = (isPlaying) => {
+        console.log("playbackChange");
         console.log(this.state.currentTime, "playing", isPlaying);
-        if(isPlaying)
-            this.playbackTimerId = setInterval(this.animate, 300);
-        else
+        let currentTime = this.state.currentTime;
+        if(isPlaying){
+            console.log(this.state.currentTime, this.props.endDate)
+            if(this.state.currentTime === this.props.endDate || this.state.currentTime === Infinity)
+                currentTime = 0;
+            // this.playbackTimerId = setInterval(this.animate, 300);
+        }else
             this.stopAnimating();
-        this.setState({ ...this.state, isPlaying })
+        this.setState({ ...this.state, isPlaying, currentTime: currentTime })
     }
 
     showPrevious = () => {
         console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
-        this.setState({currentTime: this.props.startDate});
+        this.setState({currentTime: 0});
         this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.startDate));
     }
 
     showNext = () => {
-        console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
+        console.log('showNext', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: this.props.endDate});
         this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.endDate));
     }
 
+    seekEnd = (time) => {
+        this.animate();
+    }
+
+    getTimeInterval = () => {
+        return this.props?(this.props.endDate - this.props.startDate)/100 : 1000;
+    }
+
     animate = () => {
         if(this.state.currentTime > this.props.endDate){
+            this.setState({currentTime: this.props.endDate});
             this.stopAnimating();
             return;            
         }
-        console.log('animating', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime + this.timeInterval));
-        this.setState({currentTime: this.state.currentTime + this.timeInterval});
-        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(Math.min(this.props.endDate, this.state.currentTime + this.timeInterval)));
+        // console.log('animating', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime + this.getTimeInterval()));
+        this.setState({currentTime: this.state.currentTime + this.getTimeInterval()});
+        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(Math.min(this.props.endDate, this.props.startDate + this.state.currentTime + this.getTimeInterval())));
     }
 
     stopAnimating = () => {
@@ -59,6 +73,13 @@ class PlayerControls extends Component {
         this.setState({isPlaying: false});
     }
     
+    componentDidUpdate(prevProps, prevState){
+        if((this.state.isPlaying && !prevState) || (this.state.isPlaying && !prevState.isPlaying))
+            this.playbackTimerId = setInterval(this.animate, 300);
+        if(prevProps.endDate !== this.props.endDate)
+            this.setState({currentTime: this.props.endDate});
+    }
+
     render() {
         return (
             <div className="player-controls">
@@ -78,12 +99,12 @@ class PlayerControls extends Component {
                 />
 
                 <ProgressBar
-                    totalTime={this.props.endDate}
+                    totalTime={this.props.endDate - this.props.startDate}
                     currentTime={this.state.currentTime}
                     isSeekable={this.state.isSeekable}
                     onSeek={time => this.setState(() => ({ currentTime: time }))}
                     onSeekStart={time => this.setState(() => ({ lastSeekStart: time }))}
-                    onSeekEnd={time => this.setState(() => ({ lastSeekEnd: time }))}
+                    onSeekEnd={this.seekEnd}
                     onIntent={time => this.setState(() => ({ lastIntent: time }))}
                 />
             </div>

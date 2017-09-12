@@ -404,7 +404,6 @@ Celestial.display = function(config) {
       var paintColor = rgb2hex(blendColors(colors, weights));
       context.fillStyle = cfg.background.fill;
       if(!(paintColor === '#000000')){
-        console.log(paintColor)
         context.fillStyle = paintColor;
         context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/3.5));
       }

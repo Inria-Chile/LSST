@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
 import './Histogram.css'
+import { filterColors } from "../Utils/Utils"
 
 
 
@@ -216,8 +217,8 @@ class Histogram extends Component {
        x = d3.scaleTime().domain([start, end]);  
        y = d3.scaleLinear().range([height, 0]);
       var z = d3.scaleOrdinal()
-        .range(["#992f8f","#2f2fcc","#2cdd37","#fff704","#f19437","#c80f0f"]).domain(keys);
-  
+        .range(Object.values(filterColors)).domain(keys);
+      
       var stack = d3.stack()
         .keys(keys)
         .order(d3.stackOrderNone)
