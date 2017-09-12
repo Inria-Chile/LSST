@@ -122,10 +122,18 @@ class Timeline extends Component {
   }
 
   componentDidUpdate(){
+    console.log("updating")
     var dom = ReactDOM.findDOMNode(this);
     this.adaptData();
     this.removeTimeline(dom);    
     this.createTimeline(dom, this.props);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props && JSON.stringify(this.props.data) === JSON.stringify(nextProps.data)){//Component should not update
+      return false;
+    }
+    return true;
   }
 
   removeTimeline(dom){
@@ -143,7 +151,6 @@ class Timeline extends Component {
 }
 
 Timeline.defaultProps = {
-
   height: 250,
   title: '',
   Legend: true,

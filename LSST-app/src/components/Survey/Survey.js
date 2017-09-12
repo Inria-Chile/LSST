@@ -6,6 +6,7 @@ import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
+import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import './Survey.css';
 import openSocket from 'socket.io-client';
 
@@ -20,6 +21,8 @@ class Survey extends Component {
         this.socket = openSocket('http://localhost:3000');
         this.state = {
             selectedMode: 'playback',
+            selectedField: [],
+            displayedFilter: 'all',
             startDate: null,
             endDate: null
         }
@@ -65,6 +68,9 @@ class Survey extends Component {
     }
     
     setDisplayedFilter = (filter) => {
+        this.setState({
+            displayedFilter: filter
+        })
         this.mainSkymap.setDisplayedFilter(filter);
     }
     
@@ -193,7 +199,28 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} />
+                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} cellHoverCallback={(fieldID, polygon) => {
+                                let latestField = null;
+                                let latestExpDate = 0;
+                                if(fieldID){
+                                    for(let i=0;i<this.displayedData.length;++i){
+                                        if(String(this.displayedData[i].fieldID) === String(fieldID) &&
+                                            (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){                                            
+                                            if(this.displayedData[i].expDate > latestExpDate){
+                                                latestExpDate = this.displayedData[i].expDate;
+                                                latestField = this.displayedData[i];
+                                            }
+                                        }
+                                    }
+                                }
+                                console.log(latestField);
+                                this.setState({
+                                    selectedField: latestField
+                                })
+                            }}/>
+                        </div>
+                        <div>
+                            <ObservationsTable selectedField={this.state.selectedField} />
                         </div>
                     </div>
                     <div className="right-container">
