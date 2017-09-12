@@ -9,6 +9,8 @@ import * as d3 from 'd3';
 // import * as d3Axis from 'd3-axis';
 // import { select as d3Select } from 'd3-selection'
 
+
+
 class Charts extends Component {
 
     constructor(props){
@@ -16,8 +18,14 @@ class Charts extends Component {
         var today = new Date();
         today.setDate(today.getDate() + 1);
         // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
-        this.state={data: null, start: new Date(), end: today};
-    
+        this.state={
+            data: null, 
+            start: new Date(), 
+            end: today,
+            startAt: new Date(),
+            endAt: today
+        };
+         
     }
     
     randomData(length, start, end) {
@@ -43,35 +51,41 @@ class Charts extends Component {
     }
 
     createSlider(dom){
-        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', this.props.width).attr('height', 30);
+        let elem = ReactDOM.findDOMNode(this);
+        let width = elem.offsetWidth;
+        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 30);
         var margin = { top: 10, right: 10, bottom: 10, left: 10 };
-        var width = +svg.attr("width") - margin.left - margin.right;
+        width = +svg.attr("width") - margin.left - margin.right;
         // var height = +svg.attr("height") - margin.top - margin.bottom;
-        var g = svg.append("g").attr('class', 'slider').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var g = svg.append("g").attr('class', 'slider')
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
         .call(d3.axisBottom(x).ticks(10));
-
-        // var brush = d3.brushX();
-        // svg.append("g")
-        // .attr("class", "brush")
-        // .call(brush);
     }
 
-
-
     updateSlider(dom){
+        let elem = ReactDOM.findDOMNode(this);
+        let width = elem.offsetWidth;
         d3.select(dom).select('.x').remove();
         d3.select(dom).select('.brush').remove();
         var g = d3.select(dom).select(".slider");
-        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,this.props.width]);
+        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
         .attr("transform", "translate(0," + this.props.height-15 + ")")
         .call(d3.axisBottom(x).ticks(10));
-
-        var brush = d3.brushX();
+        // var newStart, newEnd;
+        var self = this;
+        var brush = d3.brushX(x).on("end", function(){
+            var brushValues = d3.brushSelection(this);
+            if (brushValues!=null){
+                self.setState({
+                    startAt: x.invert(brushValues[0]),
+                    endAt:x.invert(brushValues[1])
+                });
+            }
+        });
         var svg = d3.select(dom).select('.slider-container');
         svg.append("g")
         .attr("class", "brush")
@@ -105,11 +119,12 @@ class Charts extends Component {
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 
-                end:newData[newData.length-1].expDate 
+                end:newData[newData.length-1].expDate,
+                startAt:newData[0].expDate,
+                endAt:newData[newData.length-1].expDate
             });
+            
         }
-        // this.props.data = data;
-        // console.log('newData', newData);
     }
 
     // Date comes from database as number and as MJD.
@@ -126,10 +141,10 @@ class Charts extends Component {
         return (
             <div className="charts-container">
                 <div className="histogram-container">
-                    <Histogram data={this.state.data}/>
+                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
                 </div>
                 <div className="timeline-container">
-                     <Timeline data={this.state.data}/>
+                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
                 </div>
             </div>
         );
@@ -139,7 +154,6 @@ class Charts extends Component {
 
 
 Charts.defaultProps = {
-    width: 1000,
     height: 700,
     title: ''
   };
