@@ -44,7 +44,6 @@ class ObservationsTable extends Component {
                                             : "#000000",
                                         textAlign: "center",
                                         borderRadius: '2px',
-                                        transition: 'all .3s ease'
                                     }}>
                                     {
                                         row.value 
@@ -55,7 +54,7 @@ class ObservationsTable extends Component {
                         {
                             Header: "Science type",
                             id: "lst",
-                            accessor: d => lstToTypeOfScience(d.lst) + ' ' + d.lst
+                            accessor: d => d.lst ? lstToTypeOfScience(d.lst) + ' ' + d.lst : ''
                         }
                     ]}
                     defaultPageSize={data.length}
@@ -64,6 +63,7 @@ class ObservationsTable extends Component {
                     }}
                     className="-striped -highlight"
                     showPaginationBottom={false}
+                    noDataText="No field selected"
                 />
             </div>
         );
