@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
+import { filterColors } from "../Utils/Utils"
 
 const makeCelestial = window.makeCelestial;
 
@@ -35,21 +36,23 @@ class Skymap extends Component {
       polygons: {
         show: true,    // Show grid polygons
         style: { fill: "#ff00ff", opacity: 0.45 },
-        filterColors: {
-          "u": "#0000ff",
-          "g": "#008000",
-          "r": "#ffff00",
-          "i": "#ff0000",
-          "z": "#ee82ee",
-          "y": "#ffffff"
-        },
+        // filterColors: {
+        //   "u": "#0000ff",
+        //   "g": "#008000",
+        //   "r": "#ffff00",
+        //   "i": "#ff0000",
+        //   "z": "#ee82ee",
+        //   "y": "#ffffff"
+        // },
+        filterColors: filterColors,
         displayedFilters: ["u", "g", "r", "i", "z", "y"]
       },
       lines: {
         graticule: {
           show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
-          lon: { pos: ["center"], fill: "#eee", font: "0.9em Helvetica, Arial, sans-serif" },
-          lat: { pos: ["center"], fill: "#eee", font: "0.9em Helvetica, Arial, sans-serif" }
+          lon: { pos: ["center"], fill: "#eee", font: "0.9em Helvetica, Arial, sans-serif", min:0, max:350, step:30 },
+          lat: { pos: ["center"], fill: "#eee", font: "0.9em Helvetica, Arial, sans-serif", min:-90, max:90, step:30 },
+          ra: {min:0, max:23, step:3}
         },
         equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
         ecliptic: { show: true, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 

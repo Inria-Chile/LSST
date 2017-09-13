@@ -75,7 +75,7 @@ Celestial.display = function(config) {
   var context = canvas.node().getContext("2d");  
 
   
-  var graticule = d3.geo.graticule().minorStep([15,10]);
+  var graticule = d3.geo.graticule().minorStep([45,30]);
   map = d3.geo.path().projection(prjMap).context(context);
   mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
@@ -364,7 +364,6 @@ Celestial.display = function(config) {
     });
   }
 
-    window.tempCount = 0;
   function drawGridPolygons(){
     var totalObs = 0;
     var maxFieldObs = 0;
@@ -373,6 +372,9 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       var fieldObs = 0;
       for(var i=0;i<d.properties.count.length;++i){
+        var filterName = d.properties.count[i][0];
+        if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+          continue;
         totalObs += d.properties.count[i][1];
         fieldObs += d.properties.count[i][1];
       }
@@ -382,8 +384,13 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       context.beginPath();
       var fieldObs = 0;
-      for(var i=0;i<d.properties.count.length;++i)
+
+      for(var i=0;i<d.properties.count.length;++i){
+        var filterName = d.properties.count[i][0];
+        if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+          continue;
         fieldObs += d.properties.count[i][1];
+      }
       var colors = [], weights = [];
       for(var i=0;i<d.properties.count.length;i++){
         var filterName = d.properties.count[i][0];
@@ -394,17 +401,19 @@ Celestial.display = function(config) {
         weights.push(d.properties.count[i][1]/fieldObs);
       }
       var paintColor = rgb2hex(blendColors(colors, weights));
-      context.fillStyle = '#000000';
-      context.fillStyle = paintColor;
-      context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.5));
-      map(d);
-      if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
-        context.fillStyle = '#000000';
-        context.globalAlpha = 1.0;
-        context.beginPath();
-        map(d);
-        context.fillStyle = '#00ff00';
+      context.fillStyle = cfg.background.fill;
+      if(!(paintColor === '#000000')){
+        context.fillStyle = paintColor;
+        context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/3.5));
       }
+      map(d);
+      // if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
+      //   context.fillStyle = cfg.background.fill;
+      //   context.globalAlpha = 1.0;
+      //   context.beginPath();
+      //   map(d);
+      //   context.fillStyle = '#00ff00';
+      // }
       
       context.fill();
     });
@@ -501,9 +510,9 @@ Celestial.display = function(config) {
   }
 
   Celestial.updateCells = function(observations){
-    if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
-      return;
-    }
+    // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
+    //   return;
+    // }
     displayedObservations = observations;
     var selectedPolygons = container.selectAll(".mw");
     selectedPolygons.each(function(d) {
@@ -800,8 +809,8 @@ Celestial.display = function(config) {
   this.reload = function(config) { 
     if (!config || !has(config, "transform")) return;
     trans = cfg.transform = config.transform; 
-    if (trans === "equatorial") graticule.minorStep([15,10]);
-    else  graticule.minorStep([10,10]);
+    if (trans === "equatorial") graticule.minorStep([45,30]);
+    else  graticule.minorStep([45,30]);
     container.selectAll("*").remove(); 
     setClip();
     container.append("path").datum(circle).attr("class", "horizon");

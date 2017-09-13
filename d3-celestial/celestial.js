@@ -76,7 +76,7 @@ Celestial.display = function(config) {
   var context = canvas.node().getContext("2d");  
 
   
-  var graticule = d3.geo.graticule().minorStep([15,10]);
+  var graticule = d3.geo.graticule().minorStep([45,30]);
   map = d3.geo.path().projection(prjMap).context(context);
   mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
@@ -365,7 +365,6 @@ Celestial.display = function(config) {
     });
   }
 
-    window.tempCount = 0;
   function drawGridPolygons(){
     var totalObs = 0;
     var maxFieldObs = 0;
@@ -374,6 +373,9 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       var fieldObs = 0;
       for(var i=0;i<d.properties.count.length;++i){
+        var filterName = d.properties.count[i][0];
+        if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+          continue;
         totalObs += d.properties.count[i][1];
         fieldObs += d.properties.count[i][1];
       }
@@ -383,8 +385,13 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       context.beginPath();
       var fieldObs = 0;
-      for(var i=0;i<d.properties.count.length;++i)
+
+      for(var i=0;i<d.properties.count.length;++i){
+        var filterName = d.properties.count[i][0];
+        if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
+          continue;
         fieldObs += d.properties.count[i][1];
+      }
       var colors = [], weights = [];
       for(var i=0;i<d.properties.count.length;i++){
         var filterName = d.properties.count[i][0];
@@ -395,17 +402,19 @@ Celestial.display = function(config) {
         weights.push(d.properties.count[i][1]/fieldObs);
       }
       var paintColor = rgb2hex(blendColors(colors, weights));
-      context.fillStyle = '#000000';
-      context.fillStyle = paintColor;
-      context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.5));
-      map(d);
-      if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
-        context.fillStyle = '#000000';
-        context.globalAlpha = 1.0;
-        context.beginPath();
-        map(d);
-        context.fillStyle = '#00ff00';
+      context.fillStyle = cfg.background.fill;
+      if(!(paintColor === '#000000')){
+        context.fillStyle = paintColor;
+        context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/3.5));
       }
+      map(d);
+      // if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
+      //   context.fillStyle = cfg.background.fill;
+      //   context.globalAlpha = 1.0;
+      //   context.beginPath();
+      //   map(d);
+      //   context.fillStyle = '#00ff00';
+      // }
       
       context.fill();
     });
@@ -502,9 +511,9 @@ Celestial.display = function(config) {
   }
 
   Celestial.updateCells = function(observations){
-    if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
-      return;
-    }
+    // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
+    //   return;
+    // }
     displayedObservations = observations;
     var selectedPolygons = container.selectAll(".mw");
     selectedPolygons.each(function(d) {
@@ -801,8 +810,8 @@ Celestial.display = function(config) {
   this.reload = function(config) { 
     if (!config || !has(config, "transform")) return;
     trans = cfg.transform = config.transform; 
-    if (trans === "equatorial") graticule.minorStep([15,10]);
-    else  graticule.minorStep([10,10]);
+    if (trans === "equatorial") graticule.minorStep([45,30]);
+    else  graticule.minorStep([45,30]);
     container.selectAll("*").remove(); 
     setClip();
     container.append("path").datum(circle).attr("class", "horizon");
@@ -1200,17 +1209,25 @@ function getLine(type, loc, orient) {
   if (cfg.transform === "equatorial" && tp === "lon") tp = "ra";
   
   if (tp === "ra") {
-    min = 0; max = 23; step = 1;
+    min = cfg.lines.graticule.ra.min ? cfg.lines.graticule.ra.min : 0; 
+    max = cfg.lines.graticule.ra.max ? cfg.lines.graticule.ra.max : 23; 
+    step = cfg.lines.graticule.ra.step ? cfg.lines.graticule.ra.step : 1; 
   } else if (tp === "lon") {
-    min = 0; max = 350; step = 10;    
+    min = cfg.lines.graticule.lon.min ? cfg.lines.graticule.lon.min : 0; 
+    max = cfg.lines.graticule.lon.max ? cfg.lines.graticule.lon.max : 350; 
+    step = cfg.lines.graticule.lon.step ? cfg.lines.graticule.lon.step : 10; 
   } else {
-    min = -80; max = 80; step = 10;    
+    min = cfg.lines.graticule.lat.min ? cfg.lines.graticule.lat.min : -80; 
+    max = cfg.lines.graticule.lat.max ? cfg.lines.graticule.lat.max : 80; 
+    step = cfg.lines.graticule.lat.step ? cfg.lines.graticule.lat.step : 10; 
+    
   }
   for (var i=min; i<=max; i+=step) {
     var o = orient;
     if (tp === "lat") {
       coord = [lr, i];
       val = i.toString() + "\u00b0";
+      if(i === 0) val = '';
       if (i < 0) o += "S"; else o += "N";
     } else if (tp === "ra") {
       coord = [i * 15, lr];
@@ -1289,9 +1306,10 @@ var settings = {
   lines: {
     graticule: { show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
 			// grid values: "outline", "center", or [lat,...] specific position
-      lon: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif"}, 
+      lon: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif", min:0, max:350, step:10}, 
 			// grid values: "outline", "center", or [lon,...] specific position
-		  lat: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif"}},
+      lat: {pos: [""], fill: "#eee", font: "0.8em Helvetica, Arial, sans-serif", min:-80, max:80, step:10},
+      ra: {min:0, max:23, step:1}},
     equatorial: { show: true, stroke: "#aaaaaa", width: 1.3, opacity: 0.7 },    // Show equatorial plane 
     ecliptic: { show: false, stroke: "#66cc66", width: 1.3, opacity: 0.7 },      // Show ecliptic plane 
     galactic: { show: false, stroke: "#cc6666", width: 1.3, opacity: 0.7 },     // Show galactic plane 

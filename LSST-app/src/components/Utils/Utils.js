@@ -1,10 +1,19 @@
+// export const filterColors = {
+//     u:"#992f8f",
+//     g:"#2cdd37",
+//     r:"#c80f0f",
+//     i:"#f19437",
+//     z:"#fff704",
+//     y:"#ffffff"
+// };
+
 export const filterColors = {
-    u:"#992f8f",
-    g:"#2f2fcc",
-    r:"#2cdd37",
-    i:"#fff704",
-    z:"#f19437",
-    y:"#c80f0f"
+    u:"#0000ff",
+    g:"#00ff00",
+    r:"#ff0000",
+    i:"#00ffff",
+    z:"#ff00ff",
+    y:"#ffff00"
 };
 
 export const typesOfScience = ["Dark Matter","Dark Energy","Solar System", "Changing Sky", "Milky Way"];
