@@ -214,7 +214,6 @@ class Survey extends Component {
                                         }
                                     }
                                 }
-                                {/* console.log('cellHoverCallback', latestField); */}
                                 this.setState({
                                     selectedField: latestField
                                 })
