@@ -510,9 +510,9 @@ Celestial.display = function(config) {
   }
 
   Celestial.updateCells = function(observations){
-    if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
-      return;
-    }
+    // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
+    //   return;
+    // }
     displayedObservations = observations;
     var selectedPolygons = container.selectAll(".mw");
     selectedPolygons.each(function(d) {
