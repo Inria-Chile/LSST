@@ -56,7 +56,6 @@ class Charts extends Component {
         var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 30);
         var margin = { top: 10, right: 10, bottom: 10, left: 10 };
         width = +svg.attr("width") - margin.left - margin.right;
-        // var height = +svg.attr("height") - margin.top - margin.bottom;
         var g = svg.append("g").attr('class', 'slider')
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
@@ -73,7 +72,6 @@ class Charts extends Component {
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
-        .attr("transform", "translate(0," + this.props.height-15 + ")")
         .call(d3.axisBottom(x).ticks(10));
         // var newStart, newEnd;
         var self = this;
