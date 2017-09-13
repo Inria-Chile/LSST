@@ -75,7 +75,7 @@ Celestial.display = function(config) {
   var context = canvas.node().getContext("2d");  
 
   
-  var graticule = d3.geo.graticule().minorStep([15,10]);
+  var graticule = d3.geo.graticule().minorStep([45,30]);
   map = d3.geo.path().projection(prjMap).context(context);
   mapStatic = d3.geo.path().projection(prjMapStatic).context(context);
 
@@ -809,8 +809,8 @@ Celestial.display = function(config) {
   this.reload = function(config) { 
     if (!config || !has(config, "transform")) return;
     trans = cfg.transform = config.transform; 
-    if (trans === "equatorial") graticule.minorStep([15,10]);
-    else  graticule.minorStep([10,10]);
+    if (trans === "equatorial") graticule.minorStep([45,30]);
+    else  graticule.minorStep([45,30]);
     container.selectAll("*").remove(); 
     setClip();
     container.append("path").datum(circle).attr("class", "horizon");

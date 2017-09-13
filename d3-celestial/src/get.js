@@ -106,17 +106,25 @@ function getLine(type, loc, orient) {
   if (cfg.transform === "equatorial" && tp === "lon") tp = "ra";
   
   if (tp === "ra") {
-    min = 0; max = 23; step = 1;
+    min = cfg.lines.graticule.ra.min ? cfg.lines.graticule.ra.min : 0; 
+    max = cfg.lines.graticule.ra.max ? cfg.lines.graticule.ra.max : 23; 
+    step = cfg.lines.graticule.ra.step ? cfg.lines.graticule.ra.step : 1; 
   } else if (tp === "lon") {
-    min = 0; max = 350; step = 10;    
+    min = cfg.lines.graticule.lon.min ? cfg.lines.graticule.lon.min : 0; 
+    max = cfg.lines.graticule.lon.max ? cfg.lines.graticule.lon.max : 350; 
+    step = cfg.lines.graticule.lon.step ? cfg.lines.graticule.lon.step : 10; 
   } else {
-    min = -80; max = 80; step = 10;    
+    min = cfg.lines.graticule.lat.min ? cfg.lines.graticule.lat.min : -80; 
+    max = cfg.lines.graticule.lat.max ? cfg.lines.graticule.lat.max : 80; 
+    step = cfg.lines.graticule.lat.step ? cfg.lines.graticule.lat.step : 10; 
+    
   }
   for (var i=min; i<=max; i+=step) {
     var o = orient;
     if (tp === "lat") {
       coord = [lr, i];
       val = i.toString() + "\u00b0";
+      if(i === 0) val = '';
       if (i < 0) o += "S"; else o += "N";
     } else if (tp === "ra") {
       coord = [i * 15, lr];
