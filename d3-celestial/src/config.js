@@ -16,7 +16,8 @@ var settings = {
   controls: true,     // Display zoom controls
   lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
                       // Default:en or empty string for english
-  cellSelectedCallback: null,
+  cellHoverCallback: null,
+  cellClickCallback: null,
   container: "celestial-map",   // ID of parent element, e.g. div
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {

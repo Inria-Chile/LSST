@@ -106,17 +106,17 @@ function getLine(type, loc, orient) {
   if (cfg.transform === "equatorial" && tp === "lon") tp = "ra";
   
   if (tp === "ra") {
-    min = cfg.lines.graticule.ra.min ? cfg.lines.graticule.ra.min : 0; 
-    max = cfg.lines.graticule.ra.max ? cfg.lines.graticule.ra.max : 23; 
-    step = cfg.lines.graticule.ra.step ? cfg.lines.graticule.ra.step : 1; 
+    min = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.min : 0; 
+    max = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.max : 23; 
+    step = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.step : 1; 
   } else if (tp === "lon") {
-    min = cfg.lines.graticule.lon.min ? cfg.lines.graticule.lon.min : 0; 
-    max = cfg.lines.graticule.lon.max ? cfg.lines.graticule.lon.max : 350; 
-    step = cfg.lines.graticule.lon.step ? cfg.lines.graticule.lon.step : 10; 
+    min = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.min : 0; 
+    max = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.max : 350; 
+    step = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.step : 10; 
   } else {
-    min = cfg.lines.graticule.lat.min ? cfg.lines.graticule.lat.min : -80; 
-    max = cfg.lines.graticule.lat.max ? cfg.lines.graticule.lat.max : 80; 
-    step = cfg.lines.graticule.lat.step ? cfg.lines.graticule.lat.step : 10; 
+    min = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.min : -80; 
+    max = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.max : 80; 
+    step = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.step : 10; 
     
   }
   for (var i=min; i<=max; i+=step) {

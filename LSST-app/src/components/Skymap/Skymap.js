@@ -30,7 +30,9 @@ class Skymap extends Component {
       location: false,    // Display location settings 
       controls: false,     // Display zoom controls
       cellSelectedCallback: f ? f : null,
-      lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
+      cellClickCallback: function(e){
+        console.log('cellClickCallback', e); 
+      },lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
       container: this.containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'
       polygons: {
