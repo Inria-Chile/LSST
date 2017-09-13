@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
 import './Timeline.css'
-
+import { typesOfScience, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 
 class Timeline extends Component {
@@ -31,13 +31,14 @@ class Timeline extends Component {
   createTimeline(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
     let width = elem.offsetWidth;
-    var lanes = ["Dark Matter","Dark Energy","Solar System", "Changing Sky", "Milky Way"],
+    var lanes = typesOfScience,
     laneLength = lanes.length,
-    data = this.props.data,
+    data = this.adaptData(),
     m = [20, 15, 15, 120], //top right bottom left
     w = width - m[1] - m[3],
     h = props.height - m[0] - m[2],
     mainHeight = h  - 50;
+    console.log(data);
     var y1 = d3.scaleLinear()
     .domain([0, laneLength])
     .range([0, mainHeight]);
@@ -79,14 +80,16 @@ class Timeline extends Component {
     rects.enter().append("rect")
       .attr("class", function(d) {return "item" + (d.lst-1);})
       .attr("x", function(d) {
-        return x1(d.expDate);
+        return x1(new Date(d.expDate));
       })
-      .attr("y", function(d) {return y1(d.lst-2) +2.5 ;})
-      .attr("width", function(d) {
-        var copiedDate = new Date(d.expDate.getTime());
+      .attr("y", function(d) {return y1(d.lst) ;})
+      .attr("width", function(d) { 
+        var copiedDate = new Date(new Date(d.expDate).getTime());
+        console.log(copiedDate);
         var seconds = copiedDate.getSeconds()+d.expTime;
+        console.log(seconds);
         copiedDate.setSeconds(seconds);
-        return (x1(copiedDate)-x1(d.expDate));
+        return (x1(copiedDate)-x1(new Date(d.expDate)));
       }).attr("height", function(d) {return .8 * y1(1);});
 
     rects.exit().remove();
@@ -102,17 +105,17 @@ class Timeline extends Component {
   }
 
   adaptData(){
-    var data = this.props.data;
+    let data = JSON.parse(JSON.stringify(this.props.data));
+    console.log(data);
     if(data!=null){
       data.map((d)=>{
-        var st = Math.floor(d.lst+1);
-        if (st ===0) st = 1;
+        var st = lstToTypeOfScienceNumber(d.lst);
         d.lst = st;
         return null;
       });
     }
-    //inventing science types from this unknown lst quantity
-
+    return data;
+    // console.log(data);
   }
 
   componentDidMount() {
@@ -130,7 +133,7 @@ class Timeline extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(this.props && JSON.stringify(this.props.data) === JSON.stringify(nextProps.data)){//Component should not update
+    if(this.props && JSON.stringify(this.props) === JSON.stringify(nextProps)){//Component should not update
       return false;
     }
     return true;
