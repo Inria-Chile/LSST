@@ -38,7 +38,6 @@ class Timeline extends Component {
     w = width - m[1] - m[3],
     h = props.height - m[0] - m[2],
     mainHeight = h  - 50;
-    console.log(data);
     var y1 = d3.scaleLinear()
     .domain([0, laneLength])
     .range([0, mainHeight]);
@@ -85,9 +84,7 @@ class Timeline extends Component {
       .attr("y", function(d) {return y1(d.lst) ;})
       .attr("width", function(d) { 
         var copiedDate = new Date(new Date(d.expDate).getTime());
-        console.log(copiedDate);
         var seconds = copiedDate.getSeconds()+d.expTime;
-        console.log(seconds);
         copiedDate.setSeconds(seconds);
         return (x1(copiedDate)-x1(new Date(d.expDate)));
       }).attr("height", function(d) {return .8 * y1(1);});
@@ -106,7 +103,6 @@ class Timeline extends Component {
 
   adaptData(){
     let data = JSON.parse(JSON.stringify(this.props.data));
-    console.log(data);
     if(data!=null){
       data.map((d)=>{
         var st = lstToTypeOfScienceNumber(d.lst);
@@ -125,7 +121,6 @@ class Timeline extends Component {
   }
 
   componentDidUpdate(){
-    console.log("updating")
     var dom = ReactDOM.findDOMNode(this);
     this.adaptData();
     this.removeTimeline(dom);    

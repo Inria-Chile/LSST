@@ -209,12 +209,13 @@ class Histogram extends Component {
     height = +svg.attr("height") - margin.top - margin.bottom;
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     var x,y,xticks,yticks;
+    var start = this.props.start;
+    var end = this.props.end;
+    x = d3.scaleTime().domain([start, end]);  
     var data = this.adaptData();
     if(data!=null){
-      var start = this.props.start;
-      var end = this.props.end;
+      
       var keys = ["U", "G", "R", "I","Z", "Y"];
-       x = d3.scaleTime().domain([start, end]);  
        y = d3.scaleLinear().range([height, 0]);
       var z = d3.scaleOrdinal()
         .range(Object.values(filterColors)).domain(keys);
@@ -223,7 +224,11 @@ class Histogram extends Component {
         .keys(keys)
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
-      var series = stack(data);
+      let filteredData = data.filter(function(d){
+        return d.date >= start && d.date<= end;
+      });  
+
+      var series = stack(filteredData);
 
       var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
       y.domain([0, ydom]).nice();
@@ -241,7 +246,7 @@ class Histogram extends Component {
         .data(function (d) { return d; })
         .enter().append("rect")
         .attr("x", function (d) {
-          return x(d.data.date)+margin.left;
+          return margin.left + x(d.data.date);
         })
         .attr("y", function (d) { 
           return y(d[1]); })
@@ -249,7 +254,7 @@ class Histogram extends Component {
         .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
         
        yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-       xticks = 10;
+       xticks = 20;
        this.drawAxes(g,height,xticks,yticks,x,y);  
 
 
