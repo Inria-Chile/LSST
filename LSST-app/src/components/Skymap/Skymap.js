@@ -16,7 +16,8 @@ class Skymap extends Component {
   }
 
   getDefaultConfig = () => {
-    let f = this.props.cellHoverCallback;
+    let hoverCallback = this.props.cellHoverCallback;
+    let clickCallback = this.props.cellClickCallback;
     return {
       width: 0,     // Default width, 0 = full parent width; height is determined by projection
       projection: "aitoff",
@@ -29,10 +30,9 @@ class Skymap extends Component {
       form: false,        // Display settings form
       location: false,    // Display location settings 
       controls: false,     // Display zoom controls
-      cellSelectedCallback: f ? f : null,
-      cellClickCallback: function(e){
-        console.log('cellClickCallback', e); 
-      },lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
+      cellHoverCallback: hoverCallback ? hoverCallback : null,
+      cellClickCallback: clickCallback ? clickCallback : null,
+      lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
       container: this.containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'
       polygons: {

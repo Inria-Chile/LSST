@@ -87,7 +87,9 @@ class MainSkymap extends Component {
 
     render() {
         return (
-            <Skymap ref={instance => { this.skymap = instance; }} cellHoverCallback={this.props.cellHoverCallback}nodeRef='mainNode' className="mainSkymap" />
+            <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"
+                    cellHoverCallback={this.props.cellHoverCallback} 
+                    cellClickCallback={this.props.cellClickCallback} />
         );
     }
 }

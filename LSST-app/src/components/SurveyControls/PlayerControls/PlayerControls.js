@@ -23,11 +23,9 @@ class PlayerControls extends Component {
     }
 
     playbackChange = (isPlaying) => {
-        console.log("playbackChange");
-        console.log(this.state.currentTime, "playing", isPlaying);
+        // console.log("playbackChange");
         let currentTime = this.state.currentTime;
         if(isPlaying){
-            console.log(this.state.currentTime, this.props.endDate)
             if(this.state.currentTime === this.props.endDate || this.state.currentTime === Infinity)
                 currentTime = 0;
             // this.playbackTimerId = setInterval(this.animate, 300);
@@ -37,13 +35,13 @@ class PlayerControls extends Component {
     }
 
     showPrevious = () => {
-        console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
+        // console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: 0});
         this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.startDate));
     }
 
     showNext = () => {
-        console.log('showNext', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
+        // console.log('showNext', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: this.props.endDate});
         this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.endDate));
     }

@@ -410,6 +410,11 @@ Celestial.display = function(config) {
         var filterName = d.properties.count[i][0];
         if(cfg.polygons.displayedFilters.indexOf(filterName) < 0)
           continue;
+        if(cfg.polygons.displayedFilters.length === 6){
+          colors.push([200,200,200]);
+          weights.push(d.properties.count[i][1]/fieldObs);
+          continue;
+        }
         var hexColor = cfg.polygons.filterColors[filterName];
         colors.push(hex2rgb(hexColor));
         weights.push(d.properties.count[i][1]/fieldObs);
@@ -418,7 +423,7 @@ Celestial.display = function(config) {
       context.fillStyle = cfg.background.fill;
       if(!(paintColor === '#000000')){
         context.fillStyle = paintColor;
-        context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/3.5));
+        context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.0));
       }
       map(d);
       // if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){

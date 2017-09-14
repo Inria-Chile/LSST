@@ -5,6 +5,7 @@ body {
 }
 
 #app-body{
-  /* background-color: #31475c; */
-  background-color: #ffffff;
+  background-color: #31475c;
+  /* background-color: #ffffff; */
+  color: #ddd;
 }
