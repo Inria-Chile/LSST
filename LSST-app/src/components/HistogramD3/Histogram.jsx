@@ -9,35 +9,13 @@ import { filterColors } from "../Utils/Utils"
 
 class Histogram extends Component {
 
-
-  randomDate(start, end) {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  }
-
-  randomData(length, start, end) {
-    var array = new Array(length);
-    for (let i = 0; i < length; i++) {
-      array[i] = {
-        date: this.randomDate(start, end),
-        U: Math.floor(Math.random() * 6) + 1,
-        G: Math.floor(Math.random() * 6) + 1,
-        R: Math.floor(Math.random() * 6) + 1,
-        I: Math.floor(Math.random() * 6) + 1,
-        Z: Math.floor(Math.random() * 6) + 1,
-        Y: Math.floor(Math.random() * 6) + 1
-      };
-    }
-    return array;
-  }
-
-  roundMinutes(date){
-   date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
-    date.setMinutes(0);
-
-    return date;
-  }
+  constructor(props){
+    super(props);
+    this.barSpacing = 0.015
+     
+}
   
-  adaptData(data){
+  adaptData(data, xScale){
     if(data!=null){
       let newData = [];
       let date = null;
@@ -91,6 +69,67 @@ class Histogram extends Component {
       return newData;
     }
     return null;
+  }
+
+  adaptData2(data, xScale){
+      let newData = [];
+      let date = null;
+      let item ={
+        date: null,
+        U: 0,
+        G: 0,
+        R: 0,
+        I: 0,
+        Z: 0,
+        Y: 0
+      };
+      data.forEach((d)=>{
+        let itemDate = d.expDate;
+        if(date==null){
+         item.date = d.expDate
+         this.addValueToFilter(item, d.filterName, d.expTime);
+         date = d.expDate;
+        }
+        else if(this.barsTouch(date,itemDate, xScale)){
+          this.addValueToFilter(item, d.filterName, d.expTime);
+        }
+        else{
+          let newItem ={
+            date: item.date,
+            U: item.U,
+            G: item.G,
+            R: item.R,
+            I: item.I,
+            Z: item.Z,
+            Y: item.Y
+          };
+          newData.push(newItem);
+          item ={
+            date: d.expDate,
+            U: 0,
+            G: 0,
+            R: 0,
+            I: 0,
+            Z: 0,
+            Y: 0
+          };
+          date=d.expDate;
+          this.addValueToFilter(item, d.filterName, d.expTime);
+        }
+      });
+      newData.push(item);
+      // console.log(newData[1]);
+      return newData;
+  }
+
+  barsTouch(prevDate, nextDate, xScale){
+    let prevPosition = xScale(prevDate);
+    let nextPosition = xScale(nextDate);
+    console.log("prev",prevPosition);
+    console.log("next",nextPosition);
+    console.log("diff",nextPosition-prevPosition);
+    if((nextPosition-prevPosition)<=this.barSpacing) return true;
+    else return false;
   }
 
   addValueToFilter(item,filter,value){
@@ -165,7 +204,7 @@ class Histogram extends Component {
       let filteredData = data.filter(function(d){
         return d.expDate >= start && d.expDate<= end;
       });  
-      let newData = this.adaptData(filteredData);
+      let newData = this.adaptData2(filteredData, x);
       
       var keys = ["U", "G", "R", "I","Z", "Y"];
        y = d3.scaleLinear().range([height, 0]);
@@ -189,8 +228,6 @@ class Histogram extends Component {
         .attr("class", "layer")
         .style("fill", function (d, i) { return z(i); });
   
-      var barWidth = (width)/data.length;
-
       x.range([0,width]);
       layer.selectAll("rect")
         .data(function (d) { return d; })
@@ -201,7 +238,7 @@ class Histogram extends Component {
         .attr("y", function (d) { 
           return y(d[1]); })
         .attr("height", function (d) { return y(d[0]) - y(d[1]); })
-        .attr("width", function(d){return (barWidth < 10) ? barWidth:10;});
+        .attr("width", function(d){return 10;});
         
        yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
        xticks = 20;
