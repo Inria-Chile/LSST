@@ -13,6 +13,7 @@ class Timeline extends Component {
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + (yposition-50) + ")")
+    .attr("class", "axisWhite")
     .call(d3.axisBottom(x).ticks(xticks));
 
     dom.append("g").selectAll(".laneText")

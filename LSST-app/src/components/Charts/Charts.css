@@ -3,3 +3,23 @@
     fill: dodgerblue;
     fill-opacity: .365;
 }
+
+.charts-container {
+    /* background: #1c2935; */
+    /* background: #eee; */
+    /* margin: 10px; */
+    /* padding: 10px; */
+  }
+
+
+.x text{
+    fill: white;
+  }  
+  
+  .x line{
+    stroke: white;
+  }
+  
+  .x path{
+    stroke: white;
+  }

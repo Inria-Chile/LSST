@@ -102,10 +102,12 @@ class Histogram extends Component {
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + yPosition + ")")
+    .attr("class", "axisWhite")
     .call(d3.axisBottom(x).ticks(xticks));
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
+    .attr("class", "axisWhite")
     .call(d3.axisLeft(y).tickValues(yticks));
   }
 
