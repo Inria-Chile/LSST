@@ -37,8 +37,7 @@ class Histogram extends Component {
     return date;
   }
   
-  adaptData(){
-    let data = this.props.data;
+  adaptData(data){
     if(data!=null){
       let newData = [];
       let date = null;
@@ -137,55 +136,6 @@ class Histogram extends Component {
     }
   }
 
-  createChart(dom, props) {
-    var width = this.props.width;
-    var height = this.props.height;
-    var today = new Date();
-    today.setDate(today.getDate() - 1);
-    var data = this.randomData(1, today, new Date())
-
-    var formatCount = d3.format(",.0f");
-
-    var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height),
-      margin = { top: 30, right: 30, bottom: 30, left: 30 },
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-    var x = d3.scaleTime()
-      .domain([today, new Date()])
-      .rangeRound([0, width]);
-
-    var bins = d3.histogram()
-      .value(function (d) { return d.date; })
-      .domain(x.domain())
-      .thresholds(x.ticks(d3.utcHour))(data);
-
-    var y = d3.scaleLinear().domain([0, d3.max(bins, (d) => { return d.length; })]).range([height, 0]);
-
-    var bar = g.selectAll(".bar")
-      .data(bins)
-      .enter().append("g")
-      .attr("class", "bar")
-      .attr("transform", (d) => { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
-
-    bar.append("rect")
-      .attr("x", 1)
-      .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
-      .attr("height", (d) => { return height - y(d.length); });
-
-    bar.append("text")
-      .attr("dy", ".75em")
-      .attr("y", 6)
-      .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
-      .attr("text-anchor", "middle")
-      .text(function (d) { return formatCount(d.length); });
-
-    g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-  }
-
   drawAxes(dom,yPosition,xticks,yticks,x,y){
     dom.append("g")
     .attr("class", "axis axis--x")
@@ -196,8 +146,6 @@ class Histogram extends Component {
     .attr("transform", "translate(0,0)")
     .call(d3.axisLeft(y).tickValues(yticks));
   }
-
-
 
   createStackedHistogram(dom, props) {
     var height = this.props.height;
@@ -212,8 +160,12 @@ class Histogram extends Component {
     var start = this.props.start;
     var end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
-    var data = this.adaptData();
+    let data = this.props.data;
     if(data!=null){
+      let filteredData = data.filter(function(d){
+        return d.expDate >= start && d.expDate<= end;
+      });  
+      let newData = this.adaptData(filteredData);
       
       var keys = ["U", "G", "R", "I","Z", "Y"];
        y = d3.scaleLinear().range([height, 0]);
@@ -224,11 +176,9 @@ class Histogram extends Component {
         .keys(keys)
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
-      let filteredData = data.filter(function(d){
-        return d.date >= start && d.date<= end;
-      });  
 
-      var series = stack(filteredData);
+
+      var series = stack(newData);
 
       var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
       y.domain([0, ydom]).nice();
