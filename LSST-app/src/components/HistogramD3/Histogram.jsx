@@ -136,17 +136,17 @@ class Histogram extends Component {
       y = d3.scaleLinear().range([height, 0]);
       z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
       
-      var stack = d3.stack()
+      let stack = d3.stack()
         .keys(this.keys)
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-      var series = stack(newData);
+      let series = stack(newData);
 
-      var ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
+      let ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
       y.domain([0, ydom]).nice();
   
-      var layer = svg.selectAll(".layer")
+      let layer = svg.selectAll(".layer")
         .data(series)
         .enter().append("g")
         .attr("class", "layer")
@@ -171,7 +171,7 @@ class Histogram extends Component {
 
     }
     else{
-      var today = new Date();
+      let today = new Date();
       today.setDate(today.getDate() + 1);
        x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
        y = d3.scaleLinear().range([height, 0]); 
