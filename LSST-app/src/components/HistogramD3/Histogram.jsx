@@ -12,66 +12,11 @@ class Histogram extends Component {
   constructor(props){
     super(props);
     this.barSpacing = 0.015
+    this.keys = ["U", "G", "R", "I","Z", "Y"];
      
-}
+  }
   
   adaptData(data, xScale){
-    if(data!=null){
-      let newData = [];
-      let date = null;
-      let item ={
-        date: null,
-        U: 0,
-        G: 0,
-        R: 0,
-        I: 0,
-        Z: 0,
-        Y: 0
-      };
-      data.forEach((d)=>{
-        let itemDate = d.expDate;
-        if(date==null){
-         item.date = d.expDate
-         this.addValueToFilter(item, d.filterName, d.expTime);
-         date = d.expDate;
-        }
-        else if((itemDate.toDateString().localeCompare(date.toDateString()) === 0 && 
-          itemDate.getHours() === date.getHours()) &&
-          itemDate.getMinutes() === date.getMinutes()){
-          this.addValueToFilter(item, d.filterName, d.expTime);
-        }
-        else{
-          let newItem ={
-            date: item.date,
-            U: item.U,
-            G: item.G,
-            R: item.R,
-            I: item.I,
-            Z: item.Z,
-            Y: item.Y
-          };
-          newData.push(newItem);
-          item ={
-            date: d.expDate,
-            U: 0,
-            G: 0,
-            R: 0,
-            I: 0,
-            Z: 0,
-            Y: 0
-          };
-          date=d.expDate;
-          this.addValueToFilter(item, d.filterName, d.expTime);
-        }
-      });
-      newData.push(item);
-      // console.log(newData[1]);
-      return newData;
-    }
-    return null;
-  }
-
-  adaptData2(data, xScale){
       let newData = [];
       let date = null;
       let item ={
@@ -118,40 +63,18 @@ class Histogram extends Component {
         }
       });
       newData.push(item);
-      // console.log(newData[1]);
       return newData;
   }
 
   barsTouch(prevDate, nextDate, xScale){
     let prevPosition = xScale(prevDate);
     let nextPosition = xScale(nextDate);
-    console.log("prev",prevPosition);
-    console.log("next",nextPosition);
-    console.log("diff",nextPosition-prevPosition);
     if((nextPosition-prevPosition)<=this.barSpacing) return true;
     else return false;
   }
 
   addValueToFilter(item,filter,value){
     switch(filter){
-      case 1:
-        item.U += value;
-        break;
-      case 2:
-        item.G += value;
-        break;
-      case 3:
-        item.R += value;
-        break;
-      case 4:
-        item.I += value;
-        break;
-      case 5:
-        item.Z += value;
-        break;
-      case 6:
-        item.Y += value;
-        break;
       case 'u':
         item.U += value;
         break;
@@ -187,35 +110,36 @@ class Histogram extends Component {
   }
 
   createStackedHistogram(dom, props) {
-    var height = this.props.height;
+    
     let elem = ReactDOM.findDOMNode(this);
     let width = elem.offsetWidth;
-    var svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    var margin = { top: 0, right: 15, bottom: 20, left: 120 };
+    let height = this.props.height;
+    
+    let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
+    let margin = { top: 0, right: 15, bottom: 20, left: 120 };
     width = +svg.attr("width") - margin.left - margin.right;
     height = +svg.attr("height") - margin.top - margin.bottom;
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    var x,y,xticks,yticks;
-    var start = this.props.start;
-    var end = this.props.end;
+
+    let x,y,z,xticks,yticks;
+    let start = this.props.start;
+    let end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
     let data = this.props.data;
+
     if(data!=null){
       let filteredData = data.filter(function(d){
         return d.expDate >= start && d.expDate<= end;
       });  
-      let newData = this.adaptData2(filteredData, x);
+      let newData = this.adaptData(filteredData, x);
       
-      var keys = ["U", "G", "R", "I","Z", "Y"];
-       y = d3.scaleLinear().range([height, 0]);
-      var z = d3.scaleOrdinal()
-        .range(Object.values(filterColors)).domain(keys);
+      y = d3.scaleLinear().range([height, 0]);
+      z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
       
       var stack = d3.stack()
-        .keys(keys)
+        .keys(this.keys)
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
-
 
       var series = stack(newData);
 
