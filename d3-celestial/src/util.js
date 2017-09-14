@@ -106,6 +106,10 @@ function blendColors(colors, weights) {
   return retColor;
 }
 
+function whiteValue(f){
+  return [255*f, 255*f, 255*f]
+}
+
 var Trig = {
   sinh: function (val) { return (Math.pow(Math.E, val)-Math.pow(Math.E, -val))/2; },
   cosh: function (val) { return (Math.pow(Math.E, val)+Math.pow(Math.E, -val))/2; },

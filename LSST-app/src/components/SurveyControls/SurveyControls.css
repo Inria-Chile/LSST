@@ -1,7 +1,8 @@
 
 .survey-control-bar{
     height: 10%;
-    background: #fff;
+    /* background: #fff; */
+    background: #3d5871;      
 }
 
 .mode-selection{

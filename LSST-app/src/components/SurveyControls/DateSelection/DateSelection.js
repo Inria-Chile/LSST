@@ -16,7 +16,7 @@ class DateSelection extends Component {
     }
 
     setDate = () => {
-        console.log('setDate', this.state.startDate, this.state.endDate);
+        // console.log('setDate', this.state.startDate, this.state.endDate);
         this.props.setDataByDate(this.state.startDate, this.state.endDate);
     }
 

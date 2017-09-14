@@ -12,7 +12,6 @@ class ObservationsTable extends Component {
         this.state = {
             data: [{}]
         };
-        console.log('ObservationsTable', filterColors);
     }
 
     setData = (data) => {

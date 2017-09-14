@@ -169,7 +169,45 @@ class Survey extends Component {
         });
     }
 
-    
+    cellHoverCallback = (fieldID, polygon) => {
+        let latestField = null;
+        let latestExpDate = 0;
+        if(fieldID){
+            for(let i=0;i<this.displayedData.length;++i){
+                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
+                    if(this.displayedData[i].expDate > latestExpDate){
+                        latestExpDate = this.displayedData[i].expDate;
+                        latestField = this.displayedData[i];
+                    }
+                }
+            }
+        }
+        this.setState({
+            selectedField: latestField
+        })
+    }
+
+    cellClickCallback = (fieldID, polygon) => {
+        let latestField = null;
+        let latestExpDate = 0;
+        if(fieldID){
+            for(let i=0;i<this.displayedData.length;++i){
+                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
+                    if(this.displayedData[i].expDate > latestExpDate){
+                        latestExpDate = this.displayedData[i].expDate;
+                        latestField = this.displayedData[i];
+                    }
+                }
+            }
+        }
+        this.setState({
+            clickedField: latestField
+        })
+        console.log('cellClickCallback', latestField);
+    }
+
     render() {
         let setters = {
             setEcliptic: this.setEcliptic,
@@ -200,24 +238,9 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} cellHoverCallback={(fieldID, polygon) => {
-                                let latestField = null;
-                                let latestExpDate = 0;
-                                if(fieldID){
-                                    for(let i=0;i<this.displayedData.length;++i){
-                                        if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                                            (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
-                                            if(this.displayedData[i].expDate > latestExpDate){
-                                                latestExpDate = this.displayedData[i].expDate;
-                                                latestField = this.displayedData[i];
-                                            }
-                                        }
-                                    }
-                                }
-                                this.setState({
-                                    selectedField: latestField
-                                })
-                            }}/>
+                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                                        cellHoverCallback={this.cellHoverCallback} 
+                                        cellClickCallback={this.cellClickCallback} />
                         </div>
                         <div>
                             <ObservationsTable selectedField={this.state.selectedField} />
