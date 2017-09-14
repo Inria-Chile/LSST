@@ -24,7 +24,7 @@ canvas {
 
 .selected-filter {
     /* border: 1px solid red; */
-    box-shadow: inset 0px 0px 0px 2px #f00;
+    box-shadow: inset 0px 0px 0px 2px #00c9ac;
 }
 
 .selected-filter::after {
@@ -38,7 +38,7 @@ canvas {
     top: -17px;
     left: 0;
     font-size: 14px;
-    border-bottom: 15px solid red;
+    border-bottom: 15px solid #00c9ac;
     border-right: 15px solid transparent;
 }
 

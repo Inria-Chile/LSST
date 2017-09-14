@@ -23,14 +23,16 @@ class Skymap extends Component {
       transform: "equatorial", // Coordinate transformation: equatorial (default), ecliptic, galactic, supergalactic
       center: null,       // Initial center coordinates in equatorial transformation [hours, degrees, degrees], 
       orientationfixed: true,  // Keep orientation angle the same as center[2]
-      background: { fill: "#000000", stroke: "#000000", opacity: 1 }, // Background style
+      background: { fill: "#1c2935", stroke: "#1c2935", width: 2.6, opacity: 1.0 }, // Background style
       adaptable: true,    // Sizes are increased with higher zoom-levels
       interactive: false,  // Enable zooming and rotation with mousewheel and dragging
       form: false,        // Display settings form
       location: false,    // Display location settings 
       controls: false,     // Display zoom controls
       cellSelectedCallback: f ? f : null,
-      lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
+      cellClickCallback: function(e){
+        console.log('cellClickCallback', e); 
+      },lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
       container: this.containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'
       polygons: {

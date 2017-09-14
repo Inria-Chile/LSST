@@ -7,13 +7,22 @@
 //     y:"#ffffff"
 // };
 
+// export const filterColors = {
+//     u:'#80b1d3',
+//     g:'#8dd3c7',
+//     r:'#fb8072',
+//     i:'#fdb462',
+//     z:'#ffffb3',
+//     y:'#bebada'
+// };
+
 export const filterColors = {
-    u:"#0000ff",
-    g:"#00ff00",
-    r:"#ff0000",
-    i:"#00ffff",
-    z:"#ff00ff",
-    y:"#ffff00"
+    u:'#377eb8',
+    g:'#4daf4a',
+    r:'#bf4042',
+    i:'#e68019',
+    z:'#eded1d',
+    y:'#8e5a96'
 };
 
 export const typesOfScience = ["Dark Matter","Dark Energy","Solar System", "Changing Sky", "Milky Way"];

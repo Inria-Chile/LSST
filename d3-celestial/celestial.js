@@ -95,13 +95,15 @@ Celestial.display = function(config) {
   canvas[0][0].addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(canvas[0][0], evt);
     mousePosition = prjMap.invert([mousePos.x, mousePos.y]);
-    if(cfg.cellSelectedCallback)
-      checkMouseInsideCell(cfg.cellSelectedCallback);
+    if(cfg.cellHoverCallback)
+      checkMouseInsideCell(cfg.cellHoverCallback);
   }, false);
 
   canvas[0][0].addEventListener('mousedown', function(evt) {
     mousedown = true;
-  });  
+    if(cfg.cellClickCallback)
+      checkMouseClickedCell(cfg.cellClickCallback);
+  });
 
   canvas[0][0].addEventListener('mouseup', function(evt) {
     mousedown = false;
@@ -360,6 +362,18 @@ Celestial.display = function(config) {
           lastSeletedCell = d;
           callback(fieldID, d);
         }
+        return;
+      }
+    });
+  }
+
+  function checkMouseClickedCell(callback){
+    var selectedPolygons = container.selectAll(".mw");
+    selectedPolygons.each(function(d) {
+      if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
+        var fieldID = findFieldId(d, displayedObservations);
+        lastSeletedCell = d;
+        callback(fieldID, d);
         return;
       }
     });
@@ -1209,17 +1223,17 @@ function getLine(type, loc, orient) {
   if (cfg.transform === "equatorial" && tp === "lon") tp = "ra";
   
   if (tp === "ra") {
-    min = cfg.lines.graticule.ra.min ? cfg.lines.graticule.ra.min : 0; 
-    max = cfg.lines.graticule.ra.max ? cfg.lines.graticule.ra.max : 23; 
-    step = cfg.lines.graticule.ra.step ? cfg.lines.graticule.ra.step : 1; 
+    min = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.min : 0; 
+    max = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.max : 23; 
+    step = cfg.lines.graticule.ra ? cfg.lines.graticule.ra.step : 1; 
   } else if (tp === "lon") {
-    min = cfg.lines.graticule.lon.min ? cfg.lines.graticule.lon.min : 0; 
-    max = cfg.lines.graticule.lon.max ? cfg.lines.graticule.lon.max : 350; 
-    step = cfg.lines.graticule.lon.step ? cfg.lines.graticule.lon.step : 10; 
+    min = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.min : 0; 
+    max = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.max : 350; 
+    step = cfg.lines.graticule.lon ? cfg.lines.graticule.lon.step : 10; 
   } else {
-    min = cfg.lines.graticule.lat.min ? cfg.lines.graticule.lat.min : -80; 
-    max = cfg.lines.graticule.lat.max ? cfg.lines.graticule.lat.max : 80; 
-    step = cfg.lines.graticule.lat.step ? cfg.lines.graticule.lat.step : 10; 
+    min = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.min : -80; 
+    max = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.max : 80; 
+    step = cfg.lines.graticule.lat ? cfg.lines.graticule.lat.step : 10; 
     
   }
   for (var i=min; i<=max; i+=step) {
@@ -1280,7 +1294,8 @@ var settings = {
   controls: true,     // Display zoom controls
   lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
                       // Default:en or empty string for english
-  cellSelectedCallback: null,
+  cellHoverCallback: null,
+  cellClickCallback: null,
   container: "celestial-map",   // ID of parent element, e.g. div
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {
