@@ -8,7 +8,7 @@ import { typesOfScience, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 class Timeline extends Component {
 
-  drawAxes(dom, lanes, y,x, yposition, xposition, xticks){
+  drawAxes(dom, lanes, y,x, yposition, width, xposition, xticks){
 
     dom.append("g")
     .attr("class", "axis axis--x")
@@ -26,6 +26,16 @@ class Timeline extends Component {
     .attr("text-anchor", "end")
     .attr("class", "laneText");
 
+
+    dom.append("g").selectAll(".laneLines")
+    .data(lanes)
+    .enter().append("line")
+    .attr("x1", 0)
+    .attr("y1", function(d,i) {
+    return y(i);})
+    .attr("x2", width)
+    .attr("y2", function(d,i) {return y(i);})
+    .attr("stroke", "lightgray")
 
   }
 
@@ -63,15 +73,8 @@ class Timeline extends Component {
       var start = this.props.start;
       var end = this.props.end;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,m[1],10);
-          g.append("g").selectAll(".laneLines")
-    .data(data)
-    .enter().append("line")
-    .attr("x1", m[1])
-    .attr("y1", function(d) {return y1(d.lst-2);})
-    .attr("x2", w)
-    .attr("y2", function(d) {return y1(d.lst-2);})
-    .attr("stroke", "lightgray")
+      this.drawAxes(g,lanes,y1,x1,h,w,m[1],10);
+
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
         var rects = itemRects.selectAll("rect")
@@ -82,7 +85,7 @@ class Timeline extends Component {
       .attr("x", function(d) {
         return x1(new Date(d.expDate));
       })
-      .attr("y", function(d) {return y1(d.lst) ;})
+      .attr("y", function(d) {return y1(d.lst)+1.3;})
       .attr("width", function(d) { 
         var copiedDate = new Date(new Date(d.expDate).getTime());
         var seconds = copiedDate.getSeconds()+d.expTime;
@@ -98,7 +101,7 @@ class Timeline extends Component {
       var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
       // var xticks = d3.utcHour;
       // var xticks = d3.utcDay;
-      this.drawAxes(g,lanes,y1,x,h,m[1],10);
+      this.drawAxes(g,lanes,y1,x,h,w,m[1],10);
     }
   }
 
