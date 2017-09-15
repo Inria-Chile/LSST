@@ -22,6 +22,7 @@ class Survey extends Component {
         this.state = {
             selectedMode: 'playback',
             selectedField: [],
+            clickedField: [],
             displayedFilter: 'all',
             startDate: null,
             endDate: null
@@ -189,23 +190,20 @@ class Survey extends Component {
     }
 
     cellClickCallback = (fieldID, polygon) => {
-        let latestField = null;
-        let latestExpDate = 0;
+        let selectedFieldData = [];
         if(fieldID){
             for(let i=0;i<this.displayedData.length;++i){
                 if(String(this.displayedData[i].fieldID) === String(fieldID) &&
                     (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
-                    if(this.displayedData[i].expDate > latestExpDate){
-                        latestExpDate = this.displayedData[i].expDate;
-                        latestField = this.displayedData[i];
-                    }
+                    selectedFieldData.push(this.displayedData[i]);
                 }
             }
         }
+        selectedFieldData.sort((a,b)=> b.expDate - a.expDate)
         this.setState({
-            clickedField: latestField
+            clickedField: selectedFieldData
         })
-        console.log('cellClickCallback', latestField);
+        console.log('cellClickCallback', selectedFieldData);
     }
 
     render() {
@@ -243,7 +241,7 @@ class Survey extends Component {
                                         cellClickCallback={this.cellClickCallback} />
                         </div>
                         <div>
-                            <ObservationsTable selectedField={this.state.selectedField} />
+                            <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
                         </div>
                     </div>
                     <div className="right-container">
