@@ -9,6 +9,7 @@ import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import './Survey.css';
 import openSocket from 'socket.io-client';
+import { filterColors, lstToTypeOfScience } from "../Utils/Utils"
 
 class Survey extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Survey extends Component {
         this.socket = openSocket('http://localhost:3000');
         this.state = {
             selectedMode: 'playback',
-            selectedField: [],
+            selectedField: null,
             clickedField: [],
             displayedFilter: 'all',
             startDate: null,
@@ -229,6 +230,8 @@ class Survey extends Component {
             setSidebar: this.setSidebar,
             setProjection: this.setProjection
         }
+console.log(this.state.selectedField);
+
         return (
             <div className="survey-container">
                 <div>
@@ -253,6 +256,24 @@ class Survey extends Component {
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
                                         cellHoverCallback={this.cellHoverCallback} 
                                         cellClickCallback={this.cellClickCallback} />
+                            {
+                                this.state.selectedField &&
+                                <div className="hover-div">
+                                    <div>FieldID: {this.state.selectedField && this.state.selectedField.fieldID ? this.state.selectedField.fieldID: ''}</div>
+                                    <div>Timestamp: {this.state.selectedField && this.state.selectedField.expDate ? this.state.selectedField.expDate: ''}</div>
+                                    <div>
+                                        Filter: {" "}
+                                        <div className="hover-filter" style={{
+                                                backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
+                                                    : "#000000",
+                                            }}>
+                                            {
+                                                this.state.selectedField.filterName ? this.state.selectedField.filterName : ''
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            } 
                         </div>
                         <div>
                             <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />

@@ -12,6 +12,7 @@ h3 {
   /* background: #eee; */
   /* margin: 10px; */
   padding: 10px;
+  position: relative;
 }
 
 .main-container {
@@ -86,4 +87,19 @@ h3 {
   top: 0;
   right: 0;
   margin: 10px;
+}
+
+.hover-div {
+  position: absolute;
+  font-size: 13px;
+  bottom: 0;
+  left: 0;
+}
+
+.hover-filter {
+  display: inline-block;
+  margin: 0px 5px;
+  text-align: center;
+  border-radius: 2px;
+  padding: 0px 5px;
 }
