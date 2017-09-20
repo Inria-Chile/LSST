@@ -40,9 +40,11 @@ Celestial.display = function(config) {
   var mousedown = false;
   var mousePosition = null;
   var lastSeletedCell = null;
+  var lastClickedCell = null;
   var mappedIds = {};
   var displayedObservations = null;
   var allPolygons = [];
+  var self = this;
   
   var selectedCell = null;
   if (cfg.lines.graticule.lat && cfg.lines.graticule.lat.pos[0] === "outline") proj.scale -= 2;
@@ -372,8 +374,9 @@ Celestial.display = function(config) {
     selectedPolygons.each(function(d) {
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
         var fieldID = findFieldId(d, displayedObservations);
-        lastSeletedCell = d;
+        lastClickedCell = d;
         callback(fieldID, d);
+        self.redraw();
         return;
       }
     });
@@ -428,14 +431,25 @@ Celestial.display = function(config) {
       }
       map(d);
       // if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
-      //   context.fillStyle = cfg.background.fill;
-      //   context.globalAlpha = 1.0;
-      //   context.beginPath();
-      //   map(d);
-      //   context.fillStyle = '#00ff00';
-      // }
-      
-      context.fill();
+        //   context.fillStyle = cfg.background.fill;
+        //   context.globalAlpha = 1.0;
+        //   context.beginPath();
+        //   map(d);
+        //   context.fillStyle = '#00ff00';
+        // }
+        context.fill();
+        if(lastClickedCell && lastClickedCell.properties.id === d.properties.id){
+          // context.fillStyle = cfg.background.fill;
+          console.log('lastClickedCell', lastClickedCell);
+          context.globalAlpha = 1.0;
+          // context.beginPath();
+          map(lastClickedCell);
+          // context.fillStyle = '#00ff00';
+          context.strokeStyle = '#00ff00';
+          context.stroke();
+
+          // context.fill();
+        }
     });
   }
 

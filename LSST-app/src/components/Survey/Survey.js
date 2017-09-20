@@ -80,6 +80,7 @@ class Survey extends Component {
         this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
         this.miniSkymap.setDisplayedDateLimits(startDate, endDate);
         this.setDate(endDate);
+        this.updateObservationsTable();
     }
 
     setLiveMode = () => {
@@ -189,7 +190,9 @@ class Survey extends Component {
         })
     }
 
-    cellClickCallback = (fieldID, polygon) => {
+    updateObservationsTable = () => {
+        let fieldID = this.lastFieldID;
+        let polygon = this.lastPolygon;
         let selectedFieldData = [];
         if(fieldID){
             for(let i=0;i<this.displayedData.length;++i){
@@ -203,7 +206,18 @@ class Survey extends Component {
         this.setState({
             clickedField: selectedFieldData
         })
-        console.log('cellClickCallback', selectedFieldData);
+    }
+
+    cellClickCallback = (fieldID, polygon) => {
+        this.lastFieldID = fieldID;
+        this.lastPolygon = polygon;
+        this.updateObservationsTable();
+        console.log('cellClickCallback');
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.displayedFilter !== this.state.displayedFilter)
+            this.updateObservationsTable();
     }
 
     render() {
