@@ -24,7 +24,7 @@ survey = Blueprint('survey', __name__)
 
 def load_db():
     if not engine.dialect.has_table(engine, 'observations'):
-        file_name = 'circumpolar.dat'
+        file_name = 'data/circumpolar.dat'
         df = pd.read_csv(file_name, sep='\t')
         df.to_sql(con=engine, index_label='obsHistID_index', name=Observation.__tablename__, if_exists='replace')
 
