@@ -1,6 +1,11 @@
 
+h2 {
+  padding: 5px 10px;
+}
+
 h3 {
   background: #2d4053;
+  padding: 5px 10px;
 }
 
 .survey-container {
@@ -11,7 +16,7 @@ h3 {
   background: #31475c;  
   /* background: #eee; */
   /* margin: 10px; */
-  padding: 10px;
+  padding: 5px;
   position: relative;
 }
 

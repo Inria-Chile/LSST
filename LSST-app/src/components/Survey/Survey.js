@@ -9,7 +9,7 @@ import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import './Survey.css';
 import openSocket from 'socket.io-client';
-import { filterColors, lstToTypeOfScience } from "../Utils/Utils"
+import { filterColors } from "../Utils/Utils"
 
 class Survey extends Component {
     constructor(props) {
@@ -193,7 +193,6 @@ class Survey extends Component {
 
     updateObservationsTable = () => {
         let fieldID = this.lastFieldID;
-        let polygon = this.lastPolygon;
         let selectedFieldData = [];
         if(fieldID){
             for(let i=0;i<this.displayedData.length;++i){
@@ -230,7 +229,6 @@ class Survey extends Component {
             setSidebar: this.setSidebar,
             setProjection: this.setProjection
         }
-console.log(this.state.selectedField);
 
         return (
             <div className="survey-container">

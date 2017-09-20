@@ -11,6 +11,7 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
     "react-bootstrap": "^0.31.1",
+    "react-custom-scrollbars": "^4.1.2",
     "react-day-picker": "^6.1.0",
     "react-dom": "^15.6.1",
     "react-player-controls": "^0.5.15",
