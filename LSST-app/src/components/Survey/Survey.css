@@ -30,8 +30,8 @@ h3 {
   top: 0;
   display: inline-block;
   width: 75%;
-  margin: 3px; 
-  padding: 7px;
+  margin: 0px 3px;
+  padding: 0px 7px;
 }
 
 .right-container {
@@ -40,8 +40,8 @@ h3 {
   right: 0;
   display: inline-block;
   width: 25%;
-  margin: 3px; 
-  padding: 7px;
+  margin: 0px 3px;
+  padding: 0px 7px;
 }
 
 .minimap {
@@ -108,3 +108,5 @@ h3 {
   border-radius: 2px;
   padding: 0px 5px;
 }
+
+/* #04070a */

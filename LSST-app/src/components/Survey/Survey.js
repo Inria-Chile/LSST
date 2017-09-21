@@ -4,12 +4,14 @@ import React, { Component } from 'react';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
+// import M1M3 from '../M1M3/M1M3';
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import './Survey.css';
 import openSocket from 'socket.io-client';
-import { filterColors } from "../Utils/Utils"
+import { filterColors, checkStatus, parseJSON } from "../Utils/Utils"
+// import * as d3 from 'd3';
 
 class Survey extends Component {
     constructor(props) {
@@ -121,8 +123,8 @@ class Survey extends Component {
         return fetch(`survey/playback/observationsCount?start_date=${startDate}&end_date=${endDate}`, {
             accept: "application/json"
         })
-        .then(this.checkStatus)
-        .then(this.parseJSON)
+        .then(checkStatus)
+        .then(parseJSON)
         .then(cb);
     }
 
@@ -145,21 +147,6 @@ class Survey extends Component {
         if(!added)
             this.displayedData.push(obs);
         this.setData(this.displayedData);
-    }
-    
-    checkStatus(response) {
-        if (response.status >= 200 && response.status < 300) {
-            return response;
-        }
-        const error = new Error(`HTTP Error ${response.statusText}`);
-        error.status = response.statusText;
-        error.response = response;
-        console.log(error); // eslint-disable-line no-console
-        throw error;
-    }
-    
-    parseJSON(response) {
-        return response.json();
     }
 
     componentDidMount() {
@@ -251,6 +238,16 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
+                            {/* <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={d3.interpolateViridis}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={(d) => d3.interpolateViridis(1-d)}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={d3.interpolateMagma}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={(d) => d3.interpolateMagma(1-d)}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={d3.interpolatePlasma}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={(d) => d3.interpolatePlasma(1-d)}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={d3.interpolateCool}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={(d) => d3.interpolateCool(1-d)}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={d3.interpolateRainbow}/>
+                            <M1M3 width="500px" height="500px" scale={1.4} margin={20} colormap={(d) => d3.interpolateRainbow(1-d)}/> */}
                             <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
                                         cellHoverCallback={this.cellHoverCallback} 
                                         cellClickCallback={this.cellClickCallback} />
