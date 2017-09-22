@@ -142,7 +142,7 @@ class Skymap extends Component {
     let cfg = this.Celestial.cfg;
     let cel = this.getCelestial();
     cfg.projection = proj;
-    cel.apply(cfg);
+    cel.reproject(cfg);
     cel.cfg = cfg;
   }
 

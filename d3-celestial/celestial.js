@@ -9,7 +9,7 @@ var Celestial = {
 var ANIMDISTANCE = 3.035,  // Rotation animation threshold, ~2deg in radians
     ANIMSCALE = 1.4,       // Zoom animation threshold, scale factor
     ANIMINTERVAL_R = 2000, // Rotation duration scale in ms
-    ANIMINTERVAL_P = 2500, // Projection duration in ms
+    ANIMINTERVAL_P = 0, // Projection duration in ms
     ANIMINTERVAL_Z = 1500; // Zoom duration scale in ms
     
 var cfg, prjMap, prjMapStatic, zoom, map, mapStatic, circle;
@@ -316,7 +316,7 @@ Celestial.display = function(config) {
       return delay + interval;
     }
     
-    fldEnable("horizon-show", prj.clip);
+    // fldEnable("horizon-show", prj.clip);
     
     prjMap = projectionTween(prjFrom, prjTo);
     
@@ -326,7 +326,7 @@ Celestial.display = function(config) {
     d3.select({}).transition().duration(interval).tween("projection", function () {
       return function(_) {
         prjMap.alpha(_).rotate(rot);
-        m8ap.projection(prjMap);
+        map.projection(prjMap);
         setClip(prj.clip);
         ratio = rTween(_);
         height = width/ratio;
