@@ -79,7 +79,7 @@ class Charts extends Component {
             console.log("newBrush");
             d3.select(dom).select('.brush').remove();
             
-            this.brush = d3.brushX(x).on("end", function(){
+            this.brush = d3.brushX(x).on("brush", function(){
                 var brushValues = d3.brushSelection(this);
                 if (brushValues!=null){
                     self.setState({
