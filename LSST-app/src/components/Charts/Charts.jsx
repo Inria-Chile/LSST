@@ -25,6 +25,7 @@ class Charts extends Component {
             startAt: new Date(),
             endAt: today
         };
+        this.brush=null;
          
     }
     
@@ -67,7 +68,7 @@ class Charts extends Component {
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
         d3.select(dom).select('.x').remove();
-        d3.select(dom).select('.brush').remove();
+        // d3.select(dom).select('.brush').remove();
         var g = d3.select(dom).select(".slider");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
@@ -75,19 +76,22 @@ class Charts extends Component {
         .call(d3.axisBottom(x).ticks(10));
         // var newStart, newEnd;
         var self = this;
-        var brush = d3.brushX(x).on("end", function(){
-            var brushValues = d3.brushSelection(this);
-            if (brushValues!=null){
-                self.setState({
-                    startAt: x.invert(brushValues[0]),
-                    endAt:x.invert(brushValues[1])
-                });
-            }
-        });
-        var svg = d3.select(dom).select('.slider-container');
-        svg.append("g")
-        .attr("class", "brush")
-        .call(brush);
+        if(this.brush==null){
+            this.brush = d3.brushX(x).on("end", function(){
+                var brushValues = d3.brushSelection(this);
+                if (brushValues!=null){
+                    self.setState({
+                        startAt: x.invert(brushValues[0]),
+                        endAt:x.invert(brushValues[1])
+                    });
+                }
+            });
+            var svg = d3.select(dom).select('.slider-container');
+            svg.append("g")
+            .attr("class", "brush")
+            .call(this.brush);
+        }
+       
     }
 
     componentDidMount(){
