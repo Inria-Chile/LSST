@@ -70,8 +70,8 @@ class M1M3 extends Component {
             <div className="mirror-container" ref="container">
                 <svg
                     className="svg-container"
-                    height={this.props.height}
-                    width={this.props.width}>
+                    height={this.props.height + "px"}
+                    width={this.props.width + "px"}>
                     <circle id={"background-circle-"+this.props.id}
                         cx={this.state.xRadius*this.props.scale+this.props.margin}
                         cy={this.state.yRadius*this.props.scale+this.props.margin}

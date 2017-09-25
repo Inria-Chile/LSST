@@ -1,0 +1,19 @@
+.left-container {
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    width: 60%;
+    margin: 0px 3px;
+    padding: 0px 7px;
+}
+
+.right-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 40%;
+    margin: 0px 3px;
+    padding: 0px 7px;
+}
+  
