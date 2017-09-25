@@ -64,11 +64,10 @@ class Charts extends Component {
         .call(d3.axisBottom(x).ticks(10));
     }
 
-    updateSlider(dom){
+    updateSlider(dom, dataUpdate){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
         d3.select(dom).select('.x').remove();
-        // d3.select(dom).select('.brush').remove();
         var g = d3.select(dom).select(".slider");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
@@ -76,7 +75,10 @@ class Charts extends Component {
         .call(d3.axisBottom(x).ticks(10));
         // var newStart, newEnd;
         var self = this;
-        if(this.brush==null){
+        if(this.brush==null || dataUpdate){
+            console.log("newBrush");
+            d3.select(dom).select('.brush').remove();
+            
             this.brush = d3.brushX(x).on("end", function(){
                 var brushValues = d3.brushSelection(this);
                 if (brushValues!=null){
@@ -100,8 +102,9 @@ class Charts extends Component {
     }
 
     componentDidUpdate(){
+        console.log("componentdidupdate")
         var dom = ReactDOM.findDOMNode(this);
-        this.updateSlider(dom);
+        this.updateSlider(dom, false);
     }
 
 
@@ -127,6 +130,8 @@ class Charts extends Component {
             });
             
         }
+        var dom = ReactDOM.findDOMNode(this);
+        this.updateSlider(dom, true);
     }
 
     // Date comes from database as number and as MJD.
