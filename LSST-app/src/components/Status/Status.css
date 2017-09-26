@@ -1,4 +1,4 @@
-.left-container {
+.status-container.left-container {
     position: absolute;
     top: 0;
     display: inline-block;
@@ -7,7 +7,7 @@
     padding: 0px 7px;
 }
 
-.right-container {
+.status-container.right-container {
     position: absolute;
     top: 0;
     right: 0;

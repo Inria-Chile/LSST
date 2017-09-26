@@ -8,13 +8,13 @@ import { typesOfScience, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 class Timeline extends Component {
 
-  drawAxes(dom, lanes, y,x, yposition, width, xposition, xticks){
+  drawAxes(dom, lanes, y,x, yposition, width, xposition){
 
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + (yposition-50) + ")")
     .attr("class", "axisWhite")
-    .call(d3.axisBottom(x).ticks(xticks));
+    .call(d3.axisBottom(x).ticks(this.props.ticks));
 
     dom.append("g").selectAll(".laneText")
     .data(lanes)
@@ -73,7 +73,7 @@ class Timeline extends Component {
       var start = this.props.start;
       var end = this.props.end;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,w,m[1],10);
+      this.drawAxes(g,lanes,y1,x1,h,w,m[1]);
 
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
@@ -99,9 +99,7 @@ class Timeline extends Component {
       var today = new Date();
       today.setDate(today.getDate() + 1);
       var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
-      // var xticks = d3.utcHour;
-      // var xticks = d3.utcDay;
-      this.drawAxes(g,lanes,y1,x,h,w,m[1],10);
+      this.drawAxes(g,lanes,y1,x,h,w,m[1]);
     }
   }
 
@@ -154,8 +152,6 @@ class Timeline extends Component {
 
 Timeline.defaultProps = {
   height: 150,
-  title: '',
-  Legend: true,
 
 };
 
