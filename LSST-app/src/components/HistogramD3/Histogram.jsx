@@ -98,12 +98,12 @@ class Histogram extends Component {
     }
   }
 
-  drawAxes(dom,yPosition,xticks,yticks,x,y){
+  drawAxes(dom,yPosition,yticks,x,y){
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + yPosition + ")")
     .attr("class", "axisWhite")
-    .call(d3.axisBottom(x).ticks(xticks));
+    .call(d3.axisBottom(x).ticks(this.props.ticks));
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
@@ -123,7 +123,7 @@ class Histogram extends Component {
     height = +svg.attr("height") - margin.top - margin.bottom;
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    let x,y,z,xticks,yticks;
+    let x,y,z,yticks;
     let start = this.props.start;
     let end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
@@ -167,8 +167,7 @@ class Histogram extends Component {
         .attr("width", function(d){return 10;});
         
        yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-       xticks = 20;
-       this.drawAxes(g,height,xticks,yticks,x,y);  
+       this.drawAxes(g,height,yticks,x,y);  
 
 
     }
@@ -177,9 +176,8 @@ class Histogram extends Component {
       today.setDate(today.getDate() + 1);
        x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
        y = d3.scaleLinear().range([height, 0]); 
-       xticks = 10;
        yticks =5;
-      this.drawAxes(g,height,xticks,yticks,x,y);  
+      this.drawAxes(g,height,yticks,x,y);  
     }
     
   }
@@ -201,7 +199,6 @@ class Histogram extends Component {
 
   
   render() {
-    // let data = this.props.data;
     return (
       <div ref="container">
         <h4> {this.props.title} </h4>
@@ -212,9 +209,6 @@ class Histogram extends Component {
 
 Histogram.defaultProps = {
   height: 100,
-  title: '',
-  Legend: true,
-
 };
 
 export default Histogram;

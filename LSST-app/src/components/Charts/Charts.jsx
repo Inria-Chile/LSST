@@ -17,7 +17,6 @@ class Charts extends Component {
         super(props);
         var today = new Date();
         today.setDate(today.getDate() + 1);
-        // this.state={data: this.randomData(1500, this.props.start, this.props.end)};
         this.state={
             data: null, 
             start: new Date(), 
@@ -25,69 +24,53 @@ class Charts extends Component {
             startAt: new Date(),
             endAt: today
         };
+        this.brush=null;
+        this.ticks=10;
          
-    }
-    
-    randomData(length, start, end) {
-        var array = new Array(length);
-        let today = new Date();
-        today.setHours(21);
-        today.setSeconds(0);
-        let secs = 0;
-        for (let i = 0; i < length; i++) {
-            today.setSeconds(secs);
-            array[i] = {
-                expDate: new Date(today.valueOf()),
-                expTime: Math.random()*20,
-                filterName: Math.floor(Math.random()*6)+1,
-                lst: Math.floor(Math.random()*5)+1
-            };
-            if(secs === 60) secs = 20;
-            else{
-                secs=secs+20;
-            } 
-        }
-        return array;
     }
 
     createSlider(dom){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
+        width = width - this.props.margin.left - this.props.margin.right;
         var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 30);
-        var margin = { top: 10, right: 10, bottom: 10, left: 10 };
-        width = +svg.attr("width") - margin.left - margin.right;
+
         var g = svg.append("g").attr('class', 'slider')
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
-        .call(d3.axisBottom(x).ticks(10));
+        .call(d3.axisBottom(x).ticks(this.ticks));
     }
 
-    updateSlider(dom){
+    updateSlider(dom, dataUpdate){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
+        width = width-this.props.margin.left-this.props.margin.right
         d3.select(dom).select('.x').remove();
-        d3.select(dom).select('.brush').remove();
         var g = d3.select(dom).select(".slider");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         g.append("g")
         .attr("class", "x")
-        .call(d3.axisBottom(x).ticks(10));
-        // var newStart, newEnd;
+        .call(d3.axisBottom(x).ticks(this.ticks));
         var self = this;
-        var brush = d3.brushX(x).on("end", function(){
-            var brushValues = d3.brushSelection(this);
-            if (brushValues!=null){
-                self.setState({
-                    startAt: x.invert(brushValues[0]),
-                    endAt:x.invert(brushValues[1])
-                });
-            }
-        });
-        var svg = d3.select(dom).select('.slider-container');
-        svg.append("g")
-        .attr("class", "brush")
-        .call(brush);
+        if(this.brush==null || dataUpdate){
+            console.log("newBrush");
+            d3.select(dom).select('.brush').remove();
+            this.brush = d3.brushX(x).on("brush", function(){
+                var brushValues = d3.brushSelection(this);
+                if (brushValues!=null){
+                    self.setState({
+                        startAt: x.invert(brushValues[0]),
+                        endAt:x.invert(brushValues[1])
+                    });
+                }
+            });
+            var svg = d3.select(dom).select('.slider-container');
+            svg.append("g")
+            .attr("class", "brush")
+            .call(this.brush);
+        }
+       
     }
 
     componentDidMount(){
@@ -97,7 +80,7 @@ class Charts extends Component {
 
     componentDidUpdate(){
         var dom = ReactDOM.findDOMNode(this);
-        this.updateSlider(dom);
+        this.updateSlider(dom, false);
     }
 
 
@@ -123,6 +106,8 @@ class Charts extends Component {
             });
             
         }
+        var dom = ReactDOM.findDOMNode(this);
+        this.updateSlider(dom, true);
     }
 
     // Date comes from database as number and as MJD.
@@ -139,10 +124,10 @@ class Charts extends Component {
         return (
             <div className="charts-container">
                 <div className="histogram-container">
-                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
+                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
                 </div>
                 <div className="timeline-container">
-                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt}/>
+                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
                 </div>
             </div>
         );
@@ -153,7 +138,7 @@ class Charts extends Component {
 
 Charts.defaultProps = {
     height: 700,
-    title: ''
+    margin: { top: 10, right: 10, bottom: 10, left: 120 }
   };
   
 
