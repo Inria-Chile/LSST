@@ -7,41 +7,53 @@ class Shutters extends Component {
     constructor(props){
         super(props);
         this.data = [];
+        this.screenHeight = this.props.height/1.5;
+        this.shutterWidth = this.props.width/7;
+        this.shutterHeight = this.props.height/1.49;
+        this.screenWidth = this.props.width/4.0;
+        this.screenHeight = this.props.height/1.5;
         this.state = {
             data: [],
-            aperture: 0
+            topWindScreenPos: 3.5,//min
+            bottomWindScreenPos: 20,//min
         }
-
     }
   
     setShuttersAperture = (aperture) => {
-        let shutterWidth = this.props.width/7;
         let aperturePixels = (this.props.width*0.12)*(aperture/11);
-        d3.select("#left-shutter").transition().attr("x", this.props.width/2-shutterWidth-aperturePixels+aperturePixels*this.props.xOffset);
+        d3.select("#left-shutter").transition().attr("x", this.props.width/2-this.shutterWidth-aperturePixels+aperturePixels*this.props.xOffset);
         d3.select("#right-shutter").transition().attr("x", this.props.width/2+aperturePixels+aperturePixels*this.props.xOffset);
+    }
+
+    setWindScreensPositions = (topScreen, bottomScreen) => {
+        let hTop = this.screenHeight*(1-Math.sin(Math.PI/180*(90-topScreen)));
+        let hBot = this.screenHeight*(Math.sin(Math.PI/180*(bottomScreen)));
+        
+        d3.select("#top-screen").transition().attr("height", hTop);
+        d3.select("#bottom-screen").transition().attr("height", hBot).attr("y", this.screenHeight-hBot+this.props.yOffset*this.shutterHeight);;
     }
     
     componentDidUpdate(prevProps, prevState){
-        console.log(this.state);
-        
-        this.setShuttersAperture(this.props.aperture);
-        // this.props.updateShuttersAperture(this.props.aperture);
+        if(!prevProps || prevProps.aperture)
+            this.setShuttersAperture(this.props.aperture);
+        this.setWindScreensPositions(this.state.topWindScreenPos, this.state.bottomWindScreenPos)
     }
 
     componentDidMount() {
         setInterval( () => {
             this.props.updateShuttersAperture(Math.max(0, Math.ceil(Math.random()*15)-4));
-            // this.setState({
-            //     aperture: Math.max(0, Math.ceil(Math.random()*15)-4)
-            //     // aperture: 11
-            // })
+            this.props.updateShuttersAperture(11);
+            let angle_0 = 25;
+            let angle = Math.max(3.5, Math.ceil(Math.random()*(90-angle_0-10)));
+            this.setState({
+                topWindScreenPos: angle,
+                bottomWindScreenPos: 90-(angle+angle_0),
+            })
         }, 1000)
     }
 
     
     render() {
-        let shutterWidth = this.props.width/7;
-        let shutterHeight = this.props.height/1.49;
         let statusOpen = this.props.aperture > 0;
         return (
             <div className="shutters-container" ref="container">
@@ -53,11 +65,31 @@ class Shutters extends Component {
                     className="svg-container"
                     height={this.props.height}
                     width={this.props.width}>
+                    <rect id={"top-screen"}
+                        x={this.props.width/2-this.screenWidth/2}
+                        y={this.props.yOffset*this.shutterHeight}
+                        width={this.screenWidth}
+                        height={0}
+                        fill={'#0000aa'}
+                        opacity={0.8}
+                        strokeWidth={2}
+                        stroke={"rgb(0,0,0)"}
+                    />
+                    <rect id={"bottom-screen"}
+                        x={this.props.width/2-this.screenWidth/2}
+                        y={this.screenHeight*(Math.sin(Math.PI/180*(90-90)))+this.props.yOffset*this.shutterHeight}
+                        width={this.screenWidth}
+                        height={this.screenHeight*Math.sin(Math.PI/180*(90))}
+                        fill={'#0000aa'}
+                        opacity={0.8}
+                        strokeWidth={2}
+                        stroke={"rgb(0,0,0)"}
+                    />
                     <rect id={"left-shutter"}
-                        x={this.props.width/2-shutterWidth}
-                        y={0+this.props.yOffset*shutterHeight}
-                        width={shutterWidth}
-                        height={shutterHeight}
+                        x={this.props.width/2-this.shutterWidth}
+                        y={0+this.props.yOffset*this.shutterHeight}
+                        width={this.shutterWidth}
+                        height={this.shutterHeight}
                         fill={'#00aa00'}
                         opacity={0.8}
                         strokeWidth={2}
@@ -65,9 +97,9 @@ class Shutters extends Component {
                     />
                     <rect id={"right-shutter"}
                             x={this.props.width/2}
-                            y={0+this.props.yOffset*shutterHeight}
-                            width={shutterWidth}
-                            height={shutterHeight}
+                            y={0+this.props.yOffset*this.shutterHeight}
+                            width={this.shutterWidth}
+                            height={this.shutterHeight}
                             fill={'#00aa00'}
                             opacity={0.8}
                             strokeWidth={2}
@@ -75,7 +107,9 @@ class Shutters extends Component {
                     />
                 </svg>
                 <div>
-                    Aperture: {this.props.aperture} m
+                    Aperture: {this.props.aperture} m <br/>
+                    topWindScreenPos: {this.state.topWindScreenPos} <br/>
+                    bottomWindScreenPos: {this.state.bottomWindScreenPos} <br/>
                 </div>
             </div>
         );
