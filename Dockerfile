@@ -76,7 +76,7 @@ WORKDIR /home/docker/lsst/LSST-app
 
 RUN npm install
 
-RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db tsunamilab.inria.cl/circumpolar.db 
+RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
 
 # entrypoint
 RUN chmod +x run.sh
