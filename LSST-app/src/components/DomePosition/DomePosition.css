@@ -1,0 +1,20 @@
+.dome-position-container .svg-container {
+    background-image: url("/img/dome_top.png");
+    background-size:     contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.status-circle-open:before {
+    content: ' \25CF';
+    color: green
+}
+
+.status-circle-closed:before {
+    content: ' \25CF';
+    color: red
+}
+
+.dome-position-container {
+    margin-top: 100px;
+}

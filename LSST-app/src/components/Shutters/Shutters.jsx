@@ -16,21 +16,25 @@ class Shutters extends Component {
   
     setShuttersAperture = (aperture) => {
         let shutterWidth = this.props.width/7;
-        let aperturePixels = (this.props.width*0.12)*(aperture/11)
-        d3.select("#left-shutter").transition().attr("x", this.props.width/2-shutterWidth-aperturePixels+aperturePixels*this.props.xOffset)
-        d3.select("#right-shutter").transition().attr("x", this.props.width/2+aperturePixels+aperturePixels*this.props.xOffset)
+        let aperturePixels = (this.props.width*0.12)*(aperture/11);
+        d3.select("#left-shutter").transition().attr("x", this.props.width/2-shutterWidth-aperturePixels+aperturePixels*this.props.xOffset);
+        d3.select("#right-shutter").transition().attr("x", this.props.width/2+aperturePixels+aperturePixels*this.props.xOffset);
     }
-
+    
     componentDidUpdate(prevProps, prevState){
-        this.setShuttersAperture(this.state.aperture);
+        console.log(this.state);
+        
+        this.setShuttersAperture(this.props.aperture);
+        // this.props.updateShuttersAperture(this.props.aperture);
     }
 
     componentDidMount() {
         setInterval( () => {
-            this.setState({
-                aperture: Math.max(0, Math.ceil(Math.random()*15)-4)
-                // aperture: 11
-            })
+            this.props.updateShuttersAperture(Math.max(0, Math.ceil(Math.random()*15)-4));
+            // this.setState({
+            //     aperture: Math.max(0, Math.ceil(Math.random()*15)-4)
+            //     // aperture: 11
+            // })
         }, 1000)
     }
 
@@ -38,11 +42,12 @@ class Shutters extends Component {
     render() {
         let shutterWidth = this.props.width/7;
         let shutterHeight = this.props.height/1.49;
-        let statusOpen = this.state.aperture > 0;
+        let statusOpen = this.props.aperture > 0;
         return (
             <div className="shutters-container" ref="container">
+                <h4>Shutters status</h4>
                 <div>
-                    Status: <span className={"status-circle-"+(statusOpen ?'open':'closed')}></span> {this.state.aperture > 0 ? 'Open' : 'Closed'}
+                    Status: <span className={"status-circle-"+(statusOpen ?'open':'closed')}></span> {this.props.aperture > 0 ? 'Open' : 'Closed'}
                 </div>
                 <svg
                     className="svg-container"
@@ -70,7 +75,7 @@ class Shutters extends Component {
                     />
                 </svg>
                 <div>
-                    Aperture: {this.state.aperture} m
+                    Aperture: {this.props.aperture} m
                 </div>
             </div>
         );
