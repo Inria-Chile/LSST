@@ -30,6 +30,7 @@ class Histogram extends Component {
       };
       data.forEach((d)=>{
         let itemDate = d.expDate;
+        console.log(d)
         if(date==null){
          item.date = d.expDate
          this.addValueToFilter(item, d.filterName, d.expTime);
@@ -134,6 +135,7 @@ class Histogram extends Component {
         return d.expDate >= start && d.expDate<= end;
       });  
       let newData = this.adaptData(filteredData, x);
+      // console.log(newData)
       
       y = d3.scaleLinear().range([height, 0]);
       z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
