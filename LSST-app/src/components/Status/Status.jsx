@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import M1M3 from '../M1M3/M1M3';
 import Shutters from '../Shutters/Shutters';
+import DomePosition from '../DomePosition/DomePosition';
 import './Status.css';
 import * as d3 from 'd3';
 
@@ -9,7 +10,14 @@ class Status extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            shuttersAperture: 0
         }
+    }
+    
+    updateShuttersAperture = (aperture) => {
+        this.setState({
+            shuttersAperture: aperture
+        });
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -53,7 +61,8 @@ class Status extends Component {
                         </div>
                     </div>
                     <div className="right-container">
-                        <Shutters width={500} height={300} id="shutters" scale={1.4} xOffset={-0.05} yOffset={0.15}/>
+                        <Shutters width={500} height={300} id="shutters" aperture={this.state.shuttersAperture} updateShuttersAperture={this.updateShuttersAperture} scale={1.4} xOffset={-0.05} yOffset={0.15}/>
+                        <DomePosition width={330} height={300} id="dome-top" aperture={this.state.shuttersAperture} scale={1.4} xOffset={-0.05} yOffset={0.15}/>
                     </div>
                 </div>
             </div>
