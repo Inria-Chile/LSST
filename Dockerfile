@@ -8,6 +8,7 @@ RUN rpm -ivh https://kojipkgs.fedoraproject.org//packages/http-parser/2.7.1/3.el
   yum -y install unzip \
   wget \
   git \
+  dos2unix \
   tk \
   tk-devel \
   swig \
@@ -66,6 +67,9 @@ RUN cp /home/docker/lsst/Makefile.sacpp_SAL_python.template /home/root/workspace
 
 RUN chmod +x /home/docker/lsst/ts_sal.sh
 
+RUN dos2unix /home/docker/lsst/ts_sal.sh
+
+
 RUN /home/docker/lsst/ts_sal.sh
 
 RUN cp ./*/cpp/src/*.so /home/root/workspace/ts_sal/test/lib
@@ -80,5 +84,8 @@ RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inri
 
 # entrypoint
 RUN chmod +x run.sh
+
+RUN dos2unix run.sh
+
 ENTRYPOINT source /home/root/workspace/ts_sal/setup.env && \
   ./run.sh
