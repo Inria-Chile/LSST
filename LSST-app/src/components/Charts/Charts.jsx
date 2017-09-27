@@ -54,7 +54,6 @@ class Charts extends Component {
         .call(d3.axisBottom(x).ticks(this.ticks));
         var self = this;
         if(this.brush==null || dataUpdate){
-            console.log("newBrush");
             d3.select(dom).select('.brush').remove();
             this.brush = d3.brushX(x).on("brush", function(){
                 var brushValues = d3.brushSelection(this);
@@ -66,7 +65,7 @@ class Charts extends Component {
                 }
             });
             var svg = d3.select(dom).select('.slider-container');
-            svg.append("g")
+            svg.append("g") 
             .attr("class", "brush")
             .call(this.brush);
         }
@@ -97,6 +96,7 @@ class Charts extends Component {
             return null;
         });
         if(data && data.length > 0){
+            console.log(data);
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 

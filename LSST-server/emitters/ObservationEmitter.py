@@ -17,7 +17,7 @@ def start_listening_fake(app, socketio):
         time.sleep(0.510)
         with app.test_request_context('/'):
             # print('Emitting')
-            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1, 'request_time': initial_date})
+            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1, 'request_time': initial_date, 'expTime': 34})
             initial_date = initial_date + date_step
 
 #Get data from ts_sal connection
@@ -83,4 +83,4 @@ def start_listening(app, socketio):
 def publish(app, socketio, topicObservation):
     print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1, topicObservation.observation_start_time])
     with app.test_request_context('/'):
-        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time})
+        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.expTime})
