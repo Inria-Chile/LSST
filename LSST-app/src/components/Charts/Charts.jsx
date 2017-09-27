@@ -55,6 +55,8 @@ class Charts extends Component {
         var self = this;
         if(this.brush==null || dataUpdate){
             console.log("newBrush");
+            console.log(this.brush)
+            console.log(dataUpdate)
             d3.select(dom).select('.brush').remove();
             this.brush = d3.brushX(x).on("brush", function(){
                 var brushValues = d3.brushSelection(this);
@@ -66,7 +68,7 @@ class Charts extends Component {
                 }
             });
             var svg = d3.select(dom).select('.slider-container');
-            svg.append("g")
+            svg.append("g") 
             .attr("class", "brush")
             .call(this.brush);
         }
@@ -79,6 +81,7 @@ class Charts extends Component {
     }
 
     componentDidUpdate(){
+        console.log("componentDidUpdate")
         var dom = ReactDOM.findDOMNode(this);
         this.updateSlider(dom, false);
     }
