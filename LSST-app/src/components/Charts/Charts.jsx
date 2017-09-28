@@ -96,7 +96,7 @@ class Charts extends Component {
             return null;
         });
         if(data && data.length > 0){
-            console.log(data);
+            // console.log(data);
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 

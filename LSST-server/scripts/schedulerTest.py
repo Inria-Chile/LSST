@@ -40,6 +40,7 @@ try:
                 topicObservation.filter      = topicTarget.filter
                 topicObservation.ra      = topicTarget.ra
                 topicObservation.dec      = topicTarget.dec
+                topicObservation.visit_time      = 34
 
                 topicTime.timestamp += delta_seconds
 

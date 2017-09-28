@@ -59,6 +59,7 @@ def start_listening(app, socketio):
                 topicTarget.ra       = random.randint(-40,40)
                 topicTarget.dec      = random.randint(-60,0)
                 topicTarget.request_time = initial_date
+                topicTarget.visit_time = 34
                 initial_date = initial_date + date_step
                 sal.putSample_target(topicTarget)
 
@@ -81,6 +82,6 @@ def start_listening(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicObservation):
-    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1, topicObservation.observation_start_time])
+    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1, topicObservation.observation_start_time, topicObservation.visit_time])
     with app.test_request_context('/'):
-        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.expTime})
+        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.visit_time})

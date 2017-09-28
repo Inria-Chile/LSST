@@ -30,7 +30,7 @@ class Histogram extends Component {
       };
       data.forEach((d)=>{
         let itemDate = d.expDate;
-        console.log(d)
+        // console.log(d)
         if(date==null){
          item.date = d.expDate
          this.addValueToFilter(item, d.filterName, d.expTime);
