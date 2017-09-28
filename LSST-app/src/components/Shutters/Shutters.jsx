@@ -34,7 +34,7 @@ class Shutters extends Component {
     }
     
     componentDidUpdate(prevProps, prevState){
-        if(!prevProps || prevProps.aperture)
+        if(!prevProps || prevProps.aperture !== this.props.aperture)
             this.setShuttersAperture(this.props.aperture);
         this.setWindScreensPositions(this.state.topWindScreenPos, this.state.bottomWindScreenPos)
     }
