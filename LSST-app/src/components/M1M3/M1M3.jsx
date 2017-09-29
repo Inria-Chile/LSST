@@ -87,7 +87,7 @@ class M1M3 extends Component {
                                 cy={(act.position[1] + this.state.yRadius)*this.props.scale+this.props.margin}
                                 key={act.actuatorID}
                                 fill={this.props.colormap(Math.sqrt(Math.pow(act.position[0], 2) + Math.pow(act.position[1], 2))/this.state.maxRadius)}
-                                r={this.state.maxRadius/18}/>
+                                r={this.state.maxRadius*this.props.scale/21}/>
                             )
                         )}
                     </g>

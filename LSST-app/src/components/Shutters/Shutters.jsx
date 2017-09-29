@@ -3,6 +3,8 @@ import './Shutters.css';
 import * as d3 from 'd3';
 
 class Shutters extends Component {
+    static windScreenColor = '#888';
+    static shutterColor = '#55f'
 
     constructor(props){
         super(props);
@@ -34,14 +36,15 @@ class Shutters extends Component {
     }
     
     componentDidUpdate(prevProps, prevState){
-        if(!prevProps || prevProps.aperture !== this.props.aperture)
+        if(!prevProps || prevProps.aperture !== this.props.aperture){
             this.setShuttersAperture(this.props.aperture);
+        }
         this.setWindScreensPositions(this.state.topWindScreenPos, this.state.bottomWindScreenPos)
     }
 
     componentDidMount() {
         setInterval( () => {
-            this.props.updateShuttersAperture(Math.max(0, Math.ceil(Math.random()*15)-4));
+            // this.props.updateShuttersAperture(Math.max(0, Math.ceil(Math.random()*15)-4));
             this.props.updateShuttersAperture(11);
             let angle_0 = 25;
             let angle = Math.max(3.5, Math.ceil(Math.random()*(90-angle_0-10)));
@@ -58,9 +61,9 @@ class Shutters extends Component {
         return (
             <div className="shutters-container" ref="container">
                 <h4>Shutters status</h4>
-                <div>
+                {/* <div>
                     Status: <span className={"status-circle-"+(statusOpen ?'open':'closed')}></span> {this.props.aperture > 0 ? 'Open' : 'Closed'}
-                </div>
+                </div> */}
                 <svg
                     className="svg-container"
                     height={this.props.height}
@@ -70,8 +73,8 @@ class Shutters extends Component {
                         y={this.props.yOffset*this.shutterHeight}
                         width={this.screenWidth}
                         height={0}
-                        fill={'#0000aa'}
-                        opacity={0.8}
+                        fill={Shutters.windScreenColor}
+                        opacity={0.9}
                         strokeWidth={2}
                         stroke={"rgb(0,0,0)"}
                     />
@@ -80,8 +83,8 @@ class Shutters extends Component {
                         y={this.screenHeight*(Math.sin(Math.PI/180*(90-90)))+this.props.yOffset*this.shutterHeight}
                         width={this.screenWidth}
                         height={this.screenHeight*Math.sin(Math.PI/180*(90))}
-                        fill={'#0000aa'}
-                        opacity={0.8}
+                        fill={Shutters.windScreenColor}
+                        opacity={0.9}
                         strokeWidth={2}
                         stroke={"rgb(0,0,0)"}
                     />
@@ -90,8 +93,8 @@ class Shutters extends Component {
                         y={0+this.props.yOffset*this.shutterHeight}
                         width={this.shutterWidth}
                         height={this.shutterHeight}
-                        fill={'#00aa00'}
-                        opacity={0.8}
+                        fill={Shutters.shutterColor}
+                        opacity={0.9}
                         strokeWidth={2}
                         stroke={"rgb(0,0,0)"}
                     />
@@ -100,13 +103,14 @@ class Shutters extends Component {
                             y={0+this.props.yOffset*this.shutterHeight}
                             width={this.shutterWidth}
                             height={this.shutterHeight}
-                            fill={'#00aa00'}
-                            opacity={0.8}
+                            fill={Shutters.shutterColor}
+                            opacity={0.9}
                             strokeWidth={2}
                             stroke={"rgb(0,0,0)"}
                     />
                 </svg>
                 <div>
+                    Status: <span className={"status-circle-"+(statusOpen ?'open':'closed')}></span> {this.props.aperture > 0 ? 'Open' : 'Closed'} <br/>
                     Aperture: {this.props.aperture} m <br/>
                     topWindScreenPos: {this.state.topWindScreenPos} <br/>
                     bottomWindScreenPos: {this.state.bottomWindScreenPos} <br/>

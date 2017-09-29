@@ -9,10 +9,11 @@
 }
 
 .dome-position-container {
-    margin-top: 50px;
+    vertical-align: top;
+    margin: 0px 40px;
 }
 
 .dome-position-info {
     vertical-align: top;
-    display: inline-block;
+    /* display: inline-block; */
 }

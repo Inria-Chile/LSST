@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './DomePosition.css';
+import Shutters from '../Shutters/Shutters'
 import * as d3 from 'd3';
 
 class DomePosition extends Component {
@@ -64,21 +65,21 @@ class DomePosition extends Component {
                         transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
                         height={this.props.height}
                         width={this.props.width}>
-                        <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} xlinkHref="/img/dome_top.png"/>
+                        <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={0.5} xlinkHref="/img/dome_top.png"/>
                         <line id="dome-angle-top"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={'#00aa00'} />
+                            strokeWidth={4} stroke={Shutters.shutterColor} />
                         <line id="dome-angle-bot"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={'#00aa00'} />
+                            strokeWidth={4} stroke={Shutters.shutterColor} />
 
                         <circle id={"test-circle"}
                             cx={0}
                             cy={0}
                             key={'overlay'}
-                            fill={'#00aa00'}
+                            fill={Shutters.shutterColor}
                             r={5}
                             pointerEvents="all"
                         />
