@@ -45,18 +45,6 @@
 }
 
 
-.axisWhite text{
-  fill: white;
-}  
-
-.axisWhite line{
-  stroke: white;
-}
-
-.axisWhite path{
-  stroke: white;
-}
-
 .laneText{
   fill: white;
 }

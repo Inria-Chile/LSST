@@ -54,6 +54,12 @@ h3 {
   background: #3d5871;   
 }
 
+.scatterplot-container {
+  right: 0;
+  bottom: 0;
+  background: #3d5871;   
+}
+
 .mainSkymap {
   display: block;
   /* margin-left: auto;
@@ -108,5 +114,18 @@ h3 {
   border-radius: 2px;
   padding: 0px 5px;
 }
+
+.axisWhite text{
+  fill: white;
+}  
+
+.axisWhite line{
+  stroke: white;
+}
+
+.axisWhite path{
+  stroke: white;
+}
+
 
 /* #04070a */

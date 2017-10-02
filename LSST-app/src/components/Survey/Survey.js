@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
+import Scatterplot from '../Scatterplot/Scatterplot'
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
@@ -16,6 +17,7 @@ class Survey extends Component {
         this.mainSkymap = null;
         this.miniSkymap = null;
         this.charts = null;
+        this.scatterplot = null;
         this.displayedData = [];
         this.data = [];
         this.socket = openSocket('http://localhost:3000');
@@ -130,6 +132,7 @@ class Survey extends Component {
         this.mainSkymap.setData(data);
         this.miniSkymap.setData(data);
         this.charts.setData(data);
+        this.scatterplot.setData(data);
     }
 
     addObservation = (obs) => {
@@ -263,6 +266,7 @@ class Survey extends Component {
                     </div>
                     <div className="right-container">
                         <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />
+                        <Scatterplot ref={ instance => {this.scatterplot=instance;} }/>
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
