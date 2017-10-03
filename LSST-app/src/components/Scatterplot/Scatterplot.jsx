@@ -85,27 +85,10 @@ class Scatterplot extends Component {
         }
     }
 
-
-  handleClick(){
-    console.log("handling click")
-    // this.setState({
-    //   selectedFilter: filterName
-    // });
-    this.props.onScatterplotClick()
-  }
-
     render() {
-        return (
-        <div className="scatterplot-container" onClick={ () => this.handleClick()}>
-            <h3> Az/Dec </h3>
-            
-        </div>
-        );
+        return(
+        <div></div>);
     }
 }
-
-Scatterplot.defaultProps = {
-height: 230,
-};
 
 export default Scatterplot;
