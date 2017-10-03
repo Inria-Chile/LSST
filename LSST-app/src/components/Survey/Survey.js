@@ -27,7 +27,8 @@ class Survey extends Component {
             clickedField: [],
             displayedFilter: 'all',
             startDate: null,
-            endDate: null
+            endDate: null,
+            showSkyMap: true
         }
     }
 
@@ -76,6 +77,12 @@ class Survey extends Component {
             displayedFilter: filter
         })
         this.mainSkymap.setDisplayedFilter(filter);
+    }
+
+    displayScatterplot = () => {
+        console.log("displaying scatterplot")
+        let showSkyMap = this.state.showSkyMap
+        this.setState({showSkyMap:!showSkyMap})
     }
     
     setDisplayedDateLimits = (startDate, endDate) => {
@@ -238,9 +245,9 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
                                         cellHoverCallback={this.cellHoverCallback} 
-                                        cellClickCallback={this.cellClickCallback} />
+                                        cellClickCallback={this.cellClickCallback} />}
                             {
                                 this.state.selectedField &&
                                 <div className="hover-div">
@@ -266,7 +273,7 @@ class Survey extends Component {
                     </div>
                     <div className="right-container">
                         <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />
-                        <Scatterplot ref={ instance => {this.scatterplot=instance;} }/>
+                        <Scatterplot ref={instance => {this.scatterplot=instance;}} onScatterplotClick={this.displayScatterplot}/>
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
