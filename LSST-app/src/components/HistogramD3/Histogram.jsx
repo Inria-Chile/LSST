@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
-import './Histogram.css'
 import { filterColors } from "../Utils/Utils"
 
 
