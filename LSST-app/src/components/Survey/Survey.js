@@ -21,7 +21,6 @@ class Survey extends Component {
         this.miniScatterplot = null;
         this.mainScatterplot = null;
         this.displayedData = [];
-        this.data = [];
         this.socket = openSocket('http://localhost:3000');
         this.state = {
             selectedMode: 'playback',
@@ -82,9 +81,8 @@ class Survey extends Component {
     }
 
     displayScatterplot = () => {
-        console.log("displaying scatterplot")
-        let showSkyMap = this.state.showSkyMap
-        this.setState({showSkyMap:!showSkyMap})
+        let showSkyMap = this.state.showSkyMap;
+        this.setState({showSkyMap:!showSkyMap});
     }
     
     setDisplayedDateLimits = (startDate, endDate) => {
@@ -146,9 +144,7 @@ class Survey extends Component {
         if(this.state.showSkyMap){
             this.mainSkymap.setData(data);
         }
-        else{
-            this.mainScatterplot.setData(data);
-        }
+        else this.mainScatterplot.setData(data);
     }
 
     addObservation = (obs) => {
@@ -254,8 +250,8 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} />}
-                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                            {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
+                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} data={this.displayedData}
                                         cellHoverCallback={this.cellHoverCallback} 
                                         cellClickCallback={this.cellClickCallback} />}
                             {

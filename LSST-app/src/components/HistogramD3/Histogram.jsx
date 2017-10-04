@@ -202,7 +202,6 @@ class Histogram extends Component {
   render() {
     return (
       <div ref="container">
-        <h4> {this.props.title} </h4>
       </div>
     );
   }

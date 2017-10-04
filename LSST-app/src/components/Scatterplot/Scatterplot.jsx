@@ -37,6 +37,9 @@ class Scatterplot extends Component {
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleLinear().range([height,0]);
     
+        if(this.state.data==null){
+            this.setData(this.props.data);
+        }
         if(this.state.data!=null){
             let data = this.state.data;
             x.domain(d3.extent(data, function(d) { return d.fieldRA; }));
@@ -90,5 +93,9 @@ class Scatterplot extends Component {
         <div></div>);
     }
 }
+
+Scatterplot.defaultProps = {
+    height: 300,
+  };
 
 export default Scatterplot;
