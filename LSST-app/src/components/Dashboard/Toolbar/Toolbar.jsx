@@ -17,8 +17,8 @@ class Toolbar extends Component {
                         return (
                             <div key={comp.viewName+'Div'} 
                                 className={'toolbar-icon-wrapper' + (!this.props.componentVisibility[comp.viewName] ? ' selected' : '')}
-                                onClick={this.props.toggleComponentVisibility}>
-                                <span>{this.props.componentVisibility[comp.viewName] ? comp.viewName : 'hidden'}</span>
+                                onClick={() => this.props.toggleComponentVisibility(comp.viewName)}>
+                                <span>{comp.viewName}</span>
                             </div>
                         )
                     })

@@ -62,34 +62,43 @@ class Dashboard extends Component {
                             toggleComponentVisibility={this.toggleComponentVisibility}/>
                 </div>
                 <div id="dashboard-content">
-                    <Rnd default={{
-                        x: 0,
-                        y: 0,
-                        width: 1920,
-                        height: 1080,
-                        }}
-                        dragGrid={ [20,20]}
-                        resizeGrid={ [20,20]}
-                        disableDragging={!this.state.draggable}
-                        enableResizing={this.state.draggable ? undefined : false}
-                        className={this.state.draggable ? 'draggable' : ''}
-                    >
-                        <Survey/>
-                    </Rnd>
-                    <Rnd default={{
-                        x: 1920,
-                        y: 0,
-                        width: 1920,
-                        height: 1300,
-                        }}
-                        dragGrid={ [20,20]}
-                        resizeGrid={ [20,20]}
-                        disableDragging={!this.state.draggable}
-                        enableResizing={this.state.draggable ? undefined : false}
-                        className={this.state.draggable ? 'draggable' : ''}
-                    >
-                        <Status/>
-                    </Rnd>
+                    {
+                        this.state.componentVisibility['survey'] ? 
+                        (<Rnd default={{
+                            x: 0,
+                            y: 0,
+                            width: 1920,
+                            height: 1080,
+                            }}
+                            dragGrid={ [20,20]}
+                            resizeGrid={ [20,20]}
+                            disableDragging={!this.state.draggable}
+                            enableResizing={this.state.draggable ? undefined : false}
+                            className={this.state.draggable ? 'draggable' : ''}
+                        >
+                            <Survey/>
+                        </Rnd>) :
+                        <div></div>
+                    }
+                    {
+                        this.state.componentVisibility['status'] ? 
+                        (
+                        <Rnd default={{
+                            x: 1920,
+                            y: 0,
+                            width: 1920,
+                            height: 1300,
+                            }}
+                            dragGrid={ [20,20]}
+                            resizeGrid={ [20,20]}
+                            disableDragging={!this.state.draggable}
+                            enableResizing={this.state.draggable ? undefined : false}
+                            className={this.state.draggable ? 'draggable' : ''}
+                        >
+                            <Status/>
+                        </Rnd>) :
+                        <div></div>
+                    }
                 </div>
             </div>
         );
