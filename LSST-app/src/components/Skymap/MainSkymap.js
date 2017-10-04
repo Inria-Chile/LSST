@@ -51,6 +51,7 @@ class MainSkymap extends Component {
     }
 
     setDisplayedFilter(filter){
+        console.log(filter)
         if(filter === 'all')
             this.skymap.displayAllFilters();
         else
@@ -58,6 +59,7 @@ class MainSkymap extends Component {
     }
 
     setData(data){
+        console.log(data)
         this.data = data;
         this.setDisplayedDateLimits();
     }
@@ -83,6 +85,8 @@ class MainSkymap extends Component {
     }
 
     componentDidMount() {
+        this.setData(this.props.data);
+        this.setDisplayedFilter(this.props.filter);
     }
 
     render() {

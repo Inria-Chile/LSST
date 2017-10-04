@@ -22,11 +22,6 @@ class MainScatterplot extends Component {
         })
     }
 
-    componentDidUpdate(){
-        console.log("componentDidUpdate")
-    }
-
-
     render() {
         return (
             <div className="scatterplot">
