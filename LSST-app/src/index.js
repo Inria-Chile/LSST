@@ -6,6 +6,7 @@ import 'font-awesome/css/font-awesome.css'
 
 import Survey from './components/Survey/Survey';
 import Status from './components/Status/Status';
+import Dashboard from './components/Dashboard/Dashboard';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -18,6 +19,7 @@ ReactDOM.render((
             )}/>
             <Route path='/status' component={Status}/>
             <Route path='/survey' component={Survey}/>
+            <Route path='/dashboard' component={Dashboard}/>
         </Switch>
     </BrowserRouter>), document.getElementById('root'));
 

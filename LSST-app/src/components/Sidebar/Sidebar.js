@@ -70,8 +70,8 @@ class Sidebar extends Component {
                 </div>
                 <label>
                     Barebones 
-                    <select className="selectpicker" onChange={this.setProjection}>
-                        <option selected="selected">aitoff</option>
+                    <select className="selectpicker" defaultValue= "aitoff" onChange={this.setProjection}>
+                        <option>aitoff</option>
                         <option>armadillo</option>
                         <option>boggs</option>
                         <option>bromley</option>

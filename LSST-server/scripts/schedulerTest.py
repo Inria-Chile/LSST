@@ -29,8 +29,9 @@ observationId = 0
 try:
     while True:
         sal.putSample_timeHandler(topicTime)
-        time.sleep(1.010)
+        time.sleep(3.010)
         while True:
+            time.sleep(0.210)
             scode = sal.getNextSample_target(topicTarget)
             if scode == 0 and topicTarget.targetId != 0:
                 print([topicTarget.filter, topicTarget.ra, topicTarget.dec])

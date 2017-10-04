@@ -11,6 +11,9 @@ import openSocket from 'socket.io-client';
 import { filterColors, checkStatus, parseJSON } from "../Utils/Utils"
 
 class Survey extends Component {
+    
+    static viewName = 'survey';
+
     constructor(props) {
         super(props);
         this.mainSkymap = null;
@@ -18,7 +21,7 @@ class Survey extends Component {
         this.charts = null;
         this.displayedData = [];
         this.data = [];
-        this.socket = openSocket('http://localhost:3000');
+        this.socket = openSocket(window.location.origin);
         this.state = {
             selectedMode: 'playback',
             selectedField: null,

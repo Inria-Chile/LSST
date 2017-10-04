@@ -67,6 +67,7 @@ h3 {
 }
 
 .sidebar {
+    display: none;
     height: 100%;
     width: 200px;
     position: fixed;

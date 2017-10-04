@@ -1,0 +1,20 @@
+.toolbar-icon {
+    font-size: 2.0vw;
+}
+
+.toolbar-icon.selected {
+    color: #425f7b;
+}
+
+.toolbar-icon-wrapper {
+    font-size: 0.8vw;
+    text-align: center;
+    background: #3d5871;
+    min-height: 5vh;
+    vertical-align: middle;
+}
+
+.toolbar-icon-wrapper.selected {
+    background: #31475c;    
+    color: #425f7b;
+}

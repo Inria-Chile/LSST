@@ -8,6 +8,9 @@ import './Status.css';
 import * as d3 from 'd3';
 
 class Status extends Component {
+
+    static viewName = 'status';
+    
     constructor(props) {
         super(props);
         this.state = {
