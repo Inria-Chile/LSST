@@ -1,12 +1,11 @@
 .minimap-wrapper {
     display: inline-block;
     position: relative;
-    width: 45%;
-    margin: 5px;
+    width: 40%;
+    color: #929ea9;
 }
 
 .filter-name {
-    margin: 5px;
     text-align: center;
 }
 
@@ -22,24 +21,17 @@ canvas {
     cursor: pointer;
 }
 
-.selected-filter {
-    /* border: 1px solid red; */
-    box-shadow: inset 0px 0px 0px 2px #00c9ac;
+.skymap-wrapper.selected-filter {
+    border-bottom: white solid 3px;
 }
 
-.selected-filter::after {
-    content: 'Current';
-    vertical-align: bottom;
+.skymap-wrapper {
+    border-bottom: rgba(255, 255, 255, 0) solid 3px;
+    margin: 0px 5px;
+}
+
+.selected-filter {
     color: white;
-    text-align: center;
-    height: 18px;
-    width: 42%;
-    position: absolute;    
-    top: -17px;
-    left: 0;
-    font-size: 14px;
-    border-bottom: 15px solid #00c9ac;
-    border-right: 15px solid transparent;
 }
 
 .minimap {

@@ -8,9 +8,11 @@ import MainScatterplot from '../Scatterplot/MainScatterplot'
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
-import './Survey.css';
 import openSocket from 'socket.io-client';
 import { filterColors, checkStatus, parseJSON } from "../Utils/Utils"
+
+import './Survey.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 class Survey extends Component {
     
