@@ -74,12 +74,14 @@ class Charts extends Component {
 
     componentDidMount(){
         var dom = ReactDOM.findDOMNode(this);
-        this.createSlider(dom);
+        var child = dom.childNodes;
+        this.createSlider(child[0]);
     }
 
     componentDidUpdate(){
         var dom = ReactDOM.findDOMNode(this);
-        this.updateSlider(dom, false);
+        var child = dom.childNodes;
+        this.updateSlider(child[0], false);
     }
 
 
@@ -123,12 +125,14 @@ class Charts extends Component {
     render() {
         return (
             <div className="charts-container">
+                <div className="control-container"></div>
                 <div className="histogram-container">
                     <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
                 </div>
                 <div className="timeline-container">
                      <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
                 </div>
+                
             </div>
         );
     }
