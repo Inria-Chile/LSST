@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
 import './Timeline.css'
-import { typesOfScience, lstToTypeOfScienceNumber } from "../Utils/Utils"
+import { scienceProposals, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 
 class Timeline extends Component {
@@ -42,7 +42,7 @@ class Timeline extends Component {
   createTimeline(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
     let width = elem.offsetWidth;
-    var lanes = typesOfScience,
+    var lanes = scienceProposals,
     laneLength = lanes.length,
     data = this.adaptData(),
     m = [20, 15, 15, 120], //top right bottom left
@@ -81,7 +81,7 @@ class Timeline extends Component {
                 .data(data);
     
     rects.enter().append("rect")
-      .attr("class", function(d) {return "item" + (d.lst-1);})
+      .attr("class", function(d) {return "item";})
       .attr("x", function(d) {
         return x1(new Date(d.expDate));
       })

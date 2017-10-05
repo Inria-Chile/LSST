@@ -33,12 +33,13 @@ class Charts extends Component {
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
         width = width - this.props.margin.left - this.props.margin.right;
-        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 30);
+        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 50);
 
-        var g = svg.append("g").attr('class', 'slider')
+        // var g = svg.append("g").attr('class', 'slider')
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
-        g.append("g")
+        svg.append("g")
         .attr("class", "x")
+        .attr("transform", "translate(0," + 30 + ")")
         .call(d3.axisBottom(x).ticks(this.ticks));
     }
 
@@ -47,11 +48,9 @@ class Charts extends Component {
         let width = elem.offsetWidth;
         width = width-this.props.margin.left-this.props.margin.right
         d3.select(dom).select('.x').remove();
-        var g = d3.select(dom).select(".slider");
+        // var g = d3.select(dom).select(".slider");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
-        g.append("g")
-        .attr("class", "x")
-        .call(d3.axisBottom(x).ticks(this.ticks));
+        var svg = d3.select(dom).select('.slider-container');
         var self = this;
         if(this.brush==null || dataUpdate){
             d3.select(dom).select('.brush').remove();
@@ -64,24 +63,27 @@ class Charts extends Component {
                     });
                 }
             });
-            var svg = d3.select(dom).select('.slider-container');
             svg.append("g") 
             .attr("class", "brush")
             .call(this.brush);
         }
+        svg.append("g")
+        .attr("class", "x")
+        .attr("transform", "translate(0," + 30 + ")")
+        .call(d3.axisBottom(x).ticks(this.ticks));
        
     }
 
     componentDidMount(){
         var dom = ReactDOM.findDOMNode(this);
         var child = dom.childNodes;
-        this.createSlider(child[0]);
+        this.createSlider(child[1]);
     }
 
     componentDidUpdate(){
         var dom = ReactDOM.findDOMNode(this);
         var child = dom.childNodes;
-        this.updateSlider(child[0], false);
+        this.updateSlider(child[1], false);
     }
 
 
@@ -125,6 +127,7 @@ class Charts extends Component {
     render() {
         return (
             <div className="charts-container">
+                <h5>Date-range summary</h5>
                 <div className="control-container"></div>
                 <div className="histogram-container">
                     <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
@@ -142,7 +145,7 @@ class Charts extends Component {
 
 Charts.defaultProps = {
     height: 700,
-    margin: { top: 10, right: 10, bottom: 10, left: 120 }
+    margin: { top: 10, right: 30, bottom: 10, left: 120 }
   };
   
 
