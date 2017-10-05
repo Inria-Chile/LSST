@@ -259,9 +259,13 @@ class Survey extends Component {
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
                             {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
-                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} data={this.displayedData} filter={this.state.displayedFilter}
-                                        cellHoverCallback={this.cellHoverCallback} 
-                                        cellClickCallback={this.cellClickCallback} />}
+                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                                data={this.displayedData} 
+                                filter={this.state.displayedFilter}
+                                startDate = {this.state.startDate} 
+                                endDate={this.state.endDate}
+                                cellHoverCallback={this.cellHoverCallback} 
+                                cellClickCallback={this.cellClickCallback} />}
                             {
                                 this.state.selectedField &&
                                 <div className="hover-div">

@@ -7,6 +7,7 @@ class MainSkymap extends Component {
     constructor(props) {
         super(props);
         this.data = [];
+  
     }
 
     getCelestial(){
@@ -59,7 +60,6 @@ class MainSkymap extends Component {
     }
 
     setData(data){
-        console.log(data)
         this.data = data;
         this.setDisplayedDateLimits();
     }
@@ -85,6 +85,16 @@ class MainSkymap extends Component {
     }
 
     componentDidMount() {
+        this.setData(this.props.data);
+        this.setDisplayedFilter(this.props.filter);
+        this.setDisplayedDateLimits(this.props.startDate, this.props.endDate);
+        this.render();
+        
+    
+    }  
+
+    componentDidUpdate(){
+        console.log("componentdidupdate")
         this.setData(this.props.data);
         this.setDisplayedFilter(this.props.filter);
     }

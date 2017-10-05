@@ -25,14 +25,11 @@ class MiniScatterplot extends Component {
         return (
         <div className="scatterplot-container" onClick={ () => this.handleClick()}>
             <h3> Right Ascention / Declination </h3>
-            <Scatterplot ref={instance => {this.scatterplot=instance;}}/>
+            <Scatterplot ref={instance => {this.scatterplot=instance;}} height={183}/>
         </div>
         );
     }
 }
 
-// MiniScatterplot.defaultProps = {
-// height: 230
-// };
 
 export default MiniScatterplot;
