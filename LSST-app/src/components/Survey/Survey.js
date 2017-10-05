@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
-import Scatterplot from '../Scatterplot/Scatterplot'
+import MiniScatterplot from '../Scatterplot/MiniScatterplot'
+import MainScatterplot from '../Scatterplot/MainScatterplot'
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
@@ -20,9 +21,9 @@ class Survey extends Component {
         this.mainSkymap = null;
         this.miniSkymap = null;
         this.charts = null;
-        this.scatterplot = null;
+        this.miniScatterplot = null;
+        this.mainScatterplot = null;
         this.displayedData = [];
-        this.data = [];
         this.socket = openSocket(window.location.origin);
         this.state = {
             selectedMode: 'playback',
@@ -30,7 +31,8 @@ class Survey extends Component {
             clickedField: [],
             displayedFilter: 'all',
             startDate: null,
-            endDate: null
+            endDate: null,
+            showSkyMap: true
         }
     }
 
@@ -78,11 +80,24 @@ class Survey extends Component {
         this.setState({
             displayedFilter: filter
         })
-        this.mainSkymap.setDisplayedFilter(filter);
+        if(this.mainSkymap!=null){
+            this.mainSkymap.setDisplayedFilter(filter);
+            
+        }
+        else{
+            let showSkyMap = this.state.showSkyMap;
+            this.setState({showSkyMap:!showSkyMap});
+        }
+       
+    }
+
+    displayScatterplot = () => {
+        let showSkyMap = this.state.showSkyMap;
+        this.setState({showSkyMap:!showSkyMap});
     }
     
     setDisplayedDateLimits = (startDate, endDate) => {
-        this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
+        if(this.state.showSkyMap)this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
         this.miniSkymap.setDisplayedDateLimits(startDate, endDate);
         this.setDate(endDate);
         this.updateObservationsTable();
@@ -117,7 +132,9 @@ class Survey extends Component {
     }
 
     setDate = (date) => {
-        this.mainSkymap.setDate(date);
+        if(this.state.showSkyMap){
+            this.mainSkymap.setDate(date);
+        }
         this.miniSkymap.setDate(date);
     }
     
@@ -132,10 +149,13 @@ class Survey extends Component {
 
     setData = (data) => {
         this.displayedData = data;
-        this.mainSkymap.setData(data);
-        this.miniSkymap.setData(data);
         this.charts.setData(data);
-        this.scatterplot.setData(data);
+        this.miniScatterplot.setData(data);
+        this.miniSkymap.setData(data);
+        if(this.state.showSkyMap){
+            this.mainSkymap.setData(data);
+        }
+        else this.mainScatterplot.setData(data);
     }
 
     addObservation = (obs) => {
@@ -241,9 +261,14 @@ class Survey extends Component {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <Charts ref={instance => { this.charts = instance; }}/>
                         <div className="main-skymap-wrapper">
-                            <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
-                                        cellHoverCallback={this.cellHoverCallback} 
-                                        cellClickCallback={this.cellClickCallback} />
+                            {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
+                            {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                                data={this.displayedData} 
+                                filter={this.state.displayedFilter}
+                                startDate = {this.state.startDate} 
+                                endDate={this.state.endDate}
+                                cellHoverCallback={this.cellHoverCallback} 
+                                cellClickCallback={this.cellClickCallback} />}
                             {
                                 this.state.selectedField &&
                                 <div className="hover-div">
@@ -269,7 +294,7 @@ class Survey extends Component {
                     </div>
                     <div className="right-container">
                         <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />
-                        <Scatterplot ref={ instance => {this.scatterplot=instance;} }/>
+                        <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.displayScatterplot}/>
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />

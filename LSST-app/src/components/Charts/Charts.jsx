@@ -112,7 +112,7 @@ class Charts extends Component {
 
     // Date comes from database as number and as MJD.
     // This function is meant to make the numerical date 
-    // (number of seconds since 1994-01-01 00:00:00 UTC. *allegedly*) match that of the MJV
+    // (number of seconds since 1994-01-01 00:00:00 UTC.) match that of the MJV
     toDate(numberDate){
         var date = new Date(1994,0,1);
         let seconds = date.getSeconds() + numberDate;
