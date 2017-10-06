@@ -81,7 +81,7 @@ class Timeline extends Component {
                 .data(data);
     
     rects.enter().append("rect")
-      .attr("class", function(d) {return "item" + (d.lst-1);})
+      .attr("class", function(d) {return "item";})
       .attr("x", function(d) {
         return x1(new Date(d.expDate));
       })

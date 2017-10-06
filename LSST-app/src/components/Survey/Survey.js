@@ -105,6 +105,12 @@ class Survey extends Component {
         this.updateObservationsTable();
     }
 
+    //function to set the start and end dates selected by the slider
+    setTimeWindow = (startDate, endDate) => {
+        this.startDisplayedDate = startDate;
+        this.endDisplayedDate = endDate;
+    }
+
     setLiveMode = () => {
         console.log('setlivemode')
         this.setState({

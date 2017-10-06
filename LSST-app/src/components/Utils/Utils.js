@@ -53,9 +53,22 @@ let rgb2hex = function(rgb) {
     return "#" + hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
 }
 
-export const scienceProposals = ["North Ecliptic Spur","South Celestial Pole","Wide Fast Deep", "Galactic Plane", "Deep Drilling"];
+export const scienceProposalsFullname = ["North Ecliptic Spur","South Celestial Pole","Wide Fast Deep", "Galactic Plane", "Deep Drilling"];
+export const scienceProposals = ["NES","SCP","WFD", "GP", "DD"];
 
 export function lstToTypeOfScience(lst){
+    if(lst < 0.6)
+        return scienceProposals[0]
+    if(lst < 1.2)
+        return scienceProposals[1]
+    if(lst < 1.8)
+        return scienceProposals[2]
+    if(lst < 2.4)
+        return scienceProposals[3]
+    return scienceProposals[4]
+}
+
+export function lstToscienceProposal(lst){
     if(lst < 0.6)
         return scienceProposals[0]
     if(lst < 1.2)

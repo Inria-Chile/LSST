@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './ObservationsTable.css';
-import { filterColors, lstToTypeOfScience, decreaseBrightness } from "../Utils/Utils";
+import { filterColors, lstToscienceProposal, decreaseBrightness } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
 
 class ObservationsTable extends Component {
@@ -19,9 +19,8 @@ class ObservationsTable extends Component {
 
     setData = (data) => {
         this.setState({
-            data: [...data, ...data],
+            data: [...data],
         })
-        console.log('setData', this.state.data);
     }
 
     render() {
@@ -92,7 +91,7 @@ class ObservationsTable extends Component {
                             {
                                 Header: "Science proposals",
                                 id: "lst",
-                                accessor: d => d.lst ? lstToTypeOfScience(d.lst) : ''
+                                accessor: d => d.lst ? lstToscienceProposal(d.lst) : ''
                             }
                         ]}
                         defaultPageSize={9}

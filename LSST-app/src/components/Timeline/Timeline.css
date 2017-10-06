@@ -10,30 +10,8 @@
   font: 12px sans-serif;	
 }
 
-.item0 {
-  fill:	#0c1a4a;
-  stroke-width: 6;	
-}
-
-.item1 {
-  fill:#3e55a3;
-  fill-opacity: .7;
-  stroke-width: 6;	
-}
-
-.item2 {
-  fill: #ff9936;
-  fill-opacity: .7;
-  stroke-width: 6;	
-}
-.item3{
-  fill: #33f8ff;
-  stroke-width: 6;	
-}
-
-.item4 {
-  fill: 	#fbadcd	;
-  fill-opacity: .7;
+.item {
+  fill:	#ffffff;
   stroke-width: 6;	
 }
 
