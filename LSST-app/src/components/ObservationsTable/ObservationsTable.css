@@ -2,10 +2,16 @@
     padding: 0px 5px;
 }
 
+.ReactTable {
+    /* border: 1px solid #2d4053; */
+    border: 1px solid rgba(0,0,0,0.0)
+    
+}
+
 .rt-thead {
     background: #2d4053;
 }
 
-.observations-table-wrapper {
-    background: #3d5871;
+.-no-header > .rt-table > .rt-thead{
+    display: none;
 }

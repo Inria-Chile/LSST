@@ -2,7 +2,7 @@
     display: inline-block;
     position: relative;
     width: 40%;
-    color: #929ea9;
+    color: #96a3b3;
 }
 
 .filter-name {
@@ -31,7 +31,7 @@ canvas {
 }
 
 .selected-filter {
-    color: white;
+    color: #fff;
 }
 
 .minimap {

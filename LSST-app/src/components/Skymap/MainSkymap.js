@@ -52,7 +52,6 @@ class MainSkymap extends Component {
     }
 
     setDisplayedFilter(filter){
-        console.log(filter)
         if(filter === 'all')
             this.skymap.displayAllFilters();
         else
