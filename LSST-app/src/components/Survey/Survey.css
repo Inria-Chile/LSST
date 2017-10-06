@@ -1,10 +1,12 @@
 
 h2 {
   padding: 5px 10px;
+  background: #3a4d61;
+  margin: 5px;
 }
 
 h3 {
-  background: #2d4053;
+  background: #3a4d61;
   padding: 5px 10px;
 }
 
@@ -13,7 +15,6 @@ h3 {
 }
 
 .main-skymap-wrapper {
-  background: #31475c;  
   /* background: #eee; */
   /* margin: 10px; */
   padding: 5px;
@@ -30,8 +31,20 @@ h3 {
   top: 0;
   display: inline-block;
   width: 75%;
-  margin: 0px 3px;
-  padding: 0px 7px;
+  margin: 0px 5px;
+}
+
+.left-container > * {
+  background: #3a4d61;
+}
+
+.right-container > * {
+  background: #3a4d61;
+}
+
+.left-container .row {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .right-container {
@@ -51,13 +64,15 @@ h3 {
 .minimap-container {
   right: 0;
   top: 0;
-  background: #3d5871;   
+  padding-top: 30px;
+  margin: 0px 5px;
 }
 
 .scatterplot-container {
   right: 0;
   bottom: 0;
-  background: #3d5871;   
+  margin: 5px;
+  padding: 5px;
 }
 
 .mainSkymap {
@@ -128,7 +143,7 @@ h3 {
 
 
 .observations-table-wrapper {
-  background: #3d5871;
+  background: #31475c;;
   height: 100%;
 }
 

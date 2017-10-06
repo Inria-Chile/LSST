@@ -9,7 +9,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import openSocket from 'socket.io-client';
-import { filterColors, checkStatus, parseJSON } from "../Utils/Utils"
+import { filterColors, checkStatus, parseJSON, decreaseBrightness } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -246,7 +246,7 @@ class Survey extends Component {
             <div className="survey-container">
                 <div>
                     <h2>
-                        SURVEY PROGRESS MONITOR
+                        Survey Progress
                     </h2>
                     <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
                         <i className="fa fa-cog" aria-hidden="true"></i>
@@ -282,7 +282,7 @@ class Survey extends Component {
                                                 Filter: {" "}
                                                 <div className="hover-filter" style={{
                                                         backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
-                                                            : "#000000",
+                                                            : "#000000", border: decreaseBrightness(filterColors[this.state.selectedField.filterName], 1.3) + ' solid 2px'
                                                     }}>
                                                     {
                                                         this.state.selectedField.filterName ? this.state.selectedField.filterName : ''

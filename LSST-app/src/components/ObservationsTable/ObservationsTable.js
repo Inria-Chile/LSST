@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './ObservationsTable.css';
-import { filterColors, lstToTypeOfScience } from "../Utils/Utils";
+import { filterColors, lstToTypeOfScience, decreaseBrightness } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
 
 class ObservationsTable extends Component {
@@ -26,10 +26,10 @@ class ObservationsTable extends Component {
 
     render() {
         let timestampColWidth = 150;
-        let filterColWidth = 150;
+        let filterColWidth = 120;
         return (
             <div className="observations-table-wrapper">
-                <div style={{height: '30px'}}>
+                <div style={{height: '35px'}}>
                 <ReactTable
                         sortable={false}
                         data={[]}
@@ -37,11 +37,13 @@ class ObservationsTable extends Component {
                             {
                                 Header: "Timestamp",
                                 id: "expDate",
-                                maxWidth: timestampColWidth
+                                maxWidth: timestampColWidth,
+                                headerStyle: {textAlign: 'left'}
                             },
                             {
                                 Header: "Filter",
-                                maxWidth: filterColWidth
+                                maxWidth: filterColWidth,
+                                headerStyle: {textAlign: 'left'}
                             },
                             {
                                 Header: "Science proposals",
@@ -52,10 +54,11 @@ class ObservationsTable extends Component {
                         className="-striped -highlight"
                         showPaginationBottom={false}
                         noDataText=""
+                        
                     />
                 </div>
-                <div style={{height: 'calc(100% - 30px)'}}>
-                <Scrollbars
+                <div style={{height: 'calc(100% - 35px)'}}>
+                <Scrollbars className='scrollbar'
                     style={{ height: '100%' }}>
                     <ReactTable
                         sortable={false}
@@ -77,7 +80,7 @@ class ObservationsTable extends Component {
                                                 : "#000000",
                                             textAlign: "center",
                                             borderRadius: '2px',
-                                            margin: '0px 10px'
+                                            border: decreaseBrightness(filterColors[row.value], 1.3) + ' solid 2px'
                                         }}>
                                         {
                                             row.value 
@@ -89,12 +92,12 @@ class ObservationsTable extends Component {
                             {
                                 Header: "Science proposals",
                                 id: "lst",
-                                accessor: d => d.lst ? lstToTypeOfScience(d.lst) + ' ' + d.lst : ''
+                                accessor: d => d.lst ? lstToTypeOfScience(d.lst) : ''
                             }
                         ]}
                         defaultPageSize={9}
                         pageSize={this.props.clickedField === null || 3*this.props.clickedField.length < 9 ? 9 : 3*this.props.clickedField.length}
-                        className="-striped -highlight -no-header"
+                        className="-highlight -no-header"
                         showPaginationBottom={false}
                         noDataText=""
                         

@@ -55,13 +55,13 @@ class MiniSkymaps extends Component {
   componentDidMount() {
     let filters = ["u","g","r","i","z","y"];
     for(let i=0;i<filters.length;++i){
-      this.children[i].displayFilter(filters[i]);
-      this.children[i].setFontSize(0);
-      this.children[i].setGridOpacity(0);
+      this.children[i+1].displayFilter(filters[i]);
+      this.children[i+1].setFontSize(0);
+      this.children[i+1].setGridOpacity(0);
     }
-    this.children[this.children.length-1].displayAllFilters();
-    this.children[this.children.length-1].setFontSize(0);
-    this.children[this.children.length-1].setGridOpacity(0);
+    this.children[0].displayAllFilters();
+    this.children[0].setFontSize(0);
+    this.children[0].setGridOpacity(0);
     window.addEventListener("resize", this.updateDimensions);
   }
 
@@ -81,9 +81,6 @@ class MiniSkymaps extends Component {
     this.children = [];
     return (
       <div className="minimap-container">
-        <div>
-          <h3>Filters</h3>
-        </div>
         <div className="container">
           <div className="row">
             <div className={"minimap-wrapper all-filter "  + (this.state.selectedFilter==='all' ? 'selected-filter' : '')} onClick={ () => this.handleClick('all')}>
