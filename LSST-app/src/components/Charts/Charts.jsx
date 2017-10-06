@@ -26,13 +26,14 @@ class Charts extends Component {
         };
         this.brush=null;
         this.ticks=10;
+        this.margin={ top: 10, right: 30, bottom: 20, left: 120 }
          
     }
 
     createSlider(dom){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
-        width = width - this.props.margin.left - this.props.margin.right;
+        width = width - this.margin.left - this.margin.right;
         var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 50);
 
         // var g = svg.append("g").attr('class', 'slider')
@@ -48,7 +49,6 @@ class Charts extends Component {
         let width = elem.offsetWidth;
         width = width-this.props.margin.left-this.props.margin.right
         d3.select(dom).select('.x').remove();
-        // var g = d3.select(dom).select(".slider");
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         var svg = d3.select(dom).select('.slider-container');
         var self = this;
@@ -63,9 +63,11 @@ class Charts extends Component {
                     });
                 }
             });
+
             svg.append("g") 
             .attr("class", "brush")
             .call(this.brush);
+
         }
         svg.append("g")
         .attr("class", "x")
@@ -76,14 +78,14 @@ class Charts extends Component {
 
     componentDidMount(){
         var dom = ReactDOM.findDOMNode(this);
-        var child = dom.childNodes;
-        this.createSlider(child[1]);
+        var child = dom.childNodes[1].childNodes;
+        this.createSlider(child[0]);
     }
 
     componentDidUpdate(){
         var dom = ReactDOM.findDOMNode(this);
-        var child = dom.childNodes;
-        this.updateSlider(child[1], false);
+        var child = dom.childNodes[1].childNodes;
+        this.updateSlider(child[0], false);
     }
 
 
@@ -126,27 +128,25 @@ class Charts extends Component {
 
     render() {
         return (
-            <div className="charts-container">
+            // <div class="row">
+            <div className = "charts-container" >
                 <h5>Date-range summary</h5>
-                <div className="control-container"></div>
-                <div className="histogram-container">
-                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
-                </div>
-                <div className="timeline-container">
-                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks}/>
-                </div>
+                <div className="row"><div className="col-md-12"></div></div>
+                <div className="row">
+                <div className="col-md-12 histogram-container">
+                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                </div></div>
+                <div className="row">
+                <div className="col-md-12 timeline-container">
+                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                </div></div>
                 
             </div>
+            // </div>
         );
     }
     
 }
-
-
-Charts.defaultProps = {
-    height: 700,
-    margin: { top: 10, right: 30, bottom: 10, left: 120 }
-  };
   
 
 export default Charts;

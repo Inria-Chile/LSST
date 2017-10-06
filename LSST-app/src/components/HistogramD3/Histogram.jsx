@@ -99,11 +99,17 @@ class Histogram extends Component {
   }
 
   drawAxes(dom,yPosition,yticks,x,y){
+
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + yPosition + ")")
     .attr("class", "axisWhite")
-    .call(d3.axisBottom(x).ticks(this.props.ticks));
+    .call(d3.axisBottom(x)
+      .tickValues(x.domain())
+      .tickFormat((date)=>{
+        return date.toLocaleDateString();
+      }));
+    console.log(x.domain())
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
@@ -118,16 +124,26 @@ class Histogram extends Component {
     let height = this.props.height;
     
     let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    let margin = { top: 0, right: 15, bottom: 20, left: 120 };
+    let margin = this.props.margin;
     width = +svg.attr("width") - margin.left - margin.right;
     height = +svg.attr("height") - margin.top - margin.bottom;
+
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let x,y,z,yticks;
     let start = this.props.start;
     let end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
+    y = d3.scaleLinear().range([height, 0]);
     let data = this.props.data;
+
+    svg.append("rect")
+    .attr("x", margin.left+x(start))
+    .attr("y", y(1))
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "bckg");
+
 
     if(data!=null){
       let filteredData = data.filter(function(d){
@@ -136,7 +152,7 @@ class Histogram extends Component {
       let newData = this.adaptData(filteredData, x);
       // console.log(newData)
       
-      y = d3.scaleLinear().range([height, 0]);
+     
       z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
       
       let stack = d3.stack()
