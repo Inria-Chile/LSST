@@ -119,7 +119,7 @@ Celestial.display = function(config) {
   
   setClip(proj.clip);
 
-  d3.select(window).on('resize', resize);
+  // d3.select(window).on('resize', resize);
 
   if (cfg.controls === true && $("celestial-zoomin") === null) {
     d3.select(par).append("input").attr("type", "button").attr("id", "celestial-zoomin").attr("value", "\u002b").on("click", function () { zoomBy(1.111); });
@@ -618,9 +618,7 @@ Celestial.display = function(config) {
     var key = 'telescopeRange';
     if (cfg[key].show) {
       setStyle(cfg[key]);
-      container.selectAll("."+key).attr("d", function(x){
-        return mapStatic(x);
-      });  
+      container.selectAll("."+key).attr("d", map);  
       context.stroke();
     }
 

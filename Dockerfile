@@ -69,23 +69,23 @@ RUN chmod +x /home/docker/lsst/ts_sal.sh
 
 RUN dos2unix /home/docker/lsst/ts_sal.sh
 
-
 RUN /home/docker/lsst/ts_sal.sh
 
 RUN cp ./*/cpp/src/*.so /home/root/workspace/ts_sal/test/lib
 
-COPY . /home/docker/lsst
+RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
 
 WORKDIR /home/docker/lsst/LSST-app
 
+ADD LSST-app/package.json /home/docker/lsst/LSST-app/package.json
+
 RUN npm install
 
-RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
+COPY . /home/docker/lsst
+
+RUN npm install
 
 # entrypoint
 RUN chmod +x run.sh
-
-RUN dos2unix run.sh
-
 ENTRYPOINT source /home/root/workspace/ts_sal/setup.env && \
   ./run.sh
