@@ -1,9 +1,9 @@
 .minimap-wrapper {
     display: inline-block;
     position: relative;
-    width: 40%;
+    width: 45%;
     color: #96a3b3;
-    margin: 10px 0px;
+    margin: 5px 0px;
 }
 
 .filter-name {
