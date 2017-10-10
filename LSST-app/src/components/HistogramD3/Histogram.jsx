@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
 import { filterColors } from "../Utils/Utils"
+import './Histogram.css';
 
 
 
@@ -103,7 +104,7 @@ class Histogram extends Component {
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + yPosition + ")")
-    .attr("class", "axisWhite")
+    .attr("class", "xAxis")
     .call(d3.axisBottom(x)
       .tickValues(x.domain())
       .tickFormat((date)=>{
@@ -113,7 +114,7 @@ class Histogram extends Component {
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
-    .attr("class", "axisWhite")
+    .attr("class", "yAxis")
     .call(d3.axisLeft(y).tickValues(yticks));
   }
 
@@ -124,7 +125,8 @@ class Histogram extends Component {
     let height = this.props.height;
     
     let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    let margin = this.props.margin;
+    let margin = { top: 0, right: 40, bottom: 20, left: 120 };
+    // let margin = this.props.margin;
     width = +svg.attr("width") - margin.left - margin.right;
     height = +svg.attr("height") - margin.top - margin.bottom;
 

@@ -26,7 +26,7 @@ class Charts extends Component {
         };
         this.brush=null;
         this.ticks=10;
-        this.margin={ top: 10, right: 30, bottom: 20, left: 120 }
+        this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
          
     }
 
@@ -47,7 +47,7 @@ class Charts extends Component {
     updateSlider(dom, dataUpdate){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
-        width = width-this.props.margin.left-this.props.margin.right
+        width = width-this.margin.left-this.margin.right
         d3.select(dom).select('.x').remove();
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
         var svg = d3.select(dom).select('.slider-container');

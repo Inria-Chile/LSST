@@ -13,14 +13,14 @@ class Timeline extends Component {
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + (yposition-50) + ")")
-    .attr("class", "axisWhite")
+    .attr("class", "yAxis")
     .call(d3.axisBottom(x).ticks(this.props.ticks));
 
     dom.append("g").selectAll(".laneText")
     .data(lanes)
     .enter().append("text")
     .text(function(d) {return d;})
-    .attr("x", -xposition)
+    .attr("x", -15)
     .attr("y", function(d, i) {return y(i + .5);})
     .attr("dy", ".5ex")
     .attr("text-anchor", "end")
@@ -31,10 +31,9 @@ class Timeline extends Component {
     .data(lanes)
     .enter().append("line")
     .attr("x1", 0)
-    .attr("y1", function(d,i) {
-    return y(i);})
+    .attr("y1", function(d,i) {return y(i)+1;})
     .attr("x2", width)
-    .attr("y2", function(d,i) {return y(i);})
+    .attr("y2", function(d,i) {return y(i)+1;})
     .attr("stroke", "lightgray")
 
   }
@@ -45,16 +44,16 @@ class Timeline extends Component {
     let lanes = scienceProposals,
     laneLength = lanes.length,
     data = this.adaptData(),
-    margin = this.props.margin, //top right bottom left
-    w = width - margin.right - margin.left,
-    h = props.height - margin.top - margin.bottom,
+    m = [0, 40, 20, 120], //top right bottom left
+    w = width - m[1] - m[3],
+    h = props.height - m[0] - m[2],
     mainHeight = h  - 50;
     var y1 = d3.scaleLinear()
     .domain([0, laneLength])
     .range([0, mainHeight]);
     var chart = d3.select(dom)
     .append("svg")
-    .attr("width", w + margin.right + margin.left)
+    .attr("width", width)
     .attr("height", h)
     .attr("class", "chart");
     chart.append("defs").append("clipPath")
@@ -64,7 +63,7 @@ class Timeline extends Component {
     .attr("height", mainHeight);
     
     var g = chart.append("g")
-          .attr("transform", "translate(" + margin.right + "," + margin.left + ")")
+          .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
           .attr("width", w)
           .attr("height", mainHeight)
           .attr("class", "main");
@@ -73,7 +72,7 @@ class Timeline extends Component {
       var start = this.props.start;
       var end = this.props.end;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,w,margin.right);
+      this.drawAxes(g,lanes,y1,x1,h,w,m[1]);
 
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
@@ -99,7 +98,7 @@ class Timeline extends Component {
       var today = new Date();
       today.setDate(today.getDate() + 1);
       var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x,h,w,margin.right);
+      this.drawAxes(g,lanes,y1,x,h,w,m[1]);
     }
   }
 
