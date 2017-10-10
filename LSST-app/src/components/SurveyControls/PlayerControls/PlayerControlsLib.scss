@@ -1,11 +1,11 @@
 
 $icon-size: 20px;
 
-$green: #eee;
-$white: #555;
+$green: #2d3d4e;
+$white: #aab1b9;
 $gray: #111;
 $progress-bkg: #090;
-$elapsed-bkg: #555;
+$elapsed-bkg: #fff;
 // $color-hover: saturate(lighten($green, 10%), 20%);
 // $color-active: desaturate(darken($green, 20%), 20%);
 $color-hover: desaturate(darken($green, 20%), 10%);
@@ -72,7 +72,7 @@ $color-active: fade-out($color-hover, 0.5);
 .ProgressBar,
 .VolumeSlider {
   position: relative;
-  background: #eee;
+  background: #aab1b9;
   border-radius: 4px;
 
   &-elapsed,
@@ -88,8 +88,8 @@ $color-active: fade-out($color-hover, 0.5);
 
   &-handle {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 26px;
+    height: 26px;
     background: $elapsed-bkg;
     border-radius: 100%;
     transform: scale(0);
@@ -98,10 +98,11 @@ $color-active: fade-out($color-hover, 0.5);
 
   &.isSeekable,
   &.isEnabled {
-    &:hover {
       .ProgressBar-handle,
       .VolumeSlider-handle {
         transform: scale(1);
+        background-color: #aab1b9;
+        border: 5px solid white;        
       }
 
       .ProgressBar-intent,
@@ -109,7 +110,6 @@ $color-active: fade-out($color-hover, 0.5);
         position: absolute;
         background: rgba(0,0,0,0.05);
       }
-    }
 
     .ProgressBar-elapsed,
     .VolumeSlider-value {
@@ -119,11 +119,12 @@ $color-active: fade-out($color-hover, 0.5);
 }
 
 .ProgressBar {
-  height: 8px;
+  height: 7px;
   margin: 10px 0;
 
   &-elapsed {
-    height: 100%;
+    height: 150%;
+    transform: translateY(-15%);
   }
 
   &-seek {
@@ -135,7 +136,7 @@ $color-active: fade-out($color-hover, 0.5);
 
   &-handle {
     top: 0;
-    margin: -4px 0 0 -8px;
+    margin: -8px 0 0 -12px;
   }
 
   &.isSeekable {

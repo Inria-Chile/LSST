@@ -81,9 +81,6 @@ class PlayerControls extends Component {
     render() {
         return (
             <div className="player-controls">
-                <div>
-                    <h6>PLAYER</h6>
-                </div>
                 <PlaybackControls
                     isPlayable={this.state.isPlayable}
                     isPlaying={this.state.isPlaying}
