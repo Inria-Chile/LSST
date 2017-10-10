@@ -119,6 +119,8 @@ class Survey extends Component {
     setDisplayedDateLimits = (startDate, endDate) => {
         this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
         this.miniSkymap.setDisplayedDateLimits(startDate, endDate);
+        this.mainScatterplot.setDisplayedDateLimits(startDate, endDate);
+        this.miniScatterplot.setDisplayedDateLimits(startDate, endDate);
         this.setDate(endDate);
         this.updateObservationsTable();
     }

@@ -9,8 +9,9 @@ class Scatterplot extends Component {
     constructor(props){
         super(props);
         this.state={
-            data:null
+            displayedData: null
         };
+        this.data=null;
     }
 
     componentDidMount() {
@@ -38,11 +39,11 @@ class Scatterplot extends Component {
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleLinear().range([height,0]);
     
-        if(this.state.data==null){
+        if(this.state.displayedData==null){
             this.setData(this.props.data);
         }
-        if(this.state.data!=null){
-            let data = this.state.data;
+        if(this.state.displayedData!=null){
+            let data = this.state.displayedData;
             x.domain(d3.extent(data, function(d) { return d.fieldRA; }));
             let maxy = Math.abs(d3.max(data, function(d) { return d.fieldDec; }));
             let miny = Math.abs(d3.min(data, function(d) { return d.fieldDec; }));
@@ -83,10 +84,23 @@ class Scatterplot extends Component {
 
     setData(data){
         if(data && data.length > 0){
+            this.data = data;
             this.setState({
-                data:data
+                displayedData:data
             });
         }
+    }
+    
+    setDisplayedDateLimits(start,end){
+        let data = this.data;
+        let dataToBeDisplayed = data.filter(function(d){
+            
+            return d.expDate >= start && d.expDate<= end;
+        });
+        this.setState({
+            displayedData: dataToBeDisplayed
+        });
+
     }
 
     render() {
