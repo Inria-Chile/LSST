@@ -23,7 +23,6 @@ class MainScatterplot extends Component {
     }
 
     setDisplayedDateLimits(startDate,endDate){
-        // console.log("mainscatterplot");
         this.scatterplot.setDisplayedDateLimits(startDate,endDate);
     }
 
