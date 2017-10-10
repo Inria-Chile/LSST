@@ -110,7 +110,6 @@ class Histogram extends Component {
       .tickFormat((date)=>{
         return date.toLocaleDateString();
       }));
-    console.log(x.domain())
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
@@ -152,7 +151,6 @@ class Histogram extends Component {
         return d.expDate >= start && d.expDate<= end;
       });  
       let newData = this.adaptData(filteredData, x);
-      // console.log(newData)
       
      
       z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);

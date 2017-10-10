@@ -272,7 +272,7 @@ class Survey extends Component {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
-                                        {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
+                                        {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}}  />}
                                         {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
                                             data={this.displayedData} 
                                             filter={this.state.displayedFilter}

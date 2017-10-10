@@ -83,21 +83,6 @@ class MainSkymap extends Component {
         this.skymap.getCelestial().goToDate(date);
     }
 
-    componentDidMount() {
-        this.setData(this.props.data);
-        this.setDisplayedFilter(this.props.filter);
-        this.setDisplayedDateLimits(this.props.startDate, this.props.endDate);
-        this.render();
-        
-    
-    }  
-
-    componentDidUpdate(){
-        console.log("componentdidupdate")
-        this.setData(this.props.data);
-        this.setDisplayedFilter(this.props.filter);
-    }
-
     render() {
         return (
             <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"

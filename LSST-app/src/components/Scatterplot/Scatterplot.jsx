@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
+import './Scatterplot.css';
 
 
 class Scatterplot extends Component {
@@ -52,13 +53,13 @@ class Scatterplot extends Component {
             g.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
-            .attr("class", "axisWhite")
+            .attr("class", "whiteAxis")
             .call(d3.axisBottom(x).ticks(10));
 
             g.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(0,0)")
-            .attr("class", "axisWhite")
+            .attr("class", "whiteAxis")
             .call(d3.axisLeft(y).ticks(10));
   
             g.selectAll("circle").data(data).enter().append("circle")
