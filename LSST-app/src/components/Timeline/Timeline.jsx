@@ -13,14 +13,14 @@ class Timeline extends Component {
     dom.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + (yposition-50) + ")")
-    .attr("class", "axisWhite")
+    .attr("class", "yAxis")
     .call(d3.axisBottom(x).ticks(this.props.ticks));
 
     dom.append("g").selectAll(".laneText")
     .data(lanes)
     .enter().append("text")
     .text(function(d) {return d;})
-    .attr("x", -xposition)
+    .attr("x", -15)
     .attr("y", function(d, i) {return y(i + .5);})
     .attr("dy", ".5ex")
     .attr("text-anchor", "end")
@@ -31,10 +31,9 @@ class Timeline extends Component {
     .data(lanes)
     .enter().append("line")
     .attr("x1", 0)
-    .attr("y1", function(d,i) {
-    return y(i);})
+    .attr("y1", function(d,i) {return y(i)+1;})
     .attr("x2", width)
-    .attr("y2", function(d,i) {return y(i);})
+    .attr("y2", function(d,i) {return y(i)+1;})
     .attr("stroke", "lightgray")
 
   }
@@ -42,10 +41,10 @@ class Timeline extends Component {
   createTimeline(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
     let width = elem.offsetWidth;
-    var lanes = scienceProposals,
+    let lanes = scienceProposals,
     laneLength = lanes.length,
     data = this.adaptData(),
-    m = [20, 15, 15, 120], //top right bottom left
+    m = [0, 40, 20, 120], //top right bottom left
     w = width - m[1] - m[3],
     h = props.height - m[0] - m[2],
     mainHeight = h  - 50;
@@ -54,7 +53,7 @@ class Timeline extends Component {
     .range([0, mainHeight]);
     var chart = d3.select(dom)
     .append("svg")
-    .attr("width", w + m[1] + m[3])
+    .attr("width", width)
     .attr("height", h)
     .attr("class", "chart");
     chart.append("defs").append("clipPath")

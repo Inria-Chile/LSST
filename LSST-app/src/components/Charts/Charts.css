@@ -5,29 +5,29 @@
     /* margin-bottom: 120px; */
     /* margin-top: 0; */
     /* stroke-opacity: 0; */
+    padding-right:100px;
   }
 
 .selection{
   fill: white;
-  /* stroke:transparent; */
-  
+  stroke:transparent;
 }
 
 .slider-container {
     /* background: red; */
-    margin-top:10px;
+    /* margin-top:10px; */
     /* background: #eee; */
-    /* margin: 10px; */
-    /* padding-right: 20px; */
+    margin-bottom: 20px;
+    /* margin-right: 10px; */
     margin-left: 120px;
-    padding-right:10px;
+    /* padding-right:10px; */
     
     /* margin-right: 500px; */
   }
 
   .x text{
     fill: white;
-    padding-top:40px;
+    /* padding-top:40px; */
   }  
   
   .x line{
@@ -47,4 +47,9 @@
     margin: 0px 10px;
     border-top: 3px solid #2d3d4e;
     background: #3d5871;
+  }
+
+  .bckg{
+    opacity: .1;
+    fill: white;
   }

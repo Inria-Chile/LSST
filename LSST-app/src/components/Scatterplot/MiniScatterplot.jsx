@@ -16,10 +16,13 @@ class MiniScatterplot extends Component {
     }
 
 
-  handleClick(){
-    console.log("handling click")
-    this.props.onScatterplotClick()
-  }
+    handleClick(){
+        this.props.onScatterplotClick()
+    }
+
+    setDisplayedDateLimits(startDate,endDate){
+        this.scatterplot.setDisplayedDateLimits(startDate,endDate);
+    }
 
     render() {
         return (

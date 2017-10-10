@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
+import './Scatterplot.css';
 
 
 class Scatterplot extends Component {
@@ -8,8 +9,9 @@ class Scatterplot extends Component {
     constructor(props){
         super(props);
         this.state={
-            data:null
+            displayedData: null
         };
+        this.data=null;
     }
 
     componentDidMount() {
@@ -37,11 +39,11 @@ class Scatterplot extends Component {
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleLinear().range([height,0]);
     
-        if(this.state.data==null){
+        if(this.state.displayedData==null){
             this.setData(this.props.data);
         }
-        if(this.state.data!=null){
-            let data = this.state.data;
+        if(this.state.displayedData!=null){
+            let data = this.state.displayedData;
             x.domain(d3.extent(data, function(d) { return d.fieldRA; }));
             let maxy = Math.abs(d3.max(data, function(d) { return d.fieldDec; }));
             let miny = Math.abs(d3.min(data, function(d) { return d.fieldDec; }));
@@ -52,13 +54,13 @@ class Scatterplot extends Component {
             g.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + y.range()[0] / 2 + ")")
-            .attr("class", "axisWhite")
+            .attr("class", "whiteAxis")
             .call(d3.axisBottom(x).ticks(10));
 
             g.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(0,0)")
-            .attr("class", "axisWhite")
+            .attr("class", "whiteAxis")
             .call(d3.axisLeft(y).ticks(10));
   
             g.selectAll("circle").data(data).enter().append("circle")
@@ -82,10 +84,25 @@ class Scatterplot extends Component {
 
     setData(data){
         if(data && data.length > 0){
+            this.data = data;
             this.setState({
-                data:data
+                displayedData:data
             });
         }
+    }
+    
+    setDisplayedDateLimits(start,end){
+        let data = this.data;
+        if(!data)
+            return;
+        let dataToBeDisplayed = data.filter(function(d){
+            
+            return d.expDate >= start && d.expDate<= end;
+        });
+        this.setState({
+            displayedData: dataToBeDisplayed
+        });
+
     }
 
     render() {

@@ -12,13 +12,12 @@ class DateSelection extends Component {
         this.state = {
             startDate: 0,
             endDate: 0,
-            startMomentDate: '',
-            endMomentDate: '',
+            startMomentDate: null,
+            endMomentDate: null,
         }
     }
 
     setDate = () => {
-        // console.log('setDate', this.state.startDate, this.state.endDate);
         this.props.setDataByDate(this.state.startDate, this.state.endDate);
     }
 
@@ -30,20 +29,21 @@ class DateSelection extends Component {
     handleChangeInitial = (date) => {
         this.setState({
             startMomentDate: date,
-            startDate: this.momentDateToNumber(date)
+            startDate: Math.max(0, this.momentDateToNumber(date))
         });
     }
 
     handleChangeEnd = (date) => {
         this.setState({
             endMomentDate: date,
-            endDate: this.momentDateToNumber(date)
+            endDate: Math.max(0, this.momentDateToNumber(date))
         });
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(this.state.startDate !== 0 && this.state.endDate !== 0)
-            this.setDate();        
+        if((this.state.endDate > this.state.startDate) && prevState && (prevState.startDate !== this.state.startDate || prevState.endDate !== this.state.endDate)){
+            this.setDate();
+        }
     }
 
     render() {

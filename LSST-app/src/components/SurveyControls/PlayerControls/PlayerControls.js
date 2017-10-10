@@ -11,7 +11,6 @@ class PlayerControls extends Component {
     constructor() {
         super();
         this.playbackTimerId = null;
-        this.timeInterval = 1000;
         this.state = {
             totalTime: 190,
             currentTime: Infinity,
@@ -55,7 +54,7 @@ class PlayerControls extends Component {
     }
 
     animate = () => {
-        if(this.state.currentTime > this.props.endDate){
+        if(this.props.startDate === null || this.props.endDate === null || this.state.currentTime > this.props.endDate){
             this.setState({currentTime: this.props.endDate});
             this.stopAnimating();
             return;            

@@ -137,19 +137,6 @@ h3 {
   padding: 0px 5px;
 }
 
-.axisWhite text{
-  fill: white;
-}  
-
-.axisWhite line{
-  stroke: white;
-}
-
-.axisWhite path{
-  stroke: white;
-}
-
-
 .observations-table-wrapper {
   background: #31475c;;
   height: 100%;
