@@ -9,7 +9,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import openSocket from 'socket.io-client';
-import { filterColors, checkStatus, parseJSON } from "../Utils/Utils"
+import { filterColors, checkStatus, parseJSON, decreaseBrightness } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -252,7 +252,7 @@ class Survey extends Component {
             <div className="survey-container">
                 <div>
                     <h2>
-                        SURVEY PROGRESS MONITOR
+                        Survey Progress
                     </h2>
                     <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
                         <i className="fa fa-cog" aria-hidden="true"></i>
@@ -267,41 +267,43 @@ class Survey extends Component {
                                         startDate={this.state.startDate} 
                                         endDate={this.state.endDate} 
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
-                        <Charts ref={instance => { this.charts = instance; }}/>
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="main-skymap-wrapper">
-                                    {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
-                                    {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
-                                        data={this.displayedData} 
-                                        filter={this.state.displayedFilter}
-                                        startDate = {this.state.startDate} 
-                                        endDate={this.state.endDate}
-                                        cellHoverCallback={this.cellHoverCallback} 
-                                        cellClickCallback={this.cellClickCallback} />}
-                                    {
-                                        this.state.selectedField &&
-                                        <div className="hover-div">
-                                            <div>FieldID: {this.state.selectedField && this.state.selectedField.fieldID ? this.state.selectedField.fieldID: ''}</div>
-                                            <div>Timestamp: {this.state.selectedField && this.state.selectedField.expDate ? this.state.selectedField.expDate: ''}</div>
-                                            <div>
-                                                Filter: {" "}
-                                                <div className="hover-filter" style={{
-                                                        backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
-                                                            : "#000000",
-                                                    }}>
-                                                    {
-                                                        this.state.selectedField.filterName ? this.state.selectedField.filterName : ''
-                                                    }
+                        <div className="bottom-left-container">
+                            <Charts ref={instance => { this.charts = instance; }}/>
+                            <div className="row">
+                                <div className="col-6">
+                                    <div className="main-skymap-wrapper">
+                                        {!this.state.showSkyMap && <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} data={this.displayedData} />}
+                                        {this.state.showSkyMap && <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                                            data={this.displayedData} 
+                                            filter={this.state.displayedFilter}
+                                            startDate = {this.state.startDate} 
+                                            endDate={this.state.endDate}
+                                            cellHoverCallback={this.cellHoverCallback} 
+                                            cellClickCallback={this.cellClickCallback} />}
+                                        {
+                                            this.state.selectedField &&
+                                            <div className="hover-div">
+                                                <div>FieldID: {this.state.selectedField && this.state.selectedField.fieldID ? this.state.selectedField.fieldID: ''}</div>
+                                                <div>Timestamp: {this.state.selectedField && this.state.selectedField.expDate ? this.state.selectedField.expDate: ''}</div>
+                                                <div>
+                                                    Filter: {" "}
+                                                    <div className="hover-filter" style={{
+                                                            backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
+                                                                : "#000000", border: decreaseBrightness(filterColors[this.state.selectedField.filterName], 1.3) + ' solid 2px'
+                                                        }}>
+                                                        {
+                                                            this.state.selectedField.filterName ? this.state.selectedField.filterName : ''
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    } 
+                                        } 
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-6">
-                                <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
-                            </div>
+                                <div className="col-6">
+                                    <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
+                                </div>
+                            </div>                        
                         </div>                        
                     </div>
                     <div className="right-container">

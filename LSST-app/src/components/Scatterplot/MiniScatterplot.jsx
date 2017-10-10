@@ -24,7 +24,7 @@ class MiniScatterplot extends Component {
     render() {
         return (
         <div className="scatterplot-container" onClick={ () => this.handleClick()}>
-            <h3> Right Ascention / Declination </h3>
+            <h4> Right Ascention / Declination </h4>
             <Scatterplot ref={instance => {this.scatterplot=instance;}} height={183}/>
         </div>
         );
