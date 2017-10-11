@@ -8,13 +8,17 @@ import { scienceProposals, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 class Timeline extends Component {
 
-  drawAxes(dom, lanes, y,x, yposition, width, xposition){
+  drawAxes(dom, lanes, y,x, height, width, margin, start){
 
     dom.append("g")
     .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + (yposition-50) + ")")
-    .attr("class", "yAxis")
-    .call(d3.axisBottom(x).ticks(this.props.ticks));
+    .attr("transform", "translate(0," + (height-50) + ")")
+    .attr("class", "xAxis")
+    .call(d3.axisBottom(x)
+    .tickValues(x.domain())
+    .tickFormat((date)=>{
+      return date.toLocaleDateString();
+    }));
 
     dom.append("g").selectAll(".laneText")
     .data(lanes)
@@ -26,15 +30,22 @@ class Timeline extends Component {
     .attr("text-anchor", "end")
     .attr("class", "laneText");
 
-
-    dom.append("g").selectAll(".laneLines")
+    dom.append("g").selectAll(".laneBckg")
     .data(lanes)
-    .enter().append("line")
-    .attr("x1", 0)
-    .attr("y1", function(d,i) {return y(i)+1;})
-    .attr("x2", width)
-    .attr("y2", function(d,i) {return y(i)+1;})
-    .attr("stroke", "lightgray")
+    .enter().append("rect")
+    .attr("x", x(start))
+    .attr("y", function(d,i){return y(i)})
+    .attr("width", width)
+    .attr("height", 14)
+    .attr("class", "bckg");
+
+    dom.append("line")
+    .attr("x1", -5)
+    .attr("y1", y(0))
+    .attr("x2", -5)
+    .attr("y2", y(5))
+    .attr("stroke", "white")
+
 
   }
 
@@ -72,7 +83,7 @@ class Timeline extends Component {
       var start = this.props.start;
       var end = this.props.end;
       var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,w,m[1]);
+      this.drawAxes(g,lanes,y1,x1,h,w,m,start);
 
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
@@ -98,7 +109,7 @@ class Timeline extends Component {
       var today = new Date();
       today.setDate(today.getDate() + 1);
       var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x,h,w,m[1]);
+      this.drawAxes(g,lanes,y1,x,h,w,m, new Date());
     }
   }
 
