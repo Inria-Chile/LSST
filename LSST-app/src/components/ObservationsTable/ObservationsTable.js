@@ -61,7 +61,7 @@ class ObservationsTable extends Component {
                     style={{ height: '100%' }}>
                     <ReactTable
                         sortable={false}
-                        data={this.props.clickedField === null ? [] : [...this.props.clickedField,...this.props.clickedField, ...this.props.clickedField,  ...this.props.clickedField]}
+                        data={this.props.clickedField === null ? [] : [...this.props.clickedField]}
                         columns={[
                             {
                                 Header: "Timestamp",
@@ -95,7 +95,7 @@ class ObservationsTable extends Component {
                             }
                         ]}
                         defaultPageSize={9}
-                        pageSize={this.props.clickedField === null || 3*this.props.clickedField.length < 9 ? 9 : 3*this.props.clickedField.length}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 9 ? 9 : this.props.clickedField.length}
                         className="-highlight -no-header"
                         showPaginationBottom={false}
                         noDataText=""

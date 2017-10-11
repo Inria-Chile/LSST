@@ -117,11 +117,14 @@ class Survey extends Component {
     }
     
     setDisplayedDateLimits = (startDate, endDate) => {
-        this.mainSkymap.setDisplayedDateLimits(startDate, endDate);
-        this.miniSkymap.setDisplayedDateLimits(startDate, endDate);
-        this.mainScatterplot.setDisplayedDateLimits(startDate, endDate);
-        this.miniScatterplot.setDisplayedDateLimits(startDate, endDate);
-        this.setDate(endDate);
+
+        let startDateEpoch = new Date(startDate.getTime());
+        let endDateEpoch = new Date(endDate.getTime());
+        this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        this.setDate(endDateEpoch);
         this.updateObservationsTable();
     }
 
@@ -149,7 +152,6 @@ class Survey extends Component {
     }
 
     setDataByDate = (startDate, endDate) => {
-        console.log('survey', 'Ssetdatabytdate')
         this.fetchDataByDate(startDate, endDate, (res) => {
             for(var i=0;i<res.results.length;++i)
                 res.results[i]['fieldDec'] += 30;
@@ -167,7 +169,9 @@ class Survey extends Component {
     }
     
     fetchDataByDate = (startDate, endDate, cb) => {
-        return fetch(`survey/playback/observationsCount?start_date=${startDate}&end_date=${endDate}`, {
+        let lsstStartDate = startDate;
+        let lsstEndDate = endDate;
+        return fetch(`survey/playback/observationsCount?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
             accept: "application/json"
         })
         .then(checkStatus)

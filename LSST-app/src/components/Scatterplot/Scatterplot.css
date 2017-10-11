@@ -1,12 +1,12 @@
 .whiteAxis text{
-fill: white;
+fill: #d4d7da;
 }  
 
 .whiteAxis line{
-stroke: white;
+stroke: #d4d7da;
 }
 
 .whiteAxis path{
-stroke: white;
+stroke: #d4d7da;
 }
 

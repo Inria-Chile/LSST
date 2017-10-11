@@ -93,6 +93,8 @@ class Scatterplot extends Component {
     
     setDisplayedDateLimits(start,end){
         let data = this.data;
+        if(!data)
+            return;
         let dataToBeDisplayed = data.filter(function(d){
             
             return d.expDate >= start && d.expDate<= end;
