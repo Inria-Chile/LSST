@@ -189,9 +189,15 @@ Celestial.display = function(config) {
 
     //Add moon
     container.selectAll(".moon")
-         .data([cfg.moon])
-         .enter().append("path")
-         .attr("class", "moon");
+      .data([cfg.moon])
+      .enter().append("path")
+      .attr("class", "moon");
+
+    //Add sun
+    container.selectAll(".sun")
+      .data([cfg.sun])
+      .enter().append("path")
+      .attr("class", "sun");
 
     if (Celestial.data.length > 0) { 
       Celestial.data.forEach( function(d) {
@@ -465,6 +471,26 @@ Celestial.display = function(config) {
           context.arc(pt[0], pt[1], r, 0, 2 * Math.PI);
           context.closePath();
           context.fill();
+          context.stroke();
+        // }
+    });
+  }
+
+  function drawSun(){
+    container.selectAll(".sun").each(function(d) {
+      console.log('drawSun', d);
+        // if (clip(d.pos)) {
+          var r = cfg.sun.size * width/960;
+          // console.log(cfg.sun.size, width/960)
+          var pt = prjMap(d.pos);
+          setStyle(cfg.sun.style);
+          // context.fillStyle = d.style.fill; 
+          // context.globalAlpha = 1.0; 
+          context.beginPath();
+          context.arc(pt[0], pt[1], r, 0, 2 * Math.PI);
+          context.closePath();
+          context.fill();
+          context.stroke();
         // }
     });
   }
@@ -604,6 +630,10 @@ Celestial.display = function(config) {
 
     if (cfg.moon && cfg.moon.show) {
       drawMoon();
+    }
+
+    if (cfg.sun && cfg.sun.show) {
+      drawSun();
     }
     
     for (var key in cfg.lines) {

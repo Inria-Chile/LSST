@@ -66,9 +66,16 @@ class Skymap extends Component {
       },
       moon: {
         show: true,
-        pos: [30, 315],
-        style: { fill: "#cccccc", opacity: "1.0" }
-      }
+        pos : [300, 10],
+        size: 15,
+        style: { fill: "#bbbbbb", stroke: "#ffffff", opacity: "1" }
+      },
+      sun: {
+        show: true,
+        pos : [30, 10],
+        size: 15,
+        style: { fill: "#cccc00", stroke: "#ffff00", opacity: "1" }
+      },
     };
   }
 
