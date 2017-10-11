@@ -14,10 +14,10 @@ def start_listening_fake(app, socketio):
     initial_date = 10000
     date_step = 1000
     while True:
-        time.sleep(0.510)
+        time.sleep(1.0)
         with app.test_request_context('/'):
             # print('Emitting')
-            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1, 'request_time': initial_date, 'expTime': 34})
+            socketio.emit('data', {'fieldID': random.randint(1,100), 'fieldRA':random.randint(-40,40), 'fieldDec':random.randint(-60,0), 'filterName':filters[random.randrange(len(filters))], 'count':1, 'request_time': time.time()-757393245-3, 'expTime': 34})
             initial_date = initial_date + date_step
 
 #Get data from ts_sal connection

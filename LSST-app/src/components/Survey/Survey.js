@@ -7,9 +7,10 @@ import MiniScatterplot from '../Scatterplot/MiniScatterplot'
 import MainScatterplot from '../Scatterplot/MainScatterplot'
 import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
+import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import openSocket from 'socket.io-client';
-import { filterColors, checkStatus, parseJSON, decreaseBrightness } from "../Utils/Utils"
+import { filterColors, checkStatus, parseJSON, decreaseBrightness, jsToLsstTime } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -29,6 +30,8 @@ class Survey extends Component {
         this.socket = openSocket(window.location.origin);
         this.state = {
             selectedMode: 'playback',
+            // selectedMode: 'playback',
+            timeWindow: TimeWindow.timeWindowOptions[Object.keys(TimeWindow.timeWindowOptions)[0]],
             selectedField: null,
             clickedField: [],
             displayedFilter: 'all',
@@ -97,6 +100,10 @@ class Survey extends Component {
        
     }
 
+    setTimeWindow = (timeWindow) => {
+        this.setState({timeWindow: timeWindow});
+    }
+
     displayMainSkymap = () => {
         this.mainSkymapStyle = this.visibleStyle;
         this.mainScatterplotStyle = this.hiddenStyle;
@@ -117,7 +124,6 @@ class Survey extends Component {
     }
     
     setDisplayedDateLimits = (startDate, endDate) => {
-
         let startDateEpoch = new Date(startDate.getTime());
         let endDateEpoch = new Date(endDate.getTime());
         this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
@@ -129,10 +135,10 @@ class Survey extends Component {
     }
 
     //function to set the start and end dates selected by the slider
-    setTimeWindow = (startDate, endDate) => {
-        this.startDisplayedDate = startDate;
-        this.endDisplayedDate = endDate;
-    }
+    // setSliderTimeWindow = (startDate, endDate) => {
+    //     this.startDisplayedDate = startDate;
+    //     this.endDisplayedDate = endDate;
+    // }
 
     setLiveMode = () => {
         console.log('setlivemode')
@@ -190,12 +196,18 @@ class Survey extends Component {
 
     addObservation = (obs) => {
         let added = false;
+        let currentTime = jsToLsstTime((new Date()).getTime());
+        console.log('dsasadsa', obs, currentTime);
         for(let i=0;i<this.displayedData.length;++i){
             if(this.displayedData[i]['fieldID'] === obs['fieldID'] && this.displayedData[i]['filterName'] === obs['filterName']){
-                // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console          
+                // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console
+                // console.log('adding obs', obs, ; // eslint-disable-line no-console
                 this.displayedData[i]['count']++;
                 added = true;
             }
+            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate'])
+                if(this.displayedData[i]['count']-- <= 0)
+                    this.displayedData.splice(i, 1);
         }
         if(!added)
             this.displayedData.push(obs);
@@ -288,6 +300,7 @@ class Survey extends Component {
                                         selectedMode={this.state.selectedMode}
                                         startDate={this.state.startDate} 
                                         endDate={this.state.endDate} 
+                                        setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
                             <Charts ref={instance => { this.charts = instance; }}/>

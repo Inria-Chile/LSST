@@ -21,6 +21,16 @@
     padding: 15px 20px;
     margin: 0.5% 0%;
     border-right: 3px solid #2d3d4e;
+    padding-bottom: 0px;
+}
+
+.time-window{
+    display: inline-block;
+    vertical-align: top;
+    display: inline-block;
+    padding: 15px 20px;
+    margin: 0.5% 0%;
+    padding-bottom: 0px;
 }
 
 .player-controls{
