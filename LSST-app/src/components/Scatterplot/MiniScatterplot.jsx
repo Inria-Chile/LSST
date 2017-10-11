@@ -13,6 +13,7 @@ class MiniScatterplot extends Component {
         if(data && data.length > 0){
             this.scatterplot.setData(data);
         }
+        else this.scatterplot.setData(null);
     }
 
 

@@ -17,6 +17,7 @@ class Charts extends Component {
         super(props);
         var today = new Date();
         today.setDate(today.getDate() + 1);
+        this.tomorrow=today;
         this.state={
             data: null, 
             start: new Date(), 
@@ -103,6 +104,8 @@ class Charts extends Component {
         });
         if(data && data.length > 0){
             // console.log(data);
+        console.log("data: ",data)
+        
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 
@@ -111,6 +114,15 @@ class Charts extends Component {
                 endAt:newData[newData.length-1].expDate
             });
             
+        }
+        else{
+            this.setState({
+                data:null, 
+                start:new Date(), 
+                end: this.tomorrow,
+                startAt:new Date(),
+                endAt:this.tomorrow
+            });
         }
         var dom = ReactDOM.findDOMNode(this);
         this.updateSlider(dom, true);

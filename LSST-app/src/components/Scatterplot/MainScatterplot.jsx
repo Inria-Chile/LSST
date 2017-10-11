@@ -12,10 +12,12 @@ class MainScatterplot extends Component {
         if(data && data.length > 0){
             this.scatterplot.setData(data);
         }
+        else{
+            this.scatterplot.setData(null);
+        }
     }
 
     makeVisible(){
-        console.log(this.data);
         let isVisible = this.state.isVisible
         this.setState({
             isVisible:!isVisible
