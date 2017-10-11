@@ -479,7 +479,6 @@ Celestial.display = function(config) {
 
   function drawSun(){
     container.selectAll(".sun").each(function(d) {
-      console.log('drawSun', d);
         // if (clip(d.pos)) {
           var r = cfg.sun.size * width/960;
           // console.log(cfg.sun.size, width/960)

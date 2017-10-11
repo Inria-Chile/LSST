@@ -68,6 +68,8 @@ class DateSelection extends Component {
                     </div>
                     <div className='date-input date-right'>
                         <DatePicker
+                            minDate={this.state.startMomentDate}
+                            maxDate={moment()}
                             selected={this.state.endMomentDate}
                             onChange={this.handleChangeEnd}
                             openToDate={moment("1994-01-01")}
