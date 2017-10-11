@@ -4,6 +4,8 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateSelection.css';
+import FaCalendar from 'react-icons/lib/fa/calendar';
+import { lsstEpoch } from "../../Utils/Utils"
 
 class DateSelection extends Component {
 
@@ -22,21 +24,20 @@ class DateSelection extends Component {
     }
 
     momentDateToNumber = (date) => {
-        console.log(date.unix()-757393200);
-        return date.unix()-757393200;
+        return date.unix()*1000;
     }
 
     handleChangeInitial = (date) => {
         this.setState({
             startMomentDate: date,
-            startDate: Math.max(0, this.momentDateToNumber(date))
+            startDate: Math.max((date - lsstEpoch)/1000, 0)
         });
     }
 
     handleChangeEnd = (date) => {
         this.setState({
             endMomentDate: date,
-            endDate: Math.max(0, this.momentDateToNumber(date))
+            endDate: Math.max((date - lsstEpoch)/1000, 0)
         });
     }
 
@@ -50,9 +51,8 @@ class DateSelection extends Component {
         return (
             <div className="date-selection">
                 <div className="date-inputs-wrapper">
+                    <FaCalendar className='calendar-icon' />
                     <div className='date-input date-left'>
-                        {/* <p>Start:</p> */}
-                        {/* <DayPickerInput placeholder="MM/DD/YYYY" /> */}
                         <DatePicker
                             selected={this.state.startMomentDate}
                             onChange={this.handleChangeInitial}
@@ -62,13 +62,11 @@ class DateSelection extends Component {
                             timeIntervals={15}
                             dateFormat="YYYY/MM/DD hh:mm A"
                         />
-                        {/* <input onChange={(e) => this.setState({ startDate: parseInt(e.target.value, 10) })} /> */}
                     </div>
                     <div className='date-separator'>
                         to
                     </div>
                     <div className='date-input date-right'>
-                        {/* <p>End:</p> */}
                         <DatePicker
                             selected={this.state.endMomentDate}
                             onChange={this.handleChangeEnd}
@@ -80,11 +78,6 @@ class DateSelection extends Component {
                         />
                     </div>
                 </div>
-                {/* <div className='date-input'>
-                    <button onClick={this.setDate}>
-                        Set
-                    </button>
-                </div> */}
             </div>
         );
     }

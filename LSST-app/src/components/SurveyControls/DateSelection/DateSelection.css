@@ -23,6 +23,10 @@
     margin: -4px;
 }
 
+.calendar-icon {
+    font-size: 1.3vw;
+    margin-right: 10px;
+}
 
 /* Datepicker */
 .react-datepicker__time-list {

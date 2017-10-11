@@ -117,3 +117,5 @@ export function checkStatus(response) {
 export function parseJSON(response) {
     return response.json();
 }
+
+export const lsstEpoch = 757393245000;
