@@ -99,7 +99,7 @@ class Histogram extends Component {
     }
   }
 
-  drawAxes(dom,yPosition,yticks,x,y){
+  drawAxes(dom,yPosition,x,y){
 
     dom.append("g")
     .attr("class", "axis axis--x")
@@ -114,7 +114,7 @@ class Histogram extends Component {
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
     .attr("class", "yAxis")
-    .call(d3.axisLeft(y).tickValues(yticks));
+    .call(d3.axisLeft(y).ticks(3));
   }
 
   createStackedHistogram(dom, props) {
@@ -131,7 +131,7 @@ class Histogram extends Component {
 
     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    let x,y,z,yticks;
+    let x,y,z;
     let start = this.props.start;
     let end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
@@ -180,11 +180,10 @@ class Histogram extends Component {
         })
         .attr("y", function (d) { 
           return y(d[1]); })
-        .attr("height", function (d) { return y(d[0]) - y(d[1]); })
+        .attr("height", function (d) { return y(d[0]) - y(d[1]);})
         .attr("width", function(d){return 10;});
         
-       yticks = [0,ydom/5, 2*ydom/5, 3*ydom/5, 4*ydom/5 ,ydom];
-       this.drawAxes(g,height,yticks,x,y);  
+       this.drawAxes(g,height,x,y);  
 
 
     }
@@ -193,8 +192,7 @@ class Histogram extends Component {
       today.setDate(today.getDate() + 1);
        x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
        y = d3.scaleLinear().range([height, 0]); 
-       yticks =5;
-      this.drawAxes(g,height,yticks,x,y);  
+      this.drawAxes(g,height,x,y);  
     }
     
   }

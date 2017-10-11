@@ -1,13 +1,17 @@
 .xAxis text{
     fill: white;
+    opacity:0.5;
+    font-size: 12px;
   }  
   
   .xAxis line{
     stroke: white;
+    opacity:0.5;
   }
   
   .xAxis path{
     stroke: white;
+    opacity:0;
   }
   
 
@@ -21,5 +25,7 @@
   
   .yAxis path{
     stroke: white;
+    opacity:0;
+    
   }
   

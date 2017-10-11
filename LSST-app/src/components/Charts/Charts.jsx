@@ -17,6 +17,7 @@ class Charts extends Component {
         super(props);
         var today = new Date();
         today.setDate(today.getDate() + 1);
+        this.tomorrow=today;
         this.state={
             data: null, 
             start: new Date(), 
@@ -27,11 +28,23 @@ class Charts extends Component {
         this.brush=null;
         this.ticks=10;
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
+        this.histogram = null;
+        this.timeline = null;
          
     }
 
+
+    drawBackgoround(dom, width, height,x){
+        dom.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width-this.margin.right+10)
+        .attr("height", 50)
+        .attr("class", "bckg");
+    }
+
     createSlider(dom){
-        let elem = ReactDOM.findDOMNode(this);
+        let elem = ReactDOM.findDOMNode(this.histogram);
         let width = elem.offsetWidth;
         width = width - this.margin.left - this.margin.right;
         var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 50);
@@ -42,14 +55,17 @@ class Charts extends Component {
         .attr("class", "x")
         .attr("transform", "translate(0," + 30 + ")")
         .call(d3.axisBottom(x).ticks(this.ticks));
+        this.drawBackgoround(svg,elem.offsetWidth,elem.offsetHeight,x)
     }
 
     updateSlider(dom, dataUpdate){
-        let elem = ReactDOM.findDOMNode(this);
+        let elem = ReactDOM.findDOMNode(this.histogram);
+        console.log(this.props.children)
         let width = elem.offsetWidth;
         width = width-this.margin.left-this.margin.right
         d3.select(dom).select('.x').remove();
         var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
+        console.log(width)
         var svg = d3.select(dom).select('.slider-container');
         var self = this;
         if(this.brush==null || dataUpdate){
@@ -103,6 +119,8 @@ class Charts extends Component {
         });
         if(data && data.length > 0){
             // console.log(data);
+        console.log("data: ",data)
+        
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 
@@ -111,6 +129,15 @@ class Charts extends Component {
                 endAt:newData[newData.length-1].expDate
             });
             
+        }
+        else{
+            this.setState({
+                data:null, 
+                start:new Date(), 
+                end: this.tomorrow,
+                startAt:new Date(),
+                endAt:this.tomorrow
+            });
         }
         var dom = ReactDOM.findDOMNode(this);
         this.updateSlider(dom, true);
@@ -134,11 +161,13 @@ class Charts extends Component {
                 <div className="row"><div className="col-md-12"></div></div>
                 <div className="row">
                 <div className="col-md-12 histogram-container">
-                    <Histogram data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                    <Histogram ref={instance => { this.histogram = instance; }} 
+                    data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
                 </div></div>
                 <div className="row">
                 <div className="col-md-12 timeline-container">
-                     <Timeline data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                     <Timeline ref={instance => { this.timeline = instance; }}
+                     data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
                 </div></div>
                 
             </div>

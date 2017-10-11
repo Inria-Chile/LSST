@@ -39,7 +39,7 @@ class Scatterplot extends Component {
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleLinear().range([height,0]);
     
-        if(this.state.displayedData==null){
+        if(this.state.displayedData==null && this.data!=null){
             this.setData(this.props.data);
         }
         if(this.state.displayedData!=null){
@@ -75,7 +75,7 @@ class Scatterplot extends Component {
             .style("fill", function(d) {        
             return "white"    
                 });
-        }   
+        }
     }
 
     removeScatterplot(dom){
@@ -83,11 +83,20 @@ class Scatterplot extends Component {
     }
 
     setData(data){
+        console.log("lalal")
+        console.log("data: ",data)
         if(data && data.length > 0){
             this.data = data;
             this.setState({
                 displayedData:data
             });
+        }
+        else{
+            this.data = null;
+            this.setState({
+                displayedData:null
+            });
+       
         }
     }
     
