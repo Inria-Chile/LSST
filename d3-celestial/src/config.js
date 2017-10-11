@@ -38,7 +38,13 @@ var settings = {
     show: true,
     pos : [30, 315],
     size: 15,
-    style: { fill: "#ffffff", opacity: "1" }
+    style: { fill: "#ffffff", stroke: "#ff0000", opacity: "1" }
+  },
+  sun: {
+    show: true,
+    pos : [30, 315],
+    size: 15,
+    style: { fill: "#00ffff", stroke: "#0000ff", opacity: "1" }
   },
   lines: {
     graticule: { show: true, stroke: "#cccccc", width: 0.6, opacity: 0.8,      // Show graticule lines 
