@@ -148,7 +148,7 @@ class Histogram extends Component {
 
     if(data!=null){
       let filteredData = data.filter(function(d){
-        return d.expDate >= start && d.expDate<= end;
+        return d.expDate >= start && d.expDate< end;
       });  
       let newData = this.adaptData(filteredData, x);
       

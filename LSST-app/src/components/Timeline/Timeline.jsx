@@ -8,7 +8,7 @@ import { scienceProposals, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 class Timeline extends Component {
 
-  drawAxes(dom, lanes, y,x, height, width, margin, start){
+  drawAxes(dom, lanes, y,x, height, width, start){
 
     dom.append("g")
     .attr("class", "axis axis--x")
@@ -51,39 +51,41 @@ class Timeline extends Component {
 
   createTimeline(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
-    let width = elem.offsetWidth;
+    // let width = elem.offsetWidth;
     let lanes = scienceProposals,
     laneLength = lanes.length,
     data = this.adaptData(),
-    m = [0, 40, 20, 120], //top right bottom left
-    w = width - m[1] - m[3],
-    h = props.height - m[0] - m[2],
-    mainHeight = h  - 50;
+    // m = [0, 40, 20, 120], //top right bottom left
+    margin = this.props.margin,
+    // w = width - m[1] - m[3],
+    width = elem.offsetWidth - margin.right- margin.left,
+    height = props.height - margin.top - margin.bottom,
+    mainHeight = height  - 50;
     var y1 = d3.scaleLinear()
     .domain([0, laneLength])
     .range([0, mainHeight]);
     var chart = d3.select(dom)
     .append("svg")
-    .attr("width", width)
-    .attr("height", h)
+    .attr("width", elem.offsetWidth)
+    .attr("height", height)
     .attr("class", "chart");
     chart.append("defs").append("clipPath")
     .attr("id", "clip")
     .append("rect")
-    .attr("width", w)
+    .attr("width", width)
     .attr("height", mainHeight);
     
     var g = chart.append("g")
-          .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-          .attr("width", w)
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+          .attr("width", width)
           .attr("height", mainHeight)
           .attr("class", "main");
 
     if(data && data.length > 0){
       var start = this.props.start;
       var end = this.props.end;
-      var x1 = d3.scaleTime().domain([start,end]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x1,h,w,m,start);
+      var x1 = d3.scaleTime().domain([start,end]).range([0,width]);
+      this.drawAxes(g,lanes,y1,x1,height,width,start);
 
       var itemRects = g.append("g")
       .attr("clip-path", "url(#clip)");
@@ -108,8 +110,8 @@ class Timeline extends Component {
     else{
       var today = new Date();
       today.setDate(today.getDate() + 1);
-      var x = d3.scaleTime().domain([new Date(), today]).range([0,w]);
-      this.drawAxes(g,lanes,y1,x,h,w,m, new Date());
+      var x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
+      this.drawAxes(g,lanes,y1,x,height,width, new Date());
     }
   }
 
