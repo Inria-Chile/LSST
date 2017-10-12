@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 // import Skymap from '../Skymap/Skymap';
 import Histogram from '../HistogramD3/Histogram';
 import Timeline from '../Timeline/Timeline';
+import Slider from './Slider/Slider'; 
 import './Charts.css';
 import ReactDOM from 'react-dom';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 // import * as d3Axis from 'd3-axis';
 // import { select as d3Select } from 'd3-selection'
 
@@ -25,85 +26,12 @@ class Charts extends Component {
             startAt: new Date(),
             endAt: today
         };
-        this.brush=null;
-        this.ticks=10;
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
         this.timeline = null;
+        this.slider=null;
          
     }
-
-
-    drawBackgoround(dom, width, height,x){
-        dom.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", width-this.margin.right+10)
-        .attr("height", 50)
-        .attr("class", "bckg");
-    }
-
-    createSlider(dom){
-        let elem = ReactDOM.findDOMNode(this.histogram);
-        let width = elem.offsetWidth;
-        width = width - this.margin.left - this.margin.right;
-        var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 50);
-
-        // var g = svg.append("g").attr('class', 'slider')
-        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
-        svg.append("g")
-        .attr("class", "x")
-        .attr("transform", "translate(0," + 30 + ")")
-        .call(d3.axisBottom(x).ticks(this.ticks));
-        this.drawBackgoround(svg,elem.offsetWidth,elem.offsetHeight,x)
-    }
-
-    updateSlider(dom, dataUpdate){
-        let elem = ReactDOM.findDOMNode(this.histogram);
-        console.log(this.props.children)
-        let width = elem.offsetWidth;
-        width = width-this.margin.left-this.margin.right
-        d3.select(dom).select('.x').remove();
-        var x = d3.scaleTime().domain([this.state.start, this.state.end]).range([0,width]);
-        console.log(width)
-        var svg = d3.select(dom).select('.slider-container');
-        var self = this;
-        if(this.brush==null || dataUpdate){
-            d3.select(dom).select('.brush').remove();
-            this.brush = d3.brushX(x).on("brush", function(){
-                var brushValues = d3.brushSelection(this);
-                if (brushValues!=null){
-                    self.setState({
-                        startAt: x.invert(brushValues[0]),
-                        endAt:x.invert(brushValues[1])
-                    });
-                }
-            });
-
-            svg.append("g") 
-            .attr("class", "brush")
-            .call(this.brush);
-
-        }
-        svg.append("g")
-        .attr("class", "x")
-        .attr("transform", "translate(0," + 30 + ")")
-        .call(d3.axisBottom(x).ticks(this.ticks));
-       
-    }
-
-    componentDidMount(){
-        var dom = ReactDOM.findDOMNode(this);
-        var child = dom.childNodes[1].childNodes;
-        this.createSlider(child[0]);
-    }
-
-    componentDidUpdate(){
-        var dom = ReactDOM.findDOMNode(this);
-        var child = dom.childNodes[1].childNodes;
-        this.updateSlider(child[0], false);
-    }
-
 
     setData(data){
         let newData = JSON.parse(JSON.stringify(data));
@@ -118,9 +46,6 @@ class Charts extends Component {
             return null;
         });
         if(data && data.length > 0){
-            // console.log(data);
-        console.log("data: ",data)
-        
             this.setState({
                 data:newData, 
                 start:newData[0].expDate, 
@@ -140,7 +65,7 @@ class Charts extends Component {
             });
         }
         var dom = ReactDOM.findDOMNode(this);
-        this.updateSlider(dom, true);
+        this.slider.updateSlider(dom, true);
     }
 
     // Date comes from database as number and as MJD.
@@ -153,12 +78,22 @@ class Charts extends Component {
         return date;
     }
 
+    setSelection = (startAt, endAt)=>{
+        this.setState({
+            startAt: startAt,
+            endAt: endAt
+        })
+    }
+
     render() {
         return (
-            // <div class="row">
             <div className = "charts-container" >
                 <h5>Date-range summary</h5>
-                <div className="row"><div className="col-md-12"></div></div>
+                <div className="row">
+                <div className="col-md-12 ">
+                     <Slider ref={instance => { this.slider = instance; }}
+                     start={this.state.start} end={this.state.end} margin={this.margin} setExtent={this.setSelection}/>
+                </div></div>
                 <div className="row">
                 <div className="col-md-12 histogram-container">
                     <Histogram ref={instance => { this.histogram = instance; }} 
@@ -169,9 +104,10 @@ class Charts extends Component {
                      <Timeline ref={instance => { this.timeline = instance; }}
                      data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
                 </div></div>
+
+               
                 
             </div>
-            // </div>
         );
     }
     

@@ -51,13 +51,10 @@ class Timeline extends Component {
 
   createTimeline(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
-    // let width = elem.offsetWidth;
     let lanes = scienceProposals,
     laneLength = lanes.length,
     data = this.adaptData(),
-    // m = [0, 40, 20, 120], //top right bottom left
     margin = this.props.margin,
-    // w = width - m[1] - m[3],
     width = elem.offsetWidth - margin.right- margin.left,
     height = props.height - margin.top - margin.bottom,
     mainHeight = height  - 50;
@@ -125,7 +122,6 @@ class Timeline extends Component {
       });
     }
     return data;
-    // console.log(data);
   }
 
   componentDidMount() {
