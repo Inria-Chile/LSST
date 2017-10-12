@@ -7,7 +7,7 @@ class ModeSelection extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            playbackModeActive: true,
+            playbackModeActive: this.props.selectedMode === 'playback',
         }
     }
 

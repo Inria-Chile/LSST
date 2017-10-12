@@ -118,4 +118,8 @@ export function parseJSON(response) {
     return response.json();
 }
 
+export function jsToLsstTime(time){
+    return (time-lsstEpoch)/1000;
+}
+
 export const lsstEpoch = 757393245000;
