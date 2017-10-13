@@ -34,7 +34,6 @@ class TimeWindow extends Component {
     }
 
     render() {
-        console.log(this.state.timeWindow)
         return (
             <div className="time-window">
                 <div>

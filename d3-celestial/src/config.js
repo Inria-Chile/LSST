@@ -18,6 +18,7 @@ var settings = {
                       // Default:en or empty string for english
   cellHoverCallback: null,
   cellClickCallback: null,
+  cellUpdateCallback: null,
   container: "celestial-map",   // ID of parent element, e.g. div
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {

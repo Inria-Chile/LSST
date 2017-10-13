@@ -27,7 +27,7 @@ class Survey extends Component {
         this.miniScatterplot = null;
         this.mainScatterplot = null;
         this.displayedData = [];
-        this.socket = openSocket(window.location.hostname + ':5000');
+        this.socket = openSocket(window.location.origin + '/websocket');
         this.state = {
             selectedMode: 'playback',
             // selectedMode: 'playback',
@@ -52,7 +52,6 @@ class Survey extends Component {
     }
 
     receiveMsg(msg){
-        // console.log("received" + msg);
         msg.expDate = msg.request_time;
         this.addObservation(msg);
         this.setDate(new Date(parseInt(msg.request_time, 10)));
@@ -178,7 +177,7 @@ class Survey extends Component {
     fetchDataByDate = (startDate, endDate, cb) => {
         let lsstStartDate = startDate;
         let lsstEndDate = endDate;
-        return fetch(`survey/playback/observationsCount?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
+        return fetch(`backend/survey/playback/observationsCount?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
             accept: "application/json"
         })
         .then(checkStatus)
@@ -193,21 +192,17 @@ class Survey extends Component {
         this.miniSkymap.setData(data);
         this.mainSkymap.setData(data);
         this.mainScatterplot.setData(data);
+        this.updateObservationsTable();
     }
 
     addObservation = (obs) => {
         let added = false;
         let currentTime = jsToLsstTime((new Date()).getTime());
         for(let i=0;i<this.displayedData.length;++i){
-            if(this.displayedData[i]['fieldID'] === obs['fieldID'] && this.displayedData[i]['filterName'] === obs['filterName']){
-                // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console
-                // console.log('adding obs', obs, ; // eslint-disable-line no-console
-                this.displayedData[i]['count']++;
-                added = true;
+            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate']){
+                this.displayedData.splice(i, 1);
+                --i;
             }
-            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate'])
-                if(this.displayedData[i]['count']-- <= 0)
-                    this.displayedData.splice(i, 1);
         }
         if(!added)
             this.displayedData.push(obs);
@@ -254,7 +249,7 @@ class Survey extends Component {
                 }
             }
         }
-        selectedFieldData.sort((a,b)=> b.expDate - a.expDate)
+        selectedFieldData.sort((a,b)=> b.expDate - a.expDate);
         this.setState({
             clickedField: selectedFieldData
         })
@@ -265,6 +260,13 @@ class Survey extends Component {
         this.lastPolygon = polygon;
         this.updateObservationsTable();
         console.log('cellClickCallback');
+    }
+
+    cellUpdateCallback = (fieldID, polygon) => {
+        this.lastFieldID = fieldID;
+        this.lastPolygon = polygon;
+        this.updateObservationsTable();
+        console.log('cellUpdateCallback');
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -315,6 +317,7 @@ class Survey extends Component {
                                             endDate={this.state.endDate}
                                             cellHoverCallback={this.cellHoverCallback} 
                                             cellClickCallback={this.cellClickCallback} 
+                                            cellUpdateCallback={this.cellUpdateCallback} 
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>

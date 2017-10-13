@@ -12,15 +12,8 @@ class ObservationsTable extends Component {
     constructor() {
         super();
         this.state = {
-            data: [{}],
             clickedData: [{}]
         };
-    }
-
-    setData = (data) => {
-        this.setState({
-            data: [...data],
-        })
     }
 
     render() {

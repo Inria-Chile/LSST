@@ -436,26 +436,13 @@ Celestial.display = function(config) {
         context.globalAlpha = Math.min(1.0, Math.pow(fieldObs/maxFieldObs, 1.0/2.0));
       }
       map(d);
-      // if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
-        //   context.fillStyle = cfg.background.fill;
-        //   context.globalAlpha = 1.0;
-        //   context.beginPath();
-        //   map(d);
-        //   context.fillStyle = '#00ff00';
-        // }
-        context.fill();
-        if(lastClickedCell && lastClickedCell.properties.id === d.properties.id){
-          // context.fillStyle = cfg.background.fill;
-          console.log('lastClickedCell', lastClickedCell);
-          context.globalAlpha = 1.0;
-          // context.beginPath();
-          map(lastClickedCell);
-          // context.fillStyle = '#00ff00';
-          context.strokeStyle = '#00ff00';
-          context.stroke();
-
-          // context.fill();
-        }
+      context.fill();
+      if(lastClickedCell && lastClickedCell.properties.id === d.properties.id){
+        context.globalAlpha = 1.0;
+        map(lastClickedCell);
+        context.strokeStyle = '#00ff00';
+        context.stroke();
+      }
     });
   }
 
@@ -598,8 +585,14 @@ Celestial.display = function(config) {
               added = true;
             }
           }
-          if(!added)
+          if(!added){
             d.properties.count.push([filterName, newCount]);
+            if(lastClickedCell && lastClickedCell.properties.id === d.properties.id && cfg.cellUpdateCallback){
+              var fieldID = findFieldId(d, displayedObservations);
+              lastClickedCell = d;
+              cfg.cellUpdateCallback(fieldID, d);
+            }
+          }
         }
       });
     }
@@ -1344,6 +1337,7 @@ var settings = {
                       // Default:en or empty string for english
   cellHoverCallback: null,
   cellClickCallback: null,
+  cellUpdateCallback: null,
   container: "celestial-map",   // ID of parent element, e.g. div
   datapath: "data/",  // Path/URL to data files, empty = subfolder 'data'
   polygons: {
