@@ -83,8 +83,8 @@ class Scatterplot extends Component {
     }
 
     setData(data){
-        console.log("lalal")
-        console.log("data: ",data)
+        // console.log("lalal")
+        // console.log("data: ",data)
         if(data && data.length > 0){
             this.data = data;
             this.setState({

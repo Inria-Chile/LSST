@@ -27,7 +27,7 @@ class Survey extends Component {
         this.miniScatterplot = null;
         this.mainScatterplot = null;
         this.displayedData = [];
-        this.socket = openSocket(window.location.origin);
+        this.socket = openSocket(window.location.hostname + ':5000');
         this.state = {
             selectedMode: 'playback',
             // selectedMode: 'playback',
@@ -198,7 +198,6 @@ class Survey extends Component {
     addObservation = (obs) => {
         let added = false;
         let currentTime = jsToLsstTime((new Date()).getTime());
-        console.log('dsasadsa', obs, currentTime);
         for(let i=0;i<this.displayedData.length;++i){
             if(this.displayedData[i]['fieldID'] === obs['fieldID'] && this.displayedData[i]['filterName'] === obs['filterName']){
                 // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console

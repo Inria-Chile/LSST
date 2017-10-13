@@ -33,5 +33,5 @@ def api_root():
 if __name__ == '__main__':
     print('Spawning eventlet')
     eventlet.spawn(start_listening_fake, app, socketio)
-    socketio.run(app)
+    socketio.run(app, host='0.0.0.0')
     send('message')
