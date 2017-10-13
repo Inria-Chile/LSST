@@ -27,7 +27,7 @@ class Survey extends Component {
         this.miniScatterplot = null;
         this.mainScatterplot = null;
         this.displayedData = [];
-        this.socket = openSocket(window.location.origin + '/websocket');
+        this.socket = openSocket(window.location.origin + '');
         this.state = {
             selectedMode: 'playback',
             // selectedMode: 'playback',

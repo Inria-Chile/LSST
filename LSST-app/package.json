@@ -30,12 +30,6 @@
     "react-table": "^6.5.3"
   },
   "proxy": {
-    "/websocket": {
-      "target": "http://localhost:5000",
-      "pathRewrite": {
-        "^/websocket": "/"
-      }
-    },
     "/socket.io": {
       "target": "http://localhost:5000",
       "ws": true
