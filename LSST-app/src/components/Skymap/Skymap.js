@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import { filterColors } from "../Utils/Utils"
 
 const makeCelestial = window.makeCelestial;
 
-class Skymap extends Component {
+class Skymap extends PureComponent {
   containerId = null;
 
   getCelestial() {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
@@ -15,7 +15,7 @@ import { filterColors, checkStatus, parseJSON, decreaseBrightness, jsToLsstTime 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class Survey extends Component {
+class Survey extends PureComponent {
     
     static viewName = 'survey';
 
@@ -177,7 +177,7 @@ class Survey extends Component {
     fetchDataByDate = (startDate, endDate, cb) => {
         let lsstStartDate = startDate;
         let lsstEndDate = endDate;
-        return fetch(`backend/survey/playback/observationsCount?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
+        return fetch(`backend/survey/playback/observations?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
             accept: "application/json"
         })
         .then(checkStatus)

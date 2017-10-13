@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Import React Table
 import ReactTable from "react-table";
@@ -7,7 +7,7 @@ import './ObservationsTable.css';
 import { filterColors, lstToscienceProposal, decreaseBrightness } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
 
-class ObservationsTable extends Component {
+class ObservationsTable extends PureComponent {
 
     constructor() {
         super();

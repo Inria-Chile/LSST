@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 // import Skymap from '../Skymap/Skymap';
 import Histogram from '../HistogramD3/Histogram';
@@ -12,7 +12,7 @@ import ReactDOM from 'react-dom';
 
 
 
-class Charts extends Component {
+class Charts extends PureComponent {
 
     constructor(props){
         super(props);

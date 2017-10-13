@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 // import Skymap from '../Skymap/Skymap';
 import './SurveyControls.css';
@@ -7,7 +7,7 @@ import DateSelection from './DateSelection/DateSelection';
 import TimeWindow from './TimeWindow/TimeWindow';
 import PlayerControls from './PlayerControls/PlayerControls';
 
-class SurveyControls extends Component {
+class SurveyControls extends PureComponent {
     render() {
         return (
             <div className="survey-control-bar">

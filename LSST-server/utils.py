@@ -12,6 +12,13 @@ def serialize(model):
     # then we return their values in a dict
     return dict((c, getattr(model, c)) for c in columns)
 
+def serializeCount(model):
+    columns = [c.key for c in class_mapper(model.__class__).columns]
+    # then we return their values in a dict
+    ret = dict((c, getattr(model, c)) for c in columns)
+    ret['count'] = 1
+    return ret
+
 def row2dict(row):
     d = {}
     for column in row.__table__.columns:

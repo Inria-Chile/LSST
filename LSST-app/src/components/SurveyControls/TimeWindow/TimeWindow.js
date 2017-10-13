@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './TimeWindow.css';
 
-class TimeWindow extends Component {
+class TimeWindow extends PureComponent {
     static timeWindowOptions = {
         "10s": 10,
         "1min": 60,

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
@@ -7,7 +7,7 @@ import './Histogram.css';
 
 
 
-class Histogram extends Component {
+class Histogram extends PureComponent {
 
   constructor(props){
     super(props);

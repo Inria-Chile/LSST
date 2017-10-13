@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
@@ -6,7 +6,7 @@ import './Timeline.css'
 import { scienceProposals, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 
-class Timeline extends Component {
+class Timeline extends PureComponent {
 
   drawAxes(dom, lanes, y,x, height, width, start){
 

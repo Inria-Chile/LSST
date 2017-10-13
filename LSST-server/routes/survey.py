@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker, class_mapper
 from json import dumps
-from utils import serialize, row2dict, object_as_dict
+from utils import serialize, row2dict, object_as_dict, serializeCount
 import pandas as pd
 import math
 
@@ -107,9 +107,13 @@ def api_observations():
         start_date = int(data['start_date'])
         end_date = int(data['end_date'])
     query_result = session.query(Observation).filter(Observation.expDate > start_date, Observation.expDate < end_date)
-    serialized_labels = [serialize(obs) for obs in query_result.all()]
+    serialized_labels = [serializeCount(obs) for obs in query_result.all()]
+    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count','expDate','expTime','lst') if k in adict} for adict in serialized_labels]
+    for adict in serialized_labels:
+        adict['fieldRA'] = round(adict['fieldRA']*180.0/math.pi, 3)
+        adict['fieldDec'] = round(adict['fieldDec']*180.0/math.pi, 3)
     your_json = dumps(serialized_labels)
-    return jsonify(results=your_json)
+    return jsonify(results=serialized_labels)
 
 '''
 Sample query URL: 
