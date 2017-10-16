@@ -241,11 +241,13 @@ class Survey extends PureComponent {
     updateObservationsTable = () => {
         let fieldID = this.lastFieldID;
         let selectedFieldData = [];
+        let currentTime = Infinity;
         if(fieldID){
-            for(let i=0;i<this.displayedData.length;++i){
-                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
-                    selectedFieldData.push(this.displayedData[i]);
+            for(let i=0;i<this.state.filteredData.length;++i){
+                if(String(this.state.filteredData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.state.filteredData[i].filterName || this.state.displayedFilter === 'all') &&
+                    (this.state.filteredData[i].expDate < currentTime)){
+                    selectedFieldData.push(this.state.filteredData[i]);
                 }
             }
         }
@@ -301,7 +303,7 @@ class Survey extends PureComponent {
                                         setDataByDate={this.setDataByDate}
                                         selectedMode={this.state.selectedMode}
                                         startDate={this.state.startDate} 
-                                        endDate={this.state.endDate} 
+                                        endDate={this.state.endDate}
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
