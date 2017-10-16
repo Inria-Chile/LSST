@@ -7,7 +7,11 @@ import { scienceProposals, lstToTypeOfScienceNumber } from "../Utils/Utils"
 
 
 class Timeline extends Component {
-
+  constructor(props){
+    super(props);
+    this.g = null;
+     
+  }
   drawAxes(dom, lanes, y,x, height, width, start){
 
     dom.append("g")
@@ -49,7 +53,73 @@ class Timeline extends Component {
 
   }
 
-  createTimeline(dom, props) {
+  createTimeline(){
+    let elem = ReactDOM.findDOMNode(this);
+    let width = elem.offsetWidth;
+    let lanes = scienceProposals,
+    laneLength = lanes.length,
+    data = this.adaptData(),
+    margin = this.props.margin,
+    height = this.props.height - margin.top - margin.bottom,
+    mainHeight = height  - 50;
+    width = elem.offsetWidth - margin.right- margin.left;
+    
+    var y1 = d3.scaleLinear()
+    .domain([0, laneLength])
+    .range([0, mainHeight]);
+
+    let siblings = ReactDOM.findDOMNode(this).parentNode.childNodes;
+    let svg = siblings[siblings.length-1];
+
+    let g = d3.select(svg).append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top +150 + ")")
+    .attr("width", width)
+    .attr("height", mainHeight)
+    .attr("class", "main")
+    .attr("id", "timeline");
+    this.g = g;
+    
+    if(data && data.length > 0){
+      var start = this.props.start;
+      var end = this.props.end;
+      var x1 = d3.scaleTime().domain([start,end]).range([0,width-margin.right]);
+      this.drawAxes(g,lanes,y1,x1,height,width,start);
+
+      let filteredData = data.filter(function(d){
+        let date = new Date(d.expDate);
+        return date >= start && date< end;
+      });  
+
+      var itemRects = g.append("g")
+      .attr("clip-path", "url(#clip)");
+        var rects = itemRects.selectAll("rect")
+                .data(filteredData);
+    
+    rects.enter().append("rect")
+      .attr("class", function(d) {return "item";})
+      .attr("x", function(d) {
+        return x1(new Date(d.expDate));
+      })
+      .attr("y", function(d) {return y1(d.lst)+1.3;})
+      .attr("width", function(d) { 
+        var copiedDate = new Date(new Date(d.expDate).getTime());
+        var seconds = copiedDate.getSeconds()+d.expTime;
+        copiedDate.setSeconds(seconds);
+        return (x1(copiedDate)-x1(new Date(d.expDate)));
+      }).attr("height", function(d) {return .8 * y1(1);});
+
+    rects.exit().remove();
+    }
+    else{
+      var today = new Date();
+      today.setDate(today.getDate() + 1);
+      var x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
+      this.drawAxes(g,lanes,y1,x,height,width, new Date());
+    }
+
+  }
+
+  createTimeline2(dom, props) {
     let elem = ReactDOM.findDOMNode(this);
     let lanes = scienceProposals,
     laneLength = lanes.length,
@@ -145,7 +215,7 @@ class Timeline extends Component {
   }
 
   removeTimeline(dom){
-    d3.select(dom).select('svg').remove();
+    this.g.remove();
   }
 
 

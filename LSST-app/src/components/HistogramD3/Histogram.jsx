@@ -107,11 +107,11 @@ class Histogram extends Component {
     .attr("transform", "translate(0," + yPosition + ")")
     .attr("class", "xAxis")
     .call(d3.axisBottom(x)
-      // .tickValues(x.domain())
-      // .tickFormat((date)=>{
-      //   return date.toLocaleDateString();
-      // }
-      .ticks(15)
+      .tickValues(x.domain())
+      .tickFormat((date)=>{
+        return date.toLocaleDateString();
+      })
+      // .ticks(15)
     );
     dom.append("g")
     .attr("class", "axis axis--y")
@@ -279,7 +279,7 @@ class Histogram extends Component {
       this.drawAxes(g,height,x,y);  
     }
     
-  }
+  } 
 
   removeHistogram(dom){
     // d3.select(dom).select('svg').remove();
