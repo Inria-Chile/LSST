@@ -13,6 +13,7 @@ class Histogram extends Component {
     super(props);
     this.barSpacing = 0.015
     this.keys = ["U", "G", "R", "I","Z", "Y"];
+    this.g = null;
      
   }
   
@@ -106,10 +107,12 @@ class Histogram extends Component {
     .attr("transform", "translate(0," + yPosition + ")")
     .attr("class", "xAxis")
     .call(d3.axisBottom(x)
-      .tickValues(x.domain())
-      .tickFormat((date)=>{
-        return date.toLocaleDateString();
-      }));
+      // .tickValues(x.domain())
+      // .tickFormat((date)=>{
+      //   return date.toLocaleDateString();
+      // }
+      .ticks(15)
+    );
     dom.append("g")
     .attr("class", "axis axis--y")
     .attr("transform", "translate(0,0)")
@@ -117,24 +120,105 @@ class Histogram extends Component {
     .call(d3.axisLeft(y).ticks(3));
   }
 
-  createStackedHistogram(dom, props) {
-    
+  createHistogram(dom,props){
     let elem = ReactDOM.findDOMNode(this);
     let width = elem.offsetWidth;
-    let height = this.props.height;
-    
-    let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    let margin = { top: 0, right: 40, bottom: 20, left: 120 };
-    // let margin = this.props.margin;
-    width = +svg.attr("width") - margin.left - margin.right;
-    height = +svg.attr("height") - margin.top - margin.bottom;
 
-    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    let height = this.props.height;
+    let siblings = ReactDOM.findDOMNode(this).parentNode.childNodes;
+    let svg = siblings[siblings.length-1];
+    let margin = this.props.margin;
+    width = +width - margin.left - margin.right;
+    let g = d3.select(svg).append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("id","histogram");
+    this.g = g;
+    
 
     let x,y,z;
     let start = this.props.start;
     let end = this.props.end;
     x = d3.scaleTime().domain([start, end]);  
+    y = d3.scaleLinear().range([height, 0]);
+    let data = this.props.data;
+
+    g.append("rect")
+    .attr("x",x(start))
+    .attr("y", y(1))
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "bckg");
+
+    if(data!=null){
+      let filteredData = data.filter(function(d){
+        return d.expDate >= start && d.expDate< end;
+      });  
+      let newData = this.adaptData(filteredData, x);
+     
+      z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
+      
+      let stack = d3.stack()
+        .keys(this.keys)
+        .order(d3.stackOrderNone)
+        .offset(d3.stackOffsetNone);
+
+      let series = stack(newData);
+
+      let ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
+      y.domain([0, ydom]).nice();
+  
+      let layer = g.selectAll(".layer")
+        .data(series)
+        .enter().append("g")
+        .attr("class", "layer")
+        .style("fill", function (d, i) { return z(i); });
+  
+      x.range([0,width-margin.right]);
+      layer.selectAll("rect")
+        .data(function (d) { return d; })
+        .enter().append("rect")
+        .attr("x", function (d) {
+          // return margin.left + x(d.data.date);
+          return x(d.data.date);
+        })
+        .attr("y", function (d) { 
+          return y(d[1]); })
+        .attr("height", function (d) { return y(d[0]) - y(d[1]);})
+        .attr("width", function(d){return 10;});
+        
+       this.drawAxes(g,height,x,y);  
+
+
+    }
+    else{
+      let today = new Date();
+      today.setDate(today.getDate() + 1);
+       x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
+       y = d3.scaleLinear().range([height, 0]); 
+      this.drawAxes(g,height,x,y);  
+    }
+
+
+  }
+
+  createStackedHistogram(dom, props) {
+    
+    let elem = ReactDOM.findDOMNode(this);
+    let width = elem.offsetWidth;
+
+    // console.log(width)
+    let height = this.props.height;
+    let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
+    let margin = { top: 0, right: 40, bottom: 20, left: 120 };
+    width = +width - margin.left - margin.right;
+    height = +height - margin.top - margin.bottom;
+
+    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    let x,y,z;
+    let start = this.props.start;
+    let end = this.props.end;
+    x = d3.scaleTime().domain([start, end]); 
     y = d3.scaleLinear().range([height, 0]);
     let data = this.props.data;
 
@@ -198,18 +282,22 @@ class Histogram extends Component {
   }
 
   removeHistogram(dom){
-    d3.select(dom).select('svg').remove();
+    // d3.select(dom).select('svg').remove();
+    this.g.remove();
+    // console.log(a)
   }
 
   componentDidMount() {
     var dom = ReactDOM.findDOMNode(this);
-    this.createStackedHistogram(dom, this.props);
+    // this.createStackedHistogram(dom, this.props);
+    this.createHistogram(dom);
   }
 
   componentDidUpdate(){
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
-    this.createStackedHistogram(dom, this.props);
+    // this.createStackedHistogram(dom, this.props);
+    this.createHistogram(dom);
   }
 
   

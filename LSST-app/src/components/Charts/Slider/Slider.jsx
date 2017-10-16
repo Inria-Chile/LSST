@@ -19,7 +19,7 @@ class Slider extends Component {
         today.setDate(today.getDate() + 1);
         this.tomorrow=today;
         this.brush=null;
-        this.ticks=10;
+        this.ticks=5;
     }
 
 

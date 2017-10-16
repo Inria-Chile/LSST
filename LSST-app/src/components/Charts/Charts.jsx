@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
-// import Skymap from '../Skymap/Skymap';
 import Histogram from '../HistogramD3/Histogram';
 import Timeline from '../Timeline/Timeline';
 import Slider from './Slider/Slider'; 
 import './Charts.css';
 import ReactDOM from 'react-dom';
-// import * as d3 from 'd3';
-// import * as d3Axis from 'd3-axis';
-// import { select as d3Select } from 'd3-selection'
-
+import * as d3 from 'd3';
 
 
 class Charts extends Component {
@@ -24,7 +19,8 @@ class Charts extends Component {
             start: new Date(), 
             end: today,
             startAt: new Date(),
-            endAt: today
+            endAt: today,
+            pb: true
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
@@ -53,6 +49,8 @@ class Charts extends Component {
                 startAt:newData[0].expDate,
                 endAt:newData[newData.length-1].expDate
             });
+            console.log(newData[0])
+            console.log(newData[newData.length-1])
             
         }
         else{
@@ -85,28 +83,44 @@ class Charts extends Component {
         })
     }
 
+    // drawPBLine(dom){
+    //     if(this.state.pb){
+    //         let height = dom.offsetHeight;
+    //         let svg = d3.select("svg");
+    //         console.log(svg)
+    //         svg.append("line")
+    //         .attr("x1", 10)
+    //         .attr("y1", 10)
+    //         .attr("x2", 10)
+    //         .attr("y2", 100)
+    //         .attr("stroke", "white")
+    //         .attr("height","100%")
+    //         .attr("transform", "translate(" +100 + "," + -50 + ")");
+            
+    //     }
+    // }
+
+    // componentDidMount() {
+    //     var dom = ReactDOM.findDOMNode(this);
+    //     console.log(dom)
+    //     this.drawPBLine(dom);
+    //   }
+
+
+
     render() {
         return (
             <div className = "charts-container" >
                 <h5>Date-range summary</h5>
-                <div className="row">
-                <div className="col-md-12 ">
-                     <Slider ref={instance => { this.slider = instance; }}
+                    <Slider ref={instance => { this.slider = instance; }}
                      start={this.state.start} end={this.state.end} margin={this.margin} setExtent={this.setSelection}/>
-                </div></div>
-                <div className="row">
-                <div className="col-md-12 histogram-container">
                     <Histogram ref={instance => { this.histogram = instance; }} 
                     data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
-                </div></div>
-                <div className="row">
-                <div className="col-md-12 timeline-container">
-                     <Timeline ref={instance => { this.timeline = instance; }}
+                    <Timeline ref={instance => { this.timeline = instance; }}
                      data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
-                </div></div>
 
-               
-                
+                    <svg id="charts" className="d3 charts" width="100%" height="250px"></svg>
+                     
             </div>
         );
     }
