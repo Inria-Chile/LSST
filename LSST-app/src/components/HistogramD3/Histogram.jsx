@@ -130,7 +130,7 @@ class Histogram extends Component {
     let margin = this.props.margin;
     width = +width - margin.left - margin.right;
     let g = d3.select(svg).append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top +10 + ")")
     .attr("id","histogram");
     this.g = g;
     
@@ -214,6 +214,10 @@ class Histogram extends Component {
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
     this.createHistogram(dom);
+  }
+
+  shouldComponentUpdate(){
+
   }
 
   

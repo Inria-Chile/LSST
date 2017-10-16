@@ -20,13 +20,32 @@ class Charts extends Component {
             end: today,
             startAt: new Date(),
             endAt: today,
-            pb: true
+            
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
         this.timeline = null;
         this.slider=null;
+        this.g=null;
+        this.svg=null;
+        this.x=null;
+        this.currentTime= 0;
          
+    }
+
+    setDate(start,end){
+        console.log("dejando la caga")
+        if(this.props.mode==="playback"){
+            this.setState({
+                start: this.toDate(start),
+                startAt: this.toDate(start),
+                end:this.toDate(end),
+                endAt:this.toDate(end),
+            })
+    
+        }
+        
+       
     }
 
     setData(data){
@@ -38,19 +57,27 @@ class Charts extends Component {
         })
 
         newData.map((d)=>{
+            // console.log("numeric", d.expDate)
             d.expDate=this.toDate(d.expDate);
+            // console.log("date",d.expDate)
             return null;
         });
         if(data && data.length > 0){
-            this.setState({
-                data:newData, 
-                start:newData[0].expDate, 
-                end:newData[newData.length-1].expDate,
-                startAt:newData[0].expDate,
-                endAt:newData[newData.length-1].expDate
-            });
-            console.log(newData[0])
-            console.log(newData[newData.length-1])
+            if(this.props.mode==="playback"){
+                this.setState({
+                    data:newData
+                });
+            }
+            else{
+                this.setState({
+                    data:newData, 
+                    start:newData[0].expDate, 
+                    end:newData[newData.length-1].expDate,
+                    startAt:newData[0].expDate,
+                    endAt:newData[newData.length-1].expDate
+                });
+            }
+           
             
         }
         else{
@@ -83,28 +110,60 @@ class Charts extends Component {
         })
     }
 
-    // drawPBLine(dom){
-    //     if(this.state.pb){
-    //         let height = dom.offsetHeight;
-    //         let svg = d3.select("svg");
-    //         console.log(svg)
-    //         svg.append("line")
-    //         .attr("x1", 10)
-    //         .attr("y1", 10)
-    //         .attr("x2", 10)
-    //         .attr("y2", 100)
-    //         .attr("stroke", "white")
-    //         .attr("height","100%")
-    //         .attr("transform", "translate(" +100 + "," + -50 + ")");
+    drawPBLine(){
+        let dom = ReactDOM.findDOMNode(this);
+        let svg = dom.childNodes[dom.childNodes.length-1];
+        let width = dom.offsetWidth;
+        this.svg=svg;
+        this.x= d3.scaleTime().domain([this.state.startAt, this.state.endAt]).range([0,width]);
+        
+        
+        if(this.props.mode==="playback"){
+            let g = d3.select(svg).append("g");
+            this.g = g;
+            g.append("line")
+            .attr("x1", this.x(this.state.startAt)+this.margin.left)
+            .attr("y1", 10)
+            .attr("x2", this.x(this.state.startAt)+this.margin.left)
+            .attr("y2", 230)
+            .attr("stroke", "white")
+            .attr("height","100%")
+            .attr("class", "pbline")
             
-    //     }
-    // }
+        }
+    }
 
-    // componentDidMount() {
-    //     var dom = ReactDOM.findDOMNode(this);
-    //     console.log(dom)
-    //     this.drawPBLine(dom);
-    //   }
+    updatePBLine(end){
+        this.g.remove();
+        let g = d3.select(this.svg).append("g");
+        this.g = g;
+        this.x.domain([this.state.startAt, this.state.endAt]);
+        this.currentTime+=7;
+        console.log(this.state.startAt)
+        let newTime = this.state.startAt.setSeconds(this.state.startAt.getSeconds()+this.currentTime);
+        let x = this.x(newTime)+this.currentTime+this.margin.left;
+        
+        g.append("line")
+        .attr("x1", x)
+        // .attr("x1", this.x(end)+this.margin.left)
+        .attr("y1", 10)
+        .attr("x2", x)
+        // .attr("x2", this.x(end)+this.margin.left)
+        .attr("y2", 230)
+        .attr("stroke", "white")
+        .attr("height","100%")
+        .attr("class", "pbline")
+        
+    }
+
+    componentDidMount() {
+        this.drawPBLine();
+    }
+
+    setDisplayedDateLimits(end){
+        this.updatePBLine(end)
+    }
+
 
 
 
@@ -119,7 +178,7 @@ class Charts extends Component {
                     <Timeline ref={instance => { this.timeline = instance; }}
                      data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
 
-                    <svg id="charts" className="d3 charts" width="100%" height="250px"></svg>
+                    <svg id="charts" className="d3 charts" width="100%" height="300px"></svg>
                      
             </div>
         );

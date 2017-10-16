@@ -130,6 +130,7 @@ class Survey extends Component {
         this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        this.charts.setDisplayedDateLimits(endDate);
         this.setDate(endDateEpoch);
         this.updateObservationsTable();
     }
@@ -166,6 +167,7 @@ class Survey extends Component {
             this.setState({startDate: startDate, endDate: endDate});
             this.setDate(new Date(parseInt(endDate, 10)));
         })
+        this.charts.setDate(startDate,endDate)
     }
 
     setDate = (date) => {
@@ -304,7 +306,7 @@ class Survey extends Component {
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
-                            <Charts ref={instance => { this.charts = instance; }}/>
+                            <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
