@@ -100,13 +100,13 @@ class Timeline extends Component {
       .attr("x", function(d) {
         return x1(new Date(d.expDate));
       })
-      .attr("y", function(d) {return y1(d.lst)+1.3;})
+      .attr("y", function(d) {return y1(d.lst-1)+1.2;})
       .attr("width", function(d) { 
         var copiedDate = new Date(new Date(d.expDate).getTime());
         var seconds = copiedDate.getSeconds()+d.expTime;
         copiedDate.setSeconds(seconds);
         return (x1(copiedDate)-x1(new Date(d.expDate)));
-      }).attr("height", function(d) {return .8 * y1(1);});
+      }).attr("height", function(d) {return .7 * y1(1);});
 
     rects.exit().remove();
     }
@@ -117,69 +117,6 @@ class Timeline extends Component {
       this.drawAxes(g,lanes,y1,x,height,width, new Date());
     }
 
-  }
-
-  createTimeline2(dom, props) {
-    let elem = ReactDOM.findDOMNode(this);
-    let lanes = scienceProposals,
-    laneLength = lanes.length,
-    data = this.adaptData(),
-    margin = this.props.margin,
-    width = elem.offsetWidth - margin.right- margin.left,
-    height = props.height - margin.top - margin.bottom,
-    mainHeight = height  - 50;
-    var y1 = d3.scaleLinear()
-    .domain([0, laneLength])
-    .range([0, mainHeight]);
-    var chart = d3.select(dom)
-    .append("svg")
-    .attr("width", elem.offsetWidth)
-    .attr("height", height)
-    .attr("class", "chart");
-    chart.append("defs").append("clipPath")
-    .attr("id", "clip")
-    .append("rect")
-    .attr("width", width)
-    .attr("height", mainHeight);
-    
-    var g = chart.append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-          .attr("width", width)
-          .attr("height", mainHeight)
-          .attr("class", "main");
-
-    if(data && data.length > 0){
-      var start = this.props.start;
-      var end = this.props.end;
-      var x1 = d3.scaleTime().domain([start,end]).range([0,width]);
-      this.drawAxes(g,lanes,y1,x1,height,width,start);
-
-      var itemRects = g.append("g")
-      .attr("clip-path", "url(#clip)");
-        var rects = itemRects.selectAll("rect")
-                .data(data);
-    
-    rects.enter().append("rect")
-      .attr("class", function(d) {return "item";})
-      .attr("x", function(d) {
-        return x1(new Date(d.expDate));
-      })
-      .attr("y", function(d) {return y1(d.lst)+1.3;})
-      .attr("width", function(d) { 
-        var copiedDate = new Date(new Date(d.expDate).getTime());
-        var seconds = copiedDate.getSeconds()+d.expTime;
-        copiedDate.setSeconds(seconds);
-        return (x1(copiedDate)-x1(new Date(d.expDate)));
-      }).attr("height", function(d) {return .8 * y1(1);});
-
-    rects.exit().remove();
-    }
-    else{
-      var today = new Date();
-      today.setDate(today.getDate() + 1);
-      var x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
-      this.drawAxes(g,lanes,y1,x,height,width, new Date());
-    }
   }
 
   adaptData(){
@@ -222,7 +159,6 @@ class Timeline extends Component {
   render() {
     return (
       <div ref="container">
-        <h4> {this.props.title} </h4>
       </div>
     );
   }

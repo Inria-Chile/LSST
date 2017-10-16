@@ -11,17 +11,9 @@
 }
 
 .item {
-  fill:	#ffffff;
-  stroke-width: 6;	
+  /* fill:	white; */
+  stroke: white;
 }
-
-
-.brush .extent {
-  stroke: gray;
-  fill: dodgerblue;
-  fill-opacity: .365;
-}
-
 
 .laneText{
   fill: white;

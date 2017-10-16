@@ -201,102 +201,18 @@ class Histogram extends Component {
 
   }
 
-  createStackedHistogram(dom, props) {
-    
-    let elem = ReactDOM.findDOMNode(this);
-    let width = elem.offsetWidth;
-
-    // console.log(width)
-    let height = this.props.height;
-    let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-    let margin = { top: 0, right: 40, bottom: 20, left: 120 };
-    width = +width - margin.left - margin.right;
-    height = +height - margin.top - margin.bottom;
-
-    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    let x,y,z;
-    let start = this.props.start;
-    let end = this.props.end;
-    x = d3.scaleTime().domain([start, end]); 
-    y = d3.scaleLinear().range([height, 0]);
-    let data = this.props.data;
-
-    svg.append("rect")
-    .attr("x", margin.left+x(start))
-    .attr("y", y(1))
-    .attr("width", width)
-    .attr("height", height)
-    .attr("class", "bckg");
-
-
-    if(data!=null){
-      let filteredData = data.filter(function(d){
-        return d.expDate >= start && d.expDate< end;
-      });  
-      let newData = this.adaptData(filteredData, x);
-      
-     
-      z = d3.scaleOrdinal().range(Object.values(filterColors)).domain(this.keys);
-      
-      let stack = d3.stack()
-        .keys(this.keys)
-        .order(d3.stackOrderNone)
-        .offset(d3.stackOffsetNone);
-
-      let series = stack(newData);
-
-      let ydom = d3.max(series[series.length - 1], function (d) {return  d[1]; });
-      y.domain([0, ydom]).nice();
-  
-      let layer = svg.selectAll(".layer")
-        .data(series)
-        .enter().append("g")
-        .attr("class", "layer")
-        .style("fill", function (d, i) { return z(i); });
-  
-      x.range([0,width]);
-      layer.selectAll("rect")
-        .data(function (d) { return d; })
-        .enter().append("rect")
-        .attr("x", function (d) {
-          return margin.left + x(d.data.date);
-        })
-        .attr("y", function (d) { 
-          return y(d[1]); })
-        .attr("height", function (d) { return y(d[0]) - y(d[1]);})
-        .attr("width", function(d){return 10;});
-        
-       this.drawAxes(g,height,x,y);  
-
-
-    }
-    else{
-      let today = new Date();
-      today.setDate(today.getDate() + 1);
-       x = d3.scaleTime().domain([new Date(), today]).range([0,width]);
-       y = d3.scaleLinear().range([height, 0]); 
-      this.drawAxes(g,height,x,y);  
-    }
-    
-  } 
-
   removeHistogram(dom){
-    // d3.select(dom).select('svg').remove();
     this.g.remove();
-    // console.log(a)
   }
 
   componentDidMount() {
     var dom = ReactDOM.findDOMNode(this);
-    // this.createStackedHistogram(dom, this.props);
     this.createHistogram(dom);
   }
 
   componentDidUpdate(){
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
-    // this.createStackedHistogram(dom, this.props);
     this.createHistogram(dom);
   }
 
