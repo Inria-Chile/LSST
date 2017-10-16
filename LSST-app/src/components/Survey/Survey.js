@@ -9,8 +9,9 @@ import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
+import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
 import openSocket from 'socket.io-client';
-import { filterColors, checkStatus, parseJSON, decreaseBrightness, jsToLsstTime } from "../Utils/Utils"
+import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -41,7 +42,10 @@ class Survey extends PureComponent {
         }
 
         this.hiddenStyle = {
-            display:'none'
+            visibility: 'hidden',
+            position: 'absolute',
+            width: '100%',
+            top: 0
         };
         this.visibleStyle = {
             display:'block'
@@ -243,11 +247,11 @@ class Survey extends PureComponent {
         let selectedFieldData = [];
         let currentTime = Infinity;
         if(fieldID){
-            for(let i=0;i<this.state.filteredData.length;++i){
-                if(String(this.state.filteredData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.state.filteredData[i].filterName || this.state.displayedFilter === 'all') &&
-                    (this.state.filteredData[i].expDate < currentTime)){
-                    selectedFieldData.push(this.state.filteredData[i]);
+            for(let i=0;i<this.displayedData.length;++i){
+                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
+                    (this.displayedData[i].expDate < currentTime)){
+                    selectedFieldData.push(this.displayedData[i]);
                 }
             }
         }
@@ -330,21 +334,7 @@ class Survey extends PureComponent {
                                         
                                         {
                                             this.state.selectedField &&
-                                            <div className="hover-div">
-                                                <div>FieldID: {this.state.selectedField && this.state.selectedField.fieldID ? this.state.selectedField.fieldID: ''}</div>
-                                                <div>Timestamp: {this.state.selectedField && this.state.selectedField.expDate ? this.state.selectedField.expDate: ''}</div>
-                                                <div>
-                                                    Filter: {" "}
-                                                    <div className="hover-filter" style={{
-                                                            backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
-                                                                : "#000000", border: decreaseBrightness(filterColors[this.state.selectedField.filterName], 1.3) + ' solid 2px'
-                                                        }}>
-                                                        {
-                                                            this.state.selectedField.filterName ? this.state.selectedField.filterName : ''
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <CellHoverInfo selectedField={this.state.selectedField} />
                                         } 
                                     </div>
                                 </div>

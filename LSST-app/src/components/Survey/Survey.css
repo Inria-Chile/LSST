@@ -24,6 +24,11 @@ h4 {
   flex-direction: column;
 }
 
+.skymap-table-container {
+  flex-grow: 1;
+  position: relative;
+}
+
 .main-skymap-wrapper {
   /* background: #eee; */
   /* margin: 10px; */
@@ -174,7 +179,3 @@ h4 {
 .ReactTable:first-child > div:first-child {
   margin-right: -16px !important;
 } */
-
-.skymap-table-container {
-  flex-grow: 1;
-}
