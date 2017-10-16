@@ -115,7 +115,9 @@ export function checkStatus(response) {
 }
 
 export function parseJSON(response) {
-    return response.json();
+    return response.text().then( data => {
+        return JSON.parse(data);
+    });
 }
 
 export function jsToLsstTime(time){
