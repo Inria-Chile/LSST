@@ -306,8 +306,8 @@ class Survey extends PureComponent {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
                             <Charts ref={instance => { this.charts = instance; }}/>
-                            <div className="row">
-                                <div className="col-6">
+                            <div className="row skymap-table-container">
+                                <div className="col-7">
                                     <div className="main-skymap-wrapper">
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
@@ -346,7 +346,7 @@ class Survey extends PureComponent {
                                         } 
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-5">
                                     <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
                                 </div>
                             </div>                        

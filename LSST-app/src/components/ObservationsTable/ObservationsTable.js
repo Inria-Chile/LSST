@@ -87,8 +87,8 @@ class ObservationsTable extends PureComponent {
                                 accessor: d => d.lst ? lstToscienceProposal(d.lst) : ''
                             }
                         ]}
-                        defaultPageSize={9}
-                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 9 ? 9 : this.props.clickedField.length}
+                        defaultPageSize={11}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length}
                         className="-highlight -no-header"
                         showPaginationBottom={false}
                         noDataText=""
