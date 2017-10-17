@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
 import './Scatterplot.css';
 
 
-class Scatterplot extends Component {
+class Scatterplot extends PureComponent {
 
     constructor(props){
         super(props);
@@ -83,8 +83,8 @@ class Scatterplot extends Component {
     }
 
     setData(data){
-        console.log("lalal")
-        console.log("data: ",data)
+        // console.log("lalal")
+        // console.log("data: ",data)
         if(data && data.length > 0){
             this.data = data;
             this.setState({
@@ -121,7 +121,7 @@ class Scatterplot extends Component {
 }
 
 Scatterplot.defaultProps = {
-    height: 300,
+    height: 400,
   };
 
 export default Scatterplot;

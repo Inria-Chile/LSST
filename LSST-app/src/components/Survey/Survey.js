@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
@@ -9,13 +9,14 @@ import Sidebar from '../Sidebar/Sidebar';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
+import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
 import openSocket from 'socket.io-client';
-import { filterColors, checkStatus, parseJSON, decreaseBrightness, jsToLsstTime } from "../Utils/Utils"
+import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class Survey extends Component {
+class Survey extends PureComponent {
     
     static viewName = 'survey';
 
@@ -27,7 +28,7 @@ class Survey extends Component {
         this.miniScatterplot = null;
         this.mainScatterplot = null;
         this.displayedData = [];
-        this.socket = openSocket(window.location.origin);
+        this.socket = openSocket(window.location.origin + '');
         this.state = {
             selectedMode: 'playback',
             // selectedMode: 'playback',
@@ -41,7 +42,10 @@ class Survey extends Component {
         }
 
         this.hiddenStyle = {
-            display:'none'
+            visibility: 'hidden',
+            position: 'absolute',
+            width: '100%',
+            top: 0
         };
         this.visibleStyle = {
             display:'block'
@@ -52,7 +56,6 @@ class Survey extends Component {
     }
 
     receiveMsg(msg){
-        // console.log("received" + msg);
         msg.expDate = msg.request_time;
         this.addObservation(msg);
         this.setDate(new Date(parseInt(msg.request_time, 10)));
@@ -180,7 +183,7 @@ class Survey extends Component {
     fetchDataByDate = (startDate, endDate, cb) => {
         let lsstStartDate = startDate;
         let lsstEndDate = endDate;
-        return fetch(`survey/playback/observationsCount?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
+        return fetch(`backend/survey/playback/observations?start_date=${lsstStartDate}&end_date=${lsstEndDate}`, {
             accept: "application/json"
         })
         .then(checkStatus)
@@ -195,22 +198,17 @@ class Survey extends Component {
         this.miniSkymap.setData(data);
         this.mainSkymap.setData(data);
         this.mainScatterplot.setData(data);
+        this.updateObservationsTable();
     }
 
     addObservation = (obs) => {
         let added = false;
         let currentTime = jsToLsstTime((new Date()).getTime());
-        console.log('dsasadsa', obs, currentTime);
         for(let i=0;i<this.displayedData.length;++i){
-            if(this.displayedData[i]['fieldID'] === obs['fieldID'] && this.displayedData[i]['filterName'] === obs['filterName']){
-                // console.log('adding', obs, ' to ', this.displayedData[i]); // eslint-disable-line no-console
-                // console.log('adding obs', obs, ; // eslint-disable-line no-console
-                this.displayedData[i]['count']++;
-                added = true;
+            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate']){
+                this.displayedData.splice(i, 1);
+                --i;
             }
-            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate'])
-                if(this.displayedData[i]['count']-- <= 0)
-                    this.displayedData.splice(i, 1);
         }
         if(!added)
             this.displayedData.push(obs);
@@ -249,15 +247,17 @@ class Survey extends Component {
     updateObservationsTable = () => {
         let fieldID = this.lastFieldID;
         let selectedFieldData = [];
+        let currentTime = Infinity;
         if(fieldID){
             for(let i=0;i<this.displayedData.length;++i){
                 if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
+                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
+                    (this.displayedData[i].expDate < currentTime)){
                     selectedFieldData.push(this.displayedData[i]);
                 }
             }
         }
-        selectedFieldData.sort((a,b)=> b.expDate - a.expDate)
+        selectedFieldData.sort((a,b)=> b.expDate - a.expDate);
         this.setState({
             clickedField: selectedFieldData
         })
@@ -268,6 +268,13 @@ class Survey extends Component {
         this.lastPolygon = polygon;
         this.updateObservationsTable();
         console.log('cellClickCallback');
+    }
+
+    cellUpdateCallback = (fieldID, polygon) => {
+        this.lastFieldID = fieldID;
+        this.lastPolygon = polygon;
+        this.updateObservationsTable();
+        console.log('cellUpdateCallback');
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -302,13 +309,15 @@ class Survey extends Component {
                                         setDataByDate={this.setDataByDate}
                                         selectedMode={this.state.selectedMode}
                                         startDate={this.state.startDate} 
-                                        endDate={this.state.endDate} 
+                                        endDate={this.state.endDate}
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
+
                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
                             <div className="row">
-                                <div className="col-6">
+                                <div className="col-7">
+
                                     <div className="main-skymap-wrapper">
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
@@ -318,6 +327,7 @@ class Survey extends Component {
                                             endDate={this.state.endDate}
                                             cellHoverCallback={this.cellHoverCallback} 
                                             cellClickCallback={this.cellClickCallback} 
+                                            cellUpdateCallback={this.cellUpdateCallback} 
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
@@ -328,25 +338,11 @@ class Survey extends Component {
                                         
                                         {
                                             this.state.selectedField &&
-                                            <div className="hover-div">
-                                                <div>FieldID: {this.state.selectedField && this.state.selectedField.fieldID ? this.state.selectedField.fieldID: ''}</div>
-                                                <div>Timestamp: {this.state.selectedField && this.state.selectedField.expDate ? this.state.selectedField.expDate: ''}</div>
-                                                <div>
-                                                    Filter: {" "}
-                                                    <div className="hover-filter" style={{
-                                                            backgroundColor: filterColors[this.state.selectedField.filterName ] ? filterColors[this.state.selectedField.filterName ]
-                                                                : "#000000", border: decreaseBrightness(filterColors[this.state.selectedField.filterName], 1.3) + ' solid 2px'
-                                                        }}>
-                                                        {
-                                                            this.state.selectedField.filterName ? this.state.selectedField.filterName : ''
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <CellHoverInfo selectedField={this.state.selectedField} />
                                         } 
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-5">
                                     <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
                                 </div>
                             </div>                        

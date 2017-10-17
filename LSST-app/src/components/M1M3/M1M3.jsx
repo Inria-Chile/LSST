@@ -14,7 +14,7 @@ class M1M3 extends Component {
         yRadius: 0,
         maxRadius: 0
     }
-    fetch('m1m3/actuators', {
+    fetch('backend/m1m3/actuators', {
         accept: "application/json"
     })
     .then(checkStatus)

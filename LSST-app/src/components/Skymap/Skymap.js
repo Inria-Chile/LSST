@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import { filterColors } from "../Utils/Utils"
 
 const makeCelestial = window.makeCelestial;
 
-class Skymap extends Component {
+class Skymap extends PureComponent {
   containerId = null;
 
   getCelestial() {
@@ -18,6 +18,7 @@ class Skymap extends Component {
   getDefaultConfig = () => {
     let hoverCallback = this.props.cellHoverCallback;
     let clickCallback = this.props.cellClickCallback;
+    let updateCallback = this.props.cellUpdateCallback;
     return {
       width: 0,     // Default width, 0 = full parent width; height is determined by projection
       projection: "aitoff",
@@ -32,6 +33,7 @@ class Skymap extends Component {
       controls: false,     // Display zoom controls
       cellHoverCallback: hoverCallback ? hoverCallback : null,
       cellClickCallback: clickCallback ? clickCallback : null,
+      cellUpdateCallback: updateCallback ? updateCallback : null,
       lang: "",           // Language for names, so far only for constellations: de: german, es: spanish
       container: this.containerId,   // ID of parent element, e.g. div
       datapath: "./lib/data/",  // Path/URL to data files, empty = subfolder 'data'

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import './MiniSkymaps.css';
 import Skymap from './Skymap';
 
-class MiniSkymaps extends Component {
+class MiniSkymaps extends PureComponent {
 
   constructor(props) {
     super(props);

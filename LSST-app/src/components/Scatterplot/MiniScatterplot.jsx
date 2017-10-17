@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Scatterplot from './Scatterplot';
 
 
-class MiniScatterplot extends Component {
+class MiniScatterplot extends PureComponent {
 
     constructor(props){
         super(props);

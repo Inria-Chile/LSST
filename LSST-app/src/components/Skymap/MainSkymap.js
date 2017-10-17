@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import Skymap from './Skymap';
 
-class MainSkymap extends Component {
+class MainSkymap extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -87,6 +87,7 @@ class MainSkymap extends Component {
         return (
             <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"
                     cellHoverCallback={this.props.cellHoverCallback} 
+                    cellUpdateCallback={this.props.cellUpdateCallback} 
                     cellClickCallback={this.props.cellClickCallback} />
         );
     }

@@ -34,7 +34,6 @@ class Charts extends Component {
     }
 
     setDate(start,end){
-        console.log("dejando la caga")
         if(this.props.mode==="playback"){
             this.setState({
                 start: this.toDate(start),

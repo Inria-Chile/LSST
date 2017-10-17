@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Import React Table
 import ReactTable from "react-table";
@@ -7,20 +7,13 @@ import './ObservationsTable.css';
 import { filterColors, lstToscienceProposal, decreaseBrightness } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
 
-class ObservationsTable extends Component {
+class ObservationsTable extends PureComponent {
 
     constructor() {
         super();
         this.state = {
-            data: [{}],
             clickedData: [{}]
         };
-    }
-
-    setData = (data) => {
-        this.setState({
-            data: [...data],
-        })
     }
 
     render() {
@@ -94,8 +87,8 @@ class ObservationsTable extends Component {
                                 accessor: d => d.lst ? lstToscienceProposal(d.lst) : ''
                             }
                         ]}
-                        defaultPageSize={9}
-                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 9 ? 9 : this.props.clickedField.length}
+                        defaultPageSize={11}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length}
                         className="-highlight -no-header"
                         showPaginationBottom={false}
                         noDataText=""
