@@ -5,7 +5,7 @@ import Slider from './Slider/Slider';
 import './Charts.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
-
+import {lsstEpoch} from '../Utils/Utils'
 
 class Charts extends Component {
 
@@ -109,58 +109,48 @@ class Charts extends Component {
         })
     }
 
-    drawPBLine(){
+    createPBLine(){
         let dom = ReactDOM.findDOMNode(this);
         let svg = dom.childNodes[dom.childNodes.length-1];
         let width = dom.offsetWidth;
         this.svg=svg;
         this.x= d3.scaleTime().domain([this.state.startAt, this.state.endAt]).range([0,width]);
         
-        
         if(this.props.mode==="playback"){
             let g = d3.select(svg).append("g");
             this.g = g;
-            g.append("line")
-            .attr("x1", this.x(this.state.startAt)+this.margin.left)
-            .attr("y1", 10)
-            .attr("x2", this.x(this.state.startAt)+this.margin.left)
-            .attr("y2", 230)
-            .attr("stroke", "white")
-            .attr("height","100%")
-            .attr("class", "pbline")
-            
+            this.drawPBLine(this.x(this.state.startAt)+this.margin.left);
         }
     }
 
-    updatePBLine(end){
+    updatePBLine(currentTime){
         this.g.remove();
         let g = d3.select(this.svg).append("g");
         this.g = g;
         this.x.domain([this.state.startAt, this.state.endAt]);
-        this.currentTime+=7;
-        let newTime = this.state.startAt.setSeconds(this.state.startAt.getSeconds()+this.currentTime);
-        let x = this.x(newTime)+this.currentTime+this.margin.left;
-        
-        g.append("line")
+        if(this.state.startAt<=currentTime && currentTime <= this.state.endAt){
+            this.drawPBLine(this.x(currentTime)+this.margin.left);
+        }
+    }
+
+    drawPBLine(x){
+        this.g.append("line")
         .attr("x1", x)
-        // .attr("x1", this.x(end)+this.margin.left)
         .attr("y1", 10)
         .attr("x2", x)
-        // .attr("x2", this.x(end)+this.margin.left)
         .attr("y2", 230)
         .attr("stroke", "white")
         .attr("height","100%")
         .attr("class", "pbline")
-        
     }
 
     componentDidMount() {
-        this.drawPBLine();
+        this.createPBLine();
     }
 
     setDisplayedDateLimits(end){
-        console.log(end)
-        this.updatePBLine(end)
+        let newDate = (end.getTime()*1000+lsstEpoch);
+        this.updatePBLine(new Date(newDate));
     }
 
 
