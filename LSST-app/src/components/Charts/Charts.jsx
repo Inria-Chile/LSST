@@ -138,7 +138,6 @@ class Charts extends Component {
         this.g = g;
         this.x.domain([this.state.startAt, this.state.endAt]);
         this.currentTime+=7;
-        console.log(this.state.startAt)
         let newTime = this.state.startAt.setSeconds(this.state.startAt.getSeconds()+this.currentTime);
         let x = this.x(newTime)+this.currentTime+this.margin.left;
         
@@ -160,6 +159,7 @@ class Charts extends Component {
     }
 
     setDisplayedDateLimits(end){
+        console.log(end)
         this.updatePBLine(end)
     }
 
