@@ -6,7 +6,7 @@ var Celestial = {
   data: []
 };
 
-var ANIMDISTANCE = 3.035,  // Rotation animation threshold, ~2deg in radians
+var ANIMDISTANCE = 300.035,  // Rotation animation threshold, ~2deg in radians
     ANIMSCALE = 1.4,       // Zoom animation threshold, scale factor
     ANIMINTERVAL_R = 2000, // Rotation duration scale in ms
     ANIMINTERVAL_P = 0, // Projection duration in ms
@@ -41,6 +41,7 @@ Celestial.display = function(config) {
   var mousePosition = null;
   var lastSeletedCell = null;
   var lastClickedCell = null;
+  var selectedPolygons = [];  
   var mappedIds = {};
   var displayedObservations = null;
   var allPolygons = [];
@@ -185,6 +186,7 @@ Celestial.display = function(config) {
           if(d.geometry.coordinates[i][0] > 180)
             d.geometry.coordinates[i][0] = d.geometry.coordinates[i][0]-360;
       });
+      selectedPolygons = container.selectAll(".mw");    
     }); 
 
 
@@ -392,7 +394,9 @@ Celestial.display = function(config) {
     var totalObs = 0;
     var maxFieldObs = 0;
     var style = cfg.polygons.style;
-    var selectedPolygons = container.selectAll(".mw");
+    var selectedPolygons = container.selectAll(".mw").filter(function(d){
+      return d.properties.count.length > 0; 
+    });
     selectedPolygons.each(function(d) {
       var fieldObs = 0;
       for(var i=0;i<d.properties.count.length;++i){
@@ -491,37 +495,6 @@ Celestial.display = function(config) {
       })    
   }
 
-  //Receives list of observations, index of ra, dec and filter in each observation
-  Celestial.updateCellsOld = function(observations){
-    var selectedPolygons = container.selectAll(".mw");
-    selectedPolygons.each(function(d) {
-      for(var i=0;i<d.properties.count.length;++i)
-            d.properties.count[i][1] = 0;
-    });
-    for(var i=0;i<observations.length;++i){
-      var obs = observations[i];
-      var id = obs['fieldID']
-      var ra = obs['fieldRA'];
-      ra > 180 ? ra = ra-360 : ra = ra;
-      var dec = obs['fieldDec'];
-      var filterName = obs['filterName'];
-      var newCount = obs['count'];
-      selectedPolygons.each(function(d) {
-        if(Celestial.inside([ra,dec], d.geometry.coordinates[0])){
-          var added = false;
-          for(var i=0;i<d.properties.count.length;++i){
-            if(d.properties.count[i][0] == filterName){
-              d.properties.count[i][1] = newCount;
-              added = true;
-            }
-          }
-          if(!added)
-            d.properties.count.push([filterName, newCount]);
-        }
-      });
-    };
-  }
-
   findFieldId = function(selectedPolygon, observations){
     var keys = Object.keys(mappedIds);
     var polygonID = selectedPolygon.properties.id;
@@ -555,12 +528,12 @@ Celestial.display = function(config) {
     return polygonID;
   }
 
-  Celestial.updateCells = function(observations){
+  Celestial.updateCellsOld2 = function(observations){
     // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
     //   return;
     // }
+    console.log('updateCells')
     displayedObservations = observations;
-    var selectedPolygons = container.selectAll(".mw");
     selectedPolygons.each(function(d) {
       for(var i=0;i<d.properties.count.length;++i)
             d.properties.count[i][1] = 0;
@@ -574,7 +547,8 @@ Celestial.display = function(config) {
       var filterName = obs['filterName'];
       var newCount = obs['count'];
       var polygonId = findPolygonId(selectedPolygons, obs);
-      // console.log('polygonId', polygonId)
+
+
       selectedPolygons.each(function(d){
         if(polygonId == d.properties.id){
           // console.log('INSIDE', polygonId, d)  
@@ -593,6 +567,50 @@ Celestial.display = function(config) {
               cfg.cellUpdateCallback(fieldID, d);
             }
           }
+        }
+      });
+    }
+  }
+
+  Celestial.updateCells = function(observations){
+    // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
+    //   return;
+    // }
+    displayedObservations = observations;
+    selectedPolygons.each(function(d) {
+      for(var i=0;i<d.properties.count.length;++i)
+            d.properties.count[i][1] = 0;
+    });
+    var groupedObs = {};
+    for(var i=0;i<observations.length;++i){
+      var obs = observations[i];
+      var key = 'id:'+obs['fieldID']+'filter'+obs['filterName'];
+      if(groupedObs[key])
+        groupedObs[key] = {obs: obs, count: groupedObs[key]['count']+1};
+      else
+        groupedObs[key] = {obs: obs, count: 1};      
+    }
+
+    var keys = Object.keys(groupedObs);
+    for(var i=0;i<keys.length;++i){
+      var key = keys[i];
+      var obs = groupedObs[key]['obs'];
+      var newCount = groupedObs[key]['count'];
+      var id = obs['fieldID'];
+      var ra = obs['fieldRA'];
+      ra > 180 ? ra = ra-360 : ra = ra;
+      var dec = obs['fieldDec'];
+      var filterName = obs['filterName'];
+      var polygonId = findPolygonId(selectedPolygons, obs);
+      
+      selectedPolygons.filter(function(d){
+        return polygonId == d.properties.id
+      }).each(function(d){
+        d.properties.count.push([filterName, newCount]);
+        if(lastClickedCell && lastClickedCell.properties.id === d.properties.id && cfg.cellUpdateCallback){
+          var fieldID = findFieldId(d, displayedObservations);
+          lastClickedCell = d;
+          cfg.cellUpdateCallback(fieldID, d);
         }
       });
     }
