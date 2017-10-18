@@ -119,18 +119,28 @@ class Charts extends Component {
         if(this.props.mode==="playback"){
             let g = d3.select(svg).append("g");
             this.g = g;
-            this.drawPBLine(this.x(this.state.startAt)+this.margin.left);
+            let x = this.x(this.state.startAt)+this.margin.left;
+            this.drawPBLine(x);
         }
     }
 
     updatePBLine(currentTime){
-        this.g.remove();
-        let g = d3.select(this.svg).append("g");
-        this.g = g;
         this.x.domain([this.state.startAt, this.state.endAt]);
+        let prevLine = this.g.select("line");
+        let x = this.x(currentTime)+this.margin.left;
+       
         if(this.state.startAt<=currentTime && currentTime <= this.state.endAt){
-            this.drawPBLine(this.x(currentTime)+this.margin.left);
+            prevLine.attr("style","visibility:visible;")
+            this.movePBLine(prevLine,x);
         }
+        else{
+            prevLine.attr("style","visibility:hidden;")
+        }
+    }
+
+    movePBLine(prevLine,x){
+        prevLine.attr("x1",x);
+        prevLine.attr("x2",x);
     }
 
     drawPBLine(x){
@@ -152,9 +162,6 @@ class Charts extends Component {
         let newDate = (end.getTime()*1000+lsstEpoch);
         this.updatePBLine(new Date(newDate));
     }
-
-
-
 
     render() {
         return (
