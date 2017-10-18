@@ -139,8 +139,9 @@ class Charts extends Component {
     }
 
     movePBLine(prevLine,x){
-        prevLine.attr("x1",x);
-        prevLine.attr("x2",x);
+        prevLine.transition().duration(1)
+        .attr("x1",x)
+        .attr("x2",x)
     }
 
     drawPBLine(x){
