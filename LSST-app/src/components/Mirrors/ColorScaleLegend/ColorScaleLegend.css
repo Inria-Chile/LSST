@@ -1,0 +1,24 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #96a3b3;
+    shape-rendering: crispEdges;
+}
+
+#legend-svg {
+    vertical-align: top;
+}
+
+#controls {
+    padding-top: 10px;
+}
+
+.tick {
+    fill: #96a3b3;
+    font-size: 1.5em;
+}
+
+.colormap-rect {
+    stroke: #2d3d4e;
+    stroke-width: 3px;
+}

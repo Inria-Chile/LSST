@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './M1M3.css';
-import { checkStatus, parseJSON } from "../Utils/Utils"
+import { checkStatus, parseJSON } from "../../Utils/Utils"
 import * as d3 from 'd3';
 
 class M1M3 extends Component {
@@ -72,12 +72,12 @@ class M1M3 extends Component {
                     className="svg-container"
                     height={this.props.height + "px"}
                     width={this.props.width + "px"}>
-                    <circle id={"background-circle-"+this.props.id}
+                    <circle id={"background-circle-"+this.props.id} className="circle-overlay"
                         cx={this.state.xRadius*this.props.scale+this.props.margin}
                         cy={this.state.yRadius*this.props.scale+this.props.margin}
                         key={'background'}
                         fill={'#04070a'}
-                        r={this.state.maxRadius*this.props.scale*1.05}
+                        r={this.state.maxRadius*this.props.scale*1.15}
                         pointerEvents="all"
                         />
                     <g id={"scatter-"+this.props.id} className="scatter">
@@ -96,7 +96,7 @@ class M1M3 extends Component {
                         cy={this.state.yRadius*this.props.scale+this.props.margin}
                         key={'overlay'}
                         fill={'none'}
-                        r={this.state.maxRadius*this.props.scale*1.05}
+                        r={this.state.maxRadius*this.props.scale*1.15}
                         pointerEvents="all"
                         />
                 </svg>

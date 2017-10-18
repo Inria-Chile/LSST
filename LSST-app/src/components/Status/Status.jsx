@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
-import M1M3 from '../M1M3/M1M3';
+import M1M3 from '../Mirrors/M1M3/M1M3';
 import Shutters from '../Shutters/Shutters';
 import DomePosition from '../DomePosition/DomePosition';
 import Louvers from '../Louvers/Louvers';
