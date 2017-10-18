@@ -46,7 +46,7 @@ class DomePerspectives extends PureComponent {
                 <div className="row dome-perspectives-bottom">
                     <div className="col-8">
                         <h5>Top</h5>
-                        <Louvers width={700} height={700} id="louvers" scale={1.4} xOffset={-0.05} yOffset={0.15}/>
+                        <Louvers width={500} height={500} id="louvers" scale={1.4} xOffset={-0.05} yOffset={0.15}/>
                     </div>
                     <div className="col-4 dome-perspectives-info">
                         <div>

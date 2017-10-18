@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Survey from '../Survey/Survey';
 import Toolbar from './Toolbar/Toolbar';
 import Mirrors from '../Mirrors/Mirrors';
+import Dome from '../Dome/Dome';
 import Rnd from 'react-rnd';
 import './Dashboard.css';
 
@@ -19,7 +20,12 @@ class Dashboard extends Component {
             x: 0, y: 0,
             width: 500, height: 1080,
             visible: true,
-        }
+        },
+        dome: {
+            x: 0, y: 0,
+            width: 500, height: 1080,
+            visible: true,
+        },
     }
 
     constructor(props){
@@ -96,6 +102,25 @@ class Dashboard extends Component {
                             className={this.state.draggable ? 'draggable' : ''}
                         >
                             <Mirrors/>
+                        </Rnd>) :
+                        <div></div>
+                    }
+                    {
+                        this.state.componentVisibility['dome'] ? 
+                        (
+                        <Rnd default={{
+                            x: 1920+600,
+                            y: 100,
+                            width: 1100,
+                            height: 1330,
+                            }}
+                            dragGrid={ [20,20]}
+                            resizeGrid={ [20,20]}
+                            disableDragging={!this.state.draggable}
+                            enableResizing={this.state.draggable ? undefined : false}
+                            className={this.state.draggable ? 'draggable' : ''}
+                        >
+                            <Dome/>
                         </Rnd>) :
                         <div></div>
                     }

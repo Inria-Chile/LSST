@@ -131,7 +131,6 @@ class Charts extends Component {
 
     updatePBLine(currentTime){
         this.x.domain([this.state.startAt, this.state.endAt]);
-        let prevLine = this.g.select("line");
         let x = this.x(currentTime);
        
         if(this.state.startAt<=currentTime && currentTime < this.state.endAt){
