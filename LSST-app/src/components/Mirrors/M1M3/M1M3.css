@@ -1,0 +1,8 @@
+.mirror-container{
+    display: inline-block;
+}
+
+.circle-overlay {
+    stroke: #2d3d4e;
+    stroke-width: 10px;
+}

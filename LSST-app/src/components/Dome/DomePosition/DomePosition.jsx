@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './DomePosition.css';
-import Shutters from '../Shutters/Shutters'
 import * as d3 from 'd3';
 
 class DomePosition extends Component {
@@ -56,7 +55,7 @@ class DomePosition extends Component {
     render() {
         return (
             <div className="dome-position-container" ref="container">
-                <h4>Dome Position</h4>
+                {/* <h4>Dome Position</h4> */}
                 <svg 
                     className="svg-container"
                     height={this.props.height}
@@ -67,20 +66,18 @@ class DomePosition extends Component {
                         width={this.props.width}>
                         <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={0.5} xlinkHref="/img/dome_top.png"/>
                         <line id="dome-angle-top"
+                            className="dome-angle"
                             x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={Shutters.shutterColor} />
+                            x2={-this.props.width/2} y2={0} />
                         <line id="dome-angle-bot"
+                            className="dome-angle"
                             x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={Shutters.shutterColor} />
+                            x2={-this.props.width/2} y2={0} />
 
                         <circle id={"test-circle"}
-                            cx={0}
-                            cy={0}
+                            className="dome-angle"
+                            cx={0} cy={0} r={5}
                             key={'overlay'}
-                            fill={Shutters.shutterColor}
-                            r={5}
                             pointerEvents="all"
                         />
                     </g>
@@ -89,19 +86,30 @@ class DomePosition extends Component {
                         height={this.props.height}
                         width={this.props.width}>
                         <line id="camera-angle-top"
+                            className="camera-angle"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={'#ee0000'} />
+                            strokeWidth={4} />
                         <line id="camera-angle-bot"
+                            className="camera-angle"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} stroke={'#ee0000'} />
+                            strokeWidth={4} />
                     </g>
                 </svg>
                 <div className="dome-position-info">
-                    Dome azimuth angle: {this.state.domeAngle.toFixed(1)}º <br/>
-                    Camera azimuth angle: {this.state.cameraAngle.toFixed(1)}º <br/>
-                    Camera FOV: {this.props.aperture}º <br/>
+                    <div className="dome-azimuth-text">
+                        <span>Dome azimuth: </span> 
+                        <span>{this.state.domeAngle.toFixed(1)}º</span>
+                    </div>
+                    <div>
+                        <span className="dome-data-label">Camera azimuth: </span> 
+                        <span className="dome-data">{this.state.cameraAngle.toFixed(1)}º</span>
+                    </div>
+                    <div>
+                        <span className="dome-data-label">Camera FOV: </span> 
+                        <span className="dome-data">{this.props.aperture}º</span>
+                    </div>
                 </div>
             </div>
         );

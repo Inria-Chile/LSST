@@ -60,7 +60,7 @@ class Shutters extends Component {
         let statusOpen = this.props.aperture > 0;
         return (
             <div className="shutters-container" ref="container">
-                <h4>Shutters status</h4>
+                {/* <h4>Shutters status</h4> */}
                 {/* <div>
                     Status: <span className={"status-circle-"+(statusOpen ?'open':'closed')}></span> {this.props.aperture > 0 ? 'Open' : 'Closed'}
                 </div> */}

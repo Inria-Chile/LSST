@@ -8,3 +8,18 @@ body {
   background-color: #2d3d4e;
   color: #ddd;
 }
+
+:root {
+  --theme-inactive-text: #96a3b3;
+  --theme-active-text: #ffffff;
+  --theme-background: #2d3d4e;
+  --theme-separator: #2d3d4e;
+  --theme-div-background: #3a4d61;
+  --theme-active-slider: #5b6b7b;
+  --theme-inactive-slider: #435568;
+  --theme-dome-angle: #ffae2c;
+  --theme-dome-camera-angle: #ffffff;
+  --theme-louvers: #7fbbdd;
+  --dome-text-size: 1.3rem;
+  --separator-size: 3px;
+}

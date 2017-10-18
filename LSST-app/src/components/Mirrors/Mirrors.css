@@ -1,0 +1,40 @@
+.mirrors-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    color: #96a3b3;
+}
+
+.mirrors-container h2 {
+    margin: 0px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.mirrors-container h4 {
+    background: #3a4d61;
+    font-weight: normal;
+}
+
+.mirrors-container .container {
+    background: #3a4d61;
+    width: 100%;
+    margin: 0px;
+}
+
+.m1m3-heading-col {
+    padding: 0px;
+    padding-left: 5px;
+}
+
+.m2-heading-col {
+    padding: 0px;
+}
+
+.mirror-row {
+    margin-bottom: 50px;
+}
+
+.mirror-bottom-row {
+    margin-bottom: 25px;
+}
