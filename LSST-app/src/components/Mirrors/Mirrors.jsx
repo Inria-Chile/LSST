@@ -16,7 +16,7 @@ class Mirrors extends Component {
     }
 
     render() {
-        let mirrorSize = 320;
+        let mirrorSize = 250;
         let mirrorMargin = 30;
         let colormap1 = d3.scaleSequential((t) => d3.hsl(360, 1.0-t*t*0.1, 0.12+t*t*0.58) + "");
         let colormap2 = d3.scaleSequential((t) => d3.hsl(270, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
@@ -42,10 +42,10 @@ class Mirrors extends Component {
                             <h5>Temperature</h5>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m3" scale={0.83} margin={mirrorMargin} colormap={colormap1}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m3" margin={mirrorMargin} colormap={colormap1}/>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m4" scale={0.83} margin={mirrorMargin} colormap={colormap1}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m4" margin={mirrorMargin} colormap={colormap1}/>
                         </div>
                         <div className="col-2">
                             <ColorScaleLegend max={10} min={0} width={mirrorSize/3} height={mirrorSize} colormapID={"colormap1"} colormap={colormap1}/>
@@ -56,24 +56,24 @@ class Mirrors extends Component {
                             <h5>Force (actuators)</h5>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m5" scale={0.83} margin={mirrorMargin} colormap={colormap2}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m5" margin={mirrorMargin} colormap={colormap2}/>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m6" scale={0.83} margin={mirrorMargin} colormap={colormap2}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m6" margin={mirrorMargin} colormap={colormap2}/>
                         </div>
                         <div className="col-2">
                             <ColorScaleLegend max={10} min={0} width={mirrorSize/3} height={mirrorSize} colormapID={"colormap2"} colormap={colormap2}/>
                         </div>
                     </div>
-                    <div className="row mirror-row">
+                    <div className="row mirror-row mirror-bottom-row">
                         <div className="col-12">
                             <h5>Force (hard points)</h5>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m7" scale={0.83} margin={mirrorMargin} colormap={colormap3}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m7" margin={mirrorMargin} colormap={colormap3}/>
                         </div>
                         <div className="col-5">
-                            <M1M3 width={mirrorSize} height={mirrorSize} id="m8" scale={0.83} margin={mirrorMargin} colormap={colormap3}/>
+                            <M1M3 width={mirrorSize} height={mirrorSize} id="m8" margin={mirrorMargin} colormap={colormap3}/>
                         </div>
                         <div className="col-2">
                             <ColorScaleLegend max={10} min={0} width={mirrorSize/3} height={mirrorSize} colormapID={"colormap3"} colormap={colormap3}/>

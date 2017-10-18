@@ -49,7 +49,7 @@ class M1M3 extends Component {
     zoomed = () => {
         let xRadius = this.state.xRadius;
         let yRadius = this.state.yRadius;
-        let scale = this.props.scale;
+        let scale = Math.max(this.state.xRadius, this.state.yRadius)*this.props.width/65000;
         let id = this.props.id;
         d3.event.transform.x = Math.min(0, Math.max(d3.event.transform.x, 2*xRadius*scale - 2*xRadius*scale * d3.event.transform.k));
         d3.event.transform.y = Math.min(0, Math.max(d3.event.transform.y, 2*yRadius*scale - 2*yRadius*scale * d3.event.transform.k));
@@ -66,6 +66,7 @@ class M1M3 extends Component {
 
     
     render() {
+        let scale = Math.max(this.state.xRadius, this.state.yRadius)*this.props.width/65000;
         return (
             <div className="mirror-container" ref="container">
                 <svg
@@ -73,30 +74,30 @@ class M1M3 extends Component {
                     height={this.props.height + "px"}
                     width={this.props.width + "px"}>
                     <circle id={"background-circle-"+this.props.id} className="circle-overlay"
-                        cx={this.state.xRadius*this.props.scale+this.props.margin}
-                        cy={this.state.yRadius*this.props.scale+this.props.margin}
+                        cx={this.state.xRadius*scale+this.props.margin}
+                        cy={this.state.yRadius*scale+this.props.margin}
                         key={'background'}
                         fill={'#04070a'}
-                        r={this.state.maxRadius*this.props.scale*1.15}
+                        r={this.state.maxRadius*scale*1.15}
                         pointerEvents="all"
                         />
                     <g id={"scatter-"+this.props.id} className="scatter">
                         {this.state.data.map(act => (
                             <circle
-                                cx={(act.position[0] + this.state.xRadius)*this.props.scale+this.props.margin}
-                                cy={(act.position[1] + this.state.yRadius)*this.props.scale+this.props.margin}
+                                cx={(act.position[0] + this.state.xRadius)*scale+this.props.margin}
+                                cy={(act.position[1] + this.state.yRadius)*scale+this.props.margin}
                                 key={act.actuatorID}
                                 fill={this.props.colormap(Math.sqrt(Math.pow(act.position[0], 2) + Math.pow(act.position[1], 2))/this.state.maxRadius)}
-                                r={this.state.maxRadius*this.props.scale/21}/>
+                                r={this.state.maxRadius*scale/21}/>
                             )
                         )}
                     </g>
                     <circle id={"circle-overlay-"+this.props.id}
-                        cx={this.state.xRadius*this.props.scale+this.props.margin}
-                        cy={this.state.yRadius*this.props.scale+this.props.margin}
+                        cx={this.state.xRadius*scale+this.props.margin}
+                        cy={this.state.yRadius*scale+this.props.margin}
                         key={'overlay'}
                         fill={'none'}
-                        r={this.state.maxRadius*this.props.scale*1.15}
+                        r={this.state.maxRadius*scale*1.15}
                         pointerEvents="all"
                         />
                 </svg>

@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import Survey from '../Survey/Survey';
-import Status from '../Status/Status';
 import Toolbar from './Toolbar/Toolbar';
+import Mirrors from '../Mirrors/Mirrors';
 import Rnd from 'react-rnd';
 import './Dashboard.css';
 
 class Dashboard extends Component {
 
-    static viewComponents = [Survey, Status];
+    static viewComponents = [Survey, Mirrors];
     static viewConfigs = {
         survey: {
             x: 0, y: 0,
             width: 1920, height: 1080,
             visible: true,
         },
-        status: {
+        mirrors: {
             x: 0, y: 0,
-            width: 1920, height: 1080,
+            width: 500, height: 1080,
             visible: true,
         }
     }
@@ -81,13 +81,13 @@ class Dashboard extends Component {
                         <div></div>
                     }
                     {
-                        this.state.componentVisibility['status'] ? 
+                        this.state.componentVisibility['mirrors'] ? 
                         (
                         <Rnd default={{
                             x: 1920,
-                            y: 0,
-                            width: 1920,
-                            height: 1300,
+                            y: 100,
+                            width: 600,
+                            height: 1080,
                             }}
                             dragGrid={ [20,20]}
                             resizeGrid={ [20,20]}
@@ -95,7 +95,7 @@ class Dashboard extends Component {
                             enableResizing={this.state.draggable ? undefined : false}
                             className={this.state.draggable ? 'draggable' : ''}
                         >
-                            <Status/>
+                            <Mirrors/>
                         </Rnd>) :
                         <div></div>
                     }
