@@ -1,0 +1,25 @@
+.dome-position-info {
+    vertical-align: middle;
+    display: inline-block;
+    font-size: var(--dome-text-size);
+}
+
+.dome-angle {
+    stroke: var(--theme-dome-angle);
+    fill: var(--theme-dome-angle);
+    stroke-width: 5;
+    stroke-dasharray: 15;
+}
+
+.camera-angle {
+    stroke-width: 3;
+    stroke: var(--theme-dome-camera-angle);
+}
+
+.dome-azimuth-text {
+    color: var(--theme-dome-angle);
+}
+
+.dome-data {
+    color: var(--theme-active-text);
+}

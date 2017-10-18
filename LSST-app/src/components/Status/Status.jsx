@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import M1M3 from '../Mirrors/M1M3/M1M3';
-import Shutters from '../Shutters/Shutters';
-import DomePosition from '../DomePosition/DomePosition';
-import Louvers from '../Louvers/Louvers';
-import './Status.css';
+import Shutters from '../Dome/Shutters/Shutters';
+import DomePosition from '../Dome/DomePosition/DomePosition';
+import Louvers from '../Dome/Louvers/Louvers';
+// import './Status.css';
 import * as d3 from 'd3';
 
 class Status extends Component {
