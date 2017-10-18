@@ -130,7 +130,7 @@ class Histogram extends PureComponent {
     let margin = this.props.margin;
     width = +width - margin.left - margin.right;
     let g = d3.select(svg).append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top +10 + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top +20 + ")")
     .attr("id","histogram");
     this.g = g;
     

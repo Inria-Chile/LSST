@@ -22,7 +22,7 @@ class Timeline extends PureComponent {
     .call(d3.axisBottom(x)
     .tickValues(x.domain())
     .tickFormat((date)=>{
-      return date.toLocaleDateString();
+      return date.toDateString();
     }));
 
     dom.append("g").selectAll(".laneText")
@@ -73,7 +73,7 @@ class Timeline extends PureComponent {
     let svg = siblings[siblings.length-1];
 
     let g = d3.select(svg).append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top +150 + ")")
+    .attr("transform", "translate(" + margin.left + "," + margin.top +160 + ")")
     .attr("width", width)
     .attr("height", mainHeight)
     .attr("class", "main")
