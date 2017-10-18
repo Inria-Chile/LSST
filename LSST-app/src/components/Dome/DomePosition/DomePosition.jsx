@@ -18,7 +18,7 @@ class DomePosition extends Component {
     }
 
     setDomeAngle = (angle) => {
-        let domeApertureAngle = 2*Math.atanh(this.props.aperture/(2*this.distanceToCamera));
+        let domeApertureAngle = 2*Math.atanh(this.props.shuttersAperture/(2*this.distanceToCamera));
         d3.select("#dome-angle").transition().duration(1000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
         d3.select("#dome-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(domeApertureAngle/2));
         d3.select("#dome-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(domeApertureAngle/2));
@@ -108,7 +108,7 @@ class DomePosition extends Component {
                     </div>
                     <div>
                         <span className="dome-data-label">Camera FOV: </span> 
-                        <span className="dome-data">{this.props.aperture}º</span>
+                        <span className="dome-data">{this.props.shuttersAperture}º</span>
                     </div>
                 </div>
             </div>

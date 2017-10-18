@@ -12,3 +12,13 @@
     content: ' \25CF';
     color: red
 }
+
+.shutter {
+    fill: var(--theme-shutters);
+    stroke: var(--theme-div-background);
+}
+
+.windscreen {
+    fill: var(--theme-windscreens);
+    stroke: var(--theme-div-background);
+}

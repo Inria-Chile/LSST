@@ -1,0 +1,14 @@
+.louvers-container {
+}
+
+.louver {
+    fill: var(--theme-louvers);
+    stroke: var(--theme-louvers);
+    stroke-opacity: 1;
+    stroke-width: 1px;
+}
+
+.louver.not-working {
+    fill: var(--theme-louvers-not-working);
+    stroke: var(--theme-louvers-not-working);
+}

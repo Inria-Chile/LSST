@@ -1,0 +1,24 @@
+.shutters-container .svg-container {
+    background-image: url("/img/dome_front.png");
+    background-size:     cover;
+}
+
+.status-circle-open:before {
+    content: ' \25CF';
+    color: green
+}
+
+.status-circle-closed:before {
+    content: ' \25CF';
+    color: red
+}
+
+.shutter {
+    fill: var(--theme-shutters);
+    stroke: var(--theme-div-background);
+}
+
+.windscreen {
+    fill: var(--theme-windscreens);
+    stroke: var(--theme-div-background);
+}

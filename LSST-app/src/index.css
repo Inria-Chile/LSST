@@ -20,6 +20,9 @@ body {
   --theme-dome-angle: #ffae2c;
   --theme-dome-camera-angle: #ffffff;
   --theme-louvers: #7fbbdd;
+  --theme-louvers-not-working: #cc324f;
+  --theme-shutters: #7fbbdd;
+  --theme-windscreens: #5f8caa;
   --dome-text-size: 1.3rem;
   --separator-size: 3px;
 }

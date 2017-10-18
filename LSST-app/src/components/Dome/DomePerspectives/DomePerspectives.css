@@ -1,0 +1,15 @@
+.dome-perspectives-container > .row {
+    margin-bottom: 20px;
+}
+
+.dome-perspectives-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.dome-perspectives-info {
+    vertical-align: middle;
+    display: inline-block;
+    font-size: var(--dome-text-size);
+}

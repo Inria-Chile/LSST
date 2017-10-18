@@ -9,9 +9,10 @@ class Louvers extends Component {
         this.data = [];
         this.distanceToCamera = 12;
         this.cameraFOV = 20;
-        this.louverIDs = [...Array(34).keys()];
+        this.louverIndexs = [...Array(34).keys()];
         this.state = {
-            openLouvers: this.louverIDs,
+            openLouvers: this.louverIndexs,
+            louversAperture: [...Array(34).keys()].map(() => 0)
         }
     }
 
@@ -32,9 +33,11 @@ class Louvers extends Component {
 
     componentDidMount() {
         setInterval( () => {
-            let openLouvers = this.getRandomSubarray(this.louverIDs, Math.ceil(Math.random()*this.louverIDs.length));
+            let openLouvers = this.getRandomSubarray(this.louverIndexs, Math.ceil(Math.random()*this.louverIndexs.length));
+            let louversAperture = [...Array(34).keys()].map(() => Math.random());
             this.setState({
                 openLouvers: openLouvers,
+                louversAperture: louversAperture,
             })
         }, 2000)
     }
@@ -52,7 +55,8 @@ class Louvers extends Component {
             nLouvers: 3,
             width: 5,
             height: this.props.width/10,
-            open: true
+            working: true,
+            aperture: 0.5,
         }
         let tripleAngles = [-25-90, 0-90, 30-90, 50-90, 130-90, 150-90, 180-90, 205-90];
         let frontLouversAngles = [-45-90, 225-90];
@@ -93,15 +97,14 @@ class Louvers extends Component {
                 angle: 0
             },
         ];
-        let louverID = 0;
+        let louverIndex = 0;
         return (
             <div className="louvers-container" ref="container">
-                <h4>Louvers</h4>
                 <svg 
                     className="svg-container"
                     height={this.props.height}
                     width={this.props.width}>
-                    <image id="dome-background" x={0} y={0} width={this.props.width} height={this.props.height} xlinkHref="/img/dome_top.png" opacity={0.5}/>
+                    <image id="dome-background" x={0} y={0} width={this.props.width} height={this.props.height} xlinkHref="/img/dome_top.png" opacity={0.05}/>
                     {
                         tripleAngles.map((angle, i) => {
                             return radii.map((radius, j) => {
@@ -115,9 +118,10 @@ class Louvers extends Component {
                                 });
                                 props.angle = angle;
                                 props.r = radius;
-                                props.open = this.state.openLouvers.indexOf(louverID) > -1;
+                                props.working = Math.random() > 0.001;
+                                props.aperture = this.state.louversAperture[louverIndex];
                                 return (
-                                    <Louver key={"L"+louverID++} {...props}/>
+                                    <Louver key={"L"+louverIndex++} {...props}/>
                                 )
                             });
                         })
@@ -136,9 +140,10 @@ class Louvers extends Component {
                                 });
                                 props.angle = angle;
                                 props.r = radius;
-                                props.open = this.state.openLouvers.indexOf(louverID) > -1;
+                                props.working = Math.random() > 0.001;
+                                props.aperture = this.state.louversAperture[louverIndex];
                                 return (
-                                    <Louver key={"L"+louverID++} {...props}/>
+                                    <Louver key={"L"+louverIndex++} {...props}/>
                                 )
                             });
                         })
@@ -157,9 +162,10 @@ class Louvers extends Component {
                                 props.angle = 0;
                                 props.r = radius;
                                 props.y = center[1] + props.height*xOffset;
-                                props.open = this.state.openLouvers.indexOf(louverID) > -1;
+                                props.working = Math.random() > 0.39;
+                                props.aperture = this.state.louversAperture[louverIndex];
                                 return (
-                                    <Louver key={"L"+louverID++} {...props}/>
+                                    <Louver key={"L"+louverIndex++} {...props}/>
                                 )
                             });
                         })
@@ -189,13 +195,14 @@ class Louver extends Component {
                         let yOffset = yDisp + iRect*(sep+this.props.width)*Math.sin((rot)*Math.PI/180);
                         return (
                             <rect key={iRect.toString()}
+                                className={["louver", 
+                                            this.props.working ? "working" : "not-working"].join(' ')}
                                 x={xOffset-this.props.width/2} 
                                 y={yOffset-this.props.height/2}
                                 height={this.props.height}
                                 width={this.props.width}
-                                opacity={0.9}
-                                transform = {"rotate("+rot+" "+(xOffset)+" "+(yOffset)+")"}
-                                fill= {this.props.open ? "#33dd33":"#dd3333"}/>
+                                fillOpacity={this.props.aperture}
+                                transform = {"rotate("+rot+" "+(xOffset)+" "+(yOffset)+")"}/>
                         )
                     })
                 }
