@@ -30,7 +30,9 @@ class Charts extends Component {
         this.svg=null;
         this.x=null;
         this.currentTime= 0;
-         
+        this.hiddenStyle = "visibility:hidden;";
+        this.visibleStyle = "visibility:visible;";
+        
     }
 
     setDate(start,end){
@@ -43,7 +45,6 @@ class Charts extends Component {
             })
     
         }
-        
        
     }
 
@@ -107,56 +108,101 @@ class Charts extends Component {
             startAt: startAt,
             endAt: endAt
         })
+
     }
 
     createPBLine(){
-        let dom = ReactDOM.findDOMNode(this);
-        let svg = dom.childNodes[dom.childNodes.length-1];
-        let width = dom.offsetWidth;
-        this.svg=svg;
-        this.x= d3.scaleTime().domain([this.state.startAt, this.state.endAt]).range([0,width]);
-        
-        if(this.props.mode==="playback"){
-            let g = d3.select(svg).append("g");
-            this.g = g;
-            let x = this.x(this.state.startAt)+this.margin.left;
-            this.drawPBLine(x);
+        if(this.g==null){
+            let dom = ReactDOM.findDOMNode(this);
+            let svg = dom.childNodes[dom.childNodes.length-1];
+            let width = dom.offsetWidth;
+            this.svg=svg;
+            this.x= d3.scaleTime().domain([this.state.startAt, this.state.endAt])
+            .range([this.margin.left,width-this.margin.right-15]);
+          
+            if(this.props.mode==="playback"){
+                let g = d3.select(svg).append("g");
+                this.g = g;
+                let x = this.x(this.state.startAt);
+                this.drawPBLine(x, this.state.startAt);
+            }
         }
     }
 
     updatePBLine(currentTime){
         this.x.domain([this.state.startAt, this.state.endAt]);
         let prevLine = this.g.select("line");
-        let x = this.x(currentTime)+this.margin.left;
+        let x = this.x(currentTime);
        
-        if(this.state.startAt<=currentTime && currentTime <= this.state.endAt){
-            prevLine.attr("style","visibility:visible;")
-            this.movePBLine(prevLine,x);
+        if(this.state.startAt<=currentTime && currentTime < this.state.endAt){
+            this.togglePBLine(this.visibleStyle);
+            this.movePBLine(x, currentTime);
         }
         else{
-            prevLine.attr("style","visibility:hidden;")
+           this.togglePBLine(this.hiddenStyle);
         }
     }
 
-    movePBLine(prevLine,x){
-        prevLine.transition().duration(1)
-        .attr("x1",x)
-        .attr("x2",x)
+    togglePBLine(style){
+        this.g.select("#mainLine").attr("style",style);
+        this.g.select("#topLine").attr("style",style);
+        this.g.select("#bottomLine").attr("style",style);
+        this.g.select("#lineText").attr("style",style);
     }
 
-    drawPBLine(x){
+    movePBLine(x, date){
+        this.g.select("#mainLine").transition().duration(1)
+        .attr("x1",x)
+        .attr("x2",x);
+
+        this.g.select("#lineText").transition().duration(1)
+        .attr("x",x-25)
+        .text(date.toDateString());
+
+        this.g.select("#topLine").transition().duration(1)
+        .attr("x1",x-5)
+        .attr("x2",x+5);
+
+        this.g.select("#bottomLine").transition().duration(1)
+        .attr("x1",x-5)
+        .attr("x2",x+5);
+    }
+
+    drawPBLine(x, date){
         this.g.append("line")
         .attr("x1", x)
-        .attr("y1", 10)
+        .attr("y1", 20)
         .attr("x2", x)
-        .attr("y2", 230)
-        .attr("stroke", "white")
-        .attr("height","100%")
-        .attr("class", "pbline")
-    }
+        .attr("y2", 240)
+        .attr("class", "pbLine")
+        .attr("id","mainLine")
 
-    componentDidMount() {
-        this.createPBLine();
+        this.g.append("text")
+        .text(date.toDateString())
+        .attr("x",x-25)
+        .attr("y",15)
+        .attr("class","pbText")
+        .attr("id","lineText")
+
+        this.g.append("line")
+        .attr("x1", x-5)
+        .attr("y1", 20)
+        .attr("x2", x+5)
+        .attr("y2", 20)
+        .attr("class", "pbLine")
+        .attr("id","topLine")
+
+        this.g.append("line")
+        .attr("x1", x-5)
+        .attr("y1", 240)
+        .attr("x2", x+5)
+        .attr("y2", 240)
+        .attr("class", "pbLine")
+        .attr("id","bottomLine")
+    }
+    
+    componentDidUpdate(){
+        this.createPBLine();        
     }
 
     setDisplayedDateLimits(end){

@@ -33,3 +33,13 @@
     opacity: .1;
     fill: white;
   }
+
+  .pbText{
+    fill:white;
+    font-size: 11px;
+  }
+
+  .pbLine
+  {
+    stroke:white;
+  }
