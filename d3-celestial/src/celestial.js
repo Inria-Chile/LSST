@@ -40,7 +40,7 @@ Celestial.display = function(config) {
   var mousePosition = null;
   var lastSeletedCell = null;
   var lastClickedCell = null;
-  var selectedPolygons = [];  
+  var cellsData = [];  
   var mappedIds = {};
   var displayedObservations = null;
   var allPolygons = [];
@@ -177,15 +177,18 @@ Celestial.display = function(config) {
       container.selectAll(".grid-polygons")
          .data(polys.features, function(d){return d.properties.id;})
          .enter().append("path")
-         .attr("class", function(d){return "mw " + d.properties.id;})
-         .attr("count", function(d){return d.properties.count;});
+         .attr("class", function(d){return "mw " + d.properties.id;});
+        //  .attr("count", function(d){return d.properties.count;});
       redraw("load");
       container.selectAll(".mw").each(function(d) {
         for(var i=0;i<d.geometry.coordinates;i++)
           if(d.geometry.coordinates[i][0] > 180)
             d.geometry.coordinates[i][0] = d.geometry.coordinates[i][0]-360;
       });
-      selectedPolygons = container.selectAll(".mw");    
+      var selectedPolygons = container.selectAll(".mw");  
+      selectedPolygons.each(function(d){
+        cellsData.push(d);
+      });  
     }); 
 
 
@@ -377,16 +380,19 @@ Celestial.display = function(config) {
   }
 
   function checkMouseClickedCell(callback){
-    var selectedPolygons = container.selectAll(".mw");
-    selectedPolygons.each(function(d) {
+    // var selectedPolygons = container.selectAll(".mw");
+    // selectedPolygons.each(function(d) {
+    for(var i=0;i<cellsData.length;++i){
+      var d = cellsData[i];
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
+        console.log('INSIDE');
         var fieldID = findFieldId(d, displayedObservations);
         lastClickedCell = d;
         callback(fieldID, d);
         self.redraw();
         return;
       }
-    });
+    };
   }
 
   function drawGridPolygons(){
@@ -499,7 +505,7 @@ Celestial.display = function(config) {
     var polygonID = selectedPolygon.properties.id;
     for(var i=0;i<keys.length;++i){
       var key = keys[i];
-      if(mappedIds[key] == polygonID)
+      if(mappedIds[key][0] == polygonID)
         return key;
     }
     return null;
@@ -507,9 +513,11 @@ Celestial.display = function(config) {
 
   findPolygonId = function(selectedPolygons, obs){
     var polygonID = null;
+    var index = -1;
     var fieldID = obs['fieldID'];
     if(mappedIds[fieldID]){
-      polygonID = mappedIds[fieldID];
+      polygonIDPair = mappedIds[fieldID];
+      return polygonIDPair;
     } else {
       var id = obs['fieldID'];
       var ra = obs['fieldRA'];
@@ -517,69 +525,35 @@ Celestial.display = function(config) {
       var dec = obs['fieldDec'];
       var filterName = obs['filterName'];
       var newCount = obs['count'];
-      selectedPolygons.each(function(d) {
+      // selectedPolygons.each(function(d) {
+      for(var i=0; i<selectedPolygons.length; ++i){
+        var d = selectedPolygons[i];
         if(Celestial.inside([ra,dec], d.geometry.coordinates[0])){
           polygonID = d.properties.id;
-          mappedIds[fieldID] = polygonID;
+          mappedIds[fieldID] = [polygonID, i];
+          index = i;
+          break;
         }
-      });
+      }
     }
-    return polygonID;
-  }
-
-  Celestial.updateCellsOld2 = function(observations){
-    // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
-    //   return;
-    // }
-    console.log('updateCells')
-    displayedObservations = observations;
-    selectedPolygons.each(function(d) {
-      for(var i=0;i<d.properties.count.length;++i)
-            d.properties.count[i][1] = 0;
-    });
-    for(var i=0;i<observations.length;++i){
-      var obs = observations[i];
-      var id = obs['fieldID'];
-      var ra = obs['fieldRA'];
-      ra > 180 ? ra = ra-360 : ra = ra;
-      var dec = obs['fieldDec'];
-      var filterName = obs['filterName'];
-      var newCount = obs['count'];
-      var polygonId = findPolygonId(selectedPolygons, obs);
-
-
-      selectedPolygons.each(function(d){
-        if(polygonId == d.properties.id){
-          // console.log('INSIDE', polygonId, d)  
-          var added = false;
-          for(var i=0;i<d.properties.count.length;++i){
-            if(d.properties.count[i][0] == filterName){
-              d.properties.count[i][1] = newCount;
-              added = true;
-            }
-          }
-          if(!added){
-            d.properties.count.push([filterName, newCount]);
-            if(lastClickedCell && lastClickedCell.properties.id === d.properties.id && cfg.cellUpdateCallback){
-              var fieldID = findFieldId(d, displayedObservations);
-              lastClickedCell = d;
-              cfg.cellUpdateCallback(fieldID, d);
-            }
-          }
-        }
-      });
-    }
+    return [polygonID, index];
   }
 
   Celestial.updateCells = function(observations){
     // if(displayedObservations && displayedObservations.length==observations.length && displayedObservations.every(function(v,i) { return v === observations[i]})){
     //   return;
     // }
+    
     displayedObservations = observations;
-    selectedPolygons.each(function(d) {
-      for(var i=0;i<d.properties.count.length;++i)
-            d.properties.count[i][1] = 0;
-    });
+
+    //Clear old values
+    for(var i=0;i<cellsData.length;++i){
+      var d = cellsData[i];
+      for(var j=0;j<d.properties.count.length;++j)
+        d.properties.count[j][1] = 0;
+    }
+
+    //Group observations
     var groupedObs = {};
     for(var i=0;i<observations.length;++i){
       var obs = observations[i];
@@ -600,18 +574,28 @@ Celestial.display = function(config) {
       ra > 180 ? ra = ra-360 : ra = ra;
       var dec = obs['fieldDec'];
       var filterName = obs['filterName'];
-      var polygonId = findPolygonId(selectedPolygons, obs);
-      
-      selectedPolygons.filter(function(d){
-        return polygonId == d.properties.id
-      }).each(function(d){
-        d.properties.count.push([filterName, newCount]);
+      var polygonIdPair = findPolygonId(cellsData, obs);
+      var polygonId = polygonIdPair[0];
+      var polygonIndex = polygonIdPair[1];
+
+      var selectedPolygon = cellsData[polygonIndex];
+      // for(var j=0;j<cellsData.length;++j){
+      //   if(cellsData[j].properties.id === polygonId){
+      //     selectedPolygon = cellsData[j];
+      //     break;
+      //   }
+      // }
+        
+      selectedPolygon.properties.count.push([filterName, newCount]);
+
+      if(cfg.cellUpdateCallback){
+        var d = selectedPolygon;
         if(lastClickedCell && lastClickedCell.properties.id === d.properties.id && cfg.cellUpdateCallback){
           var fieldID = findFieldId(d, displayedObservations);
           lastClickedCell = d;
           cfg.cellUpdateCallback(fieldID, d);
         }
-      });
+      }
     }
   }
   
