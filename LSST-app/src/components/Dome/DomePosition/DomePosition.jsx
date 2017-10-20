@@ -64,7 +64,7 @@ class DomePosition extends Component {
                         transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
                         height={this.props.height}
                         width={this.props.width}>
-                        <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={0.5} xlinkHref="/img/dome_top.png"/>
+                        <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={1.0} xlinkHref="/img/dome_top.png"/>
                         <line id="dome-angle-top"
                             className="dome-angle"
                             x1={0} y1={0} 

@@ -36,12 +36,12 @@ class DomePerspectives extends PureComponent {
                     <div className="col-6">
                         <h5>Front</h5>
                         <FrontView width={500} height={300} id="shutters" shuttersAperture={this.props.shuttersAperture} updateShuttersAperture={this.props.updateShuttersAperture} 
-                                topWindScreenPos={this.state.topWindScreenPos} bottomWindScreenPos={this.state.bottomWindScreenPos} scale={1.4} xOffset={-0.05} yOffset={0.15}/>
+                                topWindScreenPos={this.state.topWindScreenPos} bottomWindScreenPos={this.state.bottomWindScreenPos} scale={1.4} xOffset={0} yOffset={-0.0}/>
                     </div>
                     <div className="col-6">
                         <h5>Side</h5>
                         <SideView width={500} height={300} id="shutters" shuttersAperture={this.props.shuttersAperture} updateShuttersAperture={this.props.updateShuttersAperture} 
-                                topWindScreenPos={this.state.topWindScreenPos} bottomWindScreenPos={this.state.bottomWindScreenPos} scale={1.4} xOffset={-0.05} yOffset={0.15}/>                    </div>
+                                topWindScreenPos={this.state.topWindScreenPos} bottomWindScreenPos={this.state.bottomWindScreenPos} scale={1.4} xOffset={0} yOffset={-0.0}/>                    </div>
                 </div>
                 <div className="row dome-perspectives-bottom">
                     <div className="col-8">

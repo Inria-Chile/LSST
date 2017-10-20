@@ -1,6 +1,6 @@
 .shutters-container .svg-container {
     background-image: url("/img/dome_front.png");
-    background-size:     cover;
+    background-size:     contain;
 }
 
 .status-circle-open:before {

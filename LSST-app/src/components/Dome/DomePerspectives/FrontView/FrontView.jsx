@@ -9,11 +9,10 @@ class FrontView extends PureComponent {
     constructor(props){
         super(props);
         this.data = [];
-        this.screenHeight = this.props.height/1.5;
-        this.shutterWidth = this.props.width/7;
-        this.shutterHeight = this.props.height/1.49;
+        this.shutterWidth = this.props.width/8;
+        this.shutterHeight = this.props.height/1.79;
         this.screenWidth = this.props.width/4.0;
-        this.screenHeight = this.props.height/1.5;
+        this.screenHeight = this.props.height/1.8;
         this.state = {
             data: [],
             topWindScreenPos: 3.5,//min

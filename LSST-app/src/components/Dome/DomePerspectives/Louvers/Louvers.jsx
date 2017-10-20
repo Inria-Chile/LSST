@@ -104,7 +104,8 @@ class Louvers extends Component {
                     className="svg-container"
                     height={this.props.height}
                     width={this.props.width}>
-                    <image id="dome-background" x={0} y={0} width={this.props.width} height={this.props.height} xlinkHref="/img/dome_top.png" opacity={0.05}/>
+                    <image id="dome-background" x={this.props.width/4} y={this.props.height/4} width={this.props.width/2} height={this.props.height/2} xlinkHref="/img/dome_top.png" opacity={1.0}/>
+                    {/* {<image id="dome-base-background" x={this.props.width/4} y={this.props.height/4} width={this.props.width/2} height={this.props.height/2} xlinkHref="/img/dome_base.png" opacity={1}/>} */}
                     {
                         tripleAngles.map((angle, i) => {
                             return radii.map((radius, j) => {
