@@ -220,7 +220,7 @@ class Charts extends Component {
                     <Timeline ref={instance => { this.timeline = instance; }}
                      data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
 
-                    <svg id="charts" className="d3 charts" width="100%" height="300px"></svg>
+                    <svg id="charts" className="d3 charts" width="100%" height="280px"></svg>
                      
             </div>
         );

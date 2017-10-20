@@ -6,6 +6,7 @@ import "react-table/react-table.css";
 import './ObservationsTable.css';
 import { filterColors, lstToscienceProposal, decreaseBrightness } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
+import {lsstToJs} from '../Utils/Utils'
 
 class ObservationsTable extends PureComponent {
 
@@ -17,7 +18,7 @@ class ObservationsTable extends PureComponent {
     }
 
     render() {
-        let timestampColWidth = 150;
+        let timestampColWidth = 250;
         let filterColWidth = 120;
         return (
             <div className="observations-table-wrapper">
@@ -59,7 +60,10 @@ class ObservationsTable extends PureComponent {
                             {
                                 Header: "Timestamp",
                                 id: "expDate",
-                                accessor: d => d.expDate,
+                                accessor: (d) => {
+                                    let date2 = new Date(lsstToJs(d.expDate));
+                                    return date2.toDateString() + ' ' + date2.toLocaleTimeString();
+                                },
                                 maxWidth: timestampColWidth
                             },
                             {
@@ -88,7 +92,8 @@ class ObservationsTable extends PureComponent {
                             }
                         ]}
                         defaultPageSize={11}
-                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : 11}
+                        /* pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length} */
                         className="-highlight -no-header"
                         showPaginationBottom={false}
                         noDataText=""

@@ -29,6 +29,7 @@ class Survey extends PureComponent {
         this.mainScatterplot = null;
         this.displayedData = [];
         this.socket = openSocket(window.location.origin + '');
+        this.currentTime = Infinity;
         this.state = {
             selectedMode: 'playback',
             // selectedMode: 'playback',
@@ -134,6 +135,7 @@ class Survey extends PureComponent {
         this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.charts.setDisplayedDateLimits(endDate);
+        this.currentTime = endDate;
         this.setDate(endDateEpoch);
         this.updateObservationsTable();
     }
@@ -247,12 +249,11 @@ class Survey extends PureComponent {
     updateObservationsTable = () => {
         let fieldID = this.lastFieldID;
         let selectedFieldData = [];
-        let currentTime = Infinity;
         if(fieldID){
             for(let i=0;i<this.displayedData.length;++i){
                 if(String(this.displayedData[i].fieldID) === String(fieldID) &&
                     (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
-                    (this.displayedData[i].expDate < currentTime)){
+                    (this.displayedData[i].expDate < this.currentTime)){
                     selectedFieldData.push(this.displayedData[i]);
                 }
             }
@@ -316,7 +317,7 @@ class Survey extends PureComponent {
 
                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
                             <div className="row">
-                                <div className="col-7">
+                                <div className="col-6">
 
                                     <div className="main-skymap-wrapper">
                                         <div style = {this.mainSkymapStyle}>
@@ -342,7 +343,7 @@ class Survey extends PureComponent {
                                         } 
                                     </div>
                                 </div>
-                                <div className="col-5">
+                                <div className="col-6">
                                     <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
                                 </div>
                             </div>                        

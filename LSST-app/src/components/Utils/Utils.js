@@ -124,4 +124,7 @@ export function jsToLsstTime(time){
     return (time-lsstEpoch)/1000;
 }
 
+export function lsstToJs(time){
+    return time*1000+lsstEpoch;
+}
 export const lsstEpoch = 757393245000;

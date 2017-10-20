@@ -145,13 +145,6 @@ class Timeline extends PureComponent {
     this.createTimeline(dom, this.props);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if(this.props && JSON.stringify(this.props) === JSON.stringify(nextProps)){//Component should not update
-      return false;
-    }
-    return true;
-  }
-
   removeTimeline(dom){
     this.g.remove();
   }

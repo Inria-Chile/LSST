@@ -385,7 +385,6 @@ Celestial.display = function(config) {
     for(var i=0;i<cellsData.length;++i){
       var d = cellsData[i];
       if(Celestial.inside(mousePosition, d.geometry.coordinates[0])){
-        console.log('INSIDE');
         var fieldID = findFieldId(d, displayedObservations);
         lastClickedCell = d;
         callback(fieldID, d);
