@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
 import './Scatterplot.css';
 
 
-class Scatterplot extends PureComponent {
+class Scatterplot extends Component {
 
     constructor(props){
         super(props);
