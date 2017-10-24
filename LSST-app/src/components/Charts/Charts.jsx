@@ -6,6 +6,9 @@ import './Charts.css';
 import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
 import {lsstEpoch} from '../Utils/Utils'
+import {lsstToJs} from '../Utils/Utils'
+// import {lsstEpoch} from '../Utils/Utils'
+
 
 class Charts extends Component {
 
@@ -38,12 +41,15 @@ class Charts extends Component {
     setDate(start,end){
         if(this.props.mode==="playback"){
             this.setState({
-                start: this.toDate(start),
-                startAt: this.toDate(start),
-                end:this.toDate(end),
-                endAt:this.toDate(end),
+                start: new Date(lsstToJs(start)),
+                startAt: new Date(lsstToJs(start)),
+                end:new Date(lsstToJs(end)),
+                endAt:new Date(lsstToJs(end)),
             })
-    
+            if(this.g){
+                this.g.remove();
+                this.g=null;
+            }
         }
        
     }
@@ -58,7 +64,7 @@ class Charts extends Component {
 
         newData.map((d)=>{
             // console.log("numeric", d.expDate)
-            d.expDate=this.toDate(d.expDate);
+            d.expDate=new Date(lsstToJs(d.expDate));
             // console.log("date",d.expDate)
             return null;
         });
@@ -91,16 +97,6 @@ class Charts extends Component {
         }
         var dom = ReactDOM.findDOMNode(this);
         this.slider.updateSlider(dom, true);
-    }
-
-    // Date comes from database as number and as MJD.
-    // This function is meant to make the numerical date 
-    // (number of seconds since 1994-01-01 00:00:00 UTC.) match that of the MJV
-    toDate(numberDate){
-        var date = new Date(1994,0,1);
-        let seconds = date.getSeconds() + numberDate;
-        date.setSeconds(seconds);
-        return date;
     }
 
     setSelection = (startAt, endAt)=>{
@@ -179,7 +175,7 @@ class Charts extends Component {
         this.g.append("text")
         .text(date.toDateString())
         .attr("x",x-25)
-        .attr("y",15)
+        .attr("y",10)
         .attr("class","pbText")
         .attr("id","lineText")
 
@@ -201,6 +197,7 @@ class Charts extends Component {
     }
     
     componentDidUpdate(){
+        console.log("component did update")
         this.createPBLine();        
     }
 
