@@ -197,7 +197,6 @@ class Charts extends Component {
     }
     
     componentDidUpdate(){
-        console.log("component did update")
         this.createPBLine();        
     }
 
