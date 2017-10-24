@@ -179,7 +179,7 @@ class Charts extends Component {
         this.g.append("text")
         .text(date.toDateString())
         .attr("x",x-25)
-        .attr("y",15)
+        .attr("y",10)
         .attr("class","pbText")
         .attr("id","lineText")
 
