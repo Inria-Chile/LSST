@@ -35,11 +35,11 @@
 .player-controls{
     display: inline-block;
     vertical-align: top;
-    display: inline-block;
     padding: 5px 20px;
-    margin: 0.5% 25px;
+    margin: 0.5% auto;
 }
 
 .survey-controls {
-    position: relative; 
+    position: relative;
+    display: flex;
 }
