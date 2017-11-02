@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
 import { filterColors } from "../Utils/Utils"
+import Script from 'react-load-script'
 
 const makeCelestial = window.makeCelestial;
 
@@ -87,6 +88,8 @@ class Skymap extends PureComponent {
     Celestial.display(config);
     Celestial.cfg = config;
     this.Celestial = Celestial;
+    if(this.props.onLoaded)
+      this.props.onLoaded();
   }
 
   setFontSize(fsize) {
@@ -174,12 +177,19 @@ class Skymap extends PureComponent {
     var nodeRef = this.refs[this.props.nodeRef];
     nodeRef.id = this.props.nodeRef;
     this.containerId = nodeRef.id;
-    this.setupCelestial();
+    // this.setupCelestial();
   }
 
   render() {
     return (
-      <div ref={this.props.nodeRef} className={this.props.className}></div>
+      <div ref={this.props.nodeRef} className={this.props.className}>
+        <Script
+          url="/lib/d3.geo.projection.min.js"
+          onCreate={ (x) => console.log(x+'oncretae')}
+          onError={ (x) => console.log(x+'onereror')}
+          onLoad={ (x) => this.setupCelestial()}
+        />
+      </div>
     );
   }
 }
