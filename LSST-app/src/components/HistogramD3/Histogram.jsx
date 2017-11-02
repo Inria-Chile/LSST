@@ -211,7 +211,6 @@ class Histogram extends Component {
   }
 
   componentDidUpdate(){
-    console.log("histogram update")
     var dom = ReactDOM.findDOMNode(this);
     this.removeHistogram(dom);    
     this.createHistogram(dom);

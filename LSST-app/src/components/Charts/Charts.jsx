@@ -220,6 +220,12 @@ class Charts extends Component {
         end.setSeconds(end.getSeconds()+change);
         if(start > this.state.start && end < this.state.end && delta > 60){
             this.setSelection(start,end);
+            this.slider.setSelection(start,end);
+        }
+        else if(start <= this.state.start || end >= this.state.end){
+            console.log("here!")
+            this.setSelection(this.state.start, this.state.end);
+            this.slider.setSelection();
         }
     }
 
