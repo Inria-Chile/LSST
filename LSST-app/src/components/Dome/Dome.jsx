@@ -6,7 +6,7 @@ import DomeAzimuthTimeSeries from './TimeSeries/DomeAzimuthTimeSeries/DomeAzimut
 import DomeElevationTimeSeries from './TimeSeries/DomeElevationTimeSeries/DomeElevationTimeSeries';
 import TimeSeriesLegend from './TimeSeries/TimeSeriesLegend';
 import './Dome.css';
-TimeSeriesLegend
+
 class Dome extends PureComponent {
 
     static viewName = 'dome';
@@ -67,6 +67,12 @@ class Dome extends PureComponent {
     }
 
     render() {
+        let legendData = [
+            { label: 'Current value', color: '#ddd', lineDash: 0 }, 
+            { label: 'Target', color: '#5e8ba9', lineDash: 0 }, 
+            { label: 'Optimal', color: '#5e8ba9', lineDash: 7 }, 
+        ];
+        
         return (
             <div className="dome-container">
                 <div>
@@ -92,14 +98,14 @@ class Dome extends PureComponent {
                                 width={700} height={400} />
                         </div>
                         <div>
-                            <h5>Altitude</h5>
+                            <h5>Elevation</h5>
                             <DomeElevationTimeSeries telescopeElevation={this.state.telescopeElevation}
                                 telescopeTargetElevation={this.state.telescopeTargetElevation}
                                 telescopeOptimalElevation={this.state.telescopeOptimalElevation}
                                 width={700} height={400} />
                         </div>
                     </div>
-                        <TimeSeriesLegend />
+                        <TimeSeriesLegend legendData={legendData}/>
                 </div>
             </div>
         );

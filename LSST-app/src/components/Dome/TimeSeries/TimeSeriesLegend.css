@@ -1,4 +1,7 @@
 .timeseries-legend-element {
-    display: inline-block;
+    display: flex;
     padding: 10px 20px;
+    flex-direction: row;
+    line-height: 30px;
+    justify-content: center;
 }
