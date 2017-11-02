@@ -205,9 +205,27 @@ class Charts extends Component {
         this.updatePBLine(new Date(newDate));
     }
 
+    handleDrag(){
+        console.log("handle drag")
+    }
+
+    handleZoom(event){
+        let start = this.state.startAt;
+        let end = this.state.endAt;
+        let delta = (end-start)/1000 //seconds elapsed between the two dates
+        let wheelDirection = event.deltaY/Math.abs(event.deltaY)
+        let change = (delta/10)*(wheelDirection)
+        
+        start.setSeconds(start.getSeconds()-change);
+        end.setSeconds(end.getSeconds()+change);
+        if(start > this.state.start && end < this.state.end && delta > 60){
+            this.setSelection(start,end);
+        }
+    }
+
     render() {
         return (
-            <div className = "charts-container" >
+            <div className = "charts-container" onDrag={()=> this.handleDrag()} onWheel={(e)=> this.handleZoom(e)}>
                 <h5>Date-range summary</h5>
                     <Slider ref={instance => { this.slider = instance; }}
                      start={this.state.start} end={this.state.end} margin={this.margin} setExtent={this.setSelection}/>
