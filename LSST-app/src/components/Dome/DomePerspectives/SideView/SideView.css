@@ -1,26 +1,16 @@
-.shutters-container .svg-container {
-    background-image: url("/img/dome_front.png");
-    background-size:     contain;
-    background-repeat: no-repeat;
-    background-position: center; 
+.shutters-container-sideview .svg-container-sideview {
 }
 
-.status-circle-open:before {
-    content: ' \25CF';
-    color: green
+.windscreen-sideview {
+    stroke: var(--theme-windscreens);
+    stroke-width: 15;
+    stroke-linecap: round;
+    fill: none; 
 }
 
-.status-circle-closed:before {
-    content: ' \25CF';
-    color: red
-}
-
-.shutter {
-    fill: var(--theme-shutters);
-    stroke: var(--theme-div-background);
-}
-
-.windscreen {
-    fill: var(--theme-windscreens);
-    stroke: var(--theme-div-background);
+.shutter-sideview {
+    stroke: var(--theme-shutters);
+    stroke-width: 15;
+    stroke-linecap: round;
+    fill: none; 
 }
