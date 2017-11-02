@@ -15,9 +15,15 @@ class DomeAzimuthTimeSeries extends PureComponent {
         this.state = {
             dataPoints: [],
             data: [
-                { label: 'azimuth', values: [{x:new Date(), y:0}] }, 
-                { label: 'target', values: [{x:new Date(), y:0}] }, 
-                { label: 'optimal', values: [{x:new Date(), y:0}] },
+                { label: 'azimuth', values: [...Array(10).keys()].map( (el, i) => {
+                    return {x:new Date(), y: 0};
+                } )}, 
+                { label: 'target', values: [...Array(10).keys()].map( (el, i) => {
+                    return {x:new Date(), y: 0};
+                } ) }, 
+                { label: 'optimal', values: [...Array(10).keys()].map( (el, i) => {
+                    return {x:new Date(), y: 0};
+                } ) },
             ],
             xScale: d3.scaleTime().domain([new Date(), new Date()]).range([0, this.props.width - 70]),
             yScale: d3.scaleLinear().domain([360, 0]).range([0, this.props.height - 70]),
@@ -59,7 +65,7 @@ class DomeAzimuthTimeSeries extends PureComponent {
                 colorScale={(label) => this.constructor.LineColors[label]}
                 stroke={{strokeWidth: (label) => "3", strokeDasharray: (label) => this.lineDash[label]}}
                 yAxis={{tickValues: [0,45,90,135,180,225,270,315,360], domain:[0,360]}}
-                /* xAxis={{tickValues: this.state.xScale.ticks(d3.time.day, 2), tickFormat: d3.time.format("%m/%d")}} */
+                xAxis={{tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
     }

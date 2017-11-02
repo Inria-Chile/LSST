@@ -95,14 +95,14 @@ class Dome extends PureComponent {
                             <DomeAzimuthTimeSeries domeAzimuth={this.state.domeAzimuth}
                                 domeTargetAzimuth={this.state.domeTargetAzimuth}
                                 domeOptimalAzimuth={this.state.domeOptimalAzimuth}
-                                width={700} height={400} />
+                                width={600} height={350} />
                         </div>
                         <div>
                             <h5>Elevation</h5>
                             <DomeElevationTimeSeries telescopeElevation={this.state.telescopeElevation}
                                 telescopeTargetElevation={this.state.telescopeTargetElevation}
                                 telescopeOptimalElevation={this.state.telescopeOptimalElevation}
-                                width={700} height={400} />
+                                width={600} height={350} />
                         </div>
                     </div>
                         <TimeSeriesLegend legendData={legendData}/>
