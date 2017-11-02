@@ -11,9 +11,9 @@
     stroke-dasharray: 15;
 }
 
-.camera-angle {
+.mount-angle {
     stroke-width: 3;
-    stroke: var(--theme-dome-camera-angle);
+    stroke: var(--theme-dome-mount-angle);
 }
 
 .dome-azimuth-text {

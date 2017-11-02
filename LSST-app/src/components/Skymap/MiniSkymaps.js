@@ -12,6 +12,7 @@ class MiniSkymaps extends PureComponent {
     this.state = {
       selectedFilter: 'all'
     }
+    this.loadedMaps = 0;
   }
 
   setData = (data) => {
@@ -53,7 +54,14 @@ class MiniSkymaps extends PureComponent {
   }
 
   componentDidMount() {
+    
+  }
+
+  onCelestialLoaded = () => {
     let filters = ["u","g","r","i","z","y"];
+    this.loadedMaps++;
+    if(this.loadedMaps <= filters.length)
+      return;
     for(let i=0;i<filters.length;++i){
       this.children[i+1].displayFilter(filters[i]);
       this.children[i+1].setFontSize(0);
@@ -85,7 +93,7 @@ class MiniSkymaps extends PureComponent {
           <div className="row">
             <div className={"minimap-wrapper all-filter "  + (this.state.selectedFilter==='all' ? 'selected-filter' : '')} onClick={ () => this.handleClick('all')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='all' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node7' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node7' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
               </div>
               <p className="filter-name"> all filters </p>
             </div>
@@ -93,13 +101,13 @@ class MiniSkymaps extends PureComponent {
           <div className="row">          
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='u' ? 'selected-filter' : '')} onClick={ () => this.handleClick('u')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='u' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node1' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node1' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
               </div>
               <p className="filter-name"> u filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='g' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('g')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='g' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node2' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node2' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
               </div>
               <p className="filter-name"> g filter </p>
             </div>
@@ -107,13 +115,13 @@ class MiniSkymaps extends PureComponent {
           <div className="row">                    
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='r' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('r')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='r' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node3' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node3' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
               </div>
               <p className="filter-name"> r filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='i' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('i')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='i' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node4' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node4' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
               </div>
               <p className="filter-name"> i filter </p>
             </div>
@@ -121,13 +129,13 @@ class MiniSkymaps extends PureComponent {
           <div className="row">          
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='z' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('z')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='z' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node5' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node5' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
               </div>
               <p className="filter-name"> z filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='y' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('y')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='y' ? 'selected-filter' : '')}>
-                <Skymap nodeRef='node6' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node6' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
               </div>
               <p className="filter-name"> y filter </p>
             </div>

@@ -11,44 +11,32 @@ class DomePosition extends Component {
         this.cameraFOV = 20;
         this.state = {
             data: [],
-            cameraAngle: 0,
-            domeAngle: 0
         }
 
     }
 
-    setDomeAngle = (angle) => {
+    setDomeAzimuth = (angle) => {
         let domeApertureAngle = 2*Math.atanh(this.props.shuttersAperture/(2*this.distanceToCamera));
         d3.select("#dome-angle").transition().duration(1000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
         d3.select("#dome-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(domeApertureAngle/2));
         d3.select("#dome-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(domeApertureAngle/2));
     }
 
-    setCameraAngle = (angle) => {
+    setMountAzimuth = (angle) => {
         
-        d3.select("#camera-angle").transition().duration(1000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
-        d3.select("#camera-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
-        d3.select("#camera-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
+        d3.select("#mount-angle").transition().duration(1000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
+        d3.select("#mount-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
+        d3.select("#mount-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
 
         
     }
 
     componentDidUpdate(prevProps, prevState){
-        this.setDomeAngle(this.state.domeAngle);
-            this.setCameraAngle(this.state.cameraAngle);
+        this.setDomeAzimuth(this.props.domeAzimuth);
+        this.setMountAzimuth(this.props.mountAzimuth);
     }
 
     componentDidMount() {
-        setInterval( () => {
-            // let newAngle = Math.max(0, Math.ceil(Math.random()*360));
-            let newAngle = this.state.domeAngle + ((Math.random()-0.5)*90);
-            let newCameraAngle = newAngle + ((Math.random()-0.5)*30);
-            this.setState({
-                domeAngle: newAngle,
-                cameraAngle: newCameraAngle
-                // aperture: 11
-            })
-        }, 2000)
     }
 
     
@@ -81,17 +69,17 @@ class DomePosition extends Component {
                             pointerEvents="all"
                         />
                     </g>
-                    <g id="camera-angle"
+                    <g id="mount-angle"
                         transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
                         height={this.props.height}
                         width={this.props.width}>
-                        <line id="camera-angle-top"
-                            className="camera-angle"
+                        <line id="mount-angle-top"
+                            className="mount-angle"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
                             strokeWidth={4} />
-                        <line id="camera-angle-bot"
-                            className="camera-angle"
+                        <line id="mount-angle-bot"
+                            className="mount-angle"
                             x1={0} y1={0} 
                             x2={-this.props.width/2} y2={0} 
                             strokeWidth={4} />
@@ -100,11 +88,11 @@ class DomePosition extends Component {
                 <div className="dome-position-info">
                     <div className="dome-azimuth-text">
                         <span>Dome azimuth: </span> 
-                        <span>{this.state.domeAngle.toFixed(1)}º</span>
+                        <span>{this.props.domeAzimuth.toFixed(1)}º</span>
                     </div>
                     <div>
-                        <span className="dome-data-label">Camera azimuth: </span> 
-                        <span className="dome-data">{this.state.cameraAngle.toFixed(1)}º</span>
+                        <span className="dome-data-label">Mount azimuth: </span> 
+                        <span className="dome-data">{this.props.mountAzimuth.toFixed(1)}º</span>
                     </div>
                     <div>
                         <span className="dome-data-label">Camera FOV: </span> 
