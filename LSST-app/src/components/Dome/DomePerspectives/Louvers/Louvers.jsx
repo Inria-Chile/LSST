@@ -153,6 +153,7 @@ class Louvers extends Component {
                                 props.onLouverMouseOver = this.onLouverMouseOver(louverIndex);
                                 props.onLouverMouseOut = this.onLouverMouseOut;
                                 props.louverLabelRadius = labelRadius;
+                                props.selected = this.state.selectedLouverIndex === louverIndex;
                                 return (
                                     <Louver key={"L"+louverIndex++} {...props}/>
                                 )
@@ -178,6 +179,7 @@ class Louvers extends Component {
                                 props.onLouverMouseOver = this.onLouverMouseOver(louverIndex);
                                 props.onLouverMouseOut = this.onLouverMouseOut;
                                 props.louverLabelRadius = labelRadius;
+                                props.selected = this.state.selectedLouverIndex === louverIndex;
                                 return (
                                     <Louver key={"L"+louverIndex++} {...props}/>
                                 )
@@ -203,6 +205,7 @@ class Louvers extends Component {
                                 props.onLouverMouseOver = this.onLouverMouseOver(louverIndex);
                                 props.onLouverMouseOut = this.onLouverMouseOut;
                                 props.louverLabelRadius = horizontalLabelRadius;
+                                props.selected = this.state.selectedLouverIndex === louverIndex;
                                 return (
                                     <Louver key={"L"+louverIndex++} {...props}/>
                                 )
@@ -233,7 +236,7 @@ class Louver extends Component {
         let nRects = this.props.nLouvers;
         let labelPos = [xLabelDisp, yLabelDisp];
         return (
-            <g>
+            <g className={this.props.selected ? 'selected' : ''}>
                 {
                     [...Array(nRects).keys()].map((iRect) => {
                         let xOffset = xDisp + iRect*(sep+this.props.width)*Math.cos((rot)*Math.PI/180);
