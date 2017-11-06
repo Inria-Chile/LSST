@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import * as d3 from 'd3';
 // import { scaleBand, scaleLinear } from 'd3-scale'
 import ReactDOM from 'react-dom';
@@ -7,7 +7,7 @@ import './Histogram.css';
 
 
 
-class Histogram extends PureComponent {
+class Histogram extends Component {
 
   constructor(props){
     super(props);
@@ -109,7 +109,7 @@ class Histogram extends PureComponent {
     .call(d3.axisBottom(x)
       .tickValues(x.domain())
       .tickFormat((date)=>{
-        return date.toLocaleDateString();
+        return date.toDateString();
       })
       // .ticks(15)
     );
