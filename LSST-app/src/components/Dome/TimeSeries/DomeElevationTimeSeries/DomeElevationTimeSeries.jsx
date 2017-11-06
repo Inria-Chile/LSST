@@ -8,17 +8,20 @@ class DomeElevationTimeSeries extends PureComponent {
     static LineColors = {
         'elevation': '#ddd', 
         'target': '#5e8ba9', 
-        'optimal': '#5e8ba9'
+        'optimal': '#3e6b89'
     }
 
     constructor(props) {
         super(props);
+        let defaultData = [...Array(10).keys()].map( (el, i) => {
+            return {x:new Date(new Date().getTime() - (10-i)*2000), y: 0};
+        });
         this.state = {
             dataPoints: [],
             data: [
-                { label: 'elevation', values: [{x:new Date(), y:0}] }, 
-                { label: 'target', values: [{x:new Date(), y:0}] }, 
-                { label: 'optimal', values: [{x:new Date(), y:0}] },
+                { label: 'target', values: defaultData.slice()}, 
+                { label: 'optimal', values: defaultData.slice()},
+                { label: 'elevation', values: defaultData.slice()}, 
             ],
             xScale: d3.scaleTime().domain([new Date(), new Date()]).range([0, this.props.width - 70]),
             yScale: d3.scaleLinear().domain([90, 0]).range([0, this.props.height - 70]),
@@ -33,9 +36,9 @@ class DomeElevationTimeSeries extends PureComponent {
 
     componentWillReceiveProps() {
         let newData = this.state.data;
-        newData[0].values.push({x: new Date(), y: this.props.telescopeElevation})
-        newData[1].values.push({x: new Date(), y: this.props.telescopeTargetElevation})
-        newData[2].values.push({x: new Date(), y: this.props.telescopeOptimalElevation})
+        newData[0].values.push({x: new Date(), y: this.props.telescopeTargetElevation})
+        newData[1].values.push({x: new Date(), y: this.props.telescopeOptimalElevation})
+        newData[2].values.push({x: new Date(), y: this.props.telescopeElevation})
         
         for(let i=0; i<this.state.data.length; ++i){
             if (newData[i].values.length > 10)
@@ -61,7 +64,7 @@ class DomeElevationTimeSeries extends PureComponent {
                 colorScale={(label) => this.constructor.LineColors[label]}
                 stroke={{strokeWidth: (label) => "3", strokeDasharray: (label) => this.lineDash[label]}}
                 yAxis={{tickValues: [0,15,30,45,60,75,90], domain:[0,90]}}
-                /* xAxis={{tickValues: this.state.xScale.ticks(d3.time.day, 2), tickFormat: d3.time.format("%m/%d")}} */
+                xAxis={{tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
     }

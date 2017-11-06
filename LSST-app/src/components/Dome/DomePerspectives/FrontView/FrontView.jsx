@@ -29,8 +29,8 @@ class FrontView extends PureComponent {
     setWindScreensPositions = (topScreen, bottomScreen) => {
         let hTop = this.screenHeight*(1-Math.sin(Math.PI/180*(90-topScreen)));
         let hBot = this.screenHeight*(Math.sin(Math.PI/180*(bottomScreen)));
-        d3.select("#top-screen").transition().attr("height", hTop);
-        d3.select("#bottom-screen").transition().attr("height", hBot).attr("y", this.screenHeight-hBot+this.props.yOffset*this.shutterHeight);;
+        d3.select("#top-screen").transition().duration(3000).attr("height", hTop);
+        d3.select("#bottom-screen").transition().duration(3000).attr("height", hBot).attr("y", this.screenHeight-hBot+this.props.yOffset*this.shutterHeight);;
     }
     
     componentDidUpdate(prevProps, prevState){

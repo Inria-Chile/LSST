@@ -3,7 +3,7 @@
 
 .windscreen-sideview {
     stroke: var(--theme-windscreens);
-    stroke-width: 15;
+    stroke-width: 5;
     stroke-linecap: round;
     fill: none; 
 }

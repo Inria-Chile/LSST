@@ -47,13 +47,14 @@ class Dome extends PureComponent {
 
     componentDidMount() {
         setInterval(() => {
-            let newAzimuth = this.normalizeAngle(this.state.domeAzimuth + ((Math.random() - 0.5) * 90), 360);
-            let domeTargetAzimuth = this.normalizeAngle(this.state.domeAzimuth, 360);
-            let domeOptimalAzimuth = this.normalizeAngle(newAzimuth + ((Math.random() - 0.5) * 30), 360);
-            let newElevation = this.normalizeAngle((Math.random() - 0.5) * 90, 90);
-            let telescopeTargetElevation = this.normalizeAngle(this.state.telescopeElevation, 90);
-            let telescopeOptimalElevation = this.normalizeAngle(newElevation + Math.random() * 10, 90);
-            let newMountAzimuth = newAzimuth + ((Math.random() - 0.5) * 30);
+            let newAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth, 360);
+            let domeTargetAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth + ((Math.random() - 0.1) * 20), 360);
+            let domeOptimalAzimuth = this.normalizeAngle(newAzimuth + ((Math.random() - 0.1) * 6), 360);
+            
+            let newElevation = this.normalizeAngle(this.state.telescopeTargetElevation, 90);
+            let telescopeTargetElevation = this.normalizeAngle((Math.random() - 0.1) * 15, 90);
+            let telescopeOptimalElevation = this.normalizeAngle(newElevation + Math.random() * 3, 90);
+            let newMountAzimuth = newAzimuth + ((Math.random() - 0.1) * 30);
             this.setState({
                 domeAzimuth: newAzimuth,
                 domeTargetAzimuth: domeTargetAzimuth,
@@ -70,7 +71,7 @@ class Dome extends PureComponent {
         let legendData = [
             { label: 'Current value', color: '#ddd', lineDash: 0 }, 
             { label: 'Target', color: '#5e8ba9', lineDash: 0 }, 
-            { label: 'Optimal', color: '#5e8ba9', lineDash: 7 }, 
+            { label: 'Optimal', color: '#3e6b89', lineDash: 7 }, 
         ];
         
         return (

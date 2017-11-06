@@ -14,3 +14,10 @@
     fill: var(--theme-louvers-not-working);
     stroke: var(--theme-louvers-not-working);
 }
+
+#louver-aperture-text{
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: var(--theme-active-text);
+    font-size: 1.1em;
+}
