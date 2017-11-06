@@ -206,7 +206,7 @@ class Charts extends Component {
     }
 
     handleDrag(){
-        console.log("handle drag")
+        // console.log("handle drag")
     }
 
     handleZoom(event){
@@ -223,7 +223,6 @@ class Charts extends Component {
             this.slider.setSelection(start,end);
         }
         else if(start <= this.state.start || end >= this.state.end){
-            console.log("here!")
             this.setSelection(this.state.start, this.state.end);
             this.slider.setSelection();
         }
