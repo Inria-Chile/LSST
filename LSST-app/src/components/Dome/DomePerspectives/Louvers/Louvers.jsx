@@ -36,7 +36,7 @@ class Louvers extends Component {
     componentDidMount() {
         setInterval( () => {
             let openLouvers = this.getRandomSubarray(this.louverIndexs, Math.ceil(Math.random()*this.louverIndexs.length));
-            let louversAperture = [...Array(34).keys()].map(() =>1);
+            let louversAperture = [...Array(34).keys()].map(() => Math.random());
             this.setState({
                 openLouvers: openLouvers,
                 louversAperture: louversAperture,
