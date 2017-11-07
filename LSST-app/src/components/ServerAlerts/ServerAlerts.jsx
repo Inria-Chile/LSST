@@ -18,17 +18,16 @@ class ServerAlerts extends Component {
         let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;
         let totalHeight = window.innerHeight-this.margin.top - this.margin.bottom-this.offset;
         let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
-        let rackHeight = (totalHeight-(this.nrows-1)*this.horizontalSplit)/this.nrows;
+        let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
 
         let x = [];
         let xstart = this.margin.left;
-        // let xstart=0;
         for(let i = 0; i<this.ncols; i++){
             x[i]=xstart;
             xstart=xstart+rackWidth+this.verticalSplit;
         }
         let y=[];
-        let ystart = this.margin.top;
+        let ystart = this.margin.top+this.horizontalSplit;
         for(let i=0; i<this.nrows;i++){
             y[i]=ystart;
             ystart = ystart+rackHeight+this.horizontalSplit;
@@ -46,9 +45,9 @@ class ServerAlerts extends Component {
                         y = {this.margin.bottom}>
                        
                             {
-                                x.map((xpos)=>{
+                                x.map((xpos, indexX)=>{
                                    return(
-                                       y.map((ypos)=>{
+                                       y.map((ypos, indexY)=>{
                                            return(
                                             <Rack
                                            x={xpos}
@@ -56,6 +55,8 @@ class ServerAlerts extends Component {
                                            width={rackWidth}
                                            height={rackHeight}
                                            structureWidth={this.structureWidth}
+                                           indexX = {indexX+1}
+                                           indexY = {indexY}
                                            />
                                            )
                                     
