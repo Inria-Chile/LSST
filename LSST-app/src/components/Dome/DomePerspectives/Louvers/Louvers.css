@@ -10,7 +10,20 @@
     stroke-width: 1px;
 }
 
+g.selected > .louver {
+    stroke: var(--theme-louvers-selected);
+    fill: var(--theme-louvers-selected);
+    stroke-width: 1px;
+}
+
 .louver.not-working {
     fill: var(--theme-louvers-not-working);
     stroke: var(--theme-louvers-not-working);
+}
+
+#louver-aperture-text{
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: var(--theme-active-text);
+    font-size: 1.1em;
 }

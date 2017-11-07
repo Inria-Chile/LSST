@@ -13,7 +13,7 @@ class SideView extends PureComponent {
         this.bottomScreenAngle = 10;
         this.topScreenAngle = 70;
         this.radius = this.props.width/2.1;
-        this.xCenter = this.props.width/2*1.25;
+        this.xCenter = this.props.width/2*1.24;
         this.yCenter = this.props.height*0.85;
         this.arcLength = ((90+endOffset) - (0 + startOffset*(1-0/90) + endOffset*(0/90)))*Math.PI/180*this.radius;
         this.startPos = this.polarToCartesian(this.xCenter, this.yCenter, this.radius, 0 + startOffset*(1-0/90) + endOffset*(0/90));
@@ -37,8 +37,8 @@ class SideView extends PureComponent {
     }
 
     setWindScreensPositions = (topScreenAngle, bottomScreenAngle) => {
-        d3.select("#bottom-windscreen-sideview").transition().attr("stroke-dashoffset", this.arcLength*(90-bottomScreenAngle)/90);
-        d3.select("#top-windscreen-sideview").transition().attr("stroke-dashoffset", (1-this.arcLength)*(90-topScreenAngle)/90);
+        d3.select("#bottom-windscreen-sideview").transition().duration(3000).attr("stroke-dashoffset", this.arcLength*(90-bottomScreenAngle)/90);
+        d3.select("#top-windscreen-sideview").transition().duration(3000).attr("stroke-dashoffset", (1-this.arcLength)*(90-topScreenAngle)/90);
     }
 
     render() {

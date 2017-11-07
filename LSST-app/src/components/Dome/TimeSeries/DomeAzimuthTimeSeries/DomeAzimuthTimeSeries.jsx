@@ -7,23 +7,20 @@ class DomeAzimuthTimeSeries extends PureComponent {
     static LineColors = {
         'azimuth': '#ddd', 
         'target': '#5e8ba9', 
-        'optimal': '#5e8ba9'
+        'optimal': '#3e6b89'
     }
     
     constructor(props) {
         super(props);
+        let defaultData = [...Array(10).keys()].map( (el, i) => {
+            return {x:new Date(new Date().getTime() - (10-i)*2000), y: 0};
+        });
         this.state = {
             dataPoints: [],
             data: [
-                { label: 'azimuth', values: [...Array(10).keys()].map( (el, i) => {
-                    return {x:new Date(), y: 0};
-                } )}, 
-                { label: 'target', values: [...Array(10).keys()].map( (el, i) => {
-                    return {x:new Date(), y: 0};
-                } ) }, 
-                { label: 'optimal', values: [...Array(10).keys()].map( (el, i) => {
-                    return {x:new Date(), y: 0};
-                } ) },
+                { label: 'target', values: defaultData.slice()}, 
+                { label: 'optimal', values: defaultData.slice()},
+                { label: 'azimuth', values: defaultData.slice()}, 
             ],
             xScale: d3.scaleTime().domain([new Date(), new Date()]).range([0, this.props.width - 70]),
             yScale: d3.scaleLinear().domain([360, 0]).range([0, this.props.height - 70]),
@@ -37,9 +34,9 @@ class DomeAzimuthTimeSeries extends PureComponent {
 
     componentWillReceiveProps() {
         let newData = this.state.data;
-        newData[0].values.push({x: new Date(), y: this.props.domeAzimuth})
-        newData[1].values.push({x: new Date(), y: this.props.domeTargetAzimuth})
-        newData[2].values.push({x: new Date(), y: this.props.domeOptimalAzimuth})
+        newData[0].values.push({x: new Date(), y: this.props.domeTargetAzimuth})
+        newData[1].values.push({x: new Date(), y: this.props.domeOptimalAzimuth})
+        newData[2].values.push({x: new Date(), y: this.props.domeAzimuth})
         
         for(let i=0; i<this.state.data.length; ++i){
             if (newData[i].values.length > 10)

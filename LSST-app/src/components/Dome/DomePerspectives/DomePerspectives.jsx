@@ -25,7 +25,7 @@ class DomePerspectives extends PureComponent {
                 topWindScreenPos: angle,
                 bottomWindScreenPos: 90-(angle+angle_0),
             })
-        }, 1000)
+        }, 4000)
     }
 
     render() {
