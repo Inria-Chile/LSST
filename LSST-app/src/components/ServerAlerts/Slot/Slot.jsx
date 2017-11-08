@@ -5,7 +5,7 @@ class Slot extends Component {
     render() {
         return (
             <g>
-                <rect x="10" y="10" width="100" height="100" className="slot"/>
+                <rect x={this.props.x} y={this.props.y} width={this.props.width} height={this.props.totalHeight} className="slot"/>
             </g>
         );
     }

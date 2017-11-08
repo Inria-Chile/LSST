@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import Slot from '../Slot/Slot';
 
 class Rack extends Component {
 
@@ -16,12 +16,15 @@ class Rack extends Component {
         let heightPdu = this.props.height/10;
         let xtext = xpdu+widthPdu-widthPdu/2;
         let ytext = ypdu+heightPdu-heightPdu/2;
-        let index = (this.props.indexY==0)?String(this.props.indexX):String(this.props.indexX+8);
+        let index = (this.props.indexY===0)?String(this.props.indexX):String(this.props.indexX+8);
+        let slotWidth = widthPdu;
+        let totalSlotHeight = this.props.height-heightPdu;
+
         return (
             <g>
 
                 <text x={xtext} y={this.props.y}
-                transform="translate(-20,0)"
+                transform="translate(-25,-10)"
                 className="text">Rack {index}</text>
 
 
@@ -44,7 +47,11 @@ class Rack extends Component {
                 transform="translate(-20,5)"
                 className="text">PDU</text>
 
-                
+                <Slot 
+                x={xpdu}
+                y={this.props.y}
+                width={slotWidth} 
+                totalHeight={totalSlotHeight-this.split}/>
             </g>
         );
     }
