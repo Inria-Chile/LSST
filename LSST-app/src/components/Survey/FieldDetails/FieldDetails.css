@@ -1,0 +1,25 @@
+.histogram .bar{
+    fill: var(--theme-histogram-bar)
+}
+
+.histogram {
+    padding: 20px 50px;
+}
+
+.histogram .tick {   
+    stroke: var(--theme-inactive-text);
+}
+
+.histogram text {   
+    fill: var(--theme-inactive-text);
+    font-size: 15px;
+}
+
+.histogram path {   
+    stroke: var(--theme-inactive-text);
+    stroke-opacity: 1;
+}
+
+.histogram line {   
+    stroke: var(--theme-inactive-text);
+}

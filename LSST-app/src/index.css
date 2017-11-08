@@ -24,6 +24,7 @@ body {
   --theme-louvers-not-working: #cc324f;
   --theme-shutters: #7fbbdd;
   --theme-windscreens: #5f8caa;
+  --theme-histogram-bar: #5f8caa;
   --dome-text-size: 1.3rem;
   --separator-size: 3px;
 }
