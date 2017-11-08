@@ -9,6 +9,7 @@ import Mirrors from './components/Mirrors/Mirrors';
 import Dome from './components/Dome/Dome';
 import Dashboard from './components/Dashboard/Dashboard';
 import FieldDetails from './components/Survey/FieldDetails/FieldDetails';
+import ServerAlerts from './components/ServerAlerts/ServerAlerts';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import { Switch, Route, Redirect } from 'react-router-dom'
@@ -24,6 +25,7 @@ ReactDOM.render((
             <Route path='/dome' component={Dome}/>
             <Route path='/dashboard' component={Dashboard}/>
             <Route path='/field' component={FieldDetails}/>
+            <Route path='/server_alerts' component={ServerAlerts}/>
         </Switch>
     </BrowserRouter>), document.getElementById('root'));
 
