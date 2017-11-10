@@ -16,16 +16,19 @@ class Rack extends Component {
         let heightPdu = this.props.height/10;
         let xtext = xpdu+widthPdu-widthPdu/2;
         let ytext = ypdu+heightPdu-heightPdu/2;
-        let index = (this.props.indexY===0)?String(this.props.indexX):String(this.props.indexX+8);
         let slotWidth = widthPdu;
         let totalSlotHeight = this.props.height-heightPdu;
 
         return (
             <g>
+                <text x={xtext} y={this.props.y}
+                transform="translate(-35,-30)"
+                className="text">{this.props.name}</text>
+
 
                 <text x={xtext} y={this.props.y}
-                transform="translate(-25,-10)"
-                className="text">Rack {index}</text>
+                transform="translate(-35,-10)"
+                className="text">Rack {this.props.index+1}</text>
 
 
                 <rect x={this.props.x} y={this.props.y} 
@@ -51,7 +54,8 @@ class Rack extends Component {
                 x={xpdu}
                 y={this.props.y}
                 width={slotWidth} 
-                totalHeight={totalSlotHeight-this.split}/>
+                totalHeight={totalSlotHeight-this.split}
+                details = {this.props.slot}/>
             </g>
         );
     }
