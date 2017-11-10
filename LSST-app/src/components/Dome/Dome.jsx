@@ -6,6 +6,7 @@ import DomeAzimuthTimeSeries from './TimeSeries/DomeAzimuthTimeSeries/DomeAzimut
 import DomeElevationTimeSeries from './TimeSeries/DomeElevationTimeSeries/DomeElevationTimeSeries';
 import TimeSeriesLegend from './TimeSeries/TimeSeriesLegend';
 import './Dome.css';
+import openSocket from 'socket.io-client';
 
 class Dome extends PureComponent {
 
@@ -23,6 +24,8 @@ class Dome extends PureComponent {
             telescopeOptimalElevation: 20,
             mountAzimuth: 0,
         }
+        this.socket = openSocket(window.location.origin + '');        
+        console.log('SCOKERT', this.socket.on('data', msg => console.log(msg)));
     }
 
     updateShuttersAperture = (aperture) => {
