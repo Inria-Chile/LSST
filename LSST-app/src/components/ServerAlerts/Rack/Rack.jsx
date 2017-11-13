@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-
+import Slot from '../Slot/Slot';
+import PDU from '../PDU/PDU';
 
 class Rack extends Component {
 
@@ -16,13 +17,19 @@ class Rack extends Component {
         let heightPdu = this.props.height/10;
         let xtext = xpdu+widthPdu-widthPdu/2;
         let ytext = ypdu+heightPdu-heightPdu/2;
-        let index = (this.props.indexY==0)?String(this.props.indexX):String(this.props.indexX+8);
+        let slotWidth = widthPdu;
+        let totalSlotHeight = this.props.height-heightPdu;
+
         return (
             <g>
+                <text x={xtext} y={this.props.y}
+                transform="translate(-35,-30)"
+                className="text">{this.props.name}</text>
+
 
                 <text x={xtext} y={this.props.y}
-                transform="translate(-20,0)"
-                className="text">Rack {index}</text>
+                transform="translate(-35,-10)"
+                className="text">Rack {this.props.index+1}</text>
 
 
                 <rect x={this.props.x} y={this.props.y} 
@@ -34,17 +41,19 @@ class Rack extends Component {
                 width={this.props.structureWidth} height={this.props.height} 
                 className="slot"/>
 
-                <rect x={xpdu} 
-                y={ypdu} 
-                width={widthPdu} 
-                height={heightPdu} 
-                className="pdu"/>
-
-                <text x={xtext} y={ytext}
-                transform="translate(-20,5)"
-                className="text">PDU</text>
-
+                {this.props.hasPdu && 
+                <PDU x = {xpdu} y = {ypdu} width = {widthPdu} height = {heightPdu}
+                xtext = {xtext} ytext = {ytext}/>
+                }
                 
+                <Slot 
+                x={xpdu}
+                y={this.props.y}
+                width={slotWidth} 
+                totalHeight={totalSlotHeight-this.split}
+                details = {this.props.slot}
+                
+                />
             </g>
         );
     }
