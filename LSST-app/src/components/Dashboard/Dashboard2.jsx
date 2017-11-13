@@ -59,7 +59,7 @@ class Dashboard2 extends Component {
             }}>
                 <div id="dashboard-content2">
                     <ResponsiveReactGridLayout className="layout" layout={layout} rowHeight={90} width={3840}
-                        breakpoints={{lg: 3200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                        breakpoints={{lg: 3200, md: 996, sm: 768, xs: 480, xxs: 0}} draggableHandle={'.move-button'}
                         cols={{lg: 12, md: 6, sm: 6, xs: 6, xxs: 6}}>
 
                         <div key="a" data-grid={{x: 0, y: 0, w: 6, h: 10}}>

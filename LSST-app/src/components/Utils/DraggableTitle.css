@@ -1,0 +1,12 @@
+
+.draggable-title .move-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
+
+
+.draggable-title .move-button svg{
+    fill: var(--theme-inactive-text);
+}

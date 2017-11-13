@@ -4,6 +4,7 @@ import './FieldDetails.css';
 import { BarChart } from 'react-d3-components'
 import GenericHistogram from './GenericHistogram/GenericHistogram'
 import Rnd from 'react-rnd';
+import DraggableTitle from '../../Utils/DraggableTitle';
 
 class FieldDetails extends PureComponent {
     
@@ -42,7 +43,7 @@ class FieldDetails extends PureComponent {
                     x: 100,
                     y: 100,
                     width: 500,
-                    height: 600,
+                    height: 750,
                     }}
                     dragGrid={ [20,20]}
                     resizeGrid={ [20,20]}
@@ -51,11 +52,14 @@ class FieldDetails extends PureComponent {
                     className={'draggable'}
                 >
                     <div className="field-details">
-                        <div className='histogram'>
-                            <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}}/>
+                        <DraggableTitle title={'Field ID: ' + Math.round(Math.random())} customClass='field-details-title' />
+                        <div className='field-details-content'>
+                            <div className='histogram'>
+                                <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}}/>
+                            </div>
+                            <GenericHistogram id='adssa' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
+                            <GenericHistogram id='adssa2' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
                         </div>
-                        <GenericHistogram id='adssa' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
-                        <GenericHistogram id='adssa2' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
                     </div>
                 </Rnd>,
                 this.props.targetNode,
@@ -64,11 +68,14 @@ class FieldDetails extends PureComponent {
         else{
             return (
                 <div className="field-details">
-                    <div className='histogram'>
-                        <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}}/>
+                    <DraggableTitle title={'Field ID: ' + Math.round(Math.random())} customClass='field-details-title' />
+                    <div className='field-details-content'>
+                        <div className='histogram'>
+                            <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}}/>
+                        </div>
+                        <GenericHistogram id='adssa' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
+                        <GenericHistogram id='adssa2' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
                     </div>
-                    <GenericHistogram id='adssa' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
-                    <GenericHistogram id='adssa2' data={this.rotationData} width={width} height={height} domain={[0, 360]} nBins={36}/>
                 </div>
             );
         }

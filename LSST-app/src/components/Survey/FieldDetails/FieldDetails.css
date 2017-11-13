@@ -27,3 +27,13 @@
 .field-details {
     background: var(--theme-div-background);
 }
+
+.field-details-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.field-details-title, .field-details-title h2 {
+    background: var(--theme-background);
+}
+

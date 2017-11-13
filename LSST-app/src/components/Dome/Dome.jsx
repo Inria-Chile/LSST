@@ -4,6 +4,7 @@ import DomePosition from './DomePosition/DomePosition';
 import DomePerspectives from './DomePerspectives/DomePerspectives';
 import DomeAzimuthTimeSeries from './TimeSeries/DomeAzimuthTimeSeries/DomeAzimuthTimeSeries';
 import DomeElevationTimeSeries from './TimeSeries/DomeElevationTimeSeries/DomeElevationTimeSeries';
+import DraggableTitle from '../Utils/DraggableTitle';
 import TimeSeriesLegend from './TimeSeries/TimeSeriesLegend';
 import './Dome.css';
 import openSocket from 'socket.io-client';
@@ -79,11 +80,7 @@ class Dome extends PureComponent {
         
         return (
             <div className="dome-container">
-                <div>
-                    <h2>
-                        Dome
-                    </h2>
-                </div>
+                <DraggableTitle title='Mirrors'/>
                 <div className="container pull-left">
                     <div className="row">
                         <div className="col-12">

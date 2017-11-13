@@ -11,6 +11,7 @@ import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
 import FieldDetails from './FieldDetails/FieldDetails';
+import DraggableTitle from '../Utils/DraggableTitle';
 import openSocket from 'socket.io-client';
 import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
 
@@ -296,14 +297,7 @@ class Survey extends PureComponent {
 
         return (
             <div className="survey-container">
-                <div>
-                    <h2>
-                        Survey Progress
-                    </h2>
-                    <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
-                        <i className="fa fa-cog" aria-hidden="true"></i>
-                    </button>
-                </div>
+                <DraggableTitle title='Survey Progress'/>
                 <div className="main-container">
                     <div className="left-container">
                         <SurveyControls setPlaybackMode={this.setPlaybackMode} 
