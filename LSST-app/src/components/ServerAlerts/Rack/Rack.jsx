@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Slot from '../Slot/Slot';
+import PDU from '../PDU/PDU';
 
 class Rack extends Component {
 
@@ -40,22 +41,19 @@ class Rack extends Component {
                 width={this.props.structureWidth} height={this.props.height} 
                 className="slot"/>
 
-                <rect x={xpdu} 
-                y={ypdu} 
-                width={widthPdu} 
-                height={heightPdu} 
-                className="pdu"/>
-
-                <text x={xtext} y={ytext}
-                transform="translate(-20,5)"
-                className="text">PDU</text>
-
+                {this.props.hasPdu && 
+                <PDU x = {xpdu} y = {ypdu} width = {widthPdu} height = {heightPdu}
+                xtext = {xtext} ytext = {ytext}/>
+                }
+                
                 <Slot 
                 x={xpdu}
                 y={this.props.y}
                 width={slotWidth} 
                 totalHeight={totalSlotHeight-this.split}
-                details = {this.props.slot}/>
+                details = {this.props.slot}
+                
+                />
             </g>
         );
     }

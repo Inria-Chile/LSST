@@ -14,6 +14,7 @@ class ServerAlerts extends Component {
         this.offset=20;
         this.rackNames = ['WAN','LAN','LAN','Wiring','General','AUX Telescope','DQ','CAMERA','CAMERA',
         'CAMERA','CAMERA','EFD','EFD','TCS/OCS','TCS/OCS','TCS/OCS'];
+        this.hasPdu = [true, false,true,false,true,true,false,false,true,true,true,true,true,true,true,true]
         this.rackItems = [
             //Rack 01
             [{name:'Patch Panel', size:1, position: 3},
@@ -165,7 +166,8 @@ class ServerAlerts extends Component {
                                             index = {index}    
                                             key = {index}
                                             name = {this.rackNames[index]}
-                                            slot = {this.rackItems[index]}    
+                                            slot = {this.rackItems[index]}
+                                            hasPdu = {this.hasPdu[index]}    
                                             />
                                     )
                                 })  
