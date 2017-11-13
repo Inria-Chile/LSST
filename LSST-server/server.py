@@ -10,7 +10,8 @@ import pandas as pd
 
 from routes import app
 from emitters.ObservationEmitter import start_listening_fake, start_listening
-# from emitters.Rotator import start_listening
+# from emitters.Rotator import start_listening_rotator
+# from emitters.Louvers import start_listening_louvers
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_socketio import send, emit
@@ -34,6 +35,8 @@ def api_root():
 if __name__ == '__main__':
     print('Spawning eventlet')
     eventlet.spawn(start_listening_fake, app, socketio)
+    # eventlet.spawn(start_listening_rotator, app, socketio)
+    # eventlet.spawn(start_listening_louvers, app, socketio)
     # eventlet.spawn(start_listening,      app, socketio)
     socketio.run(app, host='0.0.0.0')
     send('message')

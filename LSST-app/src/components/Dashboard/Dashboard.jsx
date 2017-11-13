@@ -35,6 +35,7 @@ class Dashboard extends Component {
             if(Dashboard.viewConfigs[key] && Dashboard.viewConfigs[key].visible)
                 componentVisibility[key] = Dashboard.viewConfigs[key].visible;
         });
+        this.dashboardNode = null;
         this.state = {
             draggable: false,
             componentVisibility: componentVisibility
@@ -59,7 +60,13 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div id="dashboard">
+            <div id="dashboard" ref={(dashboard) => {
+                if(!this.state.dashboardNode){
+                    this.setState({
+                        dashboardNode: dashboard
+                    })
+                }
+            }}>
                 <div id="dashboard-toolbar">
                     <Toolbar draggableActive={this.state.draggable} 
                             availableComponents={Dashboard.viewComponents} 
@@ -82,7 +89,7 @@ class Dashboard extends Component {
                             enableResizing={this.state.draggable ? undefined : false}
                             className={this.state.draggable ? 'draggable' : ''}
                         >
-                            <Survey/>
+                            <Survey parentNode={this.state.dashboardNode} />
                         </Rnd>) :
                         <div></div>
                     }
@@ -121,7 +128,8 @@ class Dashboard extends Component {
                             className={this.state.draggable ? 'draggable' : ''}
                         >
                             <Dome/>
-                        </Rnd>) :
+                        </Rnd>) 
+                        : 
                         <div></div>
                     }
                 </div>

@@ -23,3 +23,7 @@
 .histogram line {   
     stroke: var(--theme-inactive-text);
 }
+
+.field-details {
+    background: var(--theme-div-background);
+}

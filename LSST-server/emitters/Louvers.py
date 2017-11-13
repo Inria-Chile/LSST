@@ -8,7 +8,7 @@ from flask_socketio import send, emit
 from flask_socketio import SocketIO
 
 #Get data from ts_sal connection
-def start_listening(app, socketio):
+def start_listening_louvers(app, socketio):
     print("SAL starting")
     salLouvers = SAL_domeLouvers()
     salLouvers.setDebugLevel(0)

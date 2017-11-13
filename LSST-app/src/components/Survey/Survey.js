@@ -10,6 +10,7 @@ import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
+import FieldDetails from './FieldDetails/FieldDetails';
 import openSocket from 'socket.io-client';
 import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
 
@@ -355,6 +356,11 @@ class Survey extends PureComponent {
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
+                {
+                    this.props.parentNode ?
+                        <FieldDetails targetNode={this.props.parentNode}/>
+                    :<div>this.props.parentNode</div>
+                }
             </div>
         );
     }

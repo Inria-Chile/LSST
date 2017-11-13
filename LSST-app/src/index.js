@@ -8,6 +8,7 @@ import Survey from './components/Survey/Survey';
 import Mirrors from './components/Mirrors/Mirrors';
 import Dome from './components/Dome/Dome';
 import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard2 from './components/Dashboard/Dashboard2';
 import FieldDetails from './components/Survey/FieldDetails/FieldDetails';
 import ServerAlerts from './components/ServerAlerts/ServerAlerts';
 import registerServiceWorker from './registerServiceWorker';
@@ -24,6 +25,7 @@ ReactDOM.render((
             <Route path='/mirrors' component={Mirrors}/>
             <Route path='/dome' component={Dome}/>
             <Route path='/dashboard' component={Dashboard}/>
+            <Route path='/dashboard2' component={Dashboard2}/>
             <Route path='/field' component={FieldDetails}/>
             <Route path='/server_alerts' component={ServerAlerts}/>
         </Switch>

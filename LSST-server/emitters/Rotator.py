@@ -8,7 +8,7 @@ from flask_socketio import send, emit
 from flask_socketio import SocketIO
 
 #Get data from ts_sal connection
-def start_listening(app, socketio):
+def start_listening_rotator(app, socketio):
     print("SAL starting")
     salRotator = SAL_rotator()
     salRotator.setDebugLevel(0)

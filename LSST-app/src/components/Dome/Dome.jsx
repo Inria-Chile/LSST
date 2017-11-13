@@ -25,7 +25,7 @@ class Dome extends PureComponent {
             mountAzimuth: 0,
         }
         this.socket = openSocket(window.location.origin + '');        
-        console.log('SCOKERT', this.socket.on('data', msg => console.log(msg)));
+        console.log('SCOKERT', this.socket.on('Rotator', msg => console.log(msg)));
     }
 
     updateShuttersAperture = (aperture) => {
