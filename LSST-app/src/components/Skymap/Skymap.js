@@ -185,7 +185,6 @@ class Skymap extends PureComponent {
       <div ref={this.props.nodeRef} className={this.props.className}>
         <Script
           url="/lib/d3.geo.projection.min.js"
-          onCreate={ (x) => console.log(x+'oncretae')}
           onError={ (x) => console.log(x+'onereror')}
           onLoad={ (x) => this.setupCelestial()}
         />

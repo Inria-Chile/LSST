@@ -4,7 +4,7 @@ import Survey from '../Survey/Survey';
 import Mirrors from '../Mirrors/Mirrors';
 import Dome from '../Dome/Dome';
 import {Responsive, WidthProvider} from 'react-grid-layout';
-import './Dashboard.css';
+import './Dashboard2.css';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class Dashboard2 extends Component {
@@ -76,13 +76,6 @@ class Dashboard2 extends Component {
             </div>
         );
     }
-    /*
-    <div key="a" data-grid={{x: 0, y: 0, w: 1, h: 2, static: true}}>
-                            <Survey parentNode={this.state.dashboardNode} />
-                        </div>
-                        <Mirrors/>
-                        <Dome/>
-                         */
 }
 
 export default Dashboard2;

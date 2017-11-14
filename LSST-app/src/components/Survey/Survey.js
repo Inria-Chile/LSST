@@ -36,8 +36,8 @@ class Survey extends PureComponent {
             selectedMode: 'playback',
             // selectedMode: 'playback',
             timeWindow: TimeWindow.timeWindowOptions[Object.keys(TimeWindow.timeWindowOptions)[0]],
-            selectedField: null,
-            clickedField: [],
+            hoveredField: null,
+            selectedFieldData: [],
             displayedFilter: 'all',
             startDate: null,
             endDate: null,
@@ -244,7 +244,7 @@ class Survey extends PureComponent {
             }
         }
         this.setState({
-            selectedField: latestField
+            hoveredField: latestField
         })
     }
 
@@ -261,8 +261,9 @@ class Survey extends PureComponent {
             }
         }
         selectedFieldData.sort((a,b)=> b.expDate - a.expDate);
+        // console.log('selectedFieldData', selectedFieldData);
         this.setState({
-            clickedField: selectedFieldData
+            selectedFieldData: selectedFieldData
         })
     }
 
@@ -313,7 +314,6 @@ class Survey extends PureComponent {
                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
                             <div className="row">
                                 <div className="col-6">
-
                                     <div className="main-skymap-wrapper">
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
@@ -333,13 +333,13 @@ class Survey extends PureComponent {
                                         </div>
                                         
                                         {
-                                            this.state.selectedField &&
-                                            <CellHoverInfo selectedField={this.state.selectedField} />
+                                            this.state.hoveredField &&
+                                            <CellHoverInfo selectedField={this.state.hoveredField} />
                                         } 
                                     </div>
                                 </div>
                                 <div className="col-6">
-                                    <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
+                                    <ObservationsTable clickedField={this.state.selectedFieldData} />
                                 </div>
                             </div>                        
                         </div>                        
@@ -352,8 +352,8 @@ class Survey extends PureComponent {
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
                 {
                     this.props.parentNode ?
-                        <FieldDetails targetNode={this.props.parentNode}/>
-                    :<div>this.props.parentNode</div>
+                        <FieldDetails targetNode={this.props.parentNode} fieldData={this.state.selectedFieldData}/>
+                    :''
                 }
             </div>
         );

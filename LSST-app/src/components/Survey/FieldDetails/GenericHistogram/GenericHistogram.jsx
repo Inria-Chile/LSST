@@ -14,67 +14,81 @@ class GenericHistogram extends PureComponent {
     // - sky brightness histogram 
     // - histogram of time baselines (i.e., time between visits)
 
-    constructor(props){
-        super(props);
-        this.data = props.data;
-        let width = props.width,
-            height = props.height;
-
-        let x = d3.scaleLinear()
-            .domain(this.props.domain)
-            .rangeRound([0, width]);
-
+    componentDidMount(){
+        let width = this.props.width,
+            height = this.props.height;
+        let svg = d3.select("#"+this.props.id);
+        let domain = this.getDomain();
+        let x = this.getScale(domain, width);
         let bins = d3.histogram()
             .domain(x.domain())
-            .thresholds(x.ticks(this.props.nBins))(this.data);
-
-        console.log('bins', bins)
-        this.state = {
-            width: width,
-            height: height,
-            bins: bins,
-            x: x,
-            y: () => 0
-        }
-    }
-
-    componentDidMount(){
-        var svg = d3.select("#"+this.props.id),
-            height = this.state.height;
-        
-        var x = this.state.x;
-        
-        var bins = this.state.bins;
+            .thresholds(x.ticks(this.props.nBins))(this.props.data);
 
         let y = d3.scaleLinear().nice()
             .domain([0, d3.max(bins, function(d) { return d.length; })])
             .range([height, 0]);
 
-        this.setState({
-            y: y
-        })
-
-
         // add the x Axis
         svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+            .attr("transform", "translate(0," + height + ")")
+            .attr("id", this.props.id+"-xAxis")
+            .call(d3.axisBottom(x).ticks(this.props.nTicks));
 
-        console.log("d3.axisBottom(x)", d3.axisBottom(x))
         // add the y Axis
         svg.append("g")
-        .call(d3.axisLeft(y));
+            .attr("id", this.props.id+"-yAxis")
+            .call(d3.axisLeft(y).ticks(this.props.nTicks));
+    }
+
+    getDomain() {
+        let domain = this.props.domain;
+        if(!this.props.domain){
+            let domainMax = d3.max(this.props.data);
+            let domainMin = d3.min(this.props.data);
+            domain = [domainMin*0.9, domainMax*1.1];
+            if(this.props.data.length === 0 || this.props.data[0] === undefined){
+                domain = [1, 1];
+            }
+        }
+        return domain;
+    }
+
+    getScale(domain, width) {
+        let x;
+        if(this.props.logScale)
+            x = d3.scaleLog()
+                .domain(domain)
+                .rangeRound([0, width]);
+        else
+            x = d3.scaleLinear()
+                .domain(domain)
+                .rangeRound([0, width]);
+        return x;
     }
 
     render() {
+        let width = this.props.width,
+            height = this.props.height;
+        let domain = this.getDomain();
+        
+        let x = this.getScale(domain, width);
+        let bins = d3.histogram()
+            .domain(x.domain())
+            .thresholds(x.ticks(this.props.nBins))(this.props.data);
+        let y = d3.scaleLinear().nice()
+                .domain([0, d3.max(bins, function(d) { return d.length; })])
+                .range([height, 0]);
+
+        d3.select('#'+this.props.id+"-xAxis").call(d3.axisBottom(x).ticks(this.props.nTicks, ",.1s"));
+        d3.select('#'+this.props.id+"-yAxis").call(d3.axisLeft(y).ticks(this.props.nTicks));
         return (
             <div>
-                <svg id={this.props.id} className='histogram' width={this.state.width+100} height={this.state.height+40}>
+                <svg id={this.props.id} className='histogram' width={width+100} height={height+40}>
                     {
-                        this.state.bins.map( (d, i) => {
+                        bins.map( (d, i) => {
                             return (
-                                <rect key={i} className="bar" x="1" transform={"translate(" + this.state.x(d.x0) + "," + this.state.y(d.length) + ")"} 
-                                    width={Math.max(0, this.state.x(d.x1) - this.state.x(d.x0) -1)} height={this.props.height - this.state.y(d.length)}></rect>
+                                <rect key={i} className="bar" x="1" transform={"translate(" + x(d.x0) + "," + y(d.length) + ")"} 
+                                    width={Math.max(0, x(d.x1) - x(d.x0))} height={this.props.height - y(d.length)}></rect>
                             )
                         })
                     }
