@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
-import { createPortal } from 'react-dom';
 import './FieldDetails.css';
 import { BarChart } from 'react-d3-components'
 import GenericHistogram from './GenericHistogram/GenericHistogram'
 import Rnd from 'react-rnd';
 import DraggableTitle from '../../Utils/DraggableTitle';
+// import { filterColors, decreaseBrightness } from "../../Utils/Utils"
 
 class FieldDetails extends PureComponent {
     
@@ -70,8 +70,7 @@ class FieldDetails extends PureComponent {
             values: Object.keys(filtersCount).map( f => {return {x: f, y: filtersCount[f]}})
         }];
 
-        if(this.props.targetNode && this.props.showFieldDetails){
-            return createPortal(
+            return (
                 <Rnd default={{
                     x: 800,
                     y: 100,
@@ -81,16 +80,20 @@ class FieldDetails extends PureComponent {
                     dragGrid={ [20,20]}
                     resizeGrid={ [20,20]}
                     disableDragging={false}
-                    enableResizing={true}
+                    enableResizing={{ top:true, right:true, bottom:true, left:true, topRight:true, bottomRight:true, bottomLeft:true, topLeft:true }}
                     className={'field-details-popup'}
                     dragHandleClassName={'.move-button'}
+                    resizeHandleClassName={'.close-button'}
+                    resizeHandleWrapperClass={'field-details-popup'}
                 >
                     <div className="field-details">
                         <DraggableTitle title={'Field ID: ' + fieldData[0].fieldID} customClass='field-details-title' showClose={true} onCloseClick={() => this.props.setFieldDetailsVisibility(false)}/>
                         <div className='field-details-content'>
-                            <div className='histogram'>
-                                <h5>Details</h5>
-                                <p>DADSADSAs</p>
+                            <div className='summary-data' style={{width: width}}>
+                                <h5>Summary</h5>
+                                <div>FieldID: {fieldData[0].fieldID}</div>
+                                <div>Timestamp: {fieldData[0].expDate}</div>
+                                <div>Filter: {fieldData[0].filterName}</div>
                             </div>
                             <div className='histogram barchart'>
                                 <h5>Filters</h5>
@@ -122,15 +125,9 @@ class FieldDetails extends PureComponent {
                             </div>
                         </div>
                     </div>
-                </Rnd>,
-                this.props.targetNode,
+                </Rnd>
               );
-        }
-        else{
-            return (
-                <div></div>
-            );
-        }
+       
     }
 }
 

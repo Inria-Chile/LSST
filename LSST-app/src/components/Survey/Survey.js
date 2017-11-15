@@ -10,7 +10,6 @@ import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
-import FieldDetails from './FieldDetails/FieldDetails';
 import DraggableTitle from '../Utils/DraggableTitle';
 import openSocket from 'socket.io-client';
 import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
@@ -42,7 +41,6 @@ class Survey extends PureComponent {
             startDate: null,
             endDate: null,
             showSkyMap: true,
-            showFieldDetails: true,
         }
 
         this.hiddenStyle = {
@@ -268,18 +266,13 @@ class Survey extends PureComponent {
         });
     }
 
-    setFieldDetailsVisibility = (visibility) => {
-        this.setState({
-            showFieldDetails: visibility,
-        });
-    }
-
     cellClickCallback = (fieldID, polygon) => {
         this.lastFieldID = fieldID;
         this.lastPolygon = polygon;
         if(fieldID){
             this.updateObservationsTable();
-            this.setFieldDetailsVisibility(true);
+            this.props.setFieldDetailsVisibility(true);
+            this.props.setSelectedFieldData(this.state.selectedFieldData);
         }
         console.log('cellClickCallback', fieldID, polygon);
     }
@@ -360,14 +353,14 @@ class Survey extends PureComponent {
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
-                {
-                    this.props.parentNode && this.state.showFieldDetails ?
+                {/* {
+                    this.props.parentNode && this.props.showFieldDetails ?
                         <FieldDetails targetNode={this.props.parentNode} 
                                         fieldData={this.state.selectedFieldData}
-                                        setFieldDetailsVisibility={this.setFieldDetailsVisibility}
-                                        showFieldDetails={this.state.showFieldDetails}/>
+                                        setFieldDetailsVisibility={this.props.setFieldDetailsVisibility}
+                                        showFieldDetails={this.props.showFieldDetails}/>
                     :''
-                }
+                } */}
             </div>
         );
     }

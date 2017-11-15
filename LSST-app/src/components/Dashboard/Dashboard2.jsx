@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Survey from '../Survey/Survey';
 import Mirrors from '../Mirrors/Mirrors';
 import Dome from '../Dome/Dome';
+import FieldDetails from '../Survey/FieldDetails/FieldDetails';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 import './Dashboard2.css';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -10,37 +11,24 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 class Dashboard2 extends Component {
     
     static viewComponents = [Survey, Mirrors];
-    static viewConfigs = {
-        survey: {
-            x: 0, y: 0,
-            width: 1920, height: 1080,
-            visible: true,
-        },
-        mirrors: {
-            x: 0, y: 0,
-            width: 500, height: 1080,
-            visible: true,
-        },
-        dome: {
-            x: 0, y: 0,
-            width: 500, height: 1080,
-            visible: true,
-        },
-    }
 
     constructor(props){
         super(props);
-        let componentVisibility = {};
-        Object.keys(Dashboard2.viewConfigs).forEach((key) =>{
-            if(Dashboard2.viewConfigs[key] && Dashboard2.viewConfigs[key].visible)
-                componentVisibility[key] = Dashboard2.viewConfigs[key].visible;
-        });
-        this.dashboardNode = null;
         this.state = {
-            draggable: false,
-            componentVisibility: componentVisibility,
-            parentNode: null
+            showFieldDetails: false,
         }
+    }
+
+    setFieldDetailsVisibility = (visibility) => {
+        this.setState({
+            showFieldDetails: visibility,
+        });
+    }
+
+    setSelectedFieldData = (data) => {
+        this.setState({
+            selectedFieldData: data
+        });
     }
 
     render() {
@@ -63,7 +51,10 @@ class Dashboard2 extends Component {
                         cols={{lg: 12, md: 6, sm: 6, xs: 6, xxs: 6}}>
 
                         <div key="a" data-grid={{x: 0, y: 0, w: 6, h: 10}}>
-                            <Survey parentNode={this.state.dashboardNode} />
+                            <Survey parentNode={this.state.dashboardNode} 
+                                    setFieldDetailsVisibility={this.setFieldDetailsVisibility} 
+                                    showFieldDetails={this.state.showFieldDetails}
+                                    setSelectedFieldData={this.setSelectedFieldData}/>
                         </div>
                         <div key="b" data-grid={{x: 6, y: 0, w: 2, h: 12}}>
                             <Mirrors />
@@ -73,6 +64,14 @@ class Dashboard2 extends Component {
                         </div>
                     </ResponsiveReactGridLayout>
                 </div>
+                    {
+                        this.state.showFieldDetails ? 
+                        <FieldDetails fieldData={this.state.selectedFieldData}
+                                        setFieldDetailsVisibility={this.setFieldDetailsVisibility}
+                                        showFieldDetails={this.state.showFieldDetails}/>
+                        :
+                        ''
+                    }
             </div>
         );
     }
