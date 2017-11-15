@@ -10,6 +10,9 @@
 .text{
     fill: white;
 }
+.indicator{
+    fill: #57ad5d;
+}
 
 /* .minitext{
     fill: white;
