@@ -41,7 +41,8 @@ class Survey extends PureComponent {
             displayedFilter: 'all',
             startDate: null,
             endDate: null,
-            showSkyMap: true
+            showSkyMap: true,
+            showFieldDetails: true,
         }
 
         this.hiddenStyle = {
@@ -245,7 +246,7 @@ class Survey extends PureComponent {
         }
         this.setState({
             hoveredField: latestField
-        })
+        });
     }
 
     updateObservationsTable = () => {
@@ -264,14 +265,23 @@ class Survey extends PureComponent {
         // console.log('selectedFieldData', selectedFieldData);
         this.setState({
             selectedFieldData: selectedFieldData
-        })
+        });
+    }
+
+    setFieldDetailsVisibility = (visibility) => {
+        this.setState({
+            showFieldDetails: visibility,
+        });
     }
 
     cellClickCallback = (fieldID, polygon) => {
         this.lastFieldID = fieldID;
         this.lastPolygon = polygon;
-        this.updateObservationsTable();
-        console.log('cellClickCallback');
+        if(fieldID){
+            this.updateObservationsTable();
+            this.setFieldDetailsVisibility(true);
+        }
+        console.log('cellClickCallback', fieldID, polygon);
     }
 
     cellUpdateCallback = (fieldID, polygon) => {
@@ -351,8 +361,11 @@ class Survey extends PureComponent {
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
                 {
-                    this.props.parentNode ?
-                        <FieldDetails targetNode={this.props.parentNode} fieldData={this.state.selectedFieldData}/>
+                    this.props.parentNode && this.state.showFieldDetails ?
+                        <FieldDetails targetNode={this.props.parentNode} 
+                                        fieldData={this.state.selectedFieldData}
+                                        setFieldDetailsVisibility={this.setFieldDetailsVisibility}
+                                        showFieldDetails={this.state.showFieldDetails}/>
                     :''
                 }
             </div>

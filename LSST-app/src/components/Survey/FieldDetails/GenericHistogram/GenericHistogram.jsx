@@ -83,7 +83,7 @@ class GenericHistogram extends PureComponent {
         d3.select('#'+this.props.id+"-yAxis").call(d3.axisLeft(y).ticks(this.props.nTicks));
         return (
             <div>
-                <svg id={this.props.id} className='histogram' width={width+100} height={height+40}>
+                <svg id={this.props.id} className='histogram' width={width+this.props.margin} height={height+this.props.margin}>
                     {
                         bins.map( (d, i) => {
                             return (

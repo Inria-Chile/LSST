@@ -80,7 +80,7 @@ class Dome extends PureComponent {
         
         return (
             <div className="dome-container">
-                <DraggableTitle title='Mirrors'/>
+                <DraggableTitle title='Dome'/>
                 <div className="container pull-left">
                     <div className="row">
                         <div className="col-12">
