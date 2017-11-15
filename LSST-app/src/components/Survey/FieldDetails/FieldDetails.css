@@ -12,7 +12,7 @@
 
 .histogram text {   
     fill: var(--theme-inactive-text);
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .histogram path {   
@@ -25,7 +25,7 @@
 }
 
 .barchart {
-    padding: 0px 30px;    
+    padding: 0px 0px;    
 }
 
 .field-details {
@@ -44,4 +44,3 @@
     margin: 0px;
     padding: 5px;
 }
-

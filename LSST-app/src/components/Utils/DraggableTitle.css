@@ -1,5 +1,9 @@
 
-.draggable-title .move-button {
+.draggable-title {
+    display: flex;
+}
+
+.draggable-title .move-button, .draggable-title .close-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -7,7 +11,14 @@
     cursor: pointer;
 }
 
-
 .draggable-title .move-button svg{
     fill: var(--theme-inactive-text);
+}
+
+.draggable-title .close-button svg{
+    fill: var(--theme-inactive-text);
+}
+
+.field-details-title .move-button {
+    right: 35px;
 }

@@ -50,8 +50,8 @@ class FieldDetails extends PureComponent {
     }
 
     render() {
-        let width = 250;
-        let height = 150;
+        let width = 350;
+        let height = 190;
         let fieldData = this.props.fieldData && this.props.fieldData.length > 0 ? this.props.fieldData : [{fieldID: 0}];
         let filtersCount = {'u':0, 'g':0, 'r':0, 'i':0, 'z':0, 'y':0};
         fieldData.map( x => {
@@ -70,7 +70,7 @@ class FieldDetails extends PureComponent {
             values: Object.keys(filtersCount).map( f => {return {x: f, y: filtersCount[f]}})
         }];
 
-        if(this.props.targetNode){
+        if(this.props.targetNode && this.props.showFieldDetails){
             return createPortal(
                 <Rnd default={{
                     x: 800,
@@ -86,7 +86,7 @@ class FieldDetails extends PureComponent {
                     dragHandleClassName={'.move-button'}
                 >
                     <div className="field-details">
-                        <DraggableTitle title={'Field ID: ' + fieldData[0].fieldID} customClass='field-details-title' />
+                        <DraggableTitle title={'Field ID: ' + fieldData[0].fieldID} customClass='field-details-title' showClose={true} onCloseClick={() => this.props.setFieldDetailsVisibility(false)}/>
                         <div className='field-details-content'>
                             <div className='histogram'>
                                 <h5>Details</h5>
@@ -102,23 +102,23 @@ class FieldDetails extends PureComponent {
                             </div>
                             <div className=''>
                                 <h5>Rotation angle</h5>
-                                <GenericHistogram id='adssa' data={rotationData} width={width} height={height} domain={[0, 360]} nBins={36}  nTicks={5}/>
+                                <GenericHistogram id='adssa' data={rotationData} width={width-40} height={height-40} margin={40} domain={[0, 360]} nBins={36}  nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Airmass</h5>
-                                <GenericHistogram id='adssa2' data={airmassData} width={width} height={height} domain={[0, 3]} nBins={36}  nTicks={5}/>
+                                <GenericHistogram id='adssa2' data={airmassData} width={width-40} height={height-40} margin={40} domain={[0, 3]} nBins={36}  nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Seeing</h5>
-                                <GenericHistogram id='adssa3' data={seeingData} width={width} height={height} domain={[0, 2]} nBins={36} nTicks={5}/>
+                                <GenericHistogram id='adssa3' data={seeingData} width={width-40} height={height-40} margin={40} domain={[0, 2]} nBins={36} nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Sky brightness</h5>
-                                <GenericHistogram id='adssa4' data={skyBrightnessData} width={width} height={height} nBins={36} nTicks={5}/>
+                                <GenericHistogram id='adssa4' data={skyBrightnessData} width={width-40} height={height-40} margin={40} nBins={36} nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Time baselines</h5>
-                                <GenericHistogram id='adssa5' data={baselinesData} width={width} height={height} nBins={36} nTicks={5} logScale={true}/>
+                                <GenericHistogram id='adssa5' data={baselinesData} width={width-40} height={height-40} margin={40} nBins={36} nTicks={5} logScale={true}/>
                             </div>
                         </div>
                     </div>
