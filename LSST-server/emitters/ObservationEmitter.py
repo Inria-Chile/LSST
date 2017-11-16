@@ -24,7 +24,7 @@ def start_listening_fake(app, socketio):
             initial_date = initial_date + date_step
 
 #Get data from ts_sal connection
-def start_listening(app, socketio):
+def start_listening_survey(app, socketio):
     print("SAL starting")
     sal = SAL_scheduler()
     sal.setDebugLevel(0)
