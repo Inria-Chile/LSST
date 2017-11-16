@@ -27,7 +27,8 @@ class Indicator extends Component {
                         y={this.offsetTop+this.props.y + index*this.offset} 
                         width={this.size} 
                         height={this.size} 
-                        className="indicator"/>
+                        className="indicator"
+                        key = {index}/>
                     )
                  
                 })

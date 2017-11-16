@@ -1,5 +1,6 @@
 .slot{
     fill: #3f5b72;
+    z-index:-1;
 }
 .empty-slot{
     fill: #39546a;
@@ -14,6 +15,16 @@
     fill: #57ad5d;
 }
 
+.slotDetails{
+    z-index:1;
+    fill: #2a3d50;
+}
+.rack-active{
+    opacity: 1;
+}
+.rack-inactive{
+    opacity: 0.2;
+}
 /* .minitext{
     fill: white;
     font-size: 12px;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Rack from './Rack/Rack';
 import './SeverAlerts.css';
+import SlotDetails from './SlotDetails/SlotDetails'
 
 class ServerAlerts extends Component {
     constructor(props){
@@ -111,8 +113,82 @@ class ServerAlerts extends Component {
             {name:'OCS Application', size:1.17, position: 6.68, indicators:['CPU','Disk','UPS']},
             {name:'TCS Wavefront Sensing', size:1.17, position:7.85, indicators:['CPU','Disk','UPS']}
             ]
-        ]
+        ];
+        this.state = {
+            showRackDetails: false,
+            rackDetails : null,
+            detailsPosition : null
+        }
+        this.racks = [];
     }
+    displayRackDetails=(details,pos,hOf1,rackIndex)=>{
+        let show = this.state.showRackDetails;
+        let currentDetails = this.state.rackDetails;
+        if(currentDetails==null){
+            this.hiddeOtherRacks(rackIndex);
+            this.setState({
+                rackDetails : details,
+                detailsPosition : pos,
+                showRackDetails : !show,
+                heightOf1Slot : hOf1
+            })
+        }
+        else if(currentDetails===details){
+            if(show)this.showAllRacks();
+            else this.hiddeOtherRacks(rackIndex);
+            this.setState({
+                showRackDetails : !show
+            })
+        }
+        else if(currentDetails!==details && !show){
+            this.hiddeOtherRacks(rackIndex);
+            this.setState({
+                rackDetails : details,
+                detailsPosition : pos,
+                showRackDetails : !show
+            })
+        }
+        else if(currentDetails!==details){
+            this.hiddeOtherRacks(rackIndex);
+            this.setState({
+                rackDetails : details,
+                detailsPosition : pos
+            })
+        }
+    }
+
+    hiddeOtherRacks=(index)=>{
+        let activeRack = this.racks[index];
+        let rackClass = ReactDOM.findDOMNode(activeRack).getAttribute("class")
+        if(rackClass==="rack-inactive"){
+            let rackDom = ReactDOM.findDOMNode(activeRack);
+            rackDom.setAttribute("class","rack-active");
+        }
+        this.racks.forEach((rack)=>{
+            if(rack!==activeRack){
+                let rackDom = ReactDOM.findDOMNode(rack);
+                rackDom.setAttribute("class","rack-inactive");
+            }
+        });
+    }
+
+    showAllRacks=()=>{
+        this.racks.forEach((rack)=>{
+            let rackDom = ReactDOM.findDOMNode(rack);
+            rackDom.setAttribute("class","rack-active");
+        });
+    }
+
+    handleClick=(e)=>{
+        console.log(e)
+        if(this.state.showRackDetails){
+            this.showAllRacks();
+            this.setState({
+                showRackDetails:false
+            })
+        }
+    }
+
     
     render() {
         let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;
@@ -152,12 +228,15 @@ class ServerAlerts extends Component {
                         height = {window.innerHeight}
                         width = {window.innerWidth}
                         x = {this.margin.left}
-                        y = {this.margin.bottom}>
+                        y = {this.margin.bottom}
+                        onClick = {this.handleClick}
+                        >
                        
                             {
                                 rackDetails.map((pos,index)=>{
                                     return(
                                         <Rack
+                                            ref={(rack) =>{this.racks[index]=rack}}
                                             x={pos.x}
                                             y={pos.y}
                                             width={rackWidth}
@@ -168,10 +247,19 @@ class ServerAlerts extends Component {
                                             name = {this.rackNames[index]}
                                             slot = {this.rackItems[index]}
                                             hasPdu = {this.hasPdu[index]}
+                                            displayPopUp = {this.displayRackDetails}
                                             />
                                     )
                                 })  
                             }
+
+                            <g className="pop-up-container">
+                                {this.state.showRackDetails && 
+                                <SlotDetails 
+                                position = {this.state.detailsPosition} 
+                                details={this.state.rackDetails}
+                                hOf1={this.state.heightOf1Slot}/>}
+                            </g>
                         </svg>
                     </div>
                 </div>

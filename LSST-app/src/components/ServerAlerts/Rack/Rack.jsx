@@ -9,6 +9,10 @@ class Rack extends Component {
         this.split=2;
     }
 
+    displayPopUp=(details, pos, hOf1)=>{
+        this.props.displayPopUp(details,pos,hOf1,this.props.index);
+    }
+
     render() {
         let xend = this.props.x+this.props.width-this.props.structureWidth;
         let xpdu = this.props.x+this.props.structureWidth+this.split;
@@ -19,9 +23,9 @@ class Rack extends Component {
         let ytext = ypdu+heightPdu-heightPdu/2;
         let slotWidth = widthPdu;
         let totalSlotHeight = this.props.height-heightPdu;
-
+        let id ="rack-"+this.props.index;
         return (
-            <g>
+            <g id={id}className="rack-active">
                 <text x={xtext} y={this.props.y}
                 transform="translate(-35,-30)"
                 className="text">{this.props.name}</text>
@@ -52,6 +56,7 @@ class Rack extends Component {
                 width={slotWidth} 
                 totalHeight={totalSlotHeight-this.split}
                 details = {this.props.slot}
+                displayPopUp={this.displayPopUp}
                 
                 />
             </g>
