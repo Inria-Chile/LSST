@@ -108,7 +108,7 @@ def api_observations():
         end_date = int(data['end_date'])
     query_result = session.query(Observation).filter(Observation.expDate > start_date, Observation.expDate < end_date)
     serialized_labels = [serializeCount(obs) for obs in query_result.all()]
-    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count','expDate','expTime','lst') if k in adict} for adict in serialized_labels]
+    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count','expDate','expTime','lst','skybrightness_modified','airmass','seeing','rotSkyPos') if k in adict} for adict in serialized_labels]
     for adict in serialized_labels:
         adict['fieldRA'] = round(adict['fieldRA']*180.0/math.pi, 3)
         adict['fieldDec'] = round(adict['fieldDec']*180.0/math.pi, 3)
@@ -134,7 +134,7 @@ def api_observationsCount():
         end_date = int(data['end_date'])
     query_result = session.query(Observation, func.count()).filter(Observation.expDate > start_date, Observation.expDate < end_date).group_by(Observation.fieldID, Observation.filterName)
     serialized_labels = [dict(serialize(obs[0]), **{'count': obs[1]}) for obs in query_result.all()]
-    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count','expDate','expTime','lst') if k in adict} for adict in serialized_labels]
+    serialized_labels = [{k:adict[k] for k in ('fieldID','fieldRA','fieldDec','filterName','count','expDate','expTime','lst','skybrightness_modified','airmass','seeing','rotSkyPos') if k in adict} for adict in serialized_labels]
     for adict in serialized_labels:
         adict['fieldRA'] = round(adict['fieldRA']*180.0/math.pi, 3)
         adict['fieldDec'] = round(adict['fieldDec']*180.0/math.pi, 3)

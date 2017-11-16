@@ -4,6 +4,7 @@ import M1M3 from './M1M3/M1M3';
 import ColorScaleLegend from './ColorScaleLegend/ColorScaleLegend';
 import './Mirrors.css';
 import * as d3 from 'd3';
+import DraggableTitle from '../Utils/DraggableTitle';
 
 class Mirrors extends Component {
 
@@ -23,11 +24,7 @@ class Mirrors extends Component {
         let colormap3 = d3.scaleSequential((t) => d3.hsl(140, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
         return (
             <div className="mirrors-container">
-                <div>
-                    <h2>
-                        Mirrors
-                    </h2>
-                </div>
+                <DraggableTitle title='Mirrors'/>
                 <div className="container pull-left">
                     <div className="row">
                         <div className="col-6 m1m3-heading-col">

@@ -21,7 +21,7 @@
 }
 
 .draggable {
-    box-shadow: 0 0 0 5px #f00 inset;
+    /* box-shadow: 0 0 0 5px #f00 inset; */
 }
 
 #toolbar {

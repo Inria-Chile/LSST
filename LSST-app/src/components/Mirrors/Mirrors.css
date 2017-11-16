@@ -3,6 +3,7 @@
     flex-direction: column;
     margin: 5px;
     color: #96a3b3;
+    height: 100%;
 }
 
 .mirrors-container h2 {
@@ -20,6 +21,7 @@
     background: #3a4d61;
     width: 100%;
     margin: 0px;
+    height: 100%;
 }
 
 .m1m3-heading-col {

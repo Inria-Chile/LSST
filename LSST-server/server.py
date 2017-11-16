@@ -7,10 +7,9 @@ from sqlalchemy.orm import sessionmaker, class_mapper
 from json import dumps
 from utils import serialize
 import pandas as pd
+import sys
 
 from routes import app
-from emitters.ObservationEmitter import start_listening_fake, start_listening
-# from emitters.Rotator import start_listening
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_socketio import send, emit
@@ -32,8 +31,17 @@ def api_root():
 <body>Welcome</body>'''
 
 if __name__ == '__main__':
-    print('Spawning eventlet')
-    eventlet.spawn(start_listening_fake, app, socketio)
-    # eventlet.spawn(start_listening,      app, socketio)
+    if len(sys.argv) > 1 and sys.argv[1] == 'production':
+        print('Spawning eventlet production')
+        from emitters.ObservationEmitter import start_listening_survey
+        from emitters.Rotator import start_listening_rotator
+        from emitters.Louvers import start_listening_louvers
+        eventlet.spawn(start_listening_rotator, app, socketio)
+        eventlet.spawn(start_listening_louvers, app, socketio)
+        eventlet.spawn(start_listening_survey, app, socketio)
+    else:
+        from emitters.ObservationEmitter import start_listening_fake
+        print('Spawning eventlet')
+        eventlet.spawn(start_listening_fake, app, socketio)
     socketio.run(app, host='0.0.0.0')
     send('message')

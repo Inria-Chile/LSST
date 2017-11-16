@@ -10,6 +10,7 @@ import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
+import DraggableTitle from '../Utils/DraggableTitle';
 import openSocket from 'socket.io-client';
 import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
 
@@ -34,12 +35,12 @@ class Survey extends PureComponent {
             selectedMode: 'playback',
             // selectedMode: 'playback',
             timeWindow: TimeWindow.timeWindowOptions[Object.keys(TimeWindow.timeWindowOptions)[0]],
-            selectedField: null,
-            clickedField: [],
+            hoveredField: null,
+            selectedFieldData: [],
             displayedFilter: 'all',
             startDate: null,
             endDate: null,
-            showSkyMap: true
+            showSkyMap: true,
         }
 
         this.hiddenStyle = {
@@ -242,8 +243,8 @@ class Survey extends PureComponent {
             }
         }
         this.setState({
-            selectedField: latestField
-        })
+            hoveredField: latestField
+        });
     }
 
     updateObservationsTable = () => {
@@ -259,16 +260,21 @@ class Survey extends PureComponent {
             }
         }
         selectedFieldData.sort((a,b)=> b.expDate - a.expDate);
+        // console.log('selectedFieldData', selectedFieldData);
         this.setState({
-            clickedField: selectedFieldData
-        })
+            selectedFieldData: selectedFieldData
+        });
     }
 
     cellClickCallback = (fieldID, polygon) => {
         this.lastFieldID = fieldID;
         this.lastPolygon = polygon;
-        this.updateObservationsTable();
-        console.log('cellClickCallback');
+        if(fieldID){
+            this.updateObservationsTable();
+            this.props.setFieldDetailsVisibility(true);
+            this.props.setSelectedFieldData(this.state.selectedFieldData);
+        }
+        console.log('cellClickCallback', fieldID, polygon);
     }
 
     cellUpdateCallback = (fieldID, polygon) => {
@@ -295,14 +301,7 @@ class Survey extends PureComponent {
 
         return (
             <div className="survey-container">
-                <div>
-                    <h2>
-                        Survey Progress
-                    </h2>
-                    <button className="settings-button" type="button" onClick={this.setSidebar} aria-label="Settings">
-                        <i className="fa fa-cog" aria-hidden="true"></i>
-                    </button>
-                </div>
+                <DraggableTitle title='Survey Progress'/>
                 <div className="main-container">
                     <div className="left-container">
                         <SurveyControls setPlaybackMode={this.setPlaybackMode} 
@@ -318,7 +317,6 @@ class Survey extends PureComponent {
                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
                             <div className="row">
                                 <div className="col-6">
-
                                     <div className="main-skymap-wrapper">
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
@@ -338,13 +336,13 @@ class Survey extends PureComponent {
                                         </div>
                                         
                                         {
-                                            this.state.selectedField &&
-                                            <CellHoverInfo selectedField={this.state.selectedField} />
+                                            this.state.hoveredField &&
+                                            <CellHoverInfo selectedField={this.state.hoveredField} />
                                         } 
                                     </div>
                                 </div>
                                 <div className="col-6">
-                                    <ObservationsTable selectedField={this.state.selectedField} clickedField={this.state.clickedField} />
+                                    <ObservationsTable clickedField={this.state.selectedFieldData} />
                                 </div>
                             </div>                        
                         </div>                        
@@ -355,6 +353,14 @@ class Survey extends PureComponent {
                     </div>
                 </div>
                 <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
+                {/* {
+                    this.props.parentNode && this.props.showFieldDetails ?
+                        <FieldDetails targetNode={this.props.parentNode} 
+                                        fieldData={this.state.selectedFieldData}
+                                        setFieldDetailsVisibility={this.props.setFieldDetailsVisibility}
+                                        showFieldDetails={this.props.showFieldDetails}/>
+                    :''
+                } */}
             </div>
         );
     }

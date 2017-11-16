@@ -22,6 +22,7 @@ RUN yum -y --enablerepo=extras install epel-release && \
   python-devel \
   python-pip \
   python-wheel \
+  nodejs \
   nano && \
   yum clean all
 
@@ -46,27 +47,19 @@ ENV PATH=${PATH}:${SAL_DIR}
 ENV OSPL_HOME=$LSST_SDK_INSTALL/OpenSpliceDDS/V6.4.1/HDE/x86_64.linux
 
 COPY ./ts_visit_simulator /home/docker/workspace/ts_visit_simulator
-COPY run.sh /home/docker/workspace/
 
-COPY LSST-server/requirements.txt /home/docker/lsst/LSST-server/requirements.txt
+COPY ./requirements.txt /home/docker/lsst/LSST-server/requirements.txt
 RUN pip install -r /home/docker/lsst/LSST-server/requirements.txt
 RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
 
-RUN yum -y install nodejs
+COPY *.py /home/docker/lsst/LSST-server/
+COPY scripts /home/docker/lsst/LSST-server/scripts
+COPY routes /home/docker/lsst/LSST-server/routes
+COPY emitters /home/docker/lsst/LSST-server/emitters
+COPY data /home/docker/lsst/LSST-server/data
 
-ADD LSST-app/package.json /home/docker/lsst/LSST-app/package.json
-
-WORKDIR /home/docker/lsst/LSST-app
-
-RUN npm install
-
-COPY LSST-app /home/docker/lsst/LSST-app
-COPY LSST-server /home/docker/lsst/LSST-server
 COPY run.sh /home/docker/lsst/run.sh
 
-RUN npm install
-
-# entrypoint
-RUN chmod +x run.sh
+RUN chmod +x /home/docker/lsst/run.sh
 ENTRYPOINT source /home/docker/workspace/ts_visit_simulator/setup.env && \
   /home/docker/lsst/run.sh
