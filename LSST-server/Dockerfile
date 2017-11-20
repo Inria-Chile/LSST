@@ -8,7 +8,6 @@ RUN yum -y --enablerepo=extras install epel-release && \
   yum -y install unzip \
   wget \
   git \
-  dos2unix \
   tk \
   tk-devel \
   swig \
@@ -23,6 +22,7 @@ RUN yum -y --enablerepo=extras install epel-release && \
   python-pip \
   python-wheel \
   nodejs \
+  gnome-terminal \
   nano && \
   yum clean all
 
