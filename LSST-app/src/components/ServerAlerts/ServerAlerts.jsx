@@ -117,43 +117,59 @@ class ServerAlerts extends Component {
         this.state = {
             showRackDetails: false,
             rackDetails : null,
-            detailsPosition : null
+            detailsPosition : null,
+            rackIndex: null
         }
         this.racks = [];
     }
     displayRackDetails=(details,pos,hOf1,rackIndex)=>{
         let show = this.state.showRackDetails;
-        let currentDetails = this.state.rackDetails;
-        if(currentDetails==null){
+        if(this.state.rackIndex==null){
             this.hiddeOtherRacks(rackIndex);
             this.setState({
-                rackDetails : details,
-                detailsPosition : pos,
-                showRackDetails : !show,
-                heightOf1Slot : hOf1
-            })
+                rackDetails: details,
+                detailsPosition: pos,
+                rackIndex: rackIndex,
+                showRackDetails: !show,
+                heightOf1Slot: hOf1,
+                clickOverRack: true
+            });
         }
-        else if(currentDetails===details){
-            if(show)this.showAllRacks();
-            else this.hiddeOtherRacks(rackIndex);
-            this.setState({
-                showRackDetails : !show
-            })
+        else if(this.state.rackIndex === rackIndex &&
+        this.state.rackDetails === details){
+            if(show){
+                this.showAllRacks();
+                this.setState({
+                    showRackDetails: false,
+                    rackDetails : null,
+                    detailsPosition : null,
+                    rackIndex: null
+                })
+            }
+            // else{
+            //     this.hiddeOtherRacks(rackIndex);
+            //     this.setState({
+            //         showRackDetails: !show
+            //     });
+            // } 
+          
         }
-        else if(currentDetails!==details && !show){
+        else if(this.state.rackIndex === rackIndex){
             this.hiddeOtherRacks(rackIndex);
             this.setState({
-                rackDetails : details,
-                detailsPosition : pos,
-                showRackDetails : !show
-            })
+                rackDetails: details,
+                detailsPosition: pos
+            });
         }
-        else if(currentDetails!==details){
-            this.hiddeOtherRacks(rackIndex);
+        else{
+            this.showAllRacks();
             this.setState({
-                rackDetails : details,
-                detailsPosition : pos
+                showRackDetails: false,
+                rackDetails : null,
+                detailsPosition : null,
+                rackIndex: null
             })
+        
         }
     }
 
@@ -180,13 +196,17 @@ class ServerAlerts extends Component {
     }
 
     handleClick=(e)=>{
-        console.log(e)
-        if(this.state.showRackDetails){
+        let targetClass = e.target.getAttribute("class")
+        if(targetClass!=="slot"){
             this.showAllRacks();
             this.setState({
-                showRackDetails:false
+                showRackDetails: false,
+                rackDetails : null,
+                detailsPosition : null,
+                rackIndex: null
             })
         }
+        console.log(this.state)
     }
 
     
@@ -229,7 +249,7 @@ class ServerAlerts extends Component {
                         width = {window.innerWidth}
                         x = {this.margin.left}
                         y = {this.margin.bottom}
-                        onClick = {this.handleClick}
+                        onClick = {(e)=>this.handleClick(e)}
                         >
                        
                             {

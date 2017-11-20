@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class SlotDetails extends Component {
 
     render() {
-        console.log(this.props.details)
         let x = this.props.position[0];
         let y = this.props.position[1]+this.props.hOf1*this.props.details.position;
         return (
