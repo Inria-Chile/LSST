@@ -92,7 +92,7 @@ class ObservationsTable extends PureComponent {
                             }
                         ]}
                         defaultPageSize={11}
-                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : 11}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 10 ? 10 : 10}
                         /* pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length} */
                         className="-highlight -no-header"
                         showPaginationBottom={false}
