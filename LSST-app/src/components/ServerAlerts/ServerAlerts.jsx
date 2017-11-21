@@ -146,13 +146,6 @@ class ServerAlerts extends Component {
                     rackIndex: null
                 })
             }
-            // else{
-            //     this.hiddeOtherRacks(rackIndex);
-            //     this.setState({
-            //         showRackDetails: !show
-            //     });
-            // } 
-          
         }
         else if(this.state.rackIndex === rackIndex){
             this.hiddeOtherRacks(rackIndex);
@@ -206,9 +199,7 @@ class ServerAlerts extends Component {
                 rackIndex: null
             })
         }
-        console.log(this.state)
     }
-
     
     render() {
         let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;

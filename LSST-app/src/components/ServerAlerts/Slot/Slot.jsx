@@ -23,9 +23,10 @@ class Slot extends Component {
             this.props.details.map((details, index)=>{
                 y =  this.props.y +details.position*heightOf1;
                 let indicatorsX = this.props.x+this.props.width;
+                let indicatorsX2 = this.props.x+10;
                 return(
                     <g key={index} 
-                    onClick={()=>this.displayPopUp(index,[indicatorsX,this.props.y], heightOf1)}>
+                    onClick={()=>this.displayPopUp(index,[indicatorsX2,this.props.y+10], heightOf1)}>
                         <rect 
                         x={this.props.x} 
                         y={y} 
