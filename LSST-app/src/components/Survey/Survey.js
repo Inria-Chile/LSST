@@ -271,8 +271,10 @@ class Survey extends PureComponent {
         this.lastPolygon = polygon;
         if(fieldID){
             this.updateObservationsTable();
-            this.props.setFieldDetailsVisibility(true);
-            this.props.setSelectedFieldData(this.state.selectedFieldData);
+            if(this.props.setFieldDetailsVisibility)
+                this.props.setFieldDetailsVisibility(true);
+            if(this.props.setSelectedFieldData)
+                this.props.setSelectedFieldData(this.state.selectedFieldData);
         }
         console.log('cellClickCallback', fieldID, polygon);
     }
