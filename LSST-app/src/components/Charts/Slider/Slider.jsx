@@ -92,7 +92,7 @@ class Slider extends Component {
 
     render() {
         return (
-                <div ref="container"></div>
+                <div style={{maxWidth: '1400px'}} className='slider-container-div' ref="container"></div>
         );
     }
     

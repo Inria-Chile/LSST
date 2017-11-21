@@ -260,7 +260,7 @@ class Survey extends PureComponent {
             }
         }
         selectedFieldData.sort((a,b)=> b.expDate - a.expDate);
-        // console.log('selectedFieldData', selectedFieldData);
+        // console.log('updateObservationsTable', selectedFieldData);
         this.setState({
             selectedFieldData: selectedFieldData
         });

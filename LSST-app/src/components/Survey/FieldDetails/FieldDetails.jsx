@@ -4,7 +4,7 @@ import { BarChart } from 'react-d3-components'
 import GenericHistogram from './GenericHistogram/GenericHistogram'
 import Rnd from 'react-rnd';
 import DraggableTitle from '../../Utils/DraggableTitle';
-// import { filterColors, decreaseBrightness } from "../../Utils/Utils"
+import FilterIndicator from '../../Utils/FilterIndicator/FilterIndicator';
 
 class FieldDetails extends PureComponent {
     
@@ -93,7 +93,7 @@ class FieldDetails extends PureComponent {
                                 <h5>Summary</h5>
                                 <div>FieldID: {fieldData[0].fieldID}</div>
                                 <div>Timestamp: {fieldData[0].expDate}</div>
-                                <div>Filter: {fieldData[0].filterName}</div>
+                                <div>Filter: <FilterIndicator filterName={fieldData[0].filterName}/></div>
                             </div>
                             <div className='histogram barchart'>
                                 <h5>Filters</h5>

@@ -4,9 +4,10 @@ import React, { PureComponent } from 'react';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './ObservationsTable.css';
-import { filterColors, lstToscienceProposal, decreaseBrightness } from "../Utils/Utils";
+import { lstToscienceProposal } from "../Utils/Utils";
 import { Scrollbars } from "react-custom-scrollbars";
 import {lsstToJs} from '../Utils/Utils'
+import FilterIndicator from '../Utils/FilterIndicator/FilterIndicator';
 
 class ObservationsTable extends PureComponent {
 
@@ -70,18 +71,7 @@ class ObservationsTable extends PureComponent {
                                 Header: "Filter",
                                 accessor: "filterName",
                                 Cell: row => (
-                                        <div style={{
-                                            width: '80%',
-                                            backgroundColor: filterColors[row.value ] ? filterColors[row.value ]
-                                                : "#000000",
-                                            textAlign: "center",
-                                            borderRadius: '2px',
-                                            border: decreaseBrightness(filterColors[row.value], 1.3) + ' solid 2px'
-                                        }}>
-                                        {
-                                            row.value 
-                                        }
-                                        </div> 
+                                        <FilterIndicator style={{width: '80%', textAlign: "center"}} filterName={row.value}/>
                                 ),
                                 maxWidth: filterColWidth
                             },
@@ -92,7 +82,7 @@ class ObservationsTable extends PureComponent {
                             }
                         ]}
                         defaultPageSize={11}
-                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : 11}
+                        pageSize={this.props.clickedField === null || this.props.clickedField.length < 10 ? 10 : 10}
                         /* pageSize={this.props.clickedField === null || this.props.clickedField.length < 11 ? 11 : this.props.clickedField.length} */
                         className="-highlight -no-header"
                         showPaginationBottom={false}
