@@ -29,20 +29,18 @@ class SlotDetails extends Component {
                     />
                     { indicators.map((indicator, index)=>{
                         return(
-                            <g>
+                            <g key={index}>
                                 <rect 
                                 x={x+this.offset} 
                                 y={y+this.offset/2+this.height/3*index} 
                                 width={this.width-2*this.offset} 
                                 height={this.height/indicators.length-this.offset} 
                                 className="indicator"
-                                key={index}
                                 /> 
                                 <text
                                 x={x+this.offset*2} 
                                 y={y+this.offset/2+this.height/3*index + this.offset*2.5} 
                                 className="text"
-                                key={index}
                                 >{indicator}</text>
                             </g>
                           

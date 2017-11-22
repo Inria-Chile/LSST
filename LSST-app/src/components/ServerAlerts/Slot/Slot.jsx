@@ -36,7 +36,7 @@ class Slot extends Component {
 
                         <text x={this.props.x} y={y}
                         transform="translate(10,25)"
-                        className="text">{details.name}</text>
+                        className="slot-text">{details.name}</text>
 
                         <Indicators 
                         x={indicatorsX}
