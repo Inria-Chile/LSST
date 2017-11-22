@@ -22,7 +22,7 @@ def start_listening_dome_shutter(app, socketio):
     print("SAL listening")
     try:
         while True:
-            time.sleep(0.2)
+            time.sleep(0.3)
             scodeCloseDome = salDome.acceptCommand_CloseShutter(topicCloseShutter)
             scodeOpenDome = salDome.acceptCommand_OpenShutter(topicOpenShutter)
             if scodeCloseDome > 0:

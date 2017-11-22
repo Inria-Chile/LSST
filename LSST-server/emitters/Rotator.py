@@ -20,7 +20,7 @@ def start_listening_rotator(app, socketio):
     print("SAL listening")
     try:
         while True:
-            time.sleep(0.1)
+            time.sleep(0.3)
             scodeRotator = salRotator.getNextSample_Position(topicRotatorPosition)
             if scodeRotator == 0:
                 publish(app, socketio, topicRotatorPosition)

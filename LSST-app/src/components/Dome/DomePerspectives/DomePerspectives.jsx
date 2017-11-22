@@ -4,6 +4,7 @@ import FrontView from './FrontView/FrontView';
 import SideView from './SideView/SideView';
 import Louvers from './Louvers/Louvers';
 import './DomePerspectives.css';
+import {DEMO_MODE} from '../../Utils/Utils';
 
 class DomePerspectives extends PureComponent {
 
@@ -17,15 +18,17 @@ class DomePerspectives extends PureComponent {
     }
 
     componentDidMount(prevProps, prevState){
-        setInterval( () => {
-            this.props.updateShuttersAperture(11);
-            let angle_0 = 25;
-            let angle = Math.max(3.5, Math.ceil(Math.random()*(90-angle_0-10)));
-            this.setState({
-                topWindScreenPos: angle,
-                bottomWindScreenPos: 90-(angle+angle_0),
-            })
-        }, 4000)
+        if(DEMO_MODE){
+            setInterval( () => {
+                this.props.updateShuttersAperture(11);
+                let angle_0 = 25;
+                let angle = Math.max(3.5, Math.ceil(Math.random()*(90-angle_0-10)));
+                this.setState({
+                    topWindScreenPos: angle,
+                    bottomWindScreenPos: 90-(angle+angle_0),
+                })
+            }, 4000)
+        }
     }
 
     render() {

@@ -20,7 +20,7 @@ def start_listening_louvers(app, socketio):
     print("SAL listening")
     try:
         while True:
-            time.sleep(0.1)
+            time.sleep(0.3)
             scodeLouvers = salLouvers.getNextSample_status(topicLouvers)
             if scodeLouvers == 0:
                 publish(app, socketio, topicLouvers)
@@ -32,10 +32,12 @@ def start_listening_louvers(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicLouvers):
-    print('Emitting', [topicLouvers.position_actual, topicLouvers.position_error, topicLouvers.position_cmd])
+    print('EmittingLouvers', {'position_actual': topicLouvers.position_actual, 'position_error': topicLouvers.position_error, 'position_cmd': topicLouvers.position_cmd})
     with app.test_request_context('/'):
-	    for i in range(0,34):
-        	louverPos = 'topicLouvers'+str(i)
-        	LouversPosErr = 'LouversPosErr'+str(i)
-        	LouversCMD = 'LouversCMD'+str(i)
-        	socketio.emit('Louvers', {louverPos: topicLouvers.position[i], LouversPosErr:topicLouvers.position_error[i], LouversCMD:topicLouvers.position_cmd[i]})
+        # socketio.emit('Louvers', {'position_actual': topicLouvers.position_actual, 'position_error': topicLouvers.position_error, 'position_cmd': topicLouvers.position_cmd})        
+        socketio.emit('Louvers', {'position_actual': topicLouvers.position_actual[0:34], 'position_error':topicLouvers.position_error[0:34], 'position_cmd':topicLouvers.position_cmd[0:34]})        
+        # for i in range(0,34):
+        # 	louverPos = 'topicLouvers'+str(i)
+        # 	LouversPosErr = 'LouversPosErr'+str(i)
+        # 	LouversCMD = 'LouversCMD'+str(i)
+        # 	socketio.emit('Louvers', {louverPos: topicLouvers.position_actual[i], LouversPosErr:topicLouvers.position_error[i], LouversCMD:topicLouvers.position_cmd[i]})
