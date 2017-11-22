@@ -8,6 +8,7 @@ import DraggableTitle from '../Utils/DraggableTitle';
 import TimeSeriesLegend from './TimeSeries/TimeSeriesLegend';
 import './Dome.css';
 import openSocket from 'socket.io-client';
+import {DEMO_MODE} from '../Utils/Utils';
 
 class Dome extends PureComponent {
 
@@ -27,10 +28,10 @@ class Dome extends PureComponent {
         }
         this.socket = openSocket(window.location.origin + '');        
         // console.log('SCOKERT', this.socket.on('data', msg => console.log('data', msg)));
-        console.log('SCOKERT', this.socket.on('Rotator', msg => console.log('Rotator', msg)));
-        console.log('SCOKERT', this.socket.on('Louvers', msg => console.log('Louvers', msg)));
-        console.log('SCOKERT', this.socket.on('DomePosition', msg => console.log('DomePosition', msg)));
-        console.log('SCOKERT', this.socket.on('DomeShutter', msg => console.log('DomeShutter', msg)));
+        // console.log('SCOKERT', this.socket.on('Rotator', msg => console.log('Rotator', msg)));
+        // console.log('SCOKERT', this.socket.on('Louvers', msg => console.log('Louvers', msg)));
+        // console.log('SCOKERT', this.socket.on('DomePosition', msg => console.log('DomePosition', msg)));
+        // console.log('SCOKERT', this.socket.on('DomeShutter', msg => console.log('DomeShutter', msg)));
     }
 
     updateShuttersAperture = (aperture) => {
@@ -54,25 +55,27 @@ class Dome extends PureComponent {
     }
 
     componentDidMount() {
-        setInterval(() => {
-            let newAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth, 360);
-            let domeTargetAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth + ((Math.random() - 0.1) * 20), 360);
-            let domeOptimalAzimuth = this.normalizeAngle(newAzimuth + ((Math.random() - 0.1) * 6), 360);
-            
-            let newElevation = this.normalizeAngle(this.state.telescopeTargetElevation, 90);
-            let telescopeTargetElevation = this.normalizeAngle((Math.random() - 0.1) * 15, 90);
-            let telescopeOptimalElevation = this.normalizeAngle(newElevation + Math.random() * 3, 90);
-            let newMountAzimuth = newAzimuth + ((Math.random() - 0.1) * 30);
-            this.setState({
-                domeAzimuth: newAzimuth,
-                domeTargetAzimuth: domeTargetAzimuth,
-                domeOptimalAzimuth: domeOptimalAzimuth,
-                telescopeElevation: newElevation,
-                telescopeTargetElevation: telescopeTargetElevation,
-                telescopeOptimalElevation: telescopeOptimalElevation,
-                mountAzimuth: newMountAzimuth
-            })
-        }, 2000)
+        if(DEMO_MODE){
+            setInterval(() => {
+                let newAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth, 360);
+                let domeTargetAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth + ((Math.random() - 0.1) * 20), 360);
+                let domeOptimalAzimuth = this.normalizeAngle(newAzimuth + ((Math.random() - 0.1) * 6), 360);
+                
+                let newElevation = this.normalizeAngle(this.state.telescopeTargetElevation, 90);
+                let telescopeTargetElevation = this.normalizeAngle((Math.random() - 0.1) * 15, 90);
+                let telescopeOptimalElevation = this.normalizeAngle(newElevation + Math.random() * 3, 90);
+                let newMountAzimuth = newAzimuth + ((Math.random() - 0.1) * 30);
+                this.setState({
+                    domeAzimuth: newAzimuth,
+                    domeTargetAzimuth: domeTargetAzimuth,
+                    domeOptimalAzimuth: domeOptimalAzimuth,
+                    telescopeElevation: newElevation,
+                    telescopeTargetElevation: telescopeTargetElevation,
+                    telescopeOptimalElevation: telescopeOptimalElevation,
+                    mountAzimuth: newMountAzimuth
+                })
+            }, 2000)
+        }
     }
 
     render() {

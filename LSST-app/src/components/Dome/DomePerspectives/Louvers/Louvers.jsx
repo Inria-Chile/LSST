@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './Louvers.css';
 // import * as d3 from 'd3';
+import {DEMO_MODE} from '../../../Utils/Utils';
+import openSocket from 'socket.io-client';
 
 class Louvers extends Component {
 
@@ -15,6 +17,16 @@ class Louvers extends Component {
             louversAperture: [...Array(34).keys()].map(() => 0),
             selectedLouverAperture: 69,
             selectedLouverInfoPos: [40, 40],
+        }
+        this.socket = openSocket(window.location.origin + '');
+        console.log('Louvers\' socket listening', this.socket.on('Louvers', msg => this.receiveLouversData(msg)));
+    }
+
+    receiveLouversData = (msg) => {
+        if(msg.position_actual){
+            this.setState({
+                louversAperture: msg.position_actual
+            });
         }
     }
 
@@ -34,14 +46,16 @@ class Louvers extends Component {
     }
 
     componentDidMount() {
-        setInterval( () => {
-            let openLouvers = this.getRandomSubarray(this.louverIndexs, Math.ceil(Math.random()*this.louverIndexs.length));
-            let louversAperture = [...Array(34).keys()].map(() => Math.random());
-            this.setState({
-                openLouvers: openLouvers,
-                louversAperture: louversAperture,
-            })
-        }, 5000)
+        if(DEMO_MODE){
+            setInterval( () => {
+                let openLouvers = this.getRandomSubarray(this.louverIndexs, Math.ceil(Math.random()*this.louverIndexs.length));
+                let louversAperture = [...Array(34).keys()].map(() => Math.random()*100);
+                this.setState({
+                    openLouvers: openLouvers,
+                    louversAperture: louversAperture,
+                })
+            }, 5000)
+        }
     }
 
     onLouverMouseOver = (louverIndex) => {
@@ -60,7 +74,6 @@ class Louvers extends Component {
     }
 
     onLouverMouseOut = (louverIndex) => {
-        console.log('onLouverMouseOver')
         this.setState(
             {
                 selectedLouverIndex: -1,
@@ -200,7 +213,7 @@ class Louvers extends Component {
                                 props.angle = 0;
                                 props.r = radius;
                                 props.y = center[1] + props.height*xOffset;
-                                props.working = false;
+                                props.working = true;
                                 props.aperture = this.state.louversAperture[louverIndex];
                                 props.onLouverMouseOver = this.onLouverMouseOver(louverIndex);
                                 props.onLouverMouseOut = this.onLouverMouseOut;
@@ -213,7 +226,7 @@ class Louvers extends Component {
                         })
                     }
                     <text id='louver-aperture-text' x={this.state.selectedLouverInfoPos[0]} y={this.state.selectedLouverInfoPos[1]}>
-                        {this.state.selectedLouverIndex >= 0 ? Math.round(100*this.state.louversAperture[this.state.selectedLouverIndex]) + '%' : ''}
+                        {this.state.selectedLouverIndex >= 0 ? Math.round(this.state.louversAperture[this.state.selectedLouverIndex]) + '%' : ''}
                     </text>
                 </svg>
             </div>
@@ -249,7 +262,7 @@ class Louver extends Component {
                                 y={yOffset-this.props.height/2}
                                 height={this.props.height}
                                 width={this.props.width}
-                                fillOpacity={this.props.aperture}
+                                fillOpacity={this.props.aperture/100}
                                 transform = {"rotate("+rot+" "+(xOffset)+" "+(yOffset)+")"}
                                 onMouseOver={this.props.onLouverMouseOver(labelPos)}
                                 />

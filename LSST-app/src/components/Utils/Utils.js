@@ -128,3 +128,5 @@ export function lsstToJs(time){
     return time*1000+lsstEpoch;
 }
 export const lsstEpoch = 757393245000;
+
+export const DEMO_MODE = false;
