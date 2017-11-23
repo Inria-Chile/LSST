@@ -11,6 +11,9 @@
 .text{
     fill: white;
 }
+.slot-text{
+    fill: white;
+}
 .indicator{
     fill: #57ad5d;
 }

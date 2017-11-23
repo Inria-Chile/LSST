@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Rack from './Rack/Rack';
 import './SeverAlerts.css';
 import SlotDetails from './SlotDetails/SlotDetails'
+import openSocket from 'socket.io-client';
 
 class ServerAlerts extends Component {
     constructor(props){
@@ -121,6 +122,20 @@ class ServerAlerts extends Component {
             rackIndex: null
         }
         this.racks = [];
+        this.socket = openSocket(window.location.origin+'')
+        console.log('SCOKERT', this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp)))
+    
+        // console.log('SCOKERT', this.socket.on('DomeShutter', msg => console.log('DomeShutter', msg)));
+        // console.log('SCOKERT', this.socket.on('ServerAlerts', msg => console.log('ServerAlerts', msg)));
+        
+    }
+
+    receiveMsg(msg){
+        console.log("receive")
+        console.log(msg)
+        // msg.expDate = msg.request_time;
+        // this.addObservation(msg);
+        // this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
     displayRackDetails=(details,pos,hOf1,rackIndex)=>{
         let show = this.state.showRackDetails;
@@ -200,26 +215,20 @@ class ServerAlerts extends Component {
             })
         }
     }
-    
-    render() {
-        let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;
-        let totalHeight = window.innerHeight-this.margin.top - this.margin.bottom-this.offset;
-        let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
-        let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
-
-        let x = [];
-        let xstart = this.margin.left;
-        for(let i = 0; i<this.ncols; i++){
-            x[i]=xstart;
-            xstart=xstart+rackWidth+this.verticalSplit;
+    getRacksCoord(start,measureOfRack,offset,n){
+        let coord = [];
+        for(let i = 0; i<n;i++){
+            coord[i] = start;
+            start = start+measureOfRack+offset;
         }
-        let y=[];
-        let ystart = this.margin.top+this.horizontalSplit;
-        for(let i=0; i<this.nrows;i++){
-            y[i]=ystart;
-            ystart = ystart+rackHeight+this.horizontalSplit;
-        }
+        return coord;
 
+    }
+
+    getRacksCoords(rackWidth, rackHeight){
+        let x = this.getRacksCoord(this.margin.left, rackWidth, this.verticalSplit, this.ncols);
+        let y = this.getRacksCoord(this.margin.top+this.horizontalSplit, rackHeight, 
+            this.horizontalSplit, this.nrows);
         let rackDetails = [];
         for(let i = 0; i<this.nrows; i++){
             for(let j = 0; j<this.ncols; j++){
@@ -230,6 +239,16 @@ class ServerAlerts extends Component {
                 rackDetails.push(item);
             }
         }
+        return rackDetails;
+    }
+    
+    render() {
+        let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;
+        let totalHeight = window.innerHeight-this.margin.top - this.margin.bottom-this.offset;
+        let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
+        let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
+        let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
+
         return (
             <div className="server-alerts-container" ref="container">
                 <div className ="row">

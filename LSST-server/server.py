@@ -45,7 +45,9 @@ if __name__ == '__main__':
         eventlet.spawn(start_listening_dome_position, app, socketio)
     else:
         from emitters.ObservationEmitter import start_listening_fake
+        from emitters.ServerAlerts import start_listening_fake_alerts
         print('Spawning eventlet')
         eventlet.spawn(start_listening_fake, app, socketio)
+        eventlet.spawn(start_listening_fake_alerts,app,socketio)
     socketio.run(app, host='0.0.0.0')
     send('message')
