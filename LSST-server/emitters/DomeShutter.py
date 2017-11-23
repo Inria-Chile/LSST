@@ -40,6 +40,6 @@ def publish(app, socketio, shutter):
     print('Emitting', shutter)
     with app.test_request_context('/'):
         if(shutter):
-            socketio.emit('DomeShutter', {'Shutter': 1})#Open
+            socketio.emit('DomeShutter', {'Shutter': 1}, namespace='/domeshutter')#Open
         else:
-            socketio.emit('DomeShutter', {'Shutter': 0})#Close
+            socketio.emit('DomeShutter', {'Shutter': 0}, namespace='/domeshutter')#Close

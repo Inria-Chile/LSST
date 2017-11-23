@@ -17,6 +17,9 @@ class GenericHistogram extends PureComponent {
     componentDidMount(){
         let width = this.props.width,
             height = this.props.height;
+        let margin = this.props.margin;
+        let xLabel = this.props.xLabel;
+        let yLabel = this.props.yLabel;
         let svg = d3.select("#"+this.props.id);
         let domain = this.getDomain();
         let x = this.getScale(domain, width);
@@ -38,6 +41,26 @@ class GenericHistogram extends PureComponent {
         svg.append("g")
             .attr("id", this.props.id+"-yAxis")
             .call(d3.axisLeft(y).ticks(this.props.nTicks));
+
+        let xAxis = d3.select("#"+this.props.id+"-xAxis");
+        let yAxis = d3.select("#"+this.props.id+"-yAxis");
+
+        xAxis.append("text")
+            .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                        (0 + margin/3) + ")")
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(xLabel);
+
+
+        yAxis.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin/1.5)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(yLabel);
     }
 
     getDomain() {
@@ -79,7 +102,7 @@ class GenericHistogram extends PureComponent {
                 .domain([0, d3.max(bins, function(d) { return d.length; })])
                 .range([height, 0]);
 
-        d3.select('#'+this.props.id+"-xAxis").call(d3.axisBottom(x).ticks(this.props.nTicks, ",.1s"));
+        d3.select('#'+this.props.id+"-xAxis").call(d3.axisBottom(x).ticks(this.props.nTicks, this.props.logScale ? ",.1s" : "d"));
         d3.select('#'+this.props.id+"-yAxis").call(d3.axisLeft(y).ticks(this.props.nTicks));
         return (
             <div>

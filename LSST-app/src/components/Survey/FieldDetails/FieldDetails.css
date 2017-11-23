@@ -25,7 +25,7 @@
 }
 
 .barchart {
-    padding: 0px 0px;    
+    padding: 0px 0px;
 }
 
 .field-details {
@@ -43,4 +43,27 @@
     background: var(--theme-background);
     margin: 0px;
     padding: 5px;
+}
+
+.barchart .axis text {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.field-details-content h5 {
+    text-align: center;
+    color: var(--theme-inactive-text);
+}
+
+.field-details-content > div {
+    margin: 10px;
+    width: 370px;
+}
+
+.field-details-content > div > div {
+    background: var(--theme-inactive-slider);
+}
+
+.summary-data-content {
+    padding: 30px;
 }

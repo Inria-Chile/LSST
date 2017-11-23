@@ -27,8 +27,8 @@ def start_listening_dome_position(app, socketio):
     try:
         while True:
             time.sleep(0.3)
-            scodeAz = salAz.getNextSample_status(topicDomeAz)
-            scodeEl = salEl.getNextSample_status(topicDomeEl)
+            scodeAz = salAz.getSample_status(topicDomeAz)
+            scodeEl = salEl.getSample_status(topicDomeEl)
             if scodeAz == 0 and scodeEl == 0:
                 publish(app, socketio, topicDomeAz, topicDomeEl)
 
@@ -42,4 +42,4 @@ def start_listening_dome_position(app, socketio):
 def publish(app, socketio, topicDomeAz, topicDomeEl):
     print('Emitting', [topicDomeAz.position_actual, topicDomeAz.position_error, topicDomeAz.position_cmd, topicDomeEl.position_actual, topicDomeEl.position_error, topicDomeEl.position_cmd])
     with app.test_request_context('/'):
-        socketio.emit('DomePosition', {'DomeAzPos': topicDomeAz.position_actual, 'DomeAzPosErr':topicDomeAz.position_error, 'DomeAzCMD':topicDomeAz.position_cmd, 'DomeElPos': topicDomeEl.position_actual, 'DomeElPosErr':topicDomeEl.position_error, 'DomeElCMD':topicDomeEl.position_cmd})
+        socketio.emit('DomePosition', {'DomeAzPos': topicDomeAz.position_actual, 'DomeAzPosErr':topicDomeAz.position_error, 'DomeAzCMD':topicDomeAz.position_cmd, 'DomeElPos': topicDomeEl.position_actual, 'DomeElPosErr':topicDomeEl.position_error, 'DomeElCMD':topicDomeEl.position_cmd}, namespace='/domeposition')

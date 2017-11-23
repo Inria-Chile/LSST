@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { LineChart } from 'react-d3-components'
 import * as d3 from 'd3';
+import '../TimeSeries.css';
 // import rd3 from 'rd3';
 
 
@@ -41,7 +42,7 @@ class DomeElevationTimeSeries extends PureComponent {
         newData[2].values.push({x: new Date(), y: this.props.telescopeElevation})
         
         for(let i=0; i<this.state.data.length; ++i){
-            if (newData[i].values.length > 10)
+            if (newData[i].values.length > 500)
                 newData[i].values.shift();
         }
         this.setState({
@@ -63,8 +64,8 @@ class DomeElevationTimeSeries extends PureComponent {
                 yScale={this.state.yScale}
                 colorScale={(label) => this.constructor.LineColors[label]}
                 stroke={{strokeWidth: (label) => "3", strokeDasharray: (label) => this.lineDash[label]}}
-                yAxis={{tickValues: [0,15,30,45,60,75,90], domain:[0,90]}}
-                xAxis={{tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
+                yAxis={{label: 'Angle [deg]', tickValues: [0,15,30,45,60,75,90], domain:[0,90]}}
+                xAxis={{label: 'Time', tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
     }

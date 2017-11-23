@@ -1,0 +1,5 @@
+.axis > .label{
+    fill: var(--theme-inactive-text);
+    font-weight: bold;
+    font-size: 16px;
+}

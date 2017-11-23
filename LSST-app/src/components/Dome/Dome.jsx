@@ -21,17 +21,28 @@ class Dome extends PureComponent {
             domeAzimuth: 0,
             domeTargetAzimuth: 0,
             domeOptimalAzimuth: 0,
-            telescopeElevation: 20,
-            telescopeTargetElevation: 20,
-            telescopeOptimalElevation: 20,
+            telescopeElevation: 0,
+            telescopeTargetElevation: 0,
+            telescopeOptimalElevation: 0,
             mountAzimuth: 0,
         }
-        this.socket = openSocket(window.location.origin + '');        
+        this.socket = openSocket(window.location.origin + '/domeposition');      
+        // this.socket.join('test');
         // console.log('SCOKERT', this.socket.on('data', msg => console.log('data', msg)));
         // console.log('SCOKERT', this.socket.on('Rotator', msg => console.log('Rotator', msg)));
         // console.log('SCOKERT', this.socket.on('Louvers', msg => console.log('Louvers', msg)));
-        // console.log('SCOKERT', this.socket.on('DomePosition', msg => console.log('DomePosition', msg)));
+        console.log('DomePosition\'s socket listening', this.socket.on('DomePosition', msg => this.receiveDomePositionData(msg)));
         // console.log('SCOKERT', this.socket.on('DomeShutter', msg => console.log('DomeShutter', msg)));
+    }
+
+    receiveDomePositionData = (msg) => {
+        // console.log('receiveDomePositionData', msg);
+        this.setState({
+            domeAzimuth: msg.DomeAzPos,
+            telescopeElevation: msg.DomeElPos,
+            domeTargetAzimuth: msg.DomeAzCMD,
+            telescopeTargetElevation: msg.DomeElCMD,
+        });
     }
 
     updateShuttersAperture = (aperture) => {
