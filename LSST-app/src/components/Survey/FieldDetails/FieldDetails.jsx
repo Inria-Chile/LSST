@@ -31,12 +31,6 @@ class FieldDetails extends PureComponent {
             label: 'somethingA',
             values: [{x: 'Moving', y: 10}, {x: 'Variable', y: 4}, {x: 'Outburst', y: 1}, {x: 'New', y: 5}, {x: 'Vanished', y: 9}]
         }];
-        this.rotationData = [
-            30,20,50,60,80,50,40,50,60,50,20,10,80,90,350
-        ];
-        this.visitsData = [
-            'g','g','g','g','g','g','u','u','u','z','z','z','z','z','z','z','z','z','z','z','z','z','z','z','z','z','i','i','i','i','i','i',
-        ];
     }
 
     getBaseLines(data) {
@@ -97,31 +91,31 @@ class FieldDetails extends PureComponent {
                             </div>
                             <div className='histogram barchart'>
                                 <h5>Filters</h5>
-                                <BarChart data={filtersData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{tickArguments:[5]}}/>
+                                <BarChart data={filtersData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
                             </div>
                             <div className='histogram barchart'>
                                 <h5>Alerts</h5>
-                                <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{tickArguments:[5]}}/>
+                                <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
                             </div>
                             <div className=''>
                                 <h5>Rotation angle</h5>
-                                <GenericHistogram id='adssa' data={rotationData} width={width-40} height={height-40} margin={40} domain={[0, 360]} nBins={36}  nTicks={5}/>
+                                <GenericHistogram id='rotation-hist' data={rotationData} width={width-40} height={height-40} margin={60} xLabel={'Rotation [deg]'} yLabel={'Count'} domain={[0, 360]} nBins={36}  nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Airmass</h5>
-                                <GenericHistogram id='adssa2' data={airmassData} width={width-40} height={height-40} margin={40} domain={[0, 3]} nBins={36}  nTicks={5}/>
+                                <GenericHistogram id='airmass-hist' data={airmassData} width={width-40} height={height-40} margin={60} xLabel={'Airmass [?]'} yLabel={'Count'} domain={[0, 3]} nBins={36}  nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Seeing</h5>
-                                <GenericHistogram id='adssa3' data={seeingData} width={width-40} height={height-40} margin={40} domain={[0, 2]} nBins={36} nTicks={5}/>
+                                <GenericHistogram id='seeing-hist' data={seeingData} width={width-40} height={height-40} margin={60} xLabel={'Seeing [?]'} yLabel={'Count'} domain={[0, 2]} nBins={36} nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Sky brightness</h5>
-                                <GenericHistogram id='adssa4' data={skyBrightnessData} width={width-40} height={height-40} margin={40} nBins={36} nTicks={5}/>
+                                <GenericHistogram id='sky-brightness-hist' data={skyBrightnessData} width={width-40} height={height-40} margin={60} xLabel={'Sky brightness [?]'} yLabel={'Count'} nBins={36} nTicks={5}/>
                             </div>
                             <div className=''>
                                 <h5>Time baselines</h5>
-                                <GenericHistogram id='adssa5' data={baselinesData} width={width-40} height={height-40} margin={40} nBins={36} nTicks={5} logScale={true}/>
+                                <GenericHistogram id='time-baselines-hist' data={baselinesData} width={width-40} height={height-40} margin={60} xLabel={'Time baseline [s]'} yLabel={'Count'} nBins={36} nTicks={5} logScale={true}/>
                             </div>
                         </div>
                     </div>

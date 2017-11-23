@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { LineChart } from 'react-d3-components'
 import * as d3 from 'd3';
-
+import '../TimeSeries.css';
 
 class DomeAzimuthTimeSeries extends PureComponent {
     static LineColors = {
@@ -61,8 +61,8 @@ class DomeAzimuthTimeSeries extends PureComponent {
                 yScale={this.state.yScale}
                 colorScale={(label) => this.constructor.LineColors[label]}
                 stroke={{strokeWidth: (label) => "3", strokeDasharray: (label) => this.lineDash[label]}}
-                yAxis={{tickValues: [0,45,90,135,180,225,270,315,360], domain:[0,360]}}
-                xAxis={{tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
+                yAxis={{label: 'Angle [deg]', tickValues: [0,45,90,135,180,225,270,315,360], domain:[0,360]}}
+                xAxis={{label: 'Time', tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
     }

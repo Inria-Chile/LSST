@@ -25,7 +25,7 @@
 }
 
 .barchart {
-    padding: 0px 0px;    
+    padding: 0px 0px;
 }
 
 .field-details {
@@ -43,4 +43,9 @@
     background: var(--theme-background);
     margin: 0px;
     padding: 5px;
+}
+
+.barchart .axis text {
+    font-size: 13px;
+    font-weight: normal;
 }
