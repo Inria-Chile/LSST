@@ -119,7 +119,8 @@ class ServerAlerts extends Component {
             showRackDetails: false,
             rackDetails : null,
             detailsPosition : null,
-            rackIndex: null
+            rackIndex: null,
+            alerts:[-1]
         }
         this.racks = [];
         this.socket = openSocket(window.location.origin+'')
@@ -131,12 +132,13 @@ class ServerAlerts extends Component {
     }
 
     receiveMsg(msg){
-        console.log("receive")
         console.log(msg)
-        // msg.expDate = msg.request_time;
-        // this.addObservation(msg);
-        // this.setDate(new Date(parseInt(msg.request_time, 10)));
+        this.setState({
+            alerts:[msg]
+        })
+
     }
+
     displayRackDetails=(details,pos,hOf1,rackIndex)=>{
         let show = this.state.showRackDetails;
         if(this.state.rackIndex==null){
@@ -248,6 +250,8 @@ class ServerAlerts extends Component {
         let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
         let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
         let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
+        let rackAlert = this.state.alerts[this.state.alerts.length-1].rack;
+        // console.log(rackAlert)
 
         return (
             <div className="server-alerts-container" ref="container">
@@ -264,6 +268,7 @@ class ServerAlerts extends Component {
                        
                             {
                                 rackDetails.map((pos,index)=>{
+                                    // console.log("rackalert==index? ",rackAlert===index)
                                     return(
                                         <Rack
                                             ref={(rack) =>{this.racks[index]=rack}}
@@ -278,6 +283,7 @@ class ServerAlerts extends Component {
                                             slot = {this.rackItems[index]}
                                             hasPdu = {this.hasPdu[index]}
                                             displayPopUp = {this.displayRackDetails}
+                                            alert = {(rackAlert===index)?this.state.alerts[this.state.alerts.length-1].slot:null}
                                             />
                                     )
                                 })  
