@@ -24,7 +24,7 @@ class Rack extends Component {
         let slotWidth = widthPdu;
         let totalSlotHeight = this.props.height-heightPdu;
         let id ="rack-"+this.props.index;
-        console.log(this.props.alert)
+        // console.log(this.props.alert)
         return (
             <g id={id}className="rack-active">
                 <text x={xtext} y={this.props.y}

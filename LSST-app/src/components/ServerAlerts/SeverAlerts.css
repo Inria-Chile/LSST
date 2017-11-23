@@ -2,7 +2,7 @@
     fill: #3f5b72;
 }
 .slot-alert{
-    fill: red;
+    fill: #be4052;
 }
 .empty-slot{
     fill: #39546a;
@@ -18,6 +18,10 @@
 }
 .indicator{
     fill: #57ad5d;
+}
+
+.indicator-alert{
+    fill: #be4052;
 }
 
 .slotDetails{

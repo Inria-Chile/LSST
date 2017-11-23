@@ -47,7 +47,9 @@ class Slot extends Component {
                         width ={indicatorsWidth}
                         indicators={details.indicators}
                         height={details.size*heightOf1-this.split}
-                        bckgx ={this.props.x+indicatorsWidth*9}/>
+                        bckgx ={this.props.x+indicatorsWidth*9}
+                        // cssClass={(alert===index)?"slot-alert":"slot"}
+                        />
                 </g>
                 )
             })}
