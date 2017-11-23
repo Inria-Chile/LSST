@@ -49,3 +49,21 @@
     font-size: 13px;
     font-weight: normal;
 }
+
+.field-details-content h5 {
+    text-align: center;
+    color: var(--theme-inactive-text);
+}
+
+.field-details-content > div {
+    margin: 10px;
+    width: 370px;
+}
+
+.field-details-content > div > div {
+    background: var(--theme-inactive-slider);
+}
+
+.summary-data-content {
+    padding: 30px;
+}

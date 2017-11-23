@@ -5,6 +5,7 @@ import GenericHistogram from './GenericHistogram/GenericHistogram'
 import Rnd from 'react-rnd';
 import DraggableTitle from '../../Utils/DraggableTitle';
 import FilterIndicator from '../../Utils/FilterIndicator/FilterIndicator';
+import {lsstToJs} from '../../Utils/Utils'
 
 class FieldDetails extends PureComponent {
     
@@ -63,64 +64,68 @@ class FieldDetails extends PureComponent {
             label: 'dsaad',
             values: Object.keys(filtersCount).map( f => {return {x: f, y: filtersCount[f]}})
         }];
+        let date = new Date(lsstToJs(fieldData[0].expDate));
 
-            return (
-                <Rnd default={{
-                    x: 800,
-                    y: 100,
-                    width: 800,
-                    height: 1000,
-                    }}
-                    dragGrid={ [20,20]}
-                    resizeGrid={ [20,20]}
-                    disableDragging={false}
-                    enableResizing={{ top:true, right:true, bottom:true, left:true, topRight:true, bottomRight:true, bottomLeft:true, topLeft:true }}
-                    className={'field-details-popup'}
-                    dragHandleClassName={'.move-button'}
-                    resizeHandleClassName={'.close-button'}
-                    resizeHandleWrapperClass={'field-details-popup'}
-                >
-                    <div className="field-details">
-                        <DraggableTitle title={'Field ID: ' + fieldData[0].fieldID} customClass='field-details-title' showClose={true} onCloseClick={() => this.props.setFieldDetailsVisibility(false)}/>
-                        <div className='field-details-content'>
-                            <div className='summary-data' style={{width: width}}>
-                                <h5>Summary</h5>
+        return (
+            <Rnd default={{
+                x: 800,
+                y: 100,
+                width: 1560,
+                height: 580,
+                }}
+                dragGrid={ [20,20]}
+                resizeGrid={ [20,20]}
+                disableDragging={false}
+                enableResizing={{ top:true, right:true, bottom:true, left:true, topRight:true, bottomRight:true, bottomLeft:true, topLeft:true }}
+                className={'field-details-popup'}
+                dragHandleClassName={'.move-button'}
+                resizeHandleClassName={'.close-button'}
+                resizeHandleWrapperClass={'field-details-popup'}
+            >
+                <div className="field-details">
+                    <DraggableTitle title={'Field ID: ' + fieldData[0].fieldID} customClass='field-details-title' showClose={true} onCloseClick={() => this.props.setFieldDetailsVisibility(false)}/>
+                    <div className='field-details-content'>
+                        <div className='summary-data'>
+                            <h5>Summary</h5>
+                            <div className='summary-data-content'>
                                 <div>FieldID: {fieldData[0].fieldID}</div>
-                                <div>Timestamp: {fieldData[0].expDate}</div>
+                                <div>Timestamp: {date.toDateString() + ' ' + date.toLocaleTimeString()}</div>
                                 <div>Filter: <FilterIndicator filterName={fieldData[0].filterName}/></div>
-                            </div>
-                            <div className='histogram barchart'>
-                                <h5>Filters</h5>
-                                <BarChart data={filtersData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
-                            </div>
-                            <div className='histogram barchart'>
-                                <h5>Alerts</h5>
-                                <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
-                            </div>
-                            <div className=''>
-                                <h5>Rotation angle</h5>
-                                <GenericHistogram id='rotation-hist' data={rotationData} width={width-40} height={height-40} margin={60} xLabel={'Rotation [deg]'} yLabel={'Count'} domain={[0, 360]} nBins={36}  nTicks={5}/>
-                            </div>
-                            <div className=''>
-                                <h5>Airmass</h5>
-                                <GenericHistogram id='airmass-hist' data={airmassData} width={width-40} height={height-40} margin={60} xLabel={'Airmass [?]'} yLabel={'Count'} domain={[0, 3]} nBins={36}  nTicks={5}/>
-                            </div>
-                            <div className=''>
-                                <h5>Seeing</h5>
-                                <GenericHistogram id='seeing-hist' data={seeingData} width={width-40} height={height-40} margin={60} xLabel={'Seeing [?]'} yLabel={'Count'} domain={[0, 2]} nBins={36} nTicks={5}/>
-                            </div>
-                            <div className=''>
-                                <h5>Sky brightness</h5>
-                                <GenericHistogram id='sky-brightness-hist' data={skyBrightnessData} width={width-40} height={height-40} margin={60} xLabel={'Sky brightness [?]'} yLabel={'Count'} nBins={36} nTicks={5}/>
-                            </div>
-                            <div className=''>
-                                <h5>Time baselines</h5>
-                                <GenericHistogram id='time-baselines-hist' data={baselinesData} width={width-40} height={height-40} margin={60} xLabel={'Time baseline [s]'} yLabel={'Count'} nBins={36} nTicks={5} logScale={true}/>
+                                <div>Observations: {fieldData.length}</div>
                             </div>
                         </div>
+                        <div className=''>
+                            <h5>Rotation angle</h5>
+                            <GenericHistogram id='rotation-hist' data={rotationData} width={width-40} height={height-40} margin={60} xLabel={'Rotation [deg]'} yLabel={'Count'} domain={[0, 360]} nBins={36}  nTicks={5}/>
+                        </div>
+                        <div className='histogram barchart'>
+                            <h5>Filters</h5>
+                            <BarChart data={filtersData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
+                        </div>
+                        <div className='histogram barchart'>
+                            <h5>Alerts</h5>
+                            <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
+                        </div>
+                        <div className=''>
+                            <h5>Airmass</h5>
+                            <GenericHistogram id='airmass-hist' data={airmassData} width={width-40} height={height-40} margin={60} xLabel={'Airmass [?]'} yLabel={'Count'} domain={[0, 3]} nBins={36}  nTicks={5}/>
+                        </div>
+                        <div className=''>
+                            <h5>Seeing</h5>
+                            <GenericHistogram id='seeing-hist' data={seeingData} width={width-40} height={height-40} margin={60} xLabel={'Seeing [?]'} yLabel={'Count'} domain={[0, 2]} nBins={36} nTicks={5}/>
+                        </div>
+                        <div className=''>
+                            <h5>Sky brightness</h5>
+                            <GenericHistogram id='sky-brightness-hist' data={skyBrightnessData} width={width-40} height={height-40} margin={60} xLabel={'Sky brightness [?]'} yLabel={'Count'} nBins={36} nTicks={5}/>
+                        </div>
+                        <div className=''>
+                            <h5>Time baselines</h5>
+                            <GenericHistogram id='time-baselines-hist' data={baselinesData} width={width-40} height={height-40} margin={60} xLabel={'Time baseline [s]'} yLabel={'Count'} nBins={36} nTicks={5} logScale={true}/>
+                        </div>
                     </div>
-                </Rnd>
-              );
+                </div>
+            </Rnd>
+            );
        
     }
 }
