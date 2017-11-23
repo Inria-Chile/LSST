@@ -301,6 +301,8 @@ Celestial.display = function(config) {
     zoom.scaleExtent([scale, scale*5]).scale(scale);
     prjMap.translate([width/2, height/2]).scale(scale);
     if (parent) parent.style.height = px(height);
+    prjMapStatic = Celestial.projection(cfg.projection).rotate(0).translate([width/2, height/2]).scale(scale);
+    mapStatic = d3.geo.path().projection(prjMapStatic).context(context);  
     redraw("resize");
   }
 
