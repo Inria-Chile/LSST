@@ -41,7 +41,7 @@ class DomeElevationTimeSeries extends PureComponent {
         newData[2].values.push({x: new Date(), y: this.props.telescopeElevation})
         
         for(let i=0; i<this.state.data.length; ++i){
-            if (newData[i].values.length > 10)
+            if (newData[i].values.length > 500)
                 newData[i].values.shift();
         }
         this.setState({

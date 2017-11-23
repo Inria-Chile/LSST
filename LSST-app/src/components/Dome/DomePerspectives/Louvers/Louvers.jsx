@@ -18,11 +18,12 @@ class Louvers extends Component {
             selectedLouverAperture: 69,
             selectedLouverInfoPos: [40, 40],
         }
-        this.socket = openSocket(window.location.origin + '');
+        this.socket = openSocket(window.location.origin + '/louvers');
         console.log('Louvers\' socket listening', this.socket.on('Louvers', msg => this.receiveLouversData(msg)));
     }
 
     receiveLouversData = (msg) => {
+        // console.log('receiveLouversData', msg);
         if(msg.position_actual){
             this.setState({
                 louversAperture: msg.position_actual
