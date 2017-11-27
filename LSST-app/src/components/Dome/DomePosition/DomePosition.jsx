@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './DomePosition.css';
 import * as d3 from 'd3';
+import {DEMO_MODE} from '../../Utils/Utils';
 
 class DomePosition extends Component {
 
@@ -16,15 +17,20 @@ class DomePosition extends Component {
     }
 
     setDomeAzimuth = (angle) => {
+        let duration = 500;
+        if(DEMO_MODE)
+            duration = 2000;
         let domeApertureAngle = 2*Math.atanh(this.props.shuttersAperture/(2*this.distanceToCamera));
-        d3.select("#dome-angle").transition().duration(2000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
+        d3.select("#dome-angle").transition().duration(duration).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
         d3.select("#dome-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(domeApertureAngle/2));
         d3.select("#dome-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(domeApertureAngle/2));
     }
 
     setMountAzimuth = (angle) => {
-        
-        d3.select("#mount-angle").transition().duration(2000).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
+        let duration = 500;
+        if(DEMO_MODE)
+            duration = 2000;
+        d3.select("#mount-angle").transition().duration(duration).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
         d3.select("#mount-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
         d3.select("#mount-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
 

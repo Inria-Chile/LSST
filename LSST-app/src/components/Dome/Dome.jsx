@@ -42,6 +42,7 @@ class Dome extends PureComponent {
             telescopeElevation: msg.DomeElPos,
             domeTargetAzimuth: msg.DomeAzCMD,
             telescopeTargetElevation: msg.DomeElCMD,
+            mountAzimuth: msg.DomeAzPos,
         });
     }
 

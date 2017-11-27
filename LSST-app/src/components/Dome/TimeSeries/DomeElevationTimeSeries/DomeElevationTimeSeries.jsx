@@ -42,7 +42,7 @@ class DomeElevationTimeSeries extends PureComponent {
         newData[2].values.push({x: new Date(), y: this.props.telescopeElevation})
         
         for(let i=0; i<this.state.data.length; ++i){
-            if (newData[i].values.length > 500)
+            if (newData[i].values.length > 350)
                 newData[i].values.shift();
         }
         this.setState({
@@ -50,8 +50,17 @@ class DomeElevationTimeSeries extends PureComponent {
         })
     }
 
+    getLimits = (data) => {
+        let min = data.reduce( (a,b) => Math.min(a,b.y), Infinity);
+        let max = data.reduce( (a,b) => Math.max(a,b.y), -Infinity);
+        return [min, max];
+    }
+    
     render() {
+        let limits = this.getLimits(this.state.data[0].values);
+        let padding = 3;
         this.state.xScale.domain([this.state.data[0].values[0].x, new Date()]);
+        this.state.yScale.domain([limits[1]+padding, limits[0]-padding]);
         return (
             <LineChart
                 data={this.state.data}
@@ -64,7 +73,7 @@ class DomeElevationTimeSeries extends PureComponent {
                 yScale={this.state.yScale}
                 colorScale={(label) => this.constructor.LineColors[label]}
                 stroke={{strokeWidth: (label) => "3", strokeDasharray: (label) => this.lineDash[label]}}
-                yAxis={{label: 'Angle [deg]', tickValues: [0,15,30,45,60,75,90], domain:[0,90]}}
+                yAxis={{label: 'Angle [deg]', tickArguments: [7], domain:limits}}
                 xAxis={{label: 'Time', tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
