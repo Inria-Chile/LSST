@@ -1,5 +1,9 @@
-.histogram .bar{
+.histogram .bar[fill='']{
     fill: var(--theme-histogram-bar)
+}
+
+.histogram .bar[fill='latest']{
+    fill: var(--theme-histogram-bar-latest);
 }
 
 .histogram {
@@ -12,7 +16,7 @@
 
 .histogram text {   
     fill: var(--theme-inactive-text);
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .histogram path {   

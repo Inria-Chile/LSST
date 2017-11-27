@@ -101,6 +101,8 @@ class GenericHistogram extends PureComponent {
         let y = d3.scaleLinear().nice()
                 .domain([0, d3.max(bins, function(d) { return d.length; })])
                 .range([height, 0]);
+        let latest = this.props.data[0];
+
 
         d3.select('#'+this.props.id+"-xAxis").call(d3.axisBottom(x).ticks(this.props.nTicks, this.props.logScale ? ",.1s" : "d"));
         d3.select('#'+this.props.id+"-yAxis").call(d3.axisLeft(y).ticks(this.props.nTicks));
@@ -109,9 +111,12 @@ class GenericHistogram extends PureComponent {
                 <svg id={this.props.id} className='histogram' width={width+this.props.margin} height={height+this.props.margin}>
                     {
                         bins.map( (d, i) => {
+                            let rectFill = '';
+                            if(d.x0 < latest && d.x1 > latest)
+                                rectFill = 'latest'
                             return (
                                 <rect key={i} className="bar" x="1" transform={"translate(" + x(d.x0) + "," + y(d.length) + ")"} 
-                                    width={Math.max(0, x(d.x1) - x(d.x0))} height={this.props.height - y(d.length)}></rect>
+                                    width={Math.max(0, x(d.x1) - x(d.x0))} height={this.props.height - y(d.length)} fill={rectFill}></rect>
                             )
                         })
                     }
