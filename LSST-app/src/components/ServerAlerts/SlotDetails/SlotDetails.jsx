@@ -35,8 +35,7 @@ class SlotDetails extends Component {
                                 y={y+this.offset/2+this.height/3*index} 
                                 width={this.width-2*this.offset} 
                                 height={this.height/indicators.length-this.offset} 
-                                className="indicator"
-                                /> 
+                                className={(this.props.alerts)?"indicator-alert":"indicator"}                                /> 
                                 <text
                                 x={x+this.offset*2} 
                                 y={y+this.offset/2+this.height/3*index + this.offset*2.5} 

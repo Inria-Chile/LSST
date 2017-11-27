@@ -119,7 +119,8 @@ class ServerAlerts extends Component {
             showRackDetails: false,
             rackDetails : null,
             detailsPosition : null,
-            rackIndex: null
+            rackIndex: null,
+            alerts:[-1]
         }
         this.racks = [];
         this.socket = openSocket(window.location.origin+'')
@@ -131,12 +132,13 @@ class ServerAlerts extends Component {
     }
 
     receiveMsg(msg){
-        console.log("receive")
-        console.log(msg)
-        // msg.expDate = msg.request_time;
-        // this.addObservation(msg);
-        // this.setDate(new Date(parseInt(msg.request_time, 10)));
+        // console.log(msg)
+        this.setState({
+            alerts:[msg]
+        })
+
     }
+
     displayRackDetails=(details,pos,hOf1,rackIndex)=>{
         let show = this.state.showRackDetails;
         if(this.state.rackIndex==null){
@@ -205,7 +207,8 @@ class ServerAlerts extends Component {
 
     handleClick=(e)=>{
         let targetClass = e.target.getAttribute("class")
-        if(targetClass!=="slot"){
+        if(!(targetClass==="slot"||targetClass==="slot-alert"||
+    targetClass==="slot-text")){
             this.showAllRacks();
             this.setState({
                 showRackDetails: false,
@@ -248,6 +251,9 @@ class ServerAlerts extends Component {
         let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
         let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
         let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
+        let alerts = this.state.alerts[this.state.alerts.length-1];
+        let rackAlert = alerts.rack;
+        // console.log(rackAlert)
 
         return (
             <div className="server-alerts-container" ref="container">
@@ -264,6 +270,7 @@ class ServerAlerts extends Component {
                        
                             {
                                 rackDetails.map((pos,index)=>{
+                                    // console.log("rackalert==index? ",rackAlert===index)
                                     return(
                                         <Rack
                                             ref={(rack) =>{this.racks[index]=rack}}
@@ -278,6 +285,7 @@ class ServerAlerts extends Component {
                                             slot = {this.rackItems[index]}
                                             hasPdu = {this.hasPdu[index]}
                                             displayPopUp = {this.displayRackDetails}
+                                            alert = {(rackAlert===index && alerts.isItWorking > 0.5)?alerts.slot:null}
                                             />
                                     )
                                 })  
@@ -288,7 +296,8 @@ class ServerAlerts extends Component {
                                 <SlotDetails 
                                 position = {this.state.detailsPosition} 
                                 details={this.state.rackDetails}
-                                hOf1={this.state.heightOf1Slot}/>}
+                                hOf1={this.state.heightOf1Slot}
+                                alerts={(this.state.rackIndex === rackAlert && alerts.isItWorking > 0.5)?true:false}/>}
                             </g>
                         </svg>
                     </div>

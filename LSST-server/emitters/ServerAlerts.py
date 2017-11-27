@@ -15,7 +15,7 @@ def start_listening_fake_alerts(app, socketio):
     initial_date = 10000
     date_step = 1000
     while True:
-        time.sleep(15)
+        time.sleep(2)
         with app.test_request_context('/'):
             # print('Emitting')
             isItWorking = random.random()

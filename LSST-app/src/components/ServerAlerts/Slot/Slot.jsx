@@ -17,10 +17,13 @@ class Slot extends Component {
         let heightOf1=this.props.totalHeight/9;
         let y = this.props.y;
         let indicatorsWidth = this.props.width/10;
+        let alert = this.props.alert;
+        // console.log(alert)
         return (
             <g className="slot-container" >
             {
             this.props.details.map((details, index)=>{
+                // console.log(alert===index)
                 y =  this.props.y +details.position*heightOf1;
                 let indicatorsX = this.props.x+this.props.width;
                 let indicatorsX2 = this.props.x+10;
@@ -32,7 +35,7 @@ class Slot extends Component {
                         y={y} 
                         width={this.props.width-indicatorsWidth} 
                         height={details.size*heightOf1-this.split} 
-                        className="slot"/>
+                        className={(alert===index)?"slot-alert":"slot"}/>
 
                         <text x={this.props.x} y={y}
                         transform="translate(10,25)"
@@ -44,7 +47,9 @@ class Slot extends Component {
                         width ={indicatorsWidth}
                         indicators={details.indicators}
                         height={details.size*heightOf1-this.split}
-                        bckgx ={this.props.x+indicatorsWidth*9}/>
+                        bckgx ={this.props.x+indicatorsWidth*9}
+                        // cssClass={(alert===index)?"slot-alert":"slot"}
+                        />
                 </g>
                 )
             })}
