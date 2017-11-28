@@ -15,10 +15,11 @@ def start_listening_fake_alerts(app, socketio):
     initial_date = 10000
     date_step = 1000
     while True:
-        time.sleep(2)
+        time.sleep(30)
         with app.test_request_context('/'):
             # print('Emitting')
             isItWorking = random.random()
+            # isItWorking=1
             rack = random.randint(0,numberOfRacks)
             if slotsInRacks[rack] > 0:
                 slot = random.randint(1,slotsInRacks[rack])

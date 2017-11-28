@@ -20,99 +20,99 @@ class ServerAlerts extends Component {
         this.hasPdu = [true, true,true,false,true,true,false,false,true,true,true,true,true,true,true,true]
         this.rackItems = [
             //Rack 01
-            [{name:'Patch Panel', size:1, position: 3, indicators:[]},
-            {name:'DWDM', size:5, position: 4, indicators:[]} ],
+            [{name:'Patch Panel', slot:1, size:1, position: 3, indicators:[]},
+            {name:'DWDM', slot:2, size:5, position: 4, indicators:[]} ],
             //Rack 02
-            [{name:'Spine 201', size:2, position: 0, indicators:['UPS']},
-            {name:'Patch Panel', size:0.5, position: 2,indicators:[]},
-            {name:'Spine 202', size:2, position: 3.5,indicators:['UPS']},
-            {name:'Patch Panel', size:0.5, position: 5.5, indicators:[]},
-            {name:'APICS', size:2, position: 6, indicators:['UPS']}],
+            [{name:'Spine 201',slot:1, size:2, position: 0, indicators:['UPS']},
+            {name:'Patch Panel',slot:2, size:0.5, position: 2,indicators:[]},
+            {name:'Spine 202',slot:3, size:2, position: 3.5,indicators:['UPS']},
+            {name:'Patch Panel',slot:4, size:0.5, position: 5.5, indicators:[]},
+            {name:'APICS',slot:5, size:2, position: 6, indicators:['UPS']}],
             //Rack 03
-            [{name:'Firewall', size:0.7, position:0, indicators:['CPU','Disk','UPS']},
-            {name:'Router', size:0.7, position: 0.7, indicators:['CPU','Disk','UPS']},
-            {name:'WLAN', size:1, position: 1.4,indicators:['UPS']},
-            {name:'voip', size:2, position: 2.4, indicators:['CPU','Disk','UPS']}],
+            [{name:'Firewall',slot:1, size:0.7, position:0, indicators:['CPU','Disk','UPS']},
+            {name:'Router',slot:2, size:0.7, position: 0.7, indicators:['CPU','Disk','UPS']},
+            {name:'WLAN',slot:3, size:1, position: 1.4,indicators:['UPS']},
+            {name:'voip',slot:4, size:2, position: 2.4, indicators:['CPU','Disk','UPS']}],
             //Rack 04
-            [{name:'Patch Panels', size:4.5, position: 0, indicators:[]}],
+            [{name:'Patch Panels',slot:1, size:4.5, position: 0, indicators:[]}],
             //Rack 05
-            [{name:'Leaf 101', size:0.5, position: 0, indicators:['UPS']},
-            {name:'Leaf 102', size:0.5, position: 0.5,indicators:['UPS']},
-            {name:'MMCS', size:2, position: 1, indicators:['CPU','Disk','UPS']}],
+            [{name:'Leaf 101',slot:1, size:0.5, position: 0, indicators:['UPS']},
+            {name:'Leaf 102',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
+            {name:'MMCS',slot:3, size:2, position: 1, indicators:['CPU','Disk','UPS']}],
             //Rack 06
-            [{name:'IPMI', size:2.5, position: 0, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Calibration', size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Scheduler', size:0.5, position: 3, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Spectograph', size:0.5, position: 3.5, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Mount/Dome', size:0.5, position:4, indicators:['CPU','Disk','UPS']},
-            {name:'AUX DAO Manage', size:0.5, position: 4.5, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Diagnostic', size:0.5, position: 5, indicators:['CPU','Disk','UPS']},
-            {name:'AUX Bridgs', size:0.5, position: 5.5, indicators:['CPU','Disk','UPS']},
-            {name:'Sw to AUX', size:0.5, position: 6, indicators:['CPU','Disk','UPS']}],
+            [{name:'IPMI',slot:1, size:2.5, position: 0, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Calibration',slot:2, size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Scheduler',slot:3, size:0.5, position: 3, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Spectograph',slot:4, size:0.5, position: 3.5, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Mount/Dome',slot:5, size:0.5, position:4, indicators:['CPU','Disk','UPS']},
+            {name:'AUX DAO Manage',slot:6, size:0.5, position: 4.5, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Diagnostic',slot:7, size:0.5, position: 5, indicators:['CPU','Disk','UPS']},
+            {name:'AUX Bridgs',slot:8, size:0.5, position: 5.5, indicators:['CPU','Disk','UPS']},
+            {name:'Sw to AUX',slot:9, size:0.5, position: 6, indicators:['CPU','Disk','UPS']}],
             //Rack 07
-            [{name:'DQ', size:1, position: 0, indicators:['CPU','Disk','UPS']},
-            {name:'DQ', size:1, position: 1, indicators:['CPU','Disk','UPS']}],
+            [{name:'DQ',slot:1, size:1, position: 0, indicators:['CPU','Disk','UPS']},
+            {name:'DQ',slot:2, size:1, position: 1, indicators:['CPU','Disk','UPS']}],
             //Rack 08 is empty
             [
                 // {name:'', size:9, position:0}
             ],
             //Rack 09
-            [{name:'Camera Electronics', size:5, position: 4, indicators:['CPU','Disk','UPS']}],
+            [{name:'Camera Electronics',slot:1, size:5, position: 4, indicators:['CPU','Disk','UPS']}],
             //Rack 10
-            [{name:'Leaf 103', size:0.5, position: 0, indicators:['UPS']},
-            {name:'Leaf 104', size:0.5, position: 0.5, indicators:['UPS']},
-            {name:'IPMI', size:0.5, position: 1, indicators:['CPU','Disk','UPS']},
-            {name:'Camera DB', size:0.5, position: 1.5,  indicators:['CPU','Disk','UPS']},
-            {name:'Master Control', size:0.5, position: 2, indicators:['CPU','Disk','UPS']},
-            {name:'Lock Manager', size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
-            {name:'Raft HCU', size:0.5, position: 3, indicators:['CPU','Disk','UPS']},
-            {name:'CCS-OCS Bridge', size:0.5, position: 3.5, indicators:['CPU','Disk','UPS']},
-            {name:'Image Store', size:0.5, position: 4, indicators:['CPU','Disk','UPS']},
-            {name:'DAQ Manager', size:1, position: 4.5, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization Server', size:1, position: 5.5, indicators:['CPU','Disk','UPS']}],
+            [{name:'Leaf 103',slot:1, size:0.5, position: 0, indicators:['UPS']},
+            {name:'Leaf 104',slot:2, size:0.5, position: 0.5, indicators:['UPS']},
+            {name:'IPMI',slot:3, size:0.5, position: 1, indicators:['CPU','Disk','UPS']},
+            {name:'Camera DB',slot:4, size:0.5, position: 1.5,  indicators:['CPU','Disk','UPS']},
+            {name:'Master Control',slot:5, size:0.5, position: 2, indicators:['CPU','Disk','UPS']},
+            {name:'Lock Manager',slot:6, size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
+            {name:'Raft HCU',slot:7, size:0.5, position: 3, indicators:['CPU','Disk','UPS']},
+            {name:'CCS-OCS Bridge',slot:8, size:0.5, position: 3.5, indicators:['CPU','Disk','UPS']},
+            {name:'Image Store',slot:9, size:0.5, position: 4, indicators:['CPU','Disk','UPS']},
+            {name:'DAQ Manager',slot:10, size:1, position: 4.5, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization Server',slot:11, size:1, position: 5.5, indicators:['CPU','Disk','UPS']}],
             //Rack 11
-            [{name:'Diagnostic Cluster', size:5, position: 0, indicators:['CPU','Disk','UPS']}],
+            [{name:'Diagnostic Cluster',slot:1, size:5, position: 0, indicators:['CPU','Disk','UPS']}],
             //Rack 12
             [
                 // {name:'', size:6, position: 2}
             ],
             //Rack 13
-            [{name:'Leaf 105 Sum/13-2', size:0.5, position: 0, indicators:['UPS']},
-            {name:'Leaf 106 Sum/13-4', size:0.5, position: 0.5,indicators:['UPS']},
-            {name:'IPMI', size:1, position: 1, indicators:['CPU','Disk','UPS']}
+            [{name:'Leaf 105 Sum/13-2',slot:1, size:0.5, position: 0, indicators:['UPS']},
+            {name:'Leaf 106 Sum/13-4',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
+            {name:'IPMI',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']}
             // ,
             // {name:'', size:17.5, position: 1.5}
             ],
             // Rack 14
-            [{name:'Visualization', size:1.4, position: 2, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization', size:1.4, position: 3.4, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization', size:1.4, position: 4.8, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization', size:1.4, position: 6.2, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization', size:1.4, position: 7.6, indicators:['CPU','Disk','UPS']}],
+            [{name:'Visualization',slot:1, size:1.4, position: 2, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization',slot:2, size:1.4, position: 3.4, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization',slot:3, size:1.4, position: 4.8, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization',slot:4, size:1.4, position: 6.2, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization',slot:5, size:1.4, position: 7.6, indicators:['CPU','Disk','UPS']}],
             //Rack 15
-            [{name:'TCS M1/M3', size:0.7, position: 0, indicators:['CPU','Disk','UPS']},
-            {name:'ECS Basbon', size:0.7, position: 0.7, indicators:['CPU','Disk','UPS']},
-            {name:'Guider Image Pro', size:0.7, position: 1.4, indicators:['CPU','Disk','UPS']},
-            {name:'Calibration', size:0.7, position: 2.1, indicators:['CPU','Disk','UPS']},
-            {name:'TCS Tel Align', size:0.7, position: 2.8, indicators:['CPU','Disk','UPS']},
-            {name:'TCS ECS', size:0.7, position: 3.5, indicators:['CPU','Disk','UPS']},
-            {name:'M2 Warns', size:0.7, position: 4.2, indicators:['CPU','Disk','UPS']},
-            {name:'Rot/Hex Moog', size:0.7, position: 4.9, indicators:['CPU','Disk','UPS']},
-            {name:'TCS Optics', size:0.7, position: 5.6, indicators:['CPU','Disk','UPS']},
-            {name:'Dome E/E', size:0.7, position: 6.3, indicators:['CPU','Disk','UPS']},
-            {name:'Mount EA', size:0.7, position: 7, indicators:['CPU','Disk','UPS']},
-            {name:'TCS Kernel', size:0.7, position: 7.7, indicators:['CPU','Disk','UPS']},
-            {name:'TCS Application', size:0.6, position: 8.4, indicators:['CPU','Disk','UPS']}],
+            [{name:'TCS M1/M3',slot:1, size:0.7, position: 0, indicators:['CPU','Disk','UPS']},
+            {name:'ECS Basbon',slot:2, size:0.7, position: 0.7, indicators:['CPU','Disk','UPS']},
+            {name:'Guider Image Pro',slot:3, size:0.7, position: 1.4, indicators:['CPU','Disk','UPS']},
+            {name:'Calibration',slot:4, size:0.7, position: 2.1, indicators:['CPU','Disk','UPS']},
+            {name:'TCS Tel Align',slot:5, size:0.7, position: 2.8, indicators:['CPU','Disk','UPS']},
+            {name:'TCS ECS',slot:6, size:0.7, position: 3.5, indicators:['CPU','Disk','UPS']},
+            {name:'M2 Warns',slot:7, size:0.7, position: 4.2, indicators:['CPU','Disk','UPS']},
+            {name:'Rot/Hex Moog',slot:8, size:0.7, position: 4.9, indicators:['CPU','Disk','UPS']},
+            {name:'TCS Optics',slot:9, size:0.7, position: 5.6, indicators:['CPU','Disk','UPS']},
+            {name:'Dome E/E',slot:10, size:0.7, position: 6.3, indicators:['CPU','Disk','UPS']},
+            {name:'Mount EA',slot:11, size:0.7, position: 7, indicators:['CPU','Disk','UPS']},
+            {name:'TCS Kernel',slot:12, size:0.7, position: 7.7, indicators:['CPU','Disk','UPS']},
+            {name:'TCS Application',slot:13, size:0.6, position: 8.4, indicators:['CPU','Disk','UPS']}],
             //Rack 16
-            [{name:'Leaf 107', size:0.5, position: 0, indicators:['UPS']},
-            {name:'Leaf 108', size:0.5, position: 0.5,indicators:['UPS']},
-            {name:'IPMI', size:1, position: 1, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Maint', size:1.17, position: 2, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Scheduler', size:1.17, position: 3.17, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Telemetry', size:1.17, position: 4.34, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Telemetry', size:1.17, position: 5.51, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Application', size:1.17, position: 6.68, indicators:['CPU','Disk','UPS']},
-            {name:'TCS Wavefront Sensing', size:1.17, position:7.85, indicators:['CPU','Disk','UPS']}
+            [{name:'Leaf 107',slot:1, size:0.5, position: 0, indicators:['UPS']},
+            {name:'Leaf 108',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
+            {name:'IPMI',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Maint',slot:4, size:1.17, position: 2, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Scheduler',slot:5, size:1.17, position: 3.17, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Telemetry',slot:6, size:1.17, position: 4.34, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Telemetry',slot:7, size:1.17, position: 5.51, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Application',slot:8, size:1.17, position: 6.68, indicators:['CPU','Disk','UPS']},
+            {name:'TCS Wavefront Sensing',slot:9, size:1.17, position:7.85, indicators:['CPU','Disk','UPS']}
             ]
         ];
         this.state = {
@@ -124,11 +124,11 @@ class ServerAlerts extends Component {
         }
         this.racks = [];
         this.socket = openSocket(window.location.origin+'')
-        console.log('SCOKERT', this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp)))
-    
-        // console.log('SCOKERT', this.socket.on('DomeShutter', msg => console.log('DomeShutter', msg)));
-        // console.log('SCOKERT', this.socket.on('ServerAlerts', msg => console.log('ServerAlerts', msg)));
+        // console.log('SCOKERT', this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp)))
         
+    }
+    componentDidMount(){
+        this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp));
     }
 
     receiveMsg(msg){
@@ -253,7 +253,9 @@ class ServerAlerts extends Component {
         let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
         let alerts = this.state.alerts[this.state.alerts.length-1];
         let rackAlert = alerts.rack;
+        let slotAlert = alerts.slot;
         // console.log(rackAlert)
+        console.log(this.state)
 
         return (
             <div className="server-alerts-container" ref="container">
@@ -297,7 +299,9 @@ class ServerAlerts extends Component {
                                 position = {this.state.detailsPosition} 
                                 details={this.state.rackDetails}
                                 hOf1={this.state.heightOf1Slot}
-                                alerts={(this.state.rackIndex === rackAlert && alerts.isItWorking > 0.5)?true:false}/>}
+                                alerts={(this.state.rackIndex === rackAlert 
+                                && this.state.rackDetails.slot === slotAlert+1
+                                && alerts.isItWorking > 0.5)?true:false}/>}
                             </g>
                         </svg>
                     </div>
