@@ -29,6 +29,11 @@ RUN yum -y --enablerepo=extras install epel-release && \
 RUN yum groupinstall -y "Development Tools" "Development Libraries" && \
   yum clean all
 
+# install python3
+RUN wget ftp://ftp.noao.edu/pub/dmills/python3-to-install.tgz
+RUN tar -zxvf python3-to-install.tgz && rm python3-to-install.tgz
+RUN cd Python-3.6.3 && make install
+
 # environment variables section
 ENV HOME=/home/root
 ENV LSST_SDK_INSTALL=$HOME/workspace/ts_visit_simulator

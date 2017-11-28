@@ -50,6 +50,9 @@ class DomePosition extends Component {
         return (
             <div className="dome-position-container" ref="container">
                 {/* <h4>Dome Position</h4> */}
+                <div className="cardinal-points">
+                    <img src="/img/Cardinal_directions.png" alt="cardinal-points"></img>
+                </div>
                 <svg 
                     className="svg-container"
                     height={this.props.height}
