@@ -54,7 +54,7 @@ ENV OSPL_HOME=$LSST_SDK_INSTALL/OpenSpliceDDS/V6.4.1/HDE/x86_64.linux
 COPY ./ts_visit_simulator /home/docker/workspace/ts_visit_simulator
 
 COPY ./requirements.txt /home/docker/lsst/LSST-server/requirements.txt
-RUN pip install -r /home/docker/lsst/LSST-server/requirements.txt
+RUN pip3 install -r /home/docker/lsst/LSST-server/requirements.txt
 RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
 
 COPY *.py /home/docker/lsst/LSST-server/

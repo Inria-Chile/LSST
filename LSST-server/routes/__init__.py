@@ -1,6 +1,6 @@
 from flask import Flask
-from survey import survey
-from m1m3 import m1m3
+from .survey import survey
+from .m1m3 import m1m3
 from flask import Flask, url_for, request
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Float, Date, String, VARCHAR

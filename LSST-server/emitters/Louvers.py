@@ -26,7 +26,7 @@ def start_listening_louvers(app, socketio):
                 publish(app, socketio, topicLouvers)
 
     except KeyboardInterrupt:
-	print("SAL shutdown")
+        print("SAL shutdown")
         salLouvers.salShutdown()
         sys.exit(0)
     
