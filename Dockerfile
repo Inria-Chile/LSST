@@ -27,6 +27,11 @@ RUN rpm -ivh https://kojipkgs.fedoraproject.org//packages/http-parser/2.7.1/3.el
 RUN yum groupinstall -y "Development Tools" "Development Libraries" && \
   yum clean all
 
+# install python3
+RUN wget ftp://ftp.noao.edu/pub/dmills/python3-to-install.tgz
+RUN tar -zxvf python3-to-install.tgz && rm python3-to-install.tgz
+RUN cd Python-3.6.3 && make install
+
 # environment variables section
 ENV HOME=/home/root
 ENV LSST_SDK_INSTALL=$HOME/workspace/ts_sal
@@ -45,7 +50,7 @@ ENV PATH=${PATH}:${SAL_DIR}
 ENV OSPL_HOME=$LSST_SDK_INSTALL/OpenSpliceDDS/V6.4.1/HDE/x86_64.linux
 
 WORKDIR /home/root/workspace
-RUN git clone https://github.com/lsst-ts/ts_sal.git
+RUN git clone -b develop https://github.com/lsst-ts/ts_sal.git
 WORKDIR /home/root/workspace/ts_sal/test
 
 RUN wget -nv ftp://ftp.noao.edu/pub/dmills/opensplice_latest.tgz && \
@@ -61,7 +66,7 @@ RUN mv /home/root/workspace/ts_sal/test/OpenSpliceDDS "${LSST_SDK_INSTALL}/"
 COPY ts_sal.sh /home/docker/lsst/ts_sal.sh
 COPY Makefile.sacpp_SAL_python.template /home/docker/lsst/Makefile.sacpp_SAL_python.template
 COPY LSST-server/requirements.txt /home/docker/lsst/LSST-server/requirements.txt
-RUN pip install -r /home/docker/lsst/LSST-server/requirements.txt
+RUN pip3 install -r /home/docker/lsst/LSST-server/requirements.txt
 
 RUN cp /home/docker/lsst/Makefile.sacpp_SAL_python.template /home/root/workspace/ts_sal/lsstsal/scripts/code/templates/Makefile.sacpp_SAL_python.template
 
