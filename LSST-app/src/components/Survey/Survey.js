@@ -5,7 +5,7 @@ import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
 import MiniScatterplot from '../Scatterplot/MiniScatterplot'
 import MainScatterplot from '../Scatterplot/MainScatterplot'
-import Sidebar from '../Sidebar/Sidebar';
+import Settings from './Settings/Settings';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
 import ObservationsTable from '../ObservationsTable/ObservationsTable';
@@ -84,12 +84,6 @@ class Survey extends PureComponent {
     
     setTelescopeRange = (show) => {
         this.mainSkymap.setTelescopeRange(show);
-    }
-    
-    setSidebar = (show) => {
-        this.sidebar.setState({
-            sidebarOpen: show
-        })
     }
     
     setProjection = (proj) => {
@@ -320,6 +314,7 @@ class Survey extends PureComponent {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
+                                        <Settings ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
                                             data={this.displayedData} 
@@ -354,7 +349,7 @@ class Survey extends PureComponent {
                         <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/>
                     </div>
                 </div>
-                <Sidebar ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
+                
                 {/* {
                     this.props.parentNode && this.props.showFieldDetails ?
                         <FieldDetails targetNode={this.props.parentNode} 
