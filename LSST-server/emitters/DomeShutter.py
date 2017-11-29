@@ -31,7 +31,7 @@ def start_listening_dome_shutter(app, socketio):
                 publish(app, socketio, True)
 
     except KeyboardInterrupt:
-	print("SAL shutdown")
+        print("SAL shutdown")
         salDome.salShutdown()
         sys.exit(0)
     

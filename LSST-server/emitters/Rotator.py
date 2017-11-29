@@ -26,7 +26,7 @@ def start_listening_rotator(app, socketio):
                 publish(app, socketio, topicRotatorPosition)
 
     except KeyboardInterrupt:
-	print("SAL shutdown")
+        print("SAL shutdown")
         salRotator.salShutdown()
         sys.exit(0)
     

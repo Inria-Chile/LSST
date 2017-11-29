@@ -33,7 +33,7 @@ def start_listening_dome_position(app, socketio):
                 publish(app, socketio, topicDomeAz, topicDomeEl)
 
     except KeyboardInterrupt:
-	print("SAL shutdown")
+        print("SAL shutdown")
         salAz.salShutdown()
         salEl.salShutdown()
         sys.exit(0)

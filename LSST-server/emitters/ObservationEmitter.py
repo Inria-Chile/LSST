@@ -3,7 +3,6 @@ import time
 import datetime
 import random
 
-from SALPY_scheduler import *
 from flask_socketio import send, emit
 from flask_socketio import SocketIO
 
@@ -25,6 +24,7 @@ def start_listening_fake(app, socketio):
 
 #Get data from ts_sal connection
 def start_listening_survey(app, socketio):
+    from SALPY_scheduler import SAL_scheduler, scheduler_timeHandlerC, scheduler_targetC
     print("SAL starting")
     sal = SAL_scheduler()
     sal.setDebugLevel(0)
