@@ -12,6 +12,9 @@ class Rack extends Component {
     displayPopUp=(details, pos, hOf1)=>{
         this.props.displayPopUp(details,pos,hOf1,this.props.index);
     }
+    componentWillUpdate(){
+        // console.log("updated")
+    }
 
     render() {
         let xend = this.props.x+this.props.width-this.props.structureWidth;
@@ -24,7 +27,7 @@ class Rack extends Component {
         let slotWidth = widthPdu;
         let totalSlotHeight = this.props.height-heightPdu;
         let id ="rack-"+this.props.index;
-        // console.log(this.props.alert)
+        // console.log("gonna render")
         return (
             <g id={id}className="rack-active">
                 <text x={xtext} y={this.props.y}

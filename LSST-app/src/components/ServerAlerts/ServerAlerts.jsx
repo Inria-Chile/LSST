@@ -255,7 +255,7 @@ class ServerAlerts extends Component {
         let rackAlert = alerts.rack;
         let slotAlert = alerts.slot;
         // console.log(rackAlert)
-        console.log(this.state)
+        // console.log(this.state)
 
         return (
             <div className="server-alerts-container" ref="container">

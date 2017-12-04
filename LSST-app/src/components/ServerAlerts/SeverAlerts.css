@@ -11,10 +11,14 @@
     fill: #47667a;
 }
 .text{
+    font-size:1 em;
     fill: white;
 }
 .slot-text{
+    /* font-size:1 em; */
+    /* font-size: fit-width; */
     fill: white;
+    font-size: 1vmin;
 }
 .indicator{
     fill: #57ad5d;
