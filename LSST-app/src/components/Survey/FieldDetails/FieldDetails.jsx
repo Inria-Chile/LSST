@@ -6,6 +6,8 @@ import Rnd from 'react-rnd';
 import DraggableTitle from '../../Utils/DraggableTitle';
 import FilterIndicator from '../../Utils/FilterIndicator/FilterIndicator';
 import {lsstToJs} from '../../Utils/Utils'
+import * as d3 from 'd3';
+import { filterColors } from "../../Utils/Utils"
 
 class FieldDetails extends PureComponent {
     
@@ -32,6 +34,9 @@ class FieldDetails extends PureComponent {
             label: 'somethingA',
             values: [{x: 'Moving', y: 10}, {x: 'Variable', y: 4}, {x: 'Outburst', y: 1}, {x: 'New', y: 5}, {x: 'Vanished', y: 9}]
         }];
+        let alarmsColor = [...Array(5).keys()].map(x => '');
+        alarmsColor[3] = 'latest';
+        this.alarmsColor = alarmsColor;
     }
 
     getBaseLines(data) {
@@ -61,11 +66,17 @@ class FieldDetails extends PureComponent {
         let baselinesData = this.getBaseLines(fieldData);
 
         let filtersData = [{
-            label: 'dsaad',
+            label: 'filters',
             values: Object.keys(filtersCount).map( f => {return {x: f, y: filtersCount[f]}})
         }];
+        let filtersColor = Object.keys(filterColors).map( (f) => {
+            return f === fieldData[0].filterName ? 'latest':'';
+        });
         let date = new Date(lsstToJs(fieldData[0].expDate));
+        console.log(d3.schemeCategory10)
+        console.log(filtersColor)
 
+        
         return (
             <Rnd default={{
                 x: 800,
@@ -100,27 +111,45 @@ class FieldDetails extends PureComponent {
                         </div>
                         <div className='histogram barchart'>
                             <h5>Filters</h5>
-                            <BarChart data={filtersData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
+                            <BarChart data={filtersData} width={width} height={height} 
+                                        margin={{top: 20, bottom: 30, left: 30, right: 20}} 
+                                        yAxis={{label: 'Count', tickArguments:[5]}}
+                                        colorScale={d3.scaleOrdinal(filtersColor)}
+                                        colorByLabel={false}
+                                        />
                         </div>
                         <div className='histogram barchart'>
                             <h5>Alerts</h5>
-                            <BarChart data={this.alarmsData} width={width} height={height} margin={{top: 20, bottom: 30, left: 30, right: 20}} yAxis={{label: 'Count', tickArguments:[5]}}/>
+                            <BarChart data={this.alarmsData} width={width} height={height} 
+                                        margin={{top: 20, bottom: 30, left: 30, right: 20}} 
+                                        yAxis={{label: 'Count', tickArguments:[5]}}
+                                        colorScale={d3.scaleOrdinal(this.alarmsColor)}
+                                        colorByLabel={false}
+                                        />
                         </div>
                         <div className=''>
                             <h5>Airmass</h5>
-                            <GenericHistogram id='airmass-hist' data={airmassData} width={width-40} height={height-40} margin={60} xLabel={'Airmass [?]'} yLabel={'Count'} domain={[0, 3]} nBins={36}  nTicks={5}/>
+                            <GenericHistogram id='airmass-hist' data={airmassData} width={width-40} height={height-40} 
+                                                margin={60} xLabel={'Airmass [?]'} yLabel={'Count'} domain={[0, 3]} nBins={36}
+                                                nTicks={5}/>
                         </div>
                         <div className=''>
                             <h5>Seeing</h5>
-                            <GenericHistogram id='seeing-hist' data={seeingData} width={width-40} height={height-40} margin={60} xLabel={'Seeing [?]'} yLabel={'Count'} domain={[0, 2]} nBins={36} nTicks={5}/>
+                            <GenericHistogram id='seeing-hist' data={seeingData} width={width-40} height={height-40} 
+                                                margin={60} xLabel={'Seeing [?]'} yLabel={'Count'} domain={[0, 2]} nBins={36}
+                                                nTicks={5}/>
                         </div>
                         <div className=''>
                             <h5>Sky brightness</h5>
-                            <GenericHistogram id='sky-brightness-hist' data={skyBrightnessData} width={width-40} height={height-40} margin={60} xLabel={'Sky brightness [?]'} yLabel={'Count'} nBins={36} nTicks={5}/>
+                            <GenericHistogram id='sky-brightness-hist' data={skyBrightnessData} width={width-40} height={height-40} 
+                                                margin={60} xLabel={'Sky brightness [?]'} yLabel={'Count'} nBins={36}
+                                                nTicks={5}/>
                         </div>
                         <div className=''>
                             <h5>Time baselines</h5>
-                            <GenericHistogram id='time-baselines-hist' data={baselinesData} width={width-40} height={height-40} margin={60} xLabel={'Time baseline [s]'} yLabel={'Count'} nBins={36} nTicks={5} logScale={true}/>
+                            <GenericHistogram id='time-baselines-hist' data={baselinesData} width={width-40} height={height-40} 
+                                                margin={60} xLabel={'Time baseline [s]'} yLabel={'Count'} nBins={36}
+                                                nTicks={5} logScale={true}/>
                         </div>
                     </div>
                 </div>

@@ -29,6 +29,11 @@ RUN yum -y --enablerepo=extras install epel-release && \
 RUN yum groupinstall -y "Development Tools" "Development Libraries" && \
   yum clean all
 
+# install python3
+RUN wget ftp://ftp.noao.edu/pub/dmills/python3-to-install.tgz
+RUN tar -zxvf python3-to-install.tgz && rm python3-to-install.tgz
+RUN cd Python-3.6.3 && make install
+
 # environment variables section
 ENV HOME=/home/root
 ENV LSST_SDK_INSTALL=$HOME/workspace/ts_visit_simulator
@@ -49,7 +54,7 @@ ENV OSPL_HOME=$LSST_SDK_INSTALL/OpenSpliceDDS/V6.4.1/HDE/x86_64.linux
 COPY ./ts_visit_simulator /home/docker/workspace/ts_visit_simulator
 
 COPY ./requirements.txt /home/docker/lsst/LSST-server/requirements.txt
-RUN pip install -r /home/docker/lsst/LSST-server/requirements.txt
+RUN pip3 install -r /home/docker/lsst/LSST-server/requirements.txt
 RUN wget -O /home/docker/lsst/LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
 
 COPY *.py /home/docker/lsst/LSST-server/

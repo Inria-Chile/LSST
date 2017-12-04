@@ -23,3 +23,11 @@
 .dome-data {
     color: var(--theme-active-text);
 }
+
+.cardinal-points {
+
+}
+
+.cardinal-points img {
+    filter: invert(60%) sepia(100%) hue-rotate(160deg);
+}

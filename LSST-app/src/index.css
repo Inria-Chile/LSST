@@ -25,6 +25,7 @@ body {
   --theme-shutters: #7fbbdd;
   --theme-windscreens: #5f8caa;
   --theme-histogram-bar: #5f8caa;
+  --theme-histogram-bar-latest: #aed4ea;
   --dome-text-size: 1.3rem;
   --separator-size: 3px;
 }
