@@ -82,22 +82,22 @@ class Settings extends Component {
                 </button>
                 <div className={"sidebar " + (this.state.sidebarOpen ? 'sidebar-open' : '')}>
                     <div className="checkbox">
-                        <label class='selectable'>
+                        <label className='selectable'>
                             <input type="checkbox" value="" onChange={this.toggleEcliptic} defaultChecked={this.state.showEcliptic}/> Ecliptic plane
                         </label>
                     </div>
                     <div className="checkbox">
-                        <label class='selectable'>
+                        <label className='selectable'>
                             <input type="checkbox" value="" onChange={this.toggleGalactic} defaultChecked={this.state.showGalactic}/> Galactic plane
                         </label>
                     </div>
                     <div className="checkbox">
-                        <label class='selectable'>
+                        <label className='selectable'>
                             <input type="checkbox" value="" onChange={this.toggleTelescopeRange} defaultChecked={this.state.showTelescopeRange}/> Elevation limit
                         </label>
                     </div>
                     <div className="checkbox">
-                        <label class='selectable'>
+                        <label className='selectable'>
                             <input type="checkbox" value="" onChange={this.toggleMoon} defaultChecked={this.state.showMoon}/> Moon
                         </label>
                     </div>
