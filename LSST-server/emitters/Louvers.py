@@ -32,7 +32,7 @@ def start_listening_louvers(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicLouvers):
-    print('EmittingLouvers', {'position_actual': topicLouvers.position_actual, 'position_error': topicLouvers.position_error, 'position_cmd': topicLouvers.position_cmd})
+    # print('EmittingLouvers', {'position_actual': topicLouvers.position_actual, 'position_error': topicLouvers.position_error, 'position_cmd': topicLouvers.position_cmd})
     with app.test_request_context('/'):
         # socketio.emit('Louvers', {'position_actual': topicLouvers.position_actual, 'position_error': topicLouvers.position_error, 'position_cmd': topicLouvers.position_cmd})        
         socketio.emit('Louvers', {'position_actual': topicLouvers.position_actual[0:34], 'position_error':topicLouvers.position_error[0:34], 'position_cmd':topicLouvers.position_cmd[0:34]}, namespace='/louvers')

@@ -8,7 +8,9 @@ class Slot extends Component {
     constructor(props){
         super(props);
         this.split = 2;
-   
+        this.criticalCPU = 0.9;
+        this.criticalDisk = 0.9;
+        this.criticalTemp = 90;
     }
 
     displayPopUp=(index, pos, hOf1)=>{
@@ -16,62 +18,29 @@ class Slot extends Component {
         this.props.displayPopUp(details,pos,hOf1);
     }
 
-    // componentDidMount(){
-    //     var dom = ReactDOM.findDOMNode(this);
-    //     this.drawSlots(dom);
-    // }
-
-    // drawSlots=(dom)=>{
-    //     let heightOf1=this.props.totalHeight/9;
-    //     let slotsContainer = d3.select(dom);
-    //     let data = this.props.details;
-    //     let x = this.props.x;
-    //     let y = this.props.y;
-    //     let width = this.props.width;
-    //     let indicatorsWidth = this.props.width/10;
-    //     let split = this.split;
-    //     let alert = this.props.alert;
-    //     let slots = slotsContainer.selectAll(".slot-container").select("g")
-    //         .data(data).enter()
-    //         // .append("g")
-    //         // .append("rect")
-    //         // .attr("x",x)
-    //         // .attr("y",function(d){console.log(d);return y+d.position*heightOf1})
-    //         // .attr("width",width-indicatorsWidth)
-    //         // .attr("height",function(d){return d.size*heightOf1-split})
-    //         // .attr("class",function(d,i){return (alert===i)?"slot-alert":"slot" })
-    //         .append("text")
-    //         .text(function(d){
-    //             return d.name;
-    //         })
-    //         .style("font-size", function(d){
-    //             console.log(heightOf1)
-    //             console.log(d.size)
-    //         })
-    //         .attr("x",x)
-    //         .attr("y",function(d){
-    //             return y+d.position*heightOf1+5})
-    //         .attr("class", "slot-text")
-            
-    //     // .append("g").attr("class","thisisaest");
-    // }
-
+    checkServerStatus(){
+        let alerts = this.props.alert;
+        if(
+            alerts.server_CPU >= this.criticalCPU ||
+            alerts.server_disk >= this.criticalDisk ||
+            alerts.server_temperature >= this.criticalTemp
+        ) return 'slot-alert';
+        else return "slot";
+    }
 
     render() {
         let heightOf1=this.props.totalHeight/9;
         let y = this.props.y;
         let indicatorsWidth = this.props.width/10;
         let alert = this.props.alert;
-        // console.log(alert)
+        console.log(alert)
         return (
             <g className="slot-container"  width={this.props.width-indicatorsWidth} > 
             {
             this.props.details.map((details, index)=>{
-                // console.log(alert===index)
                 y =  this.props.y +details.position*heightOf1;
                 let ytext = y+heightOf1/3;
                 let xtext = this.props.x+10;
-                // let transformation = "scale(0.8, 0.8) translate("+xtext+","+ytext+")"; 
                 let indicatorsX = this.props.x+this.props.width;
                 let indicatorsX2 = this.props.x+10;
                 return(
@@ -82,7 +51,7 @@ class Slot extends Component {
                         y={y} 
                         width={this.props.width-indicatorsWidth} 
                         height={details.size*heightOf1-this.split} 
-                        className={(alert===index)?"slot-alert":"slot"}/>
+                        className={(details.name===alert.server_id)?this.checkServerStatus():"slot"}/>
                         <text 
                         x={xtext} y={ytext}
                         // transform={transformation}
