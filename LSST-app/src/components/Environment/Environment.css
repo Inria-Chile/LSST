@@ -1,0 +1,23 @@
+.environment-container table {
+    width: calc(100% - 10px);
+    height: 100%;
+}
+
+.environment-container .table-wrapper {
+    background: var(--theme-div-background);
+    padding: 10px 20px;
+    margin: 0px 5px;
+}
+
+.environment-container table tbody tr{
+    border-bottom: 2px solid var(--theme-active-slider);
+}
+
+.environment-container table tbody td{    
+    padding: 10px 20px;
+}
+
+td.telemetry-name {
+    font-weight: bold;
+    width: 170px;
+}
