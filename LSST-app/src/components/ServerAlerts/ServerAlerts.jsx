@@ -124,11 +124,11 @@ class ServerAlerts extends Component {
         }
         this.racks = [];
         this.socket = openSocket(window.location.origin+'')
-        // console.log('SCOKERT', this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp)))
         
     }
     componentDidMount(){
         this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp));
+        
     }
 
     receiveMsg(msg){
@@ -251,9 +251,9 @@ class ServerAlerts extends Component {
         let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
         let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
         let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
-        let alerts = this.state.alerts[this.state.alerts.length-1];
-        let rackAlert = alerts.rack;
-        let slotAlert = alerts.slot;
+        // let alerts = this.state.alerts[this.state.alerts.length-1];
+        // let rackAlert = alerts.rack;
+        // let slotAlert = alerts.slot;
         // console.log(rackAlert)
         // console.log(this.state)
 
@@ -287,7 +287,7 @@ class ServerAlerts extends Component {
                                             slot = {this.rackItems[index]}
                                             hasPdu = {this.hasPdu[index]}
                                             displayPopUp = {this.displayRackDetails}
-                                            alert = {(rackAlert===index && alerts.isItWorking > 0.5)?alerts.slot:null}
+                                            alert = {this.state.alerts[0]}
                                             />
                                     )
                                 })  
@@ -299,9 +299,8 @@ class ServerAlerts extends Component {
                                 position = {this.state.detailsPosition} 
                                 details={this.state.rackDetails}
                                 hOf1={this.state.heightOf1Slot}
-                                alerts={(this.state.rackIndex === rackAlert 
-                                && this.state.rackDetails.slot === slotAlert+1
-                                && alerts.isItWorking > 0.5)?true:false}/>}
+                                alerts={false}
+                                />}
                             </g>
                         </svg>
                     </div>

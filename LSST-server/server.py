@@ -38,14 +38,19 @@ if __name__ == '__main__':
         from emitters.Louvers import start_listening_louvers
         from emitters.DomeShutter import start_listening_dome_shutter
         from emitters.DomePosition import start_listening_dome_position
+        from emitters.ServerAlerts import start_listening_servers
         eventlet.spawn(start_listening_louvers, app, socketio)
         eventlet.spawn(start_listening_rotator, app, socketio)
         eventlet.spawn(start_listening_survey, app, socketio)
         eventlet.spawn(start_listening_dome_shutter, app, socketio)
         eventlet.spawn(start_listening_dome_position, app, socketio)
+        eventlet.spawn(start_listening_servers,app,socketio)
+        # eventlet.spawn(start_listening_fake_alerts,app,socketio)
+        
     else:
         from emitters.ObservationEmitter import start_listening_fake
         from emitters.ServerAlerts import start_listening_fake_alerts
+        from emitters.ServerAlerts import start_listening_servers
         print('Spawning eventlet')
         eventlet.spawn(start_listening_fake, app, socketio)
         eventlet.spawn(start_listening_fake_alerts,app,socketio)

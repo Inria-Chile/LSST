@@ -1,0 +1,15 @@
+.cable-wraps-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    color: #96a3b3;
+    height: 100%;  
+}
+
+  .cable-wraps-container .container {
+    background: #3a4d61;
+    width: 100%;
+    margin: 5px;
+    height: 100%;
+}
+
