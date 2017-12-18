@@ -3,11 +3,12 @@ FROM centos:7
 LABEL authors="Andres Anania <aanania@lsst.org>, Sebastian Pereira <sebastian.pereira@inria.cl>"
 
 # install required software
-RUN yum -y --enablerepo=extras install epel-release && \
-  yum -y install gsl \
-  yum -y install unzip \
+RUN yum -y --enablerepo=extras install epel-release \
+  gsl \
+  unzip \
   wget \
   git \
+  dos2unix \
   tk \
   tk-devel \
   swig \
@@ -21,7 +22,9 @@ RUN yum -y --enablerepo=extras install epel-release && \
   python-devel \
   python-pip \
   python-wheel \
-  nodejs \
+  mysql-devel \
+  xorg-x11-server-Xvfb \
+  which \
   gnome-terminal \
   nano && \
   yum clean all
@@ -50,6 +53,7 @@ ENV PYTHONPATH=$PYTHONPATH:${SAL_WORK_DIR}/lib
 ENV SAL_DIR=${SAL_HOME}/scripts
 ENV PATH=${PATH}:${SAL_DIR}
 ENV OSPL_HOME=$LSST_SDK_INSTALL/OpenSpliceDDS/V6.4.1/HDE/x86_64.linux
+ENV LSST_EFD_HOST='139.229.136.31'
 
 COPY ./ts_visit_simulator /home/docker/workspace/ts_visit_simulator
 
@@ -65,6 +69,9 @@ COPY data /home/docker/lsst/LSST-server/data
 
 COPY run.sh /home/docker/lsst/run.sh
 
-RUN chmod +x /home/docker/lsst/run.sh
+# RUN chmod +x /home/docker/lsst/run.sh
+
+EXPOSE 5000
+
 ENTRYPOINT source /home/docker/workspace/ts_visit_simulator/setup.env && \
-  /home/docker/lsst/run.sh
+ xvfb-run sh /home/docker/lsst/run.sh
