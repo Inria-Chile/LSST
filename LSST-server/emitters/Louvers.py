@@ -21,7 +21,7 @@ def start_listening_louvers(app, socketio):
     try:
         while True:
             time.sleep(0.3)
-            scodeLouvers = salLouvers.getNextSample_status(topicLouvers)
+            scodeLouvers = salLouvers.getSample_status(topicLouvers)
             if scodeLouvers == 0:
                 publish(app, socketio, topicLouvers)
 

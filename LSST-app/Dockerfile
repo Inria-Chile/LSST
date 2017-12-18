@@ -23,4 +23,4 @@ RUN npm install
 
 # entrypoint
 RUN chmod +x run.sh
-ENTRYPOINT /home/docker/lsst/run.sh
+ENTRYPOINT /home/docker/lsst/LSST-app/run.sh

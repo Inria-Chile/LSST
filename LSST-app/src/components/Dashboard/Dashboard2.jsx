@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Survey from '../Survey/Survey';
 import Mirrors from '../Mirrors/Mirrors';
 import Dome from '../Dome/Dome';
+import Environment from '../Environment/Environment';
 import FieldDetails from '../Survey/FieldDetails/FieldDetails';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 import './Dashboard2.css';
@@ -61,6 +62,9 @@ class Dashboard2 extends Component {
                         </div>
                         <div key="c" data-grid={{x: 8, y: 0, w: 4, h: 19}}>
                             <Dome />
+                        </div>
+                        <div key="d" data-grid={{x: 0, y: 10, w: 3, h: 5}}>
+                            <Environment />
                         </div>
                     </ResponsiveReactGridLayout>
                 </div>

@@ -71,5 +71,7 @@ COPY run.sh /home/docker/lsst/run.sh
 
 # RUN chmod +x /home/docker/lsst/run.sh
 
+EXPOSE 5000
+
 ENTRYPOINT source /home/docker/workspace/ts_visit_simulator/setup.env && \
  xvfb-run sh /home/docker/lsst/run.sh

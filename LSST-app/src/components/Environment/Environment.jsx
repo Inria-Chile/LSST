@@ -16,8 +16,17 @@ class Environment extends Component {
             humidityArray: [],
             pressureArray: [],
         }
-        this.socket = openSocket(window.location.origin + '/environment');      
-        console.log('Environment\'s socket listening', this.socket.on('Environment', msg => this.receiveEnvironmentData(msg)));
+        this.socket = openSocket(window.location.origin + '/weather');      
+        console.log('Environment\'s socket listening', this.socket.on('Weather', msg => this.receiveEnvironmentData(msg)));
+    }
+
+    receiveEnvironmentData = (msg) => {
+        console.log('receiveEnvironmentData', msg);
+        // if(msg.position_actual){
+        //     this.setState({
+        //         louversAperture: msg.position_actual
+        //     });
+        // }
     }
 
     componentDidMount() {

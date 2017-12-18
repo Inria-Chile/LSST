@@ -74,7 +74,7 @@ def start_listening_servers(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicServers):
-    print('EmittingServer', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
+    # print('EmittingServer', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
     with app.test_request_context('/'):
         socketio.emit('server_alerts', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
                 
