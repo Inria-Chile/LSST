@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
 
-class AZCableWrap extends Component {
+class CameraCableWrap extends Component {
 
     constructor(props){
         super(props);
@@ -21,9 +21,8 @@ class AZCableWrap extends Component {
         let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
         let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
         this.g=g;
-        let tau = (3/2)* Math.PI;
-        this.props.drawBackground(g, radio, tau, 0);
-        // this.drawBackground(radio);
+        let tau = (1/2)* Math.PI;
+        this.props.drawBackground(g, radio, tau, -tau);
 
     }
 
@@ -46,4 +45,4 @@ class AZCableWrap extends Component {
     }
 }
 
-export default AZCableWrap;
+export default CameraCableWrap;
