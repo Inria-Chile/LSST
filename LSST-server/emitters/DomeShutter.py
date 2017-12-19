@@ -37,7 +37,7 @@ def start_listening_dome_shutter(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, shutter):
-    print('Emitting', shutter)
+    print('Emitting shutter', shutter)
     with app.test_request_context('/'):
         if(shutter):
             socketio.emit('DomeShutter', {'Shutter': 1}, namespace='/domeshutter')#Open

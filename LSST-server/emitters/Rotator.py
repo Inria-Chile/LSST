@@ -32,6 +32,6 @@ def start_listening_rotator(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicRotatorPosition):
-    print('Emitting', [topicRotatorPosition.Calibrated[0]])
+    # print('Emitting', [topicRotatorPosition.Calibrated[0]])
     with app.test_request_context('/'):
         socketio.emit('Rotator', {'RotatorPosition': topicRotatorPosition.Calibrated[0]}, namespace='/rotator')

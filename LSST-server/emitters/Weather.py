@@ -30,10 +30,6 @@ def start_listening_weather(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, weatherData):
-    print('')
-    print('')
     print('EmittingWeather', {'ambient_temp': weatherData.ambient_temp, 'humidity':weatherData.humidity, 'pressure':weatherData.pressure})
-    print('')
-    print('')
     with app.test_request_context('/'):
         socketio.emit('Weather', {'ambient_temp': weatherData.ambient_temp, 'humidity':weatherData.humidity, 'pressure':weatherData.pressure}, namespace='/weather')

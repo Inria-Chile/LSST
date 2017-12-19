@@ -59,12 +59,10 @@ def start_listening_servers(app, socketio):
 
     print("SAL listening server alerts")
     try: 
-        print("trying")
         while True:
             time.sleep(0.1)
             scodeServers = salServers.getNextSample_ServerStatus(topicServers)
             if scodeServers == 0:
-                print("inside if")
                 publish(app, socketio, topicServers)
 
     except KeyboardInterrupt:
