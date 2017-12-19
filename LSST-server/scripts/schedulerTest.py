@@ -34,13 +34,13 @@ try:
             time.sleep(0.210)
             scode = sal.getNextSample_target(topicTarget)
             if scode == 0 and topicTarget.targetId != 0:
-                print([topicTarget.filter, topicTarget.ra, topicTarget.dec])
+                print([topicTarget.filter, topicTarget.ra, topicTarget.decl])
                 observationId += 1
                 topicObservation.observationId = observationId
                 topicObservation.targetId      = topicTarget.targetId
                 topicObservation.filter      = topicTarget.filter
                 topicObservation.ra      = topicTarget.ra
-                topicObservation.dec      = topicTarget.dec
+                topicObservation.decl      = topicTarget.decl
                 topicObservation.visit_time      = 34
 
                 topicTime.timestamp += delta_seconds

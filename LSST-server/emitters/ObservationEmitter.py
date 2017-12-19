@@ -24,7 +24,7 @@ def start_listening_fake(app, socketio):
 
 #Get data from ts_sal connection
 def start_listening_survey(app, socketio):
-    from SALPY_scheduler import SAL_scheduler, scheduler_timeHandlerC, scheduler_targetC
+    from SALPY_scheduler import SAL_scheduler, scheduler_timeHandlerC, scheduler_targetC, scheduler_observationC
     print("SAL starting")
     sal = SAL_scheduler()
     sal.setDebugLevel(0)
@@ -60,9 +60,9 @@ def start_listening_survey(app, socketio):
                 topicTarget.fieldId  = random.randint(1,100)
                 topicTarget.filter   = filters[random.randrange(len(filters))]
                 topicTarget.ra       = random.randint(-40,40)
-                topicTarget.dec      = random.randint(-60,0)
-                topicTarget.request_time = initial_date
-                topicTarget.visit_time = 34
+                topicTarget.decl      = random.randint(-60,0)
+                topicTarget.request_time = time.time()-757393245-3
+                # topicTarget.exposure_times = [34,34,34,34,34,34,34,34,34,34]
                 initial_date = initial_date + date_step
                 sal.putSample_target(topicTarget)
 
@@ -85,6 +85,6 @@ def start_listening_survey(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicObservation):
-    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.dec, 1, topicObservation.observation_start_time, topicObservation.visit_time])
+    print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.decl, 1, topicObservation.observation_start_time, topicObservation.visit_time])
     with app.test_request_context('/'):
-        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.dec, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.visit_time})
+        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.decl, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.visit_time})
