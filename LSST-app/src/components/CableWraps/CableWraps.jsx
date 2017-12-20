@@ -3,7 +3,7 @@ import './CableWraps.css';
 import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import openSocket from 'socket.io-client';
 
 class CableWraps extends Component {
@@ -11,19 +11,13 @@ class CableWraps extends Component {
     constructor(props){
         super(props);
         this.socket = openSocket(window.location.origin+'');
-        this.state({
+        this.state={
             cable_wraps: null
-        })
+        };
         
     }
 
-    drawBackground(g,radio, tau, startAngle){
-
-        let arc = d3.arc()
-        .innerRadius(radio-10)
-        .outerRadius(radio)
-        .startAngle(startAngle);
-        
+    drawBackground(g,radio, tau, arc){
         g.append("circle")
             .attr("cx", 0)
             .attr("cy", 0)
@@ -35,7 +29,7 @@ class CableWraps extends Component {
             .attr("cy", 0)
             .attr("r", radio-70)
             .style("fill", "#7296b0");
-
+            
         g.append("path")
             .datum({endAngle: tau})
             .style("fill", "#4d667b")
@@ -47,8 +41,6 @@ class CableWraps extends Component {
             .attr("width", 5)
             .attr("height", 30)
             .style("fill", "#ffffff")
-        
-       
     }
 
     componentDidMount(){
@@ -57,7 +49,7 @@ class CableWraps extends Component {
     }
 
     receiveMsg(msg){
-        console.log("msg recieved!")
+        // console.log("msg recieved!")
         console.log(msg)
         this.setState({
             cable_wraps:msg
@@ -74,11 +66,20 @@ class CableWraps extends Component {
             <div className="row">
                 <div className="cam-cable col-md-6">
                 <h4>CameraCable Wrap</h4>
-                <CameraCableWrap height={300} width={300} drawBackground={this.drawBackground}/>
+                <CameraCableWrap 
+                    height={300}
+                    width={300} 
+                    drawBackground={this.drawBackground}
+                    cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.camera:null}/>
                 </div>
                 <div className="az-cable col-md-6">
                 <h4>Azimuth Cable Wrap</h4>
-                <AZCableWrap height={300} width={300} drawBackground={this.drawBackground}/>
+                <AZCableWrap 
+                    height={300} 
+                    width={300} 
+                    drawBackground={this.drawBackground}
+                    cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.az:null}
+                    />
                 </div>
             
             </div></div></div>

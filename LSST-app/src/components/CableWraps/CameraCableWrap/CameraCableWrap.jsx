@@ -22,7 +22,12 @@ class CameraCableWrap extends Component {
         let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
         this.g=g;
         let tau = (1/2)* Math.PI;
-        this.props.drawBackground(g, radio, tau, -tau);
+        let arc = d3.arc()
+        .innerRadius(radio-10)
+        .outerRadius(radio)
+        .startAngle(-tau);
+        this.arc=arc;
+        this.props.drawBackground(g, radio, tau, arc);
 
     }
 
@@ -31,12 +36,6 @@ class CameraCableWrap extends Component {
         this.createAZCableWrap(dom);
     }
 
-    // componentDidUpdate(){
-    //     var dom = ReactDOM.findDOMNode(this);
-    //     // this.removeHistogram(dom);    
-    //     // this.createHistogram(dom);
-    // }
-    
 
     render() {
         return(
