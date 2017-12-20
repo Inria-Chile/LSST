@@ -49,35 +49,37 @@ def start_listening_survey(app, socketio):
     try:
         initial_date = 10000
         date_step = 1000
-        while True:
-            time.sleep(1.510)
-            scode = sal.getNextSample_timeHandler(topicTime)
-            if scode == 0 and topicTime.timestamp != 0:
+        with app.test_request_context('/'):
+            while True:
+                time.sleep(1.510)
+                scode = sal.getSample_timeHandler(topicTime)
+                if scode == 0 and topicTime.timestamp != 0:
 
-                targetId += 1
+                    targetId += 1
 
-                topicTarget.targetId = targetId
-                topicTarget.fieldId  = random.randint(1,100)
-                topicTarget.filter   = filters[random.randrange(len(filters))]
-                topicTarget.ra       = random.randint(-40,40)
-                topicTarget.decl      = random.randint(-60,0)
-                topicTarget.request_time = time.time()-757393245-3
-                # topicTarget.exposure_times = [34,34,34,34,34,34,34,34,34,34]
-                initial_date = initial_date + date_step
-                sal.putSample_target(topicTarget)
+                    topicTarget.targetId = targetId
+                    topicTarget.fieldId  = random.randint(1,100)
+                    topicTarget.filter   = filters[random.randrange(len(filters))]
+                    topicTarget.ra       = random.randint(-40,40)
+                    topicTarget.decl      = random.randint(-60,0)
+                    topicTarget.request_time = time.time()-757393245-3
+                    # topicTarget.exposure_times = [34,34,34,34,34,34,34,34,34,34]
+                    initial_date = initial_date + date_step
+                    sal.putSample_target(topicTarget)
 
-                while True:
-                    scode = sal.getNextSample_observation(topicObservation)
-                    if scode == 0 and topicObservation.targetId != 0:
-                        topicObservation.observation_start_time = topicTarget.request_time
-                        publish(app, socketio, topicObservation)
-                        measCount += 1
-                        visitCount += 1
-                        if topicTarget.targetId == topicObservation.targetId:
-                            syncCount += 1
-                            break
-                        else:
-                            print("UNSYNC targetId=%i observationId=%i" % (topicTarget.targetId, topicObservation.targetId))
+                    while True:
+                        time.sleep(0.3)
+                        scode = sal.getSample_observation(topicObservation)
+                        if scode == 0 and topicObservation.targetId != 0:
+                            topicObservation.observation_start_time = topicTarget.request_time
+                            publish(app, socketio, topicObservation)
+                            measCount += 1
+                            visitCount += 1
+                            if topicTarget.targetId == topicObservation.targetId:
+                                syncCount += 1
+                                break
+                            else:
+                                print("UNSYNC targetId=%i observationId=%i" % (topicTarget.targetId, topicObservation.targetId))
 
     except KeyboardInterrupt:
         sal.salShutdown()
@@ -86,5 +88,4 @@ def start_listening_survey(app, socketio):
 # Publish data to WS connection
 def publish(app, socketio, topicObservation):
     print('Emitting', [topicObservation.filter, topicObservation.ra, topicObservation.decl, 1, topicObservation.observation_start_time, topicObservation.visit_time])
-    with app.test_request_context('/'):
-        socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.decl, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.visit_time})
+    socketio.emit('data', {'fieldID': topicObservation.targetId, 'fieldRA':topicObservation.ra, 'fieldDec':topicObservation.decl, 'filterName':topicObservation.filter, 'count':1, 'request_time':topicObservation.observation_start_time, 'expTime':topicObservation.visit_time})

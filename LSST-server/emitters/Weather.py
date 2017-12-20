@@ -17,11 +17,12 @@ def start_listening_weather(app, socketio):
     print("environment_weather subscriber ready")
     print("SAL_environment listening")
     try:
-        while True:
-            time.sleep(1)
-            retval = mgr.getSample_weather(weatherData)
-            if retval==0:
-                publish(app, socketio, weatherData)
+        with app.test_request_context('/'):
+            while True:
+                time.sleep(1)
+                retval = mgr.getSample_weather(weatherData)
+                if retval==0:
+                    publish(app, socketio, weatherData)
 
     except KeyboardInterrupt:
         print("SAL shutdown")
@@ -31,5 +32,4 @@ def start_listening_weather(app, socketio):
 # Publish data to WS connection
 def publish(app, socketio, weatherData):
     print('EmittingWeather', {'ambient_temp': weatherData.ambient_temp, 'humidity':weatherData.humidity, 'pressure':weatherData.pressure})
-    with app.test_request_context('/'):
-        socketio.emit('Weather', {'ambient_temp': weatherData.ambient_temp, 'humidity':weatherData.humidity, 'pressure':weatherData.pressure}, namespace='/weather')
+    socketio.emit('Weather', {'ambient_temp': weatherData.ambient_temp, 'humidity':weatherData.humidity, 'pressure':weatherData.pressure}, namespace='/weather')

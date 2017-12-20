@@ -31,3 +31,7 @@
 .cardinal-points img {
     filter: invert(60%) sepia(100%) hue-rotate(160deg);
 }
+
+.dome-position-container .svg-container {
+    padding: 50px;
+}

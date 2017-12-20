@@ -59,11 +59,12 @@ def start_listening_servers(app, socketio):
 
     print("SAL listening server alerts")
     try: 
-        while True:
-            time.sleep(0.1)
-            scodeServers = salServers.getNextSample_ServerStatus(topicServers)
-            if scodeServers == 0:
-                publish(app, socketio, topicServers)
+        with app.test_request_context('/'):
+            while True:
+                time.sleep(1)
+                scodeServers = salServers.getSample_ServerStatus(topicServers)
+                if scodeServers == 0:
+                    publish(app, socketio, topicServers)
 
     except KeyboardInterrupt:
         print("SAL shutdown")
@@ -73,6 +74,5 @@ def start_listening_servers(app, socketio):
 # Publish data to WS connection
 def publish(app, socketio, topicServers):
     # print('EmittingServer', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
-    with app.test_request_context('/'):
-        socketio.emit('server_alerts', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
+    socketio.emit('server_alerts', {'server_id': topicServers.Id, 'server_CPU': topicServers.CPU, 'server_disk': topicServers.disk, 'server_power_supply1_1V': topicServers.power_supply1_1V,'server_power_supply3_3V': topicServers.power_supply3_3V,'server_power_supply5V': topicServers.power_supply5V,'server_power_supply12V': topicServers.power_supply12V,'server_temperature': topicServers.temperature })
                 

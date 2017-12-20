@@ -21,14 +21,15 @@ def start_listening_dome_shutter(app, socketio):
 
     print("SAL listening")
     try:
-        while True:
-            time.sleep(0.3)
-            scodeCloseDome = salDome.acceptCommand_CloseShutter(topicCloseShutter)
-            scodeOpenDome = salDome.acceptCommand_OpenShutter(topicOpenShutter)
-            if scodeCloseDome > 0:
-                publish(app, socketio, False)
-            elif scodeOpenDome > 0:
-                publish(app, socketio, True)
+        with app.test_request_context('/'):
+            while True:
+                time.sleep(0.3)
+                scodeCloseDome = salDome.acceptCommand_CloseShutter(topicCloseShutter)
+                scodeOpenDome = salDome.acceptCommand_OpenShutter(topicOpenShutter)
+                if scodeCloseDome > 0:
+                    publish(app, socketio, False)
+                elif scodeOpenDome > 0:
+                    publish(app, socketio, True)
 
     except KeyboardInterrupt:
         print("SAL shutdown")
@@ -38,8 +39,7 @@ def start_listening_dome_shutter(app, socketio):
 # Publish data to WS connection
 def publish(app, socketio, shutter):
     print('Emitting shutter', shutter)
-    with app.test_request_context('/'):
-        if(shutter):
-            socketio.emit('DomeShutter', {'Shutter': 1}, namespace='/domeshutter')#Open
-        else:
-            socketio.emit('DomeShutter', {'Shutter': 0}, namespace='/domeshutter')#Close
+    if(shutter):
+        socketio.emit('DomeShutter', {'Shutter': 1}, namespace='/domeshutter')#Open
+    else:
+        socketio.emit('DomeShutter', {'Shutter': 0}, namespace='/domeshutter')#Close
