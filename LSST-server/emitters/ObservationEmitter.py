@@ -68,6 +68,7 @@ def start_listening_survey(app, socketio):
                     sal.putSample_target(topicTarget)
 
                     while True:
+                        time.sleep(0.3)
                         scode = sal.getSample_observation(topicObservation)
                         if scode == 0 and topicObservation.targetId != 0:
                             topicObservation.observation_start_time = topicTarget.request_time
