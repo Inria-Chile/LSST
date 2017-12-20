@@ -4,8 +4,18 @@ import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
 import * as d3 from 'd3';
+import openSocket from 'socket.io-client';
 
 class CableWraps extends Component {
+
+    constructor(props){
+        super(props);
+        this.socket = openSocket(window.location.origin+'');
+        this.state({
+            cable_wraps: null
+        })
+        
+    }
 
     drawBackground(g,radio, tau, startAngle){
 
@@ -38,12 +48,23 @@ class CableWraps extends Component {
             .attr("height", 30)
             .style("fill", "#ffffff")
         
-        g.append("text")
-            .attr("x", 0)
-            .attr("y", -radio+40)
-            .text("0°")
-            .style("fill", "#ffffff")
+       
     }
+
+    componentDidMount(){
+        this.socket.on('cable_wraps', timestamp => this.receiveMsg(timestamp));
+        
+    }
+
+    receiveMsg(msg){
+        console.log("msg recieved!")
+        console.log(msg)
+        this.setState({
+            cable_wraps:msg
+        })
+
+    }
+
 
     render() {
         return(
