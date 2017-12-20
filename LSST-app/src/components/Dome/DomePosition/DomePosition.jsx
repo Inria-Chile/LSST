@@ -33,13 +33,15 @@ class DomePosition extends Component {
         d3.select("#mount-angle").transition().duration(duration).attr("transform", "translate("+this.props.width/2+","+this.props.height/2+")rotate("+angle+")");
         d3.select("#mount-angle-top").transition().attr("y2", -this.props.height/2+this.props.height/2+this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
         d3.select("#mount-angle-bot").transition().attr("y2", -this.props.height/2+this.props.height/2-this.props.width/2*Math.tan(Math.PI/180*this.cameraFOV/2));
-
-        
     }
 
     componentDidUpdate(prevProps, prevState){
-        this.setDomeAzimuth(this.props.domeAzimuth);
-        this.setMountAzimuth(this.props.mountAzimuth);
+        window.requestAnimationFrame(
+            () => {
+                this.setDomeAzimuth(this.props.domeAzimuth);
+                this.setMountAzimuth(this.props.mountAzimuth);
+            }
+        );
     }
 
     componentDidMount() {
@@ -55,8 +57,8 @@ class DomePosition extends Component {
                 </div>
                 <svg 
                     className="svg-container"
-                    height={this.props.height}
-                    width={this.props.width}>
+                    height={this.props.height+100}
+                    width={this.props.width+100}>
                     <g id="dome-angle"
                         transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
                         height={this.props.height}

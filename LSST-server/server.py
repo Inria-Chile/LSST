@@ -41,14 +41,12 @@ if __name__ == '__main__':
         from emitters.ServerAlerts import start_listening_servers
         from emitters.Weather import start_listening_weather
         eventlet.spawn(start_listening_louvers, app, socketio)
-        eventlet.spawn(start_listening_rotator, app, socketio)
+        # eventlet.spawn(start_listening_rotator, app, socketio)
         eventlet.spawn(start_listening_survey, app, socketio)
         eventlet.spawn(start_listening_dome_shutter, app, socketio)
         eventlet.spawn(start_listening_dome_position, app, socketio)
         eventlet.spawn(start_listening_servers, app, socketio)
         eventlet.spawn(start_listening_weather, app, socketio)
-        # eventlet.spawn(start_listening_fake_alerts,app,socketio)
-        
     else:
         from emitters.ObservationEmitter import start_listening_fake
         from emitters.ServerAlerts import start_listening_fake_alerts
