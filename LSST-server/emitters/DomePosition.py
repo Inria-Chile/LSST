@@ -41,5 +41,5 @@ def start_listening_dome_position(app, socketio):
     
 # Publish data to WS connection
 def publish(app, socketio, topicDomeAz, topicDomeEl):
-    # print('Emitting DomePosition', [topicDomeAz.position_actual, topicDomeAz.position_error, topicDomeAz.position_cmd, topicDomeEl.position_actual, topicDomeEl.position_error, topicDomeEl.position_cmd])
-    socketio.emit('DomePosition', {'DomeAzPos': topicDomeAz.position_actual, 'DomeAzPosErr':topicDomeAz.position_error, 'DomeAzCMD':topicDomeAz.position_cmd, 'DomeElPos': topicDomeEl.position_actual, 'DomeElPosErr':topicDomeEl.position_error, 'DomeElCMD':topicDomeEl.position_cmd}, namespace='/domeposition')
+    # print('Emitting DomePosition', [topicDomeAz.position_actual, topicDomeAz.position_error, topicDomeAz.position_cmd, topicDomeEl.position_actual, topicDomeEl.position_error, topicDomeEl.position_cmd, time.time()])
+    socketio.emit('DomePosition', {'DomeAzPos': topicDomeAz.position_actual, 'DomeAzPosErr':topicDomeAz.position_error, 'DomeAzCMD':topicDomeAz.position_cmd, 'DomeElPos': topicDomeEl.position_actual, 'DomeElPosErr':topicDomeEl.position_error, 'DomeElCMD':topicDomeEl.position_cmd, 'timestamp': time.time()}, namespace='/domeposition')

@@ -68,6 +68,7 @@ COPY emitters /home/docker/lsst/LSST-server/emitters
 COPY data /home/docker/lsst/LSST-server/data
 
 COPY run.sh /home/docker/lsst/run.sh
+COPY setup.env /home/docker/workspace/ts_visit_simulator/setup.env
 
 # RUN chmod +x /home/docker/lsst/run.sh
 

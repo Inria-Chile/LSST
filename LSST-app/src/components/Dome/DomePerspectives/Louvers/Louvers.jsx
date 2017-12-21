@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 import './Louvers.css';
 // import * as d3 from 'd3';
 import {DEMO_MODE} from '../../../Utils/Utils';
 import openSocket from 'socket.io-client';
 
-class Louvers extends Component {
+class Louvers extends PureComponent {
 
     constructor(props){
         super(props);

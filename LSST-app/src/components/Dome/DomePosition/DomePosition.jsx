@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import './DomePosition.css';
 import * as d3 from 'd3';
 import {DEMO_MODE} from '../../Utils/Utils';
 
-class DomePosition extends Component {
+class DomePosition extends PureComponent {
 
     constructor(props){
         super(props);
@@ -36,12 +36,14 @@ class DomePosition extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        window.requestAnimationFrame(
-            () => {
-                this.setDomeAzimuth(this.props.domeAzimuth);
-                this.setMountAzimuth(this.props.mountAzimuth);
-            }
-        );
+        if(!document.hidden){
+            window.requestAnimationFrame(
+                () => {
+                    this.setDomeAzimuth(this.props.domeAzimuth);
+                    this.setMountAzimuth(this.props.mountAzimuth);
+                }
+            );
+        }
     }
 
     componentDidMount() {
@@ -99,15 +101,21 @@ class DomePosition extends Component {
                 <div className="dome-position-info">
                     <div className="dome-azimuth-text">
                         <span>Dome azimuth: </span> 
-                        <span>{this.props.domeAzimuth.toFixed(1)}º</span>
+                        <span>
+                            {this.props.domeAzimuth ? this.props.domeAzimuth.toFixed(1)+'º' : 'None'}
+                        </span>
                     </div>
                     <div>
                         <span className="dome-data-label">Mount azimuth: </span> 
-                        <span className="dome-data">{this.props.mountAzimuth.toFixed(1)}º</span>
+                        <span className="dome-data">
+                            {this.props.mountAzimuth ? this.props.mountAzimuth.toFixed(1)+'º' : 'None'}
+                        </span>
                     </div>
                     <div>
                         <span className="dome-data-label">Camera FOV: </span> 
-                        <span className="dome-data">{this.props.shuttersAperture}º</span>
+                        <span className="dome-data">
+                            {this.props.shuttersAperture ? this.props.shuttersAperture+'º' : 'None'}
+                        </span>
                     </div>
                 </div>
             </div>

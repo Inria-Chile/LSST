@@ -17,14 +17,15 @@ class Dome extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            shuttersAperture: 0,
-            domeAzimuth: 0,
-            domeTargetAzimuth: 0,
-            domeOptimalAzimuth: 0,
-            telescopeElevation: 0,
-            telescopeTargetElevation: 0,
-            telescopeOptimalElevation: 0,
-            mountAzimuth: 0,
+            shuttersAperture: null,
+            domeAzimuth: null,
+            domeTargetAzimuth: null,
+            domeOptimalAzimuth: null,
+            telescopeElevation: null,
+            telescopeTargetElevation: null,
+            telescopeOptimalElevation: null,
+            mountAzimuth: null,
+            timestamp: null,
         }
         this.socket = openSocket(window.location.origin + '/domeposition');      
         // this.socket.join('test');
@@ -36,13 +37,13 @@ class Dome extends PureComponent {
     }
 
     receiveDomePositionData = (msg) => {
-        // console.log('receiveDomePositionData', msg);
         this.setState({
             domeAzimuth: msg.DomeAzPos,
             telescopeElevation: msg.DomeElPos,
             domeTargetAzimuth: msg.DomeAzCMD,
             telescopeTargetElevation: msg.DomeElCMD,
             mountAzimuth: msg.DomeAzPos,
+            timestamp: msg.timestamp,
         });
     }
 
@@ -77,6 +78,7 @@ class Dome extends PureComponent {
                 let telescopeTargetElevation = this.normalizeAngle((Math.random() - 0.1) * 15, 90);
                 let telescopeOptimalElevation = this.normalizeAngle(newElevation + Math.random() * 3, 90);
                 let newMountAzimuth = newAzimuth + ((Math.random() - 0.1) * 30);
+                let timestamp = new Date();
                 this.setState({
                     domeAzimuth: newAzimuth,
                     domeTargetAzimuth: domeTargetAzimuth,
@@ -84,7 +86,8 @@ class Dome extends PureComponent {
                     telescopeElevation: newElevation,
                     telescopeTargetElevation: telescopeTargetElevation,
                     telescopeOptimalElevation: telescopeOptimalElevation,
-                    mountAzimuth: newMountAzimuth
+                    mountAzimuth: newMountAzimuth,
+                    timestamp: timestamp
                 })
             }, 2000)
         }
@@ -115,6 +118,7 @@ class Dome extends PureComponent {
                             <DomeAzimuthTimeSeries domeAzimuth={this.state.domeAzimuth}
                                 domeTargetAzimuth={this.state.domeTargetAzimuth}
                                 domeOptimalAzimuth={this.state.domeOptimalAzimuth}
+                                timestamp={this.state.timestamp}
                                 width={600} height={350} />
                         </div>
                         <div>
@@ -122,6 +126,7 @@ class Dome extends PureComponent {
                             <DomeElevationTimeSeries telescopeElevation={this.state.telescopeElevation}
                                 telescopeTargetElevation={this.state.telescopeTargetElevation}
                                 telescopeOptimalElevation={this.state.telescopeOptimalElevation}
+                                timestamp={this.state.timestamp}
                                 width={600} height={350} />
                         </div>
                     </div>

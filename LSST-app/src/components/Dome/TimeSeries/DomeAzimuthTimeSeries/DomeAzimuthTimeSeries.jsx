@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { LineChart } from 'react-d3-components'
 import * as d3 from 'd3';
 import '../TimeSeries.css';
 
-class DomeAzimuthTimeSeries extends PureComponent {
+class DomeAzimuthTimeSeries extends Component {
     static LineColors = {
         'azimuth': '#ddd', 
         'target': '#5e8ba9', 
@@ -13,14 +13,14 @@ class DomeAzimuthTimeSeries extends PureComponent {
     constructor(props) {
         super(props);
         let defaultData = [...Array(10).keys()].map( (el, i) => {
-            return {x:new Date(new Date().getTime() - (10-i)*2000), y: 0};
+            return {x:new Date(new Date().getTime() - (10-i)*300), y: null};
         });
         this.state = {
             dataPoints: [],
             data: [
-                { label: 'target', values: defaultData.slice()}, 
+                { label: 'target', values: defaultData.slice()},
                 { label: 'optimal', values: defaultData.slice()},
-                { label: 'azimuth', values: defaultData.slice()}, 
+                { label: 'azimuth', values: defaultData.slice()},
             ],
             xScale: d3.scaleTime().domain([new Date(), new Date()]).range([0, this.props.width - 70]),
             yScale: d3.scaleLinear().domain([360, 0]).range([0, this.props.height - 70]),
@@ -34,12 +34,14 @@ class DomeAzimuthTimeSeries extends PureComponent {
 
     componentWillReceiveProps() {
         let newData = this.state.data;
-        newData[0].values.push({x: new Date(), y: this.props.domeTargetAzimuth})
-        newData[1].values.push({x: new Date(), y: this.props.domeOptimalAzimuth})
-        newData[2].values.push({x: new Date(), y: this.props.domeAzimuth})
+        let timestamp = this.props.timestamp == null ? new Date() : this.props.timestamp*1000;
+
+        newData[0].values.push({x: new Date(timestamp), y: this.props.domeTargetAzimuth})
+        newData[1].values.push({x: new Date(timestamp), y: this.props.domeOptimalAzimuth})
+        newData[2].values.push({x: new Date(timestamp), y: this.props.domeAzimuth})
         
         for(let i=0; i<this.state.data.length; ++i){
-            if (newData[i].values.length > 350)
+            if (newData[i].values.length > 350 || newData[i].values[0].y == null)
                 newData[i].values.shift();
         }
         this.setState({
@@ -55,8 +57,9 @@ class DomeAzimuthTimeSeries extends PureComponent {
 
     render() {
         let limits = this.getLimits(this.state.data[0].values);
+        let timestamp = this.props.timestamp == null ? new Date() : this.props.timestamp*1000;
         let padding = 3;
-        this.state.xScale.domain([this.state.data[0].values[0].x, new Date()]);
+        this.state.xScale.domain([this.state.data[0].values[0].x, new Date(timestamp)]);
         this.state.yScale.domain([limits[1]+padding, limits[0]-padding]);
         return (
             <LineChart
