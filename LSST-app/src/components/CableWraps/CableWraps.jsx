@@ -11,19 +11,25 @@ class CableWraps extends Component {
     constructor(props){
         super(props);
         this.socket = openSocket(window.location.origin+'');
-        this.state({
+        this.state={
             cable_wraps: null
-        })
+        };
         
     }
 
-    drawBackground(g,radio, tau, startAngle){
-
-        let arc = d3.arc()
-        .innerRadius(radio-10)
-        .outerRadius(radio)
-        .startAngle(startAngle);
+    componentDidMount(){
+        this.socket.on('cable_wraps', timestamp => this.receiveMsg(timestamp));
         
+    }
+
+    receiveMsg(msg){
+        this.setState({
+            cable_wraps:msg
+        })
+
+    }
+
+    drawBackground(g,radio, tau, arc){
         g.append("circle")
             .attr("cx", 0)
             .attr("cy", 0)
@@ -40,29 +46,51 @@ class CableWraps extends Component {
             .datum({endAngle: tau})
             .style("fill", "#4d667b")
             .attr("d", arc);
+    }
+
+    drawLimits(g,radio, start, end){
+        g.append("rect")
+        .attr("x", 0)
+        .attr("y", -radio-10)
+        .attr("width", 5)
+        .attr("height", 30)
+        .style("fill", "#ffffff")
 
         g.append("rect")
-            .attr("x", 0)
-            .attr("y", -radio-10)
-            .attr("width", 5)
-            .attr("height", 30)
-            .style("fill", "#ffffff")
-        
-       
+        .attr("x", -radio-10)
+        .attr("y", 0)
+        .attr("width", 30)
+        .attr("height", 2)
+        .style("fill", "#ffffff")
+
+        g.append("text")
+        .attr("x", -radio-50)
+        .attr("y",5)
+        .text(start+"°")
+        .style("fill", "#ffffff")
+
+        g.append("rect")
+        .attr("x", radio-20)
+        .attr("y", 0)
+        .attr("width", 30)
+        .attr("height", 2)
+        .style("fill", "#ffffff")
+
+        g.append("text")
+        .attr("x", radio+15)
+        .attr("y",5)
+        .text(end+"°")
+        .style("fill", "#ffffff")
     }
 
-    componentDidMount(){
-        this.socket.on('cable_wraps', timestamp => this.receiveMsg(timestamp));
-        
-    }
-
-    receiveMsg(msg){
-        console.log("msg recieved!")
-        console.log(msg)
-        this.setState({
-            cable_wraps:msg
-        })
-
+    arcTween(newAngle, arc) {
+        return function(d) {
+          var interpolate = d3.interpolate(d.endAngle, newAngle);
+          return function(t) {
+            d.endAngle = interpolate(t);
+            return arc(d);
+          };
+        };
     }
 
 
@@ -73,12 +101,25 @@ class CableWraps extends Component {
             <div className="container pull-left">
             <div className="row">
                 <div className="cam-cable col-md-6">
-                <h4>CameraCable Wrap</h4>
-                <CameraCableWrap height={300} width={300} drawBackground={this.drawBackground}/>
+                <h4>Camera Cable Wrap</h4>
+                <CameraCableWrap 
+                    height={300}
+                    width={400} 
+                    drawBackground={this.drawBackground}
+                    drawLimits={this.drawLimits}
+                    arcTween = {this.arcTween}
+                    cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.camera:null}/>
                 </div>
                 <div className="az-cable col-md-6">
                 <h4>Azimuth Cable Wrap</h4>
-                <AZCableWrap height={300} width={300} drawBackground={this.drawBackground}/>
+                <AZCableWrap 
+                    height={300} 
+                    width={400} 
+                    drawBackground={this.drawBackground}
+                    drawLimits={this.drawLimits}
+                    arcTween = {this.arcTween}
+                    cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.az:null}
+                    />
                 </div>
             
             </div></div></div>
