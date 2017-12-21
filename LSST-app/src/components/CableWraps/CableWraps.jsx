@@ -3,7 +3,7 @@ import './CableWraps.css';
 import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
-// import * as d3 from 'd3';
+import * as d3 from 'd3';
 import openSocket from 'socket.io-client';
 
 class CableWraps extends Component {
@@ -15,6 +15,18 @@ class CableWraps extends Component {
             cable_wraps: null
         };
         
+    }
+
+    componentDidMount(){
+        this.socket.on('cable_wraps', timestamp => this.receiveMsg(timestamp));
+        
+    }
+
+    receiveMsg(msg){
+        this.setState({
+            cable_wraps:msg
+        })
+
     }
 
     drawBackground(g,radio, tau, arc){
@@ -34,18 +46,6 @@ class CableWraps extends Component {
             .datum({endAngle: tau})
             .style("fill", "#4d667b")
             .attr("d", arc);
-    }
-
-    componentDidMount(){
-        this.socket.on('cable_wraps', timestamp => this.receiveMsg(timestamp));
-        
-    }
-
-    receiveMsg(msg){
-        this.setState({
-            cable_wraps:msg
-        })
-
     }
 
     drawLimits(g,radio, start, end){
@@ -81,7 +81,16 @@ class CableWraps extends Component {
         .attr("y",5)
         .text(end+"°")
         .style("fill", "#ffffff")
-        
+    }
+
+    arcTween(newAngle, arc) {
+        return function(d) {
+          var interpolate = d3.interpolate(d.endAngle, newAngle);
+          return function(t) {
+            d.endAngle = interpolate(t);
+            return arc(d);
+          };
+        };
     }
 
 
@@ -98,6 +107,7 @@ class CableWraps extends Component {
                     width={400} 
                     drawBackground={this.drawBackground}
                     drawLimits={this.drawLimits}
+                    arcTween = {this.arcTween}
                     cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.camera:null}/>
                 </div>
                 <div className="az-cable col-md-6">
@@ -107,6 +117,7 @@ class CableWraps extends Component {
                     width={400} 
                     drawBackground={this.drawBackground}
                     drawLimits={this.drawLimits}
+                    arcTween = {this.arcTween}
                     cable_wrap={(this.state.cable_wraps)?this.state.cable_wraps.az:null}
                     />
                 </div>

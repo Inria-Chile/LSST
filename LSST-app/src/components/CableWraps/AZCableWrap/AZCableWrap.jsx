@@ -14,10 +14,6 @@ class AZCableWrap extends Component {
         this.innerPath = null;
     }
 
-    removeAZCableWrap(dom){
-        if(this.path)this.path.remove();
-    }
-
     createAZCableWrap(dom){
         let radio = 140;
         let width =  this.props.width;
@@ -56,7 +52,7 @@ class AZCableWrap extends Component {
         .attr("id", "rot_wrap");
 
         let theta = degrees((3/2)*Math.PI);
-        this.props.drawLimits(g,radio,-theta, theta)
+        this.props.drawLimits(g,radio,theta, -theta)
     
     }
 
@@ -67,21 +63,11 @@ class AZCableWrap extends Component {
         let newRotAngle = newAngle + delta;
         this.path.transition()
                 .duration(1500)
-                .attrTween("d", this.arcTween(newAngle, this.arc));
+                .attrTween("d", this.props.arcTween(newAngle, this.arc));
         this.innerPath.transition()
                 .duration(1500)
-                .attrTween("d", this.arcTween(newRotAngle, this.innerArc));
+                .attrTween("d", this.props.arcTween(newRotAngle, this.innerArc));
        
-    }
-
-    arcTween(newAngle, arc) {
-        return function(d) {
-          var interpolate = d3.interpolate(d.endAngle, newAngle);
-          return function(t) {
-            d.endAngle = interpolate(t);
-            return arc(d);
-          };
-        };
     }
 
     componentDidMount() {

@@ -25,8 +25,7 @@ def start_listening_fake_cable_wraps(app, socketio):
             az_rot_wrap = random.uniform(-2,2)
 
             cam_cable_wrap = random.uniform(-1,1)
-            cam_cable_position = cam_cable_position+cam_cable_wrap
             cam_rot_wrap = random.uniform(-2,2)
             
-            socketio.emit('cable_wraps', {'camera': {"cable":cam_cable_position, "rotator":cam_rot_wrap}, "az":{'cable': az_cable_wrap, 'rotator': az_rot_wrap}})
+            socketio.emit('cable_wraps', {'camera': {"cable":cam_cable_wrap, "rotator":cam_rot_wrap}, "az":{'cable': az_cable_wrap, 'rotator': az_rot_wrap}})
             initial_date = initial_date + date_step

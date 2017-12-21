@@ -8,13 +8,17 @@ class CameraCableWrap extends Component {
     constructor(props){
         super(props);
         this.g=null;
+        this.path = null;
+        this.arc = null;
+        this.innerPath = null;
+        this.innerArc = null;
     }
 
-    removeAZCableWrap(dom){
+    removeCameraCableWrap(dom){
         this.g.remove();
     }
 
-    createAZCableWrap(dom){
+    createCameraCableWrap(dom){
         let radio = 140;
         let width =  this.props.width;
         let height= this.props.height;
@@ -23,20 +27,66 @@ class CameraCableWrap extends Component {
         let g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
         this.g=g;
         let tau = (1/2)* Math.PI;
-        let arc = d3.arc()
+
+
+        let bckgarc = d3.arc()
         .innerRadius(radio-10)
         .outerRadius(radio)
         .startAngle(-tau);
+        // this.arc=arc;
+        this.props.drawBackground(g, radio, tau, bckgarc);
+
+
+        let arc = d3.arc()
+        .innerRadius(radio-10)
+        .outerRadius(radio)
+        .startAngle(0);
         this.arc=arc;
-        this.props.drawBackground(g, radio, tau, arc);
+
+        let innerArc= d3.arc()
+        .innerRadius(radio-70)
+        .outerRadius(radio-10)
+        .startAngle(0);
+        this.innerArc = innerArc;
+
+        this.path=this.g.append("path")
+        .datum({endAngle: 0})
+        .style("fill", "#7fbadd")
+        .attr("d", this.arc)
+        .attr("id", "cable_wrap");
+
+        this.innerPath=this.g.append("path")
+        .datum({endAngle: 0})
+        .style("fill", "#4d667b")
+        .attr("d", this.innerArc)
+        .attr("id", "rot_wrap");
+
         let theta = degrees(Math.PI/2);
         this.props.drawLimits(g,radio,-theta,theta)
 
     }
 
+    updateCameraCableWrap(){
+        let tau = Math.PI/2;
+        let newAngle = this.props.cable_wrap.cable*tau;
+        let delta = radians(this.props.cable_wrap.rotator);
+        let newRotAngle = newAngle + delta;
+        this.path.transition()
+                .duration(1500)
+                .attrTween("d", this.props.arcTween(newAngle, this.arc));
+        this.innerPath.transition()
+                .duration(1500)
+                .attrTween("d", this.props.arcTween(newRotAngle, this.innerArc));
+       
+    }
+
     componentDidMount() {
         var dom = ReactDOM.findDOMNode(this);
-        this.createAZCableWrap(dom);
+        this.createCameraCableWrap(dom);
+    }
+
+    componentDidUpdate(){
+        this.updateCameraCableWrap();
     }
 
 
