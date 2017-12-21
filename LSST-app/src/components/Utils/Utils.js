@@ -130,3 +130,11 @@ export function lsstToJs(time){
 export const lsstEpoch = 757393245000;
 
 export const DEMO_MODE = false;
+
+export function radians(degrees) {
+    return degrees * Math.PI / 180;
+};
+
+export function degrees(radians) {
+    return radians * 180 / Math.PI;
+};

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
+import {radians, degrees} from '../../Utils/Utils'
 
 class AZCableWrap extends Component {
 
@@ -44,7 +45,7 @@ class AZCableWrap extends Component {
 
         this.path=this.g.append("path")
         .datum({endAngle: 0})
-        .style("fill", "orange")
+        .style("fill", "#7fbadd")
         .attr("d", this.arc)
         .attr("id", "cable_wrap");
 
@@ -53,16 +54,17 @@ class AZCableWrap extends Component {
         .style("fill", "#4d667b")
         .attr("d", this.innerArc)
         .attr("id", "rot_wrap");
+
+        let theta = degrees((3/2)*Math.PI);
+        this.props.drawLimits(g,radio,-theta, theta)
+    
     }
 
     updateAZCableWrap(){
         let tau = (3/2)* Math.PI;
         let newAngle = this.props.cable_wrap.cable*tau;
-        let delta = this.radians(this.props.cable_wrap.rotator);
+        let delta = radians(this.props.cable_wrap.rotator);
         let newRotAngle = newAngle + delta;
-        console.log(newAngle)
-        console.log(delta)
-        console.log(newRotAngle)
         this.path.transition()
                 .duration(1500)
                 .attrTween("d", this.arcTween(newAngle, this.arc));
@@ -71,11 +73,6 @@ class AZCableWrap extends Component {
                 .attrTween("d", this.arcTween(newRotAngle, this.innerArc));
        
     }
- 
-    radians(degrees) {
-        return degrees * Math.PI / 180;
-    };
-       
 
     arcTween(newAngle, arc) {
         return function(d) {
