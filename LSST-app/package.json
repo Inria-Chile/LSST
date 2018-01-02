@@ -30,7 +30,8 @@
     "d3": "^4.10.0",
     "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.10",
-    "react-table": "^6.5.3"
+    "react-table": "^6.5.3",
+    "react-test-renderer": "^16.2.0"
   },
   "proxy": {
     "/socket.io": {
