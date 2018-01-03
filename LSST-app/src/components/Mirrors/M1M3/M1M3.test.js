@@ -1,48 +1,32 @@
 import React from 'react';
 import M1M3 from './M1M3';
 import renderer from 'react-test-renderer';
-import shallowRenderer from 'react-test-renderer/shallow';
 import * as d3 from 'd3';
 
+
 global.fetch = require('jest-fetch-mock');
-//var shallowRenderer = require('react-test-renderer/shallow');
 
+/*---- Snapshot testing ----*/
 describe('M1M3_Test',function(){
+  /*----set up---- */
+  const data = {
+    results : []
+   }
 
- /** it('should expose global fetch object', function(){
-    expect(fetch).toBeDefined();
-  })*/
+  const primero = {
+    position : [3,4]
+  }
 
-  /*it('shallows correctly',()=>{
-    const renderer = new shallowRenderer();
-    let mirrorSize = 250;
-    let mirrorMargin = 30;
-    let colormap1 = d3.scaleSequential((t) => d3.hsl(360, 1.0-t*t*0.1, 0.12+t*t*0.58) + "");
-    let colormap2 = d3.scaleSequential((t) => d3.hsl(270, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
-    let colormap3 = d3.scaleSequential((t) => d3.hsl(140, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
-    
-    const tree =renderer.render(
-      <M1M3 width={mirrorSize} height={mirrorSize} id="m3" margin={mirrorMargin} colormap={colormap1}/>
-    );
-    expect(tree).toMatchSnapshot();
-  });*/
+  const segundo = {
+    position : [5,6]
+  }
+
+  data.results.concat(primero);
+  data.results.concat(segundo);
+  fetch.mockResponse(JSON.stringify(data));
 
   it('renders correctly', () => {
-    let data = {
-      results : []
-     }
-
-    let primero = {
-      position : [3,4]
-    }
-
-    let segundo = {
-      position : [5,6]
-    }
-
-    data.results.concat(primero);
-    data.results.concat(segundo);
-    fetch.mockResponse(JSON.stringify(data));
+    
     let mirrorSize = 250;
     let mirrorMargin = 30;
     let colormap1 = d3.scaleSequential((t) => d3.hsl(360, 1.0-t*t*0.1, 0.12+t*t*0.58) + "");
@@ -54,3 +38,6 @@ describe('M1M3_Test',function(){
     expect(tree).toMatchSnapshot();
   });
 })
+
+
+/*---- other test ---- */
