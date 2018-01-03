@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`M1M3_Test renders correctly 1`] = `
 <div
   className="mirror-container"
 >
