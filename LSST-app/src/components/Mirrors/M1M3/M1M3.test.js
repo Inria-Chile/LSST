@@ -29,10 +29,20 @@ describe('M1M3_Test',function(){
 
   it('renders correctly', () => {
     let data = {
-      results: [[1,2],[3,4]]
+      results : []
      }
 
-    fetch.mockResponse(data);
+    let primero = {
+      position : [3,4]
+    }
+
+    let segundo = {
+      position : [5,6]
+    }
+
+    data.results.concat(primero);
+    data.results.concat(segundo);
+    fetch.mockResponse(JSON.stringify(data));
     let mirrorSize = 250;
     let mirrorMargin = 30;
     let colormap1 = d3.scaleSequential((t) => d3.hsl(360, 1.0-t*t*0.1, 0.12+t*t*0.58) + "");
