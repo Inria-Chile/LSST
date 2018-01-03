@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dome test renders correctly with shallowRender 1`] = `
+<div
+  className="dome-container"
+>
+  <DraggableTitle
+    title="Dome"
+  />
+  <div
+    className="container pull-left"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-12"
+      >
+        <DomePosition
+          domeAzimuth={null}
+          height={300}
+          id="dome-top"
+          mountAzimuth={null}
+          scale={1.4}
+          shuttersAperture={null}
+          telescopeElevation={null}
+          updateDomePos={[Function]}
+          width={330}
+          xOffset={-0.05}
+          yOffset={0.15}
+        />
+      </div>
+    </div>
+    <DomePerspectives
+      shuttersAperture={null}
+      updateShuttersAperture={[Function]}
+    />
+    <div
+      className="time-series-container"
+    >
+      <div>
+        <h5>
+          Azimuth
+        </h5>
+        <DomeAzimuthTimeSeries
+          domeAzimuth={null}
+          domeOptimalAzimuth={null}
+          domeTargetAzimuth={null}
+          height={350}
+          timestamp={null}
+          width={600}
+        />
+      </div>
+      <div>
+        <h5>
+          Elevation
+        </h5>
+        <DomeElevationTimeSeries
+          height={350}
+          telescopeElevation={null}
+          telescopeOptimalElevation={null}
+          telescopeTargetElevation={null}
+          timestamp={null}
+          width={600}
+        />
+      </div>
+    </div>
+    <TimeSeriesLegend
+      legendData={
+        Array [
+          Object {
+            "color": "#ddd",
+            "label": "Current value",
+            "lineDash": 0,
+          },
+          Object {
+            "color": "#5e8ba9",
+            "label": "Target",
+            "lineDash": 0,
+          },
+          Object {
+            "color": "#3e6b89",
+            "label": "Optimal",
+            "lineDash": 7,
+          },
+        ]
+      }
+    />
+  </div>
+</div>
+`;
