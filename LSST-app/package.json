@@ -28,6 +28,7 @@
   "devDependencies": {
     "concurrently": "^3.5.0",
     "d3": "^4.10.0",
+    "jest-fetch-mock": "^1.4.0",
     "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.10",
     "react-table": "^6.5.3",
@@ -55,6 +56,4 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
-
-  
 }
