@@ -12,8 +12,9 @@ describe('CableWraps_Test',function(){
         const tree = renderer.render(<CableWraps/>);
         expect(tree).toMatchSnapshot();
     })
-
-
+    
+     
+    //TODO: quitar los comentarios a esto cuando los test de las subcomponentes esten listos. 
     /*it('renders correctly without shallow', ()=>{
         const tree = renderer
             .create(<CableWraps/>)
@@ -21,7 +22,5 @@ describe('CableWraps_Test',function(){
         expect(tree).toMatchSnapshot();
     })*/
 })
-
-
 
 /*---- Other test ----*/

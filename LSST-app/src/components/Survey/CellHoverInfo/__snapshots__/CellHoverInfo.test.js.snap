@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellHoverInfo_Test renders correctly with shallowRender 1`] = `
+<div
+  className="hover-div"
+>
+  <div>
+    FieldID: 
+    
+  </div>
+  <div>
+    Timestamp: 
+    
+  </div>
+  <div>
+    Filter: 
+     
+    <FilterIndicator
+      filterName={undefined}
+    />
+  </div>
+</div>
+`;
