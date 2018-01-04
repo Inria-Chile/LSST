@@ -1,5 +1,3 @@
-//TODO: hacer el test. 
-
 import React from 'react';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
