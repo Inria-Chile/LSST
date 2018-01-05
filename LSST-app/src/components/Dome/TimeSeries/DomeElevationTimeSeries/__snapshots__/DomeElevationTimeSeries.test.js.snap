@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DomeAzimuthTimeSeries_Test renders correctly 1`] = `
+exports[`DomeElevationTimeSeries_Test renders correctly 1`] = `
 <Unknown
   barPadding={0.5}
   colorScale={[Function]}
@@ -97,7 +97,7 @@ exports[`DomeAzimuthTimeSeries_Test renders correctly 1`] = `
         ],
       },
       Object {
-        "label": "azimuth",
+        "label": "elevation",
         "values": Array [
           Object {
             "x": 2018-01-04T19:44:10.611Z,

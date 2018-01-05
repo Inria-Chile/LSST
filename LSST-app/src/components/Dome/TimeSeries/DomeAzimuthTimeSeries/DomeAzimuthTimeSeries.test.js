@@ -8,12 +8,15 @@ describe('DomeAzimuthTimeSeries_Test', function(){
 
   it('renders correctly', () => {
     const renderer = new shallowRenderer();
-    const tree = renderer.render(
+    const mockedDate = new Date("2018-01-04T19:44:10.611Z");
+    const originalDate = Date;
+    global.Date = jest.fn(() => mockedDate);
+    global.Date.getTime = originalDate.getTime;
 
-    //ASK: Revisar si los numeros son realistas. 
-    <DomeAzimuthTimeSeries domeAzimuth={30}
-    domeTargetAzimuth={10}
-    domeOptimalAzimuth={40}
+    const tree = renderer.render(
+    <DomeAzimuthTimeSeries domeAzimuth={0}
+    domeTargetAzimuth={0}
+    domeOptimalAzimuth={0}
     timestamp={"2018-01-04T19:44:10.611Z"}
     width={600} height={350} />
     );
