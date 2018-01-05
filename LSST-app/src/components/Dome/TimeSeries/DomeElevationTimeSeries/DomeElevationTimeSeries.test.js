@@ -8,11 +8,6 @@ describe('DomeElevationTimeSeries_Test', function(){
 
   it('renders correctly', () => {
     const renderer = new shallowRenderer();
-    /*const Date = jest.fn();
-    Date.mockReturnValue("2018-01-04T19:44:10.611Z");  
-    const getTime = jest.fn();
-    getTime.mockReturnValue("2018-01-04T19:44:10.611Z");*/
-
     const mockedDate = new Date("2018-01-04T19:44:10.611Z")
     const originalDate = Date
 
