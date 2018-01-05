@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModeSelection_Test renders correctly without shallowRender 1`] = `
+<div
+  className="mode-selection"
+>
+  <div>
+    <h6>
+      Mode selection
+    </h6>
+  </div>
+  <span
+    className="highlight-text"
+    onClick={[Function]}
+  >
+    Playback
+  </span>
+  <label
+    className="switch"
+  >
+    <input
+      checked={false}
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <span
+      className="slider round"
+    />
+  </label>
+  <span
+    className=""
+    onClick={[Function]}
+  >
+    Live
+  </span>
+</div>
+`;
+
+exports[`ModeSelection_Test renders correctly without shallowRender 2`] = `
+<div
+  className="mode-selection"
+>
+  <div>
+    <h6>
+      Mode selection
+    </h6>
+  </div>
+  <span
+    className=""
+    onClick={[Function]}
+  >
+    Playback
+  </span>
+  <label
+    className="switch"
+  >
+    <input
+      checked={true}
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <span
+      className="slider round"
+    />
+  </label>
+  <span
+    className="highlight-text"
+    onClick={[Function]}
+  >
+    Live
+  </span>
+</div>
+`;
