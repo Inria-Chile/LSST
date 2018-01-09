@@ -55,6 +55,8 @@ class Environment extends Component {
     }
 
     render() {
+        let temperature = this.props.temperature;
+        console.log("TEMPERATURA",temperature);
         return (
             <div className="environment-container">
                 <DraggableTitle title='Environment'/>
@@ -64,8 +66,8 @@ class Environment extends Component {
                             <tr>
                                 <td className='telemetry-name'>Temperature</td>
                                 {
-                                    this.state.temperature ?
-                                    <td>{(this.state.temperature*9/5+32).toFixed(1)}ºF / {this.state.temperature.toFixed(1)}ºC</td>
+                                    temperature ?
+                                    <td>{(temperature*9/5+32).toFixed(1)}ºF / {temperature.toFixed(1)}ºC</td>
                                     :
                                     <td>Unavailable</td>
                                 }

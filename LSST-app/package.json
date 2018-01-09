@@ -28,7 +28,8 @@
   "devDependencies": {
     "concurrently": "^3.5.0",
     "d3": "^4.10.0",
-    "jest-enzyme": "^4.0.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "jest-fetch-mock": "^1.4.0",
     "npm-run-all": "^4.0.2",
     "react-scripts": "1.0.10",
