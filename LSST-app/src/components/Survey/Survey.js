@@ -41,6 +41,8 @@ class Survey extends PureComponent {
             startDate: null,
             endDate: null,
             showSkyMap: true,
+
+            currentDate: null
         }
 
         this.hiddenStyle = {
@@ -172,7 +174,8 @@ class Survey extends PureComponent {
 
     setDate = (date) => {
         if(this.state.showSkyMap){
-            this.mainSkymap.setDate(date);
+            this.setState({currentDate: date});
+            // this.mainSkymap.setDate(this.state.currentDate);
         }
         this.miniSkymap.setDate(date);
     }
@@ -324,6 +327,7 @@ class Survey extends PureComponent {
                                             cellHoverCallback={this.cellHoverCallback} 
                                             cellClickCallback={this.cellClickCallback} 
                                             cellUpdateCallback={this.cellUpdateCallback} 
+                                            currentDate={this.state.currentDate}
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>

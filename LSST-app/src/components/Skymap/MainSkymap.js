@@ -84,6 +84,8 @@ class MainSkymap extends PureComponent {
     }
 
     render() {
+        if(this.props.currentDate)
+            this.setDate(this.props.currentDate);
         return (
             <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"
                     cellHoverCallback={this.props.cellHoverCallback} 
