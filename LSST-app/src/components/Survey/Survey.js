@@ -299,8 +299,7 @@ class Survey extends PureComponent {
             setGalactic: this.setGalactic,
             setMoon: this.setMoon,
             setTelescopeRange: this.setTelescopeRange,
-            setProjection: this.setProjection,
-            setSidebar: this.setSidebar,
+            setProjection: this.setProjection
         }
 
         return (

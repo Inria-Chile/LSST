@@ -113,12 +113,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  setSidebar = (show) => {
-    this.sidebar.setState({
-      sidebarOpen: show
-    })
-  }
-
   displayAllFilters() {
     var filters = ["u", "g", "r", "i", "z", "y"];
     this.setDisplayedFilters(filters);
