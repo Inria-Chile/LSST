@@ -113,14 +113,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  setGalactic = (show) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.lines.galactic.show = show;
-    cel.apply(cfg);
-    cel.cfg = cfg;
-  }
-
   setMoon = (show) => {
     let cfg = this.Celestial.cfg;
     let cel = this.getCelestial();
@@ -178,8 +170,12 @@ class Skymap extends PureComponent {
     if(cel){
       let cfg = this.Celestial.cfg;      
       cfg.lines.ecliptic.show = this.props.showEcliptic;
+      cfg.lines.galactic.show = this.props.showGalactic;
       cel.apply(cfg);
+      cel.cfg = cel.cfg;
     }
+
+
     return (
       //
       <div  ref={this.props.nodeRef} className={this.props.className}>

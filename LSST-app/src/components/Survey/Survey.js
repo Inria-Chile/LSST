@@ -43,7 +43,8 @@ class Survey extends PureComponent {
             showSkyMap: true,
 
             currentDate: null,
-            showEcliptic: null
+            showEcliptic: null,
+            showGalactic: null
         }
 
         this.hiddenStyle = {
@@ -79,7 +80,8 @@ class Survey extends PureComponent {
     }
     
     setGalactic = (show) => {
-        this.mainSkymap.setGalactic(show);
+        this.setState({showGalactic:show});
+        // this.mainSkymap.setGalactic(show);
     }
     
     setMoon = (show) => {
@@ -331,6 +333,7 @@ class Survey extends PureComponent {
                                             cellUpdateCallback={this.cellUpdateCallback} 
                                             currentDate={this.state.currentDate}
                                             showEcliptic={this.state.showEcliptic}
+                                            showGalactic={this.state.showGalactic}
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>

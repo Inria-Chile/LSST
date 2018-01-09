@@ -47,6 +47,7 @@ class MainSkymap extends PureComponent {
         this.skymap.setProjection(proj);        
     }
 
+
     setDisplayedFilter(filter){
         if(filter === 'all')
             this.skymap.displayAllFilters();
@@ -88,6 +89,7 @@ class MainSkymap extends PureComponent {
                     cellUpdateCallback={this.props.cellUpdateCallback} 
                     cellClickCallback={this.props.cellClickCallback} 
                     showEcliptic={this.props.showEcliptic}
+                    showGalactic={this.props.showGalactic}
             />
         );
     }
