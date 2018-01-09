@@ -46,7 +46,8 @@ class Survey extends PureComponent {
             showEcliptic: true,
             showGalactic: true,
             showMoon: true,
-            showTelescopeRange: true
+            showTelescopeRange: true,
+            projection: "aitoff"
         }
 
         this.hiddenStyle = {
@@ -93,7 +94,7 @@ class Survey extends PureComponent {
     }
     
     setProjection = (proj) => {
-        this.mainSkymap.setProjection(proj);
+        this.setState({projection:proj});
     }
     
     setDisplayedFilter = (filter) => {
@@ -298,8 +299,8 @@ class Survey extends PureComponent {
             setGalactic: this.setGalactic,
             setMoon: this.setMoon,
             setTelescopeRange: this.setTelescopeRange,
+            setProjection: this.setProjection,
             setSidebar: this.setSidebar,
-            setProjection: this.setProjection
         }
 
         return (
@@ -336,6 +337,7 @@ class Survey extends PureComponent {
                                             showGalactic={this.state.showGalactic}
                                             showMoon={this.state.showMoon}
                                             showTelescopeRange={this.state.showTelescopeRange}
+                                            projection={this.state.projection}
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>

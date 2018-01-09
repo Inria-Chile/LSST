@@ -119,14 +119,6 @@ class Skymap extends PureComponent {
     })
   }
 
-  setProjection = (proj) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.projection = proj;
-    cel.reproject(cfg);
-    cel.cfg = cfg;
-  }
-
   displayAllFilters() {
     var filters = ["u", "g", "r", "i", "z", "y"];
     this.setDisplayedFilters(filters);
@@ -152,12 +144,17 @@ class Skymap extends PureComponent {
   render() {
     let cel = this.getCelestial();
     if(cel){
-      let cfg = this.Celestial.cfg;      
+      let cfg = this.Celestial.cfg;
+            
       cfg.lines.ecliptic.show = this.props.showEcliptic;
       cfg.lines.galactic.show = this.props.showGalactic;
       cfg.moon.show = this.props.showMoon;
       cfg.telescopeRange.show = this.props.showTelescopeRange;
       cel.apply(cfg);
+
+      cfg.projection = this.props.projection;
+      cel.reproject(cfg);
+      
       cel.cfg = cel.cfg;
     }
 
