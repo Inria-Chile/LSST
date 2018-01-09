@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {mount,shallow} from "enzyme"; 
-import Environment from './Environment';
+import Environment from '../Environment';
 import renderer from 'react-test-renderer';
 
 Enzyme.configure({ adapter: new Adapter() });
