@@ -43,9 +43,9 @@ class Survey extends PureComponent {
             showSkyMap: true,
 
             currentDate: null,
-            showEcliptic: null,
-            showGalactic: null,
-            showMoon: null
+            showEcliptic: true,
+            showGalactic: true,
+            showMoon: true
         }
 
         this.hiddenStyle = {
