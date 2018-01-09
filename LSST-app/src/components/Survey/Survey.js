@@ -42,7 +42,8 @@ class Survey extends PureComponent {
             endDate: null,
             showSkyMap: true,
 
-            currentDate: null
+            currentDate: null,
+            showEcliptic: null
         }
 
         this.hiddenStyle = {
@@ -68,12 +69,13 @@ class Survey extends PureComponent {
     drawFrame = (timestamp) => {
         // console.log('Parent Drawframe')
         this.mainSkymap.drawFrame(timestamp);
-        this.miniSkymap.drawFrame(timestamp);
+        // this.miniSkymap.drawFrame(timestamp);
         requestAnimationFrame(this.drawFrame);
     }
     
     setEcliptic = (show) => {
-        this.mainSkymap.setEcliptic(show);
+        this.setState({showEcliptic:show});
+        // this.mainSkymap.setEcliptic(show);
     }
     
     setGalactic = (show) => {
@@ -128,7 +130,7 @@ class Survey extends PureComponent {
         let startDateEpoch = new Date(startDate.getTime());
         let endDateEpoch = new Date(endDate.getTime());
         this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        // this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.charts.setDisplayedDateLimits(endDate);
@@ -177,7 +179,7 @@ class Survey extends PureComponent {
             this.setState({currentDate: date});
             // this.mainSkymap.setDate(this.state.currentDate);
         }
-        this.miniSkymap.setDate(date);
+        // this.miniSkymap.setDate(date);
     }
     
     fetchDataByDate = (startDate, endDate, cb) => {
@@ -195,7 +197,7 @@ class Survey extends PureComponent {
         this.displayedData = data;
         this.charts.setData(data);
         this.miniScatterplot.setData(data);
-        this.miniSkymap.setData(data);
+        // this.miniSkymap.setData(data);
         this.mainSkymap.setData(data);
         this.mainScatterplot.setData(data);
         this.updateObservationsTable();
@@ -328,6 +330,7 @@ class Survey extends PureComponent {
                                             cellClickCallback={this.cellClickCallback} 
                                             cellUpdateCallback={this.cellUpdateCallback} 
                                             currentDate={this.state.currentDate}
+                                            showEcliptic={this.state.showEcliptic}
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
@@ -343,14 +346,14 @@ class Survey extends PureComponent {
                                     </div>
                                 </div>
                                 <div className="col-6">
-                                    <ObservationsTable clickedField={this.state.selectedFieldData} />
+                                     <ObservationsTable clickedField={this.state.selectedFieldData} /> 
                                 </div>
                             </div>                        
                         </div>                        
                     </div>
                     <div className="right-container">
-                        <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />
-                        <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/>
+                         {/* <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />  */}
+                         <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/> 
                     </div>
                 </div>
                 

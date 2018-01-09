@@ -113,13 +113,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  setEcliptic(show){
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.lines.ecliptic.show = show;
-    cel.apply(cfg);
-  }
-
   setGalactic = (show) => {
     let cfg = this.Celestial.cfg;
     let cel = this.getCelestial();
@@ -181,8 +174,15 @@ class Skymap extends PureComponent {
   }
 
   render() {
+    let cel = this.getCelestial();
+    if(cel){
+      let cfg = this.Celestial.cfg;      
+      cfg.lines.ecliptic.show = this.props.showEcliptic;
+      cel.apply(cfg);
+    }
     return (
-      <div ref={this.props.nodeRef} className={this.props.className}>
+      //
+      <div  ref={this.props.nodeRef} className={this.props.className}>
         <Script
           url="/lib/d3.geo.projection.min.js"
           onError={ (x) => console.log(x+'onereror')}

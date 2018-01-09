@@ -31,10 +31,6 @@ class MainSkymap extends PureComponent {
         Celestial.updateCell(Math.floor(Math.random()*857));
     }
 
-    setEcliptic(show){
-        this.skymap.setEcliptic(show);
-    }
-
     setGalactic = (show) => {
         this.skymap.setGalactic(show);
     }
@@ -90,9 +86,26 @@ class MainSkymap extends PureComponent {
             <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"
                     cellHoverCallback={this.props.cellHoverCallback} 
                     cellUpdateCallback={this.props.cellUpdateCallback} 
-                    cellClickCallback={this.props.cellClickCallback} />
+                    cellClickCallback={this.props.cellClickCallback} 
+                    showEcliptic={this.props.showEcliptic}
+            />
         );
     }
 }
 
 export default MainSkymap;
+
+                    {/* data={this.props.data}
+                    
+                    date={this.props.date}
+                    startDate={this.props.startDate}
+                    endDate={this.props.endDate}
+                    
+                    
+                    displayedFilters={this.props.displayedFilters}
+                    showProjection={this.props.showProjection}
+                    showRange={this.props.showRange}
+                    showMoon={this.props.showMoon}
+                    showGalactic={this.props.showGalactic}
+                    showEcliptic={this.props.showEcliptic}
+                     */}
