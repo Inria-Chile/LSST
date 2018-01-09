@@ -44,7 +44,8 @@ class Survey extends PureComponent {
 
             currentDate: null,
             showEcliptic: null,
-            showGalactic: null
+            showGalactic: null,
+            showMoon: null
         }
 
         this.hiddenStyle = {
@@ -76,16 +77,14 @@ class Survey extends PureComponent {
     
     setEcliptic = (show) => {
         this.setState({showEcliptic:show});
-        // this.mainSkymap.setEcliptic(show);
     }
     
     setGalactic = (show) => {
         this.setState({showGalactic:show});
-        // this.mainSkymap.setGalactic(show);
     }
     
     setMoon = (show) => {
-        this.mainSkymap.setMoon(show);
+        this.setState({showMoon:show});
     }
     
     setTelescopeRange = (show) => {
@@ -334,6 +333,7 @@ class Survey extends PureComponent {
                                             currentDate={this.state.currentDate}
                                             showEcliptic={this.state.showEcliptic}
                                             showGalactic={this.state.showGalactic}
+                                            showMoon={this.state.showMoon}
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>

@@ -31,14 +31,6 @@ class MainSkymap extends PureComponent {
         Celestial.updateCell(Math.floor(Math.random()*857));
     }
 
-    setGalactic = (show) => {
-        this.skymap.setGalactic(show);
-    }
-
-    setMoon = (show) => {
-        this.skymap.setMoon(show);        
-    }
-
     setTelescopeRange = (show) => {
         this.skymap.setTelescopeRange(show);        
     }
@@ -90,6 +82,7 @@ class MainSkymap extends PureComponent {
                     cellClickCallback={this.props.cellClickCallback} 
                     showEcliptic={this.props.showEcliptic}
                     showGalactic={this.props.showGalactic}
+                    showMoon={this.props.showMoon}
             />
         );
     }

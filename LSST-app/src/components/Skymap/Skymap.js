@@ -113,14 +113,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  setMoon = (show) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.moon.show = show;
-    cel.apply(cfg);
-    cel.cfg = cfg;
-  }
-
   setTelescopeRange = (show) => {
     let cfg = this.Celestial.cfg;
     let cel = this.getCelestial();
@@ -171,10 +163,10 @@ class Skymap extends PureComponent {
       let cfg = this.Celestial.cfg;      
       cfg.lines.ecliptic.show = this.props.showEcliptic;
       cfg.lines.galactic.show = this.props.showGalactic;
+      cfg.moon.show = this.props.showMoon;
       cel.apply(cfg);
       cel.cfg = cel.cfg;
     }
-
 
     return (
       //
