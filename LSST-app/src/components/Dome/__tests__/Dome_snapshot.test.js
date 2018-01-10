@@ -1,5 +1,5 @@
 import React from 'react';
-import Dome from './Dome';
+import Dome from '../Dome';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 
