@@ -3,16 +3,16 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {mount,shallow} from "enzyme"; 
 import Dome from '../Dome';
-
+import SocketMock from 'socket.io-mock'
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("Renders all the nested components",function(){
-    let dome,props,openSocket,on;
+    let dome,props,socket,on,message;
   
       /*set up*/
     beforeEach(()=>{
-        openSocket = jest.fn();
+        
         let msg = {
             domeAzimuth: 0,
             telescopeElevation: 0,
@@ -23,15 +23,26 @@ describe("Renders all the nested components",function(){
         }
      
         dome = shallow(<Dome />)
-        on = jest.fn();
-        on.mockImplementation(dome.setState(     
-            {domeAzimuth: msg.DomeAzPos,
-            telescopeElevation: msg.DomeElPos,
-            domeTargetAzimuth: msg.DomeAzCMD,
-            telescopeTargetElevation: msg.DomeElCMD,
-            mountAzimuth: msg.DomeAzPos,
-            timestamp: msg.timestamp,
-        }))
+        socket = new SocketMock();
+        socket.on('DomePosition',msg=>{
+            dome.setState({
+                domeAzimuth: msg.DomeAzPos,
+                telescopeElevation: msg.DomeElPos,
+                domeTargetAzimuth: msg.DomeAzCMD,
+                telescopeTargetElevation: msg.DomeElCMD,
+                mountAzimuth: msg.DomeAzPos,
+                timestamp: msg.timestamp,
+            })
+        });
+        message={
+            DomeAzPos : 0,
+            DomeElPos : 0,
+            DomeAzCMD : 0,
+            DomeElCMD : 0,
+            DomeAzPos : 0,
+            timestamp : "2018-01-04T19:44:10.611Z",
+        }
+        socket.socketClient.emit('DomePosition',message);
     })
   
     /*tests*/
