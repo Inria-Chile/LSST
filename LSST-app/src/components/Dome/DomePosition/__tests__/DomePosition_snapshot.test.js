@@ -1,5 +1,5 @@
 import React from 'react';
-import DomePosition from './DomePosition';
+import DomePosition from '../DomePosition';
 import renderer from 'react-test-renderer';
 
 
