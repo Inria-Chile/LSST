@@ -1,4 +1,3 @@
-//ASK: Que mas testear????? Nose en q podría aportar el mount. 
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -115,11 +114,22 @@ describe('DomePerspectives renders all nested components',function(){
             expect(infoDIV.length).toBe(4);
         });
         describe('Should show shutters status',function(){
+            it('Should create components with the right className open',()=>{
+                domePerspectives = shallow( <DomePerspectives shuttersAperture={30.5}
+                    updateShuttersAperture={Dome.updateShuttersAperture} />);
+                expect(domePerspectives.find('.status-circle-open').length).toBe(1);    
+            });
+
+            it('Should create components with the right className closed',()=>{
+                domePerspectives = shallow( <DomePerspectives shuttersAperture={30.5}
+                    updateShuttersAperture={Dome.updateShuttersAperture} />);
+                expect(domePerspectives.find('.status-circle-open').length).toBe(1);    
+            });
+
             it('Should show shutters status : Open',()=>{
             //ASK: Porque el primer span en shutters status solo tiene nombre pero no dice nada????
-            //ASK: Se quiere que se vean 2 espacios separando el estado o solo uno???
-            //ASK: Shutters aperture podría ser negativa???? Pq si fuera asi saldria closed. 
-           
+            //TODO: testear el nombre 
+          
                 domePerspectives = shallow( <DomePerspectives shuttersAperture={30.5}
                 updateShuttersAperture={Dome.updateShuttersAperture} />);
                 let infoDIV = domePerspectives.find('div').at(6).children();//inside col-4 dome-perspectives-info
