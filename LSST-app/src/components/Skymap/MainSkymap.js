@@ -18,18 +18,18 @@ class MainSkymap extends PureComponent {
         return this.skymap.getConfig();
     }
 
-    drawFrame = () => {
-        // console.log('drawFrame MainSkymap');
-        var Celestial = this.getCelestial();
-        var step = 1.6;
+    // drawFrame = () => {
+    //     // console.log('drawFrame MainSkymap');
+    //     var Celestial = this.getCelestial();
+    //     var step = 1.6;
 
-        // reqID = window.requestAnimationFrame(animate);
-        var rot = Celestial.rotate();
-        rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
-        rot[2] = 0;
-        Celestial.rotate({center:rot});
-        Celestial.updateCell(Math.floor(Math.random()*857));
-    }
+    //     // reqID = window.requestAnimationFrame(animate);
+    //     var rot = Celestial.rotate();
+    //     rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
+    //     rot[2] = 0;
+    //     Celestial.rotate({center:rot});
+    //     Celestial.updateCell(Math.floor(Math.random()*857));
+    // }
 
     setDisplayedFilter(filter){
         if(filter === 'all')

@@ -71,12 +71,12 @@ class Survey extends PureComponent {
         this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
 
-    drawFrame = (timestamp) => {
-        // console.log('Parent Drawframe')
-        this.mainSkymap.drawFrame(timestamp);
-        // this.miniSkymap.drawFrame(timestamp);
-        requestAnimationFrame(this.drawFrame);
-    }
+    // drawFrame = (timestamp) => {
+    //     // console.log('Parent Drawframe')
+    //     this.mainSkymap.drawFrame(timestamp);
+    //     // this.miniSkymap.drawFrame(timestamp);
+    //     requestAnimationFrame(this.drawFrame);
+    // }
     
     setEcliptic = (show) => {
         this.setState({showEcliptic:show});
