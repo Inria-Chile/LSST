@@ -126,10 +126,7 @@ describe('DomePerspectives renders all nested components',function(){
                 expect(domePerspectives.find('.status-circle-open').length).toBe(1);    
             });
 
-            it('Should show shutters status : Open',()=>{
-            //ASK: Porque el primer span en shutters status solo tiene nombre pero no dice nada????
-            //TODO: testear el nombre 
-          
+            it('Should show shutters status : Open',()=>{          
                 domePerspectives = shallow( <DomePerspectives shuttersAperture={30.5}
                 updateShuttersAperture={Dome.updateShuttersAperture} />);
                 let infoDIV = domePerspectives.find('div').at(6).children();//inside col-4 dome-perspectives-info
