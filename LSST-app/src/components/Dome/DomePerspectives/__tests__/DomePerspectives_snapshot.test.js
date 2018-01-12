@@ -1,5 +1,5 @@
 import React from 'react';
-import DomePerspectives from './DomePerspectives';
+import DomePerspectives from '../DomePerspectives';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 
@@ -26,4 +26,3 @@ describe('DomePerspectives test', function(){
     })
 })
 
-/*---- other test ----*/

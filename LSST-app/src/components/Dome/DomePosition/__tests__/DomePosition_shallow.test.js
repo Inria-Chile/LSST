@@ -8,7 +8,7 @@ import Dome from '../../Dome';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe("Renders all nested components",function(){
+describe("DomePosition renders all nested components",function(){
     let domePosition;
 
     /*set up*/
@@ -38,7 +38,6 @@ describe("Renders all nested components",function(){
         });
     });
     
-    //TODO: test <g/> props. 
     describe("Renders svg-container",function(){
         it('renders svg-container',()=>{
             let svgCont = domePosition.find('.svg-container').first();
