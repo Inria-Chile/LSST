@@ -147,6 +147,7 @@ class Survey extends PureComponent {
 
         // this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         // this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        
         this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         // this.charts.setDisplayedDateLimits(endDate);
@@ -341,9 +342,9 @@ class Survey extends PureComponent {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
-                                        <Settings ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
+                                        <Settings ref={instance => { this.sidebar = instance; }} {...setters} />
                                         <div style = {this.mainSkymapStyle}>
-                                        <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
+                                        <MainSkymap ref={instance => { this.mainSkymap = instance; }}
                                             displayedData={this.state.displayedData}
                                             filter={this.state.displayedFilter}
                                             startDate = {this.state.startDate} 
