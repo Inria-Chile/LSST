@@ -341,7 +341,7 @@ class Survey extends PureComponent {
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
-                                        <Settings ref={instance => { this.sidebar = instance; }} {...setters} />
+                                        <Settings {...setters} />
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap
                                             displayedData={this.state.displayedData}
