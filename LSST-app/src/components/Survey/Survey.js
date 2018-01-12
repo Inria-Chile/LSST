@@ -23,7 +23,6 @@ class Survey extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.mainSkymap = null;
         this.miniSkymap = null;
         this.charts = null;
         this.miniScatterplot = null;
@@ -344,7 +343,7 @@ class Survey extends PureComponent {
                                     <div className="main-skymap-wrapper">
                                         <Settings ref={instance => { this.sidebar = instance; }} {...setters} />
                                         <div style = {this.mainSkymapStyle}>
-                                        <MainSkymap ref={instance => { this.mainSkymap = instance; }}
+                                        <MainSkymap
                                             displayedData={this.state.displayedData}
                                             filter={this.state.displayedFilter}
                                             startDate = {this.state.startDate} 
