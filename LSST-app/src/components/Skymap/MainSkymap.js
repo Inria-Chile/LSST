@@ -14,41 +14,7 @@ class MainSkymap extends PureComponent {
         return this.skymap.getCelestial();
     }
 
-    getConfig(){
-        return this.skymap.getConfig();
-    }
-
-    // drawFrame = () => {
-    //     // console.log('drawFrame MainSkymap');
-    //     var Celestial = this.getCelestial();
-    //     var step = 1.6;
-
-    //     // reqID = window.requestAnimationFrame(animate);
-    //     var rot = Celestial.rotate();
-    //     rot[0] = rot[0] === 180 - step ? -180 : rot[0] + step;
-    //     rot[2] = 0;
-    //     Celestial.rotate({center:rot});
-    //     Celestial.updateCell(Math.floor(Math.random()*857));
-    // }
-
-    // setDisplayedFilter(filter){
-    //     if(filter === 'all')
-    //         this.skymap.displayAllFilters();
-    //     else
-    //         this.skymap.displayFilter(filter);
-    // }
-
-
-
-
-    setDate(date){
-        this.skymap.getCelestial().goToDate(date);
-    }
-
     render() {
-        if(this.props.currentDate)
-            this.setDate(this.props.currentDate);
-
         // this replaces setDisplayedDateLimits
         if(this.skymap){
             this.skymap.getCelestial().updateCells(this.props.displayedData);    
