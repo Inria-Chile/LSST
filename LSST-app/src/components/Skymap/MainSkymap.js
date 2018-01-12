@@ -38,26 +38,8 @@ class MainSkymap extends PureComponent {
             this.skymap.displayFilter(filter);
     }
 
-    setData(data){
-        this.data = data;
-        this.setDisplayedDateLimits();
-    }
 
-    setDisplayedDateLimits(startDate, endDate){
-        let displayedData = [];
-        if(!startDate && !endDate){
-            displayedData = this.data;
-            this.skymap.getCelestial().updateCells(displayedData);            
-            this.skymap.getCelestial().redraw();
-            return;
-        }else{
-            for(let i=0;i<this.data.length;++i){
-                if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
-                    displayedData.push(this.data[i]);
-            }
-        }
-        this.skymap.getCelestial().updateCells(displayedData);            
-    }
+
 
     setDate(date){
         this.skymap.getCelestial().goToDate(date);
@@ -66,6 +48,15 @@ class MainSkymap extends PureComponent {
     render() {
         if(this.props.currentDate)
             this.setDate(this.props.currentDate);
+
+        // this replaces setDisplayedDateLimits
+        if(this.skymap){
+            this.skymap.getCelestial().updateCells(this.props.displayedData);    
+            
+            this.skymap.getCelestial().redraw(); // antes esto ocurria solo cuando no existian ni startDate ni endDate
+        }
+        
+        
         return (
             <Skymap ref={instance => { this.skymap = instance; }} nodeRef='mainNode' className="mainSkymap"
                     cellHoverCallback={this.props.cellHoverCallback} 

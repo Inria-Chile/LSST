@@ -28,7 +28,6 @@ class Survey extends PureComponent {
         this.charts = null;
         this.miniScatterplot = null;
         this.mainScatterplot = null;
-        this.displayedData = [];
         this.socket = openSocket(window.location.origin + '');
         this.currentTime = Infinity;
         this.state = {
@@ -47,7 +46,9 @@ class Survey extends PureComponent {
             showGalactic: true,
             showMoon: true,
             showTelescopeRange: true,
-            projection: "aitoff"
+            projection: "aitoff",
+
+            displayedData: []
         }
 
         this.hiddenStyle = {
@@ -132,11 +133,23 @@ class Survey extends PureComponent {
     setDisplayedDateLimits = (startDate, endDate) => {
         let startDateEpoch = new Date(startDate.getTime());
         let endDateEpoch = new Date(endDate.getTime());
-        this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+
+        let displayedData = [];
+        if( startDateEpoch || endDateEpoch ){
+            for(let i=0;i<this.state.data.length;++i){
+                if(this.state.data[i].expDate > startDateEpoch && this.state.data[i].expDate < endDateEpoch)
+                    displayedData.push(this.state.data[i]);
+            }
+        }
+
+        this.setState({displayedData: displayedData});
+
+
+        // this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         // this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.charts.setDisplayedDateLimits(endDate);
+        // this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
         this.setDate(endDateEpoch);
         this.updateObservationsTable();
@@ -171,10 +184,14 @@ class Survey extends PureComponent {
             for(var i=0;i<res.results.length;++i)
                 res.results[i]['fieldDec'] += 30;
             this.setData(res.results);
-            this.setState({startDate: startDate, endDate: endDate});
+            this.setState({
+                data: res.results,
+                startDate: startDate, 
+                endDate: endDate
+            });
             this.setDate(new Date(parseInt(endDate, 10)));
         })
-        this.charts.setDate(startDate,endDate)
+        // this.charts.setDate(startDate,endDate)
     }
 
     setDate = (date) => {
@@ -197,11 +214,12 @@ class Survey extends PureComponent {
     }
 
     setData = (data) => {
-        this.displayedData = data;
-        this.charts.setData(data);
-        this.miniScatterplot.setData(data);
+        this.setState({displayedData: data});
+        // this.displayedData = data;
+        // this.charts.setData(data);
+        // this.miniScatterplot.setData(data);
         // this.miniSkymap.setData(data);
-        this.mainSkymap.setData(data);
+        // this.mainSkymap.setData(data);
         this.mainScatterplot.setData(data);
         this.updateObservationsTable();
     }
@@ -209,15 +227,17 @@ class Survey extends PureComponent {
     addObservation = (obs) => {
         let added = false;
         let currentTime = jsToLsstTime((new Date()).getTime());
-        for(let i=0;i<this.displayedData.length;++i){
-            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate']){
-                this.displayedData.splice(i, 1);
+        let displayedData = this.state.displayedData.slice();
+
+        for(let i=0;i<displayedData.length;++i){
+            if(this.state.timeWindow < currentTime - displayedData[i]['expDate']){
+                displayedData.splice(i, 1);
                 --i;
             }
         }
         if(!added)
-            this.displayedData.push(obs);
-        this.setData(this.displayedData);
+            displayedData.push(obs);
+        this.setData(displayedData);
     }
 
     componentDidMount() {
@@ -234,12 +254,12 @@ class Survey extends PureComponent {
         let latestField = null;
         let latestExpDate = 0;
         if(fieldID){
-            for(let i=0;i<this.displayedData.length;++i){
-                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
-                    if(this.displayedData[i].expDate > latestExpDate){
-                        latestExpDate = this.displayedData[i].expDate;
-                        latestField = this.displayedData[i];
+            for(let i=0;i<this.state.displayedData.length;++i){
+                if(String(this.state.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.state.displayedData[i].filterName || this.state.displayedFilter === 'all')){
+                    if(this.state.displayedData[i].expDate > latestExpDate){
+                        latestExpDate = this.state.displayedData[i].expDate;
+                        latestField = this.state.displayedData[i];
                     }
                 }
             }
@@ -253,11 +273,11 @@ class Survey extends PureComponent {
         let fieldID = this.lastFieldID;
         let selectedFieldData = [];
         if(fieldID){
-            for(let i=0;i<this.displayedData.length;++i){
-                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
-                    (this.displayedData[i].expDate < this.currentTime)){
-                    selectedFieldData.push(this.displayedData[i]);
+            for(let i=0;i<this.state.displayedData.length;++i){
+                if(String(this.state.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.state.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
+                    (this.state.displayedData[i].expDate < this.currentTime)){
+                    selectedFieldData.push(this.state.displayedData[i]);
                 }
             }
         }
@@ -317,14 +337,14 @@ class Survey extends PureComponent {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
 
-                            <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
+                            {/* <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/> */}
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
                                         <Settings ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
                                         <div style = {this.mainSkymapStyle}>
                                         <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
-                                            data={this.displayedData} 
+                                            displayedData={this.state.displayedData}
                                             filter={this.state.displayedFilter}
                                             startDate = {this.state.startDate} 
                                             endDate={this.state.endDate}
@@ -341,7 +361,7 @@ class Survey extends PureComponent {
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
                                         <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} 
-                                            data={this.displayedData}
+                                            data={this.state.displayedData}
                                             />
                                         </div>
                                         
