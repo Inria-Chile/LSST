@@ -55,25 +55,26 @@ class MiniSkymaps extends PureComponent {
   // }
 
 
-  onCelestialLoaded = () => {
-    let filters = ["u","g","r","i","z","y"];
-    this.loadedMaps++;
-    if(this.loadedMaps <= filters.length)
-      return;
-    for(let i=0;i<filters.length;++i){
+  // onCelestialLoaded = () => {
+  //   let filters = ["u","g","r","i","z","y"];
+  //   this.loadedMaps++;
+  //   if(this.loadedMaps <= filters.length)
+  //     return;
+  //   console.log('asdfasdf');
+    // for(let i=0;i<filters.length;++i){
       // this.children[i+1].displayFilter(filters[i]);
-      this.children[i+1].setFontSize(0);
-      this.children[i+1].setGridOpacity(0);
-    }
+      // this.children[i+1].setFontSize(0);
+      // this.children[i+1].setGridOpacity(0);
+    // }
     // this.children[0].displayAllFilters();
-    this.children[0].setFontSize(0);
-    this.children[0].setGridOpacity(0);
-    window.addEventListener("resize", this.updateDimensions);
-  }
+    // this.children[0].setFontSize(0);
+    // this.children[0].setGridOpacity(0);
+  //   window.addEventListener("resize", this.updateDimensions);
+  // }
 
-  componentWillUnmount() {
-      window.removeEventListener("resize", this.updateDimensions);
-  }
+  // componentWillUnmount() {
+  //     window.removeEventListener("resize", this.updateDimensions);
+  // }
 
   handleClick = (filterName) => {
     console.log(this.props)
@@ -84,11 +85,11 @@ class MiniSkymaps extends PureComponent {
   }
 
   render() {
-    console.log(this.children);
-    this.children.forEach((children)=>{
-      children.getCelestial().updateCells(this.props.displayedData); 
-      children.getCelestial().redraw();   
-    });
+    // console.log(this.children);
+    // this.children.forEach((children)=>{
+    //   children.getCelestial().updateCells(this.props.displayedData); 
+    //   children.getCelestial().redraw();   
+    // });
    
     return (
       <div className="minimap-container">
@@ -100,7 +101,6 @@ class MiniSkymaps extends PureComponent {
                   onLoaded={this.onCelestialLoaded} 
                   nodeRef='node7' 
                   className="minimap" 
-                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
                   showEcliptic={true}
                   showGalactic={true}
                   showMoon={true}
@@ -108,6 +108,8 @@ class MiniSkymaps extends PureComponent {
                   projection='aitoff'
                   filter='all'
                   displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> all filters </p>
@@ -128,6 +130,8 @@ class MiniSkymaps extends PureComponent {
                   projection='aitoff'
                   filter='u'
                   displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> u filter </p>
@@ -146,6 +150,8 @@ class MiniSkymaps extends PureComponent {
                   projection='aitoff'
                   filter='g'
                   displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> g filter </p>
@@ -158,7 +164,6 @@ class MiniSkymaps extends PureComponent {
                   onLoaded={this.onCelestialLoaded} 
                   nodeRef='node3' 
                   className="minimap" 
-                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
                   showEcliptic={true}
                   showGalactic={true}
                   showMoon={true}
@@ -166,6 +171,8 @@ class MiniSkymaps extends PureComponent {
                   projection='aitoff'
                   filter='r'
                   displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> r filter </p>
@@ -176,14 +183,15 @@ class MiniSkymaps extends PureComponent {
                   onLoaded={this.onCelestialLoaded} 
                   nodeRef='node4' 
                   className="minimap" 
-                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
                   showEcliptic={true}
                   showGalactic={true}
                   showMoon={true}
                   showTelescopeRange={true}
                   projection='aitoff'
                   filter='i'
-                  displayedData={this.props.displayedData}                  
+                  displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}                  
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> i filter </p>
@@ -196,14 +204,15 @@ class MiniSkymaps extends PureComponent {
                   onLoaded={this.onCelestialLoaded} 
                   nodeRef='node5' 
                   className="minimap" 
-                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
                   showEcliptic={true}
                   showGalactic={true}
                   showMoon={true}
                   showTelescopeRange={true}
                   projection='aitoff'
                   filter='z'
-                  displayedData={this.props.displayedData}                  
+                  displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}                  
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> z filter </p>
@@ -214,14 +223,15 @@ class MiniSkymaps extends PureComponent {
                   onLoaded={this.onCelestialLoaded} 
                   nodeRef='node6' 
                   className="minimap" 
-                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
                   showEcliptic={true}
                   showGalactic={true}
                   showMoon={true}
                   showTelescopeRange={true}
                   projection='aitoff'
                   filter='y'
-                  displayedData={this.props.displayedData}                  
+                  displayedData={this.props.displayedData}
+                  fontSize={this.props.fontSize}                  
+                  gridOpacity={this.props.gridOpacity}
                 />
               </div>
               <p className="filter-name"> y filter </p>

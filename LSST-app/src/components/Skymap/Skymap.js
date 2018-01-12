@@ -88,8 +88,12 @@ class Skymap extends PureComponent {
     Celestial.display(config);
     Celestial.cfg = config;
     this.Celestial = Celestial;
-    if(this.props.onLoaded)
-      this.props.onLoaded();
+
+    if(typeof this.props.fontSize !==  'undefined' && this.props.fontSize  !== null)
+      this.setFontSize(0);
+    if(typeof this.props.gridOpacity !== 'undefined' && this.props.gridOpacity !== null)
+      this.setGridOpacity(0);
+    
   }
 
   setFontSize(fsize) {
@@ -146,6 +150,11 @@ class Skymap extends PureComponent {
       let filters = this.props.filter==='all'?  ["u", "g", "r", "i", "z", "y"] : [this.props.filter];
 
       this.setDisplayedFilters(filters);
+
+      cel.updateCells(this.props.displayedData);    
+          
+      cel.redraw(); // antes esto ocurria solo cuando no existian ni startDate ni endDate
+
     }
 
     return (

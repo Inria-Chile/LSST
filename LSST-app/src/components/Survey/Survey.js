@@ -374,6 +374,8 @@ class Survey extends PureComponent {
                           <MiniSkymaps 
                             onMinimapClick={this.setDisplayedFilter} 
                             displayedData={this.state.displayedData}
+                            fontSize={0}
+                            gridOpacity={0}
                           />  
                          <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/> 
                     </div>
