@@ -70,13 +70,6 @@ class Survey extends PureComponent {
         this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
 
-    // drawFrame = (timestamp) => {
-    //     // console.log('Parent Drawframe')
-    //     this.mainSkymap.drawFrame(timestamp);
-    //     // this.miniSkymap.drawFrame(timestamp);
-    //     requestAnimationFrame(this.drawFrame);
-    // }
-    
     setEcliptic = (show) => {
         this.setState({showEcliptic:show});
     }
@@ -378,7 +371,10 @@ class Survey extends PureComponent {
                         </div>                        
                     </div>
                     <div className="right-container">
-                         {/* <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />  */}
+                          <MiniSkymaps 
+                            onMinimapClick={this.setDisplayedFilter} 
+                            displayedData={this.state.displayedData}
+                          />  
                          <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/> 
                     </div>
                 </div>

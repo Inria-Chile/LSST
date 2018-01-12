@@ -15,47 +15,45 @@ class MiniSkymaps extends PureComponent {
     this.loadedMaps = 0;
   }
 
-  setData = (data) => {
-    this.data = data;
-    this.setDisplayedDateLimits();
-  }
+  // setData = (data) => {
+  //   this.data = data;
+  //   this.setDisplayedDateLimits();
+  // }
 
-  setDate = (date) => {
-    for(let i=0;i<this.children.length;++i){
-      this.children[i].getCelestial().goToDate(date);
-    }
-  }
+  // setDate = (date) => {
+  //   for(let i=0;i<this.children.length;++i){
+  //     this.children[i].getCelestial().goToDate(date);
+  //   }
+  // }
 
-  setDisplayedDateLimits(startDate, endDate){
-    let displayedData = [];
-    if(!startDate || !endDate){
-      displayedData = this.data;
-      for(let i=0;i<this.children.length;++i){
-        this.children[i].getCelestial().updateCells(displayedData);
-        this.children[i].getCelestial().redraw();
-      }
-      return;
-    }
-    else if(this.data){
-        for(let i=0;i<this.data.length;++i){
-          if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
-            displayedData.push(this.data[i]);
-        }
-    }
-    for(let i=0;i<this.children.length;++i){
-      this.children[i].getCelestial().updateCells(displayedData);
-    }
-  }
+  // setDisplayedDateLimits(startDate, endDate){
+  //   let displayedData = [];
+  //   if(!startDate || !endDate){
+  //     displayedData = this.data;
+  //     for(let i=0;i<this.children.length;++i){
+  //       this.children[i].getCelestial().updateCells(displayedData);
+  //       this.children[i].getCelestial().redraw();
+  //     }
+  //     return;
+  //   }
+  //   else if(this.data){
+  //       for(let i=0;i<this.data.length;++i){
+  //         if(this.data[i].expDate > startDate && this.data[i].expDate < endDate)
+  //           displayedData.push(this.data[i]);
+  //       }
+  //   }
+  //   for(let i=0;i<this.children.length;++i){
+  //     this.children[i].getCelestial().updateCells(displayedData);
+  //   }
+  // }
 
-  updateDimensions = () => {
-    for(let i=0;i<this.children.length;++i){
-        this.children[i].getCelestial().resize({width:0});
-      }
-  }
+  // TODO
+  // updateDimensions = () => {
+  //   for(let i=0;i<this.children.length;++i){
+  //       this.children[i].getCelestial().resize({width:0});
+  //     }
+  // }
 
-  componentDidMount() {
-    
-  }
 
   onCelestialLoaded = () => {
     let filters = ["u","g","r","i","z","y"];
@@ -63,11 +61,11 @@ class MiniSkymaps extends PureComponent {
     if(this.loadedMaps <= filters.length)
       return;
     for(let i=0;i<filters.length;++i){
-      this.children[i+1].displayFilter(filters[i]);
+      // this.children[i+1].displayFilter(filters[i]);
       this.children[i+1].setFontSize(0);
       this.children[i+1].setGridOpacity(0);
     }
-    this.children[0].displayAllFilters();
+    // this.children[0].displayAllFilters();
     this.children[0].setFontSize(0);
     this.children[0].setGridOpacity(0);
     window.addEventListener("resize", this.updateDimensions);
@@ -86,14 +84,31 @@ class MiniSkymaps extends PureComponent {
   }
 
   render() {
-    this.children = [];
+    console.log(this.children);
+    this.children.forEach((children)=>{
+      children.getCelestial().updateCells(this.props.displayedData); 
+      children.getCelestial().redraw();   
+    });
+   
     return (
       <div className="minimap-container">
         <div className="container">
           <div className="row">
             <div className={"minimap-wrapper all-filter "  + (this.state.selectedFilter==='all' ? 'selected-filter' : '')} onClick={ () => this.handleClick('all')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='all' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node7' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node7' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='all'
+                  displayedData={this.props.displayedData}
+                />
               </div>
               <p className="filter-name"> all filters </p>
             </div>
@@ -101,13 +116,37 @@ class MiniSkymaps extends PureComponent {
           <div className="row">          
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='u' ? 'selected-filter' : '')} onClick={ () => this.handleClick('u')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='u' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node1' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node1' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }}
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='u'
+                  displayedData={this.props.displayedData}
+                />
               </div>
               <p className="filter-name"> u filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='g' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('g')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='g' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node2' className="minimap" ref={instance => { if(instance) this.children.push(instance); }}/>
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node2' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }}
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='g'
+                  displayedData={this.props.displayedData}
+                />
               </div>
               <p className="filter-name"> g filter </p>
             </div>
@@ -115,13 +154,37 @@ class MiniSkymaps extends PureComponent {
           <div className="row">                    
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='r' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('r')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='r' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node3' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node3' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='r'
+                  displayedData={this.props.displayedData}
+                />
               </div>
               <p className="filter-name"> r filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='i' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('i')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='i' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node4' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node4' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='i'
+                  displayedData={this.props.displayedData}                  
+                />
               </div>
               <p className="filter-name"> i filter </p>
             </div>
@@ -129,13 +192,37 @@ class MiniSkymaps extends PureComponent {
           <div className="row">          
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='z' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('z')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='z' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node5' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node5' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='z'
+                  displayedData={this.props.displayedData}                  
+                />
               </div>
               <p className="filter-name"> z filter </p>
             </div>
             <div className={"col-6 minimap-wrapper " + (this.state.selectedFilter==='y' ? 'selected-filter' : '')}  onClick={ () => this.handleClick('y')}>
               <div className={"skymap-wrapper " + (this.state.selectedFilter==='y' ? 'selected-filter' : '')}>
-                <Skymap onLoaded={this.onCelestialLoaded} nodeRef='node6' className="minimap" ref={instance => { if(instance) this.children.push(instance); }} />
+                <Skymap 
+                  onLoaded={this.onCelestialLoaded} 
+                  nodeRef='node6' 
+                  className="minimap" 
+                  ref={instance => { if(instance && this.children.length<7) this.children.push(instance); }} 
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                  projection='aitoff'
+                  filter='y'
+                  displayedData={this.props.displayedData}                  
+                />
               </div>
               <p className="filter-name"> y filter </p>
             </div>
