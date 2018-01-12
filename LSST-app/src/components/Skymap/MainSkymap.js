@@ -31,12 +31,12 @@ class MainSkymap extends PureComponent {
     //     Celestial.updateCell(Math.floor(Math.random()*857));
     // }
 
-    setDisplayedFilter(filter){
-        if(filter === 'all')
-            this.skymap.displayAllFilters();
-        else
-            this.skymap.displayFilter(filter);
-    }
+    // setDisplayedFilter(filter){
+    //     if(filter === 'all')
+    //         this.skymap.displayAllFilters();
+    //     else
+    //         this.skymap.displayFilter(filter);
+    // }
 
 
 
@@ -67,6 +67,7 @@ class MainSkymap extends PureComponent {
                     showMoon={this.props.showMoon}
                     showTelescopeRange={this.props.showTelescopeRange}
                     projection={this.props.projection}
+                    filter={this.props.filter}
             />
         );
     }

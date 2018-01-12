@@ -113,16 +113,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  displayAllFilters() {
-    var filters = ["u", "g", "r", "i", "z", "y"];
-    this.setDisplayedFilters(filters);
-  }
-
-  displayFilter(filter) {
-    var filters = [filter];
-    this.setDisplayedFilters(filters);
-  }
-
   updateConfig(config) {
     this.Celestial.apply(config);
     this.Celestial.cfg = config;
@@ -150,6 +140,12 @@ class Skymap extends PureComponent {
       cel.reproject(cfg);
       
       cel.cfg = cel.cfg;
+
+      // set filters
+      
+      let filters = this.props.filter==='all'?  ["u", "g", "r", "i", "z", "y"] : [this.props.filter];
+
+      this.setDisplayedFilters(filters);
     }
 
     return (

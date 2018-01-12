@@ -102,7 +102,7 @@ class Survey extends PureComponent {
         this.setState({
             displayedFilter: filter
         })
-        this.mainSkymap.setDisplayedFilter(filter);
+        // this.mainSkymap.setDisplayedFilter(filter);
         this.displayMainSkymap();
        
     }
