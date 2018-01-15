@@ -22,8 +22,7 @@ class Charts extends Component {
             start: new Date(), 
             end: today,
             startAt: new Date(),
-            endAt: today,
-            
+            endAt: today            
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
