@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import {mount,shallow,render} from "enzyme"; 
 import DomePosition from '../DomePosition';
 import Dome from '../../Dome';
-
+import sinon from 'sinon';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('mounted DomePostion test',function(){
@@ -172,5 +172,44 @@ describe('mounted DomePostion test',function(){
     });
 
 
+    describe('should update the state when the component is updated',function(){
+      const domePositionComponent = ()=>{
+        if(!mountedDomePosition){
+          mountedDomePosition = mount(
+            <DomePosition width={330}
+            height={300}
+            id="dome-top" 
+            scale={1.4} xOffset={-0.05} yOffset={0.15}
+            shuttersAperture={50.0} 
+            domeAzimuth={50.0}
+            telescopeElevation={50.0} 
+            mountAzimuth={50.0}
+            updateDomePos={Dome.updateDomePos}/>
+          );
+        }
+        return mountedDomePosition;
+      };
+      it('calls componentDidUpdate',()=>{
+        const spy = sinon.spy(DomePosition.prototype,'componentDidUpdate');
+        const wrapper = domePositionComponent();
+        expect(spy.calledOnce).toEqual(false);
+        wrapper.setState({data : []});
+        expect(spy.calledOnce).toEqual(true);
+      });
 
+      if(!document.hidden){
+        it('calls setDomeAzimuth',()=>{
+          const spy = sinon.spy(DomePosition.prototype,'setDomeAzimuth');
+          const wrapper = domePositionComponent();
+          expect(spy.calledOnce).toEqual(false);
+          wrapper.setState({data : []});
+          expect(spy.calledOnce).toEqual(true);
+        });
+
+        it('calls setMountAzimuth',()=>{
+
+        });
+      }
+      
+    });
 });
