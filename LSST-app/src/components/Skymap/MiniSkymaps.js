@@ -69,12 +69,9 @@ class MiniSkymaps extends PureComponent {
     // this.children[0].displayAllFilters();
     // this.children[0].setFontSize(0);
     // this.children[0].setGridOpacity(0);
-  //   window.addEventListener("resize", this.updateDimensions);
+    
   // }
 
-  // componentWillUnmount() {
-  //     window.removeEventListener("resize", this.updateDimensions);
-  // }
 
   handleClick = (filterName) => {
     console.log(this.props)

@@ -93,7 +93,17 @@ class Skymap extends PureComponent {
       this.setFontSize(0);
     if(typeof this.props.gridOpacity !== 'undefined' && this.props.gridOpacity !== null)
       this.setGridOpacity(0);
-    
+
+
+    window.addEventListener("resize", ()=>{
+      // 0 defaults to current view width
+      this.getCelestial().resize({width:0});
+    });
+  }
+
+  componentWillUnmount() {
+    // good practice when adding event listeners
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   setFontSize(fsize) {
