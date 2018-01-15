@@ -22,14 +22,11 @@ class Survey extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.miniSkymap = null;
         this.charts = null;
-        // this.mainScatterplot = null;
         this.socket = openSocket(window.location.origin + '');
         this.currentTime = Infinity;
         this.state = {
             selectedMode: 'playback',
-            // selectedMode: 'playback',
             timeWindow: TimeWindow.timeWindowOptions[Object.keys(TimeWindow.timeWindowOptions)[0]],
             hoveredField: null,
             selectedFieldData: [],
@@ -130,12 +127,7 @@ class Survey extends PureComponent {
             }
         }
 
-        this.setState({displayedData: displayedData});
-
-
-        // this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        // this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        
+        this.setState({displayedData: displayedData});        
 
         // this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
@@ -185,9 +177,7 @@ class Survey extends PureComponent {
     setDate = (date) => {
         if(this.state.showSkyMap){
             this.setState({currentDate: date});
-            // this.mainSkymap.setDate(this.state.currentDate);
         }
-        // this.miniSkymap.setDate(date);
     }
     
     fetchDataByDate = (startDate, endDate, cb) => {
