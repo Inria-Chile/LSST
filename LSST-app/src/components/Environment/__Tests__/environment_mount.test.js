@@ -9,7 +9,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 
 /*----Mount test ----*/
-//TODO: Hacer bien los test de mount cuando los del shallow esten bien. 
+ 
 describe('when temperature is set',function(){
     let props;
     let mountedEnvironment;
