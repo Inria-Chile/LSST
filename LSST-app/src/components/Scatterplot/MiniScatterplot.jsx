@@ -9,27 +9,11 @@ class MiniScatterplot extends PureComponent {
         this.scatterplot=null;
     }
 
-    setData(data){
-        if(data && data.length > 0){
-            this.scatterplot.setData(data);
-        }
-        else this.scatterplot.setData(null);
-    }
-
-
-    handleClick(){
-        this.props.onScatterplotClick()
-    }
-
-    setDisplayedDateLimits(startDate,endDate){
-        this.scatterplot.setDisplayedDateLimits(startDate,endDate);
-    }
-
     render() {
         return (
-        <div className="scatterplot-container" onClick={ () => this.handleClick()}>
+        <div className="scatterplot-container" onClick={ () => this.props.onScatterplotClick()}>
             <h4> Right Ascention / Declination </h4>
-            <Scatterplot ref={instance => {this.scatterplot=instance;}} height={183}/>
+            <Scatterplot height={183} displayedData={this.props.displayedData}/>
         </div>
         );
     }

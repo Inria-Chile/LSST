@@ -25,8 +25,7 @@ class Survey extends PureComponent {
         super(props);
         this.miniSkymap = null;
         this.charts = null;
-        this.miniScatterplot = null;
-        this.mainScatterplot = null;
+        // this.mainScatterplot = null;
         this.socket = openSocket(window.location.origin + '');
         this.currentTime = Infinity;
         this.state = {
@@ -138,8 +137,7 @@ class Survey extends PureComponent {
         // this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         // this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         
-        this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+        // this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
         // this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
         this.setDate(endDateEpoch);
@@ -208,10 +206,7 @@ class Survey extends PureComponent {
         this.setState({displayedData: data});
         // this.displayedData = data;
         // this.charts.setData(data);
-        this.miniScatterplot.setData(data);
-        // this.miniSkymap.setData(data);
-        // this.mainSkymap.setData(data);
-        this.mainScatterplot.setData(data);
+        // this.mainScatterplot.setData(data);
         this.updateObservationsTable();
     }
 
@@ -351,9 +346,9 @@ class Survey extends PureComponent {
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
-                                        <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} 
+                                        {/* <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} 
                                             data={this.state.displayedData}
-                                            />
+                                            /> */}
                                         </div>
                                         
                                         {
@@ -376,7 +371,9 @@ class Survey extends PureComponent {
                             gridOpacity={0}
                             selectedFilter={this.state.displayedFilter}
                           />  
-                         <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/> 
+                         <MiniScatterplot
+                         onScatterplotClick={this.toggleMapScatterplot}
+                         displayedData={this.state.displayedData}/> 
                     </div>
                 </div>
                 
