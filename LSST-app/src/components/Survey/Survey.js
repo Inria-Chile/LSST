@@ -3,8 +3,7 @@ import React, { PureComponent } from 'react';
 import MainSkymap from '../Skymap/MainSkymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
-import MiniScatterplot from '../Scatterplot/MiniScatterplot'
-import MainScatterplot from '../Scatterplot/MainScatterplot'
+import Scatterplot from '../Scatterplot/Scatterplot';
 import Settings from './Settings/Settings';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
@@ -345,7 +344,8 @@ class Survey extends PureComponent {
                                          />
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
-                                         <MainScatterplot data={this.state.displayedData} /> 
+                                            <div className="scatterplot">                                                <Scatterplot displayedData={this.state.displayedData} />
+                                            </div>                                            
                                         </div>
                                         
                                         {
@@ -360,7 +360,7 @@ class Survey extends PureComponent {
                             </div>                        
                         </div>                        
                     </div>
-                    <div className="right-container">
+                    <div className="right-container">                        
                           <MiniSkymaps 
                             onMinimapClick={this.setDisplayedFilter} 
                             displayedData={this.state.displayedData}
@@ -368,9 +368,10 @@ class Survey extends PureComponent {
                             gridOpacity={0}
                             selectedFilter={this.state.displayedFilter}
                           />  
-                         <MiniScatterplot
-                         onScatterplotClick={this.toggleMapScatterplot}
-                         displayedData={this.state.displayedData}/> 
+                        <div className="scatterplot-container" onClick={ () => this.toggleMapScatterplot()}>
+                            <h4> Right Ascention / Declination </h4>
+                            <Scatterplot height={183} displayedData={this.state.displayedData}/>
+                        </div>                         
                     </div>
                 </div>
                 
