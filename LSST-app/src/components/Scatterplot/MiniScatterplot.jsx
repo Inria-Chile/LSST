@@ -3,12 +3,6 @@ import Scatterplot from './Scatterplot';
 
 
 class MiniScatterplot extends PureComponent {
-
-    constructor(props){
-        super(props);
-        this.scatterplot=null;
-    }
-
     render() {
         return (
         <div className="scatterplot-container" onClick={ () => this.props.onScatterplotClick()}>
