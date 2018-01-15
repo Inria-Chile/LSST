@@ -208,7 +208,7 @@ class Survey extends PureComponent {
         this.setState({displayedData: data});
         // this.displayedData = data;
         // this.charts.setData(data);
-        // this.miniScatterplot.setData(data);
+        this.miniScatterplot.setData(data);
         // this.miniSkymap.setData(data);
         // this.mainSkymap.setData(data);
         this.mainScatterplot.setData(data);
