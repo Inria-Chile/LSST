@@ -94,9 +94,7 @@ class Survey extends PureComponent {
         this.setState({
             displayedFilter: filter
         })
-        // this.mainSkymap.setDisplayedFilter(filter);
-        this.displayMainSkymap();
-       
+        this.displayMainSkymap();       
     }
 
     setTimeWindow = (timeWindow) => {
@@ -376,6 +374,7 @@ class Survey extends PureComponent {
                             displayedData={this.state.displayedData}
                             fontSize={0}
                             gridOpacity={0}
+                            selectedFilter={this.state.displayedFilter}
                           />  
                          <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/> 
                     </div>
