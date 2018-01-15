@@ -1,5 +1,5 @@
 import React from 'react';
-import DomeElevationTimeSeries from './DomeElevationTimeSeries';
+import DomeElevationTimeSeries from '../DomeElevationTimeSeries';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 
