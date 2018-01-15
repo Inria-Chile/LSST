@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
-import MainSkymap from '../Skymap/MainSkymap';
+import Skymap from '../Skymap/Skymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
 import Scatterplot from '../Scatterplot/Scatterplot';
@@ -327,21 +327,18 @@ class Survey extends PureComponent {
                                     <div className="main-skymap-wrapper">
                                         <Settings {...setters} />
                                         <div style = {this.mainSkymapStyle}>
-                                        <MainSkymap
-                                            displayedData={this.state.displayedData}
-                                            filter={this.state.displayedFilter}
-                                            startDate = {this.state.startDate} 
-                                            endDate={this.state.endDate}
-                                            cellHoverCallback={this.cellHoverCallback} 
-                                            cellClickCallback={this.cellClickCallback} 
-                                            cellUpdateCallback={this.cellUpdateCallback} 
-                                            currentDate={this.state.currentDate}
-                                            showEcliptic={this.state.showEcliptic}
-                                            showGalactic={this.state.showGalactic}
-                                            showMoon={this.state.showMoon}
-                                            showTelescopeRange={this.state.showTelescopeRange}
-                                            projection={this.state.projection}
-                                         />
+                                        <Skymap nodeRef='mainNode' className="mainSkymap"
+                                                cellHoverCallback={this.cellHoverCallback} 
+                                                cellUpdateCallback={this.cellUpdateCallback} 
+                                                cellClickCallback={this.cellClickCallback} 
+                                                showEcliptic={this.state.showEcliptic}
+                                                showGalactic={this.state.showGalactic}
+                                                showMoon={this.state.showMoon}
+                                                showTelescopeRange={this.state.showTelescopeRange}
+                                                projection={this.state.projection}
+                                                filter={this.state.displayedFilter}
+                                                displayedData={this.state.displayedData}
+                                        />                                         
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
                                             <div className="scatterplot">                                                <Scatterplot displayedData={this.state.displayedData} />
