@@ -37,6 +37,7 @@ class M1M3 extends Component {
             if(maxRadius < Math.sqrt(Math.pow(act.position[0], 2) + Math.pow(act.position[1], 2)))
                 maxRadius = Math.sqrt(Math.pow(act.position[0], 2) + Math.pow(act.position[1], 2));
         });
+
         this.setState({
             data: data.results,
             xRadius: (xMax - xMin)/2,
@@ -47,6 +48,7 @@ class M1M3 extends Component {
   }
   
     zoomed = () => {
+        console.log('dentro del zoomed');
         let xRadius = this.state.xRadius;
         let yRadius = this.state.yRadius;
         let scale = Math.max(this.state.xRadius, this.state.yRadius)*this.props.width/65000;

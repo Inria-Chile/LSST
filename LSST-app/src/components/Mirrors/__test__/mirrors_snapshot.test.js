@@ -1,5 +1,5 @@
 import React from 'react';
-import Mirrors from './Mirrors';
+import Mirrors from '../Mirrors';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 import * as d3 from 'd3';
@@ -42,5 +42,3 @@ describe('Mirrors test', function(){
     expect(tree).toMatchSnapshot();
   });
 })
-
-/*---- other test ----*/
