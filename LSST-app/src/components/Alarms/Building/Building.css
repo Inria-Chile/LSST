@@ -1,0 +1,89 @@
+.building-container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.floor-plan-thumbnails-container {
+    display: flex;
+    object-fit: cover;
+    flex-flow: column;
+    flex: 1 1 2%;
+    margin-left: 10px;
+}
+
+.floor-plan-thumbnails-container > .alarm {
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.7);
+}
+
+.floor-plan-thumbnails-container > .selected {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7);
+}
+
+.selected-floor-container {
+    flex: 1 1 80%;
+    margin: 10px;
+}
+
+.selected-floor-container.alarm {
+    box-shadow: 0 0 0 3px red;
+}
+
+.floor-thumbnail-wrapper {
+    object-fit: cover;
+    flex: 1 1 10%;
+    margin-top: 10px;
+    position: relative;
+}
+
+.floor-thumbnail-wrapper.alarm:before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,0,0, 0.07);
+    transition: all 0.1s linear;
+    height: 100%;
+    animation-duration: 1.0s;
+    animation-name: blinker;
+    animation-iteration-count: 5;
+}
+
+@keyframes blinker {
+    from {
+        background: rgba(255,0,0, 0.1);
+    }
+
+    20% {
+        background: rgba(255,0,0, 0.1);        
+    }
+
+    50% {
+        background: rgba(255,0,0, 0.01);        
+    }
+
+    80% {
+        background: rgba(255,0,0, 0.1);        
+    }
+
+    to {
+        background: rgba(255,0,0, 0.1);
+    }
+}
+
+.floor-thumbnail-wrapper img {
+    width: 100%;
+}
+
+.selected-floor-container img {
+    width: 100%;
+}
+
+.selected-floor-container {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;    
+}

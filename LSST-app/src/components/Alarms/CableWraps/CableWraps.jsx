@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './CableWraps.css';
-import DraggableTitle from '../Utils/DraggableTitle';
+// import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
 import * as d3 from 'd3';
@@ -97,7 +97,7 @@ class CableWraps extends Component {
     render() {
         return(
             <div className="cable-wraps-container">
-            <DraggableTitle title='Cable Wraps'/>
+            {/* <DraggableTitle title='Cable Wraps'/> */}
             <div className="container pull-left">
             <div className="row">
                 <div className="cam-cable col-md-6">
