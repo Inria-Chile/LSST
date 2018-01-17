@@ -8,9 +8,6 @@ import Survey from '../../Survey/Survey';
 /*---- Snapshot testing ----*/
 describe('TimeWindow_Test',function(){
 
-
-//ASK: Se importo el suvey, esta bien asi? o habria que hacer algun mockup?.
-
     it('renders correctly without shallowRender', () => {
         const tree = renderer
           .create(<TimeWindow setTimeWindow={Survey.setTimeWindow} />)

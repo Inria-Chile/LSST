@@ -161,7 +161,6 @@ describe('DomePerspectives renders all nested components',function(){
         });
 
         describe('Should show Top windscreen position',function(){
-            //ASK: de donde se sacaran los datos del state? pq de eso depende este test.
             it('Should show the right top windscreen message',()=>{
                 domePerspectives = shallow( <DomePerspectives shuttersAperture={0}
                     updateShuttersAperture={Dome.updateShuttersAperture} />);
@@ -179,7 +178,6 @@ describe('DomePerspectives renders all nested components',function(){
 
 
         describe('Should show Bottom windscreen position',function(){
-            //ASK: de donde se sacaran los datos del state? pq de eso depende este test.
             it('Should show the right bottom windscreen position message',()=>{
                 domePerspectives = shallow( <DomePerspectives shuttersAperture={0}
                     updateShuttersAperture={Dome.updateShuttersAperture} />);

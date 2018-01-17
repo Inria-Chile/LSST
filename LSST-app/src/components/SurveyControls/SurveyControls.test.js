@@ -5,10 +5,6 @@ import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 import Survey from '../Survey/Survey';
 
-
-
-//ASK: Se importo el suvey, esta bien asi? o habria que hacer algun mockup?.
-
 /*----Snapshot testing ----*/
 describe('SurveyControls_Test',function(){
     it('renders correctly whith shallowRender live mode',()=>{

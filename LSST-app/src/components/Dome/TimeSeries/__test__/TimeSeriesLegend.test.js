@@ -3,8 +3,6 @@ import TimeSeriesLegend from '../TimeSeriesLegend';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
 
-
-//ASK: Hacer otro test para esto? Porque el snapshot crea todas las componentes con sus proppiedades. 
 /*---- Snapshot testing ----*/
 describe('TimeSeriesLegend_Test', function(){
 
