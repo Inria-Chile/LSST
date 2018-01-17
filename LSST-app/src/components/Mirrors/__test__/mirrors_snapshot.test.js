@@ -22,8 +22,8 @@ describe('Mirrors test', function(){
     position : [5,6]
   }
 
-  data.results.concat(primero);
-  data.results.concat(segundo);
+  data.results.push(primero);
+  data.results.push(segundo);
   fetch.mockResponse(JSON.stringify(data));
   
   
