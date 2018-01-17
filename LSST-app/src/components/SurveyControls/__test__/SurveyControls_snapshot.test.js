@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import SurveyControls from './SurveyControls';
+import SurveyControls from '../SurveyControls';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
-import Survey from '../Survey/Survey';
+import Survey from '../../Survey/Survey';
 
 /*----Snapshot testing ----*/
 describe('SurveyControls_Test',function(){
@@ -37,7 +37,4 @@ describe('SurveyControls_Test',function(){
         expect(tree).toMatchSnapshot();
     });
 
-})
-
-
-/*---- other test ----*/
+});
