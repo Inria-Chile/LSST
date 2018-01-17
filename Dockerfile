@@ -22,6 +22,7 @@ RUN rpm -ivh https://kojipkgs.fedoraproject.org//packages/http-parser/2.7.1/3.el
   python-devel \
   python-pip \
   python-wheel \
+  mysql-devel \
   nodejs && \
   yum clean all
 RUN yum groupinstall -y "Development Tools" "Development Libraries" && \
@@ -66,6 +67,9 @@ RUN mv /home/root/workspace/ts_sal/test/OpenSpliceDDS "${LSST_SDK_INSTALL}/"
 COPY ts_sal.sh /home/docker/lsst/ts_sal.sh
 COPY Makefile.sacpp_SAL_python.template /home/docker/lsst/Makefile.sacpp_SAL_python.template
 COPY LSST-server/requirements.txt /home/docker/lsst/LSST-server/requirements.txt
+
+RUN yum -y install libmysqlclient-dev
+
 RUN pip3 install -r /home/docker/lsst/LSST-server/requirements.txt
 
 RUN cp /home/docker/lsst/Makefile.sacpp_SAL_python.template /home/root/workspace/ts_sal/lsstsal/scripts/code/templates/Makefile.sacpp_SAL_python.template
