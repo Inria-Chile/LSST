@@ -1,0 +1,755 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObservationsTable_Test renders correctly with shallowRender 1`] = `
+<div
+  className="observations-table-wrapper"
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+      }
+    }
+  >
+    <ReactTable
+      AggregatedComponent={[Function]}
+      ExpanderComponent={[Function]}
+      FilterComponent={[Function]}
+      LoadingComponent={[Function]}
+      NextComponent={undefined}
+      NoDataComponent={[Function]}
+      PadRowComponent={[Function]}
+      PaginationComponent={[Function]}
+      PivotComponent={undefined}
+      PivotValueComponent={[Function]}
+      PreviousComponent={undefined}
+      ResizerComponent={[Function]}
+      TableComponent={[Function]}
+      TbodyComponent={[Function]}
+      TdComponent={[Function]}
+      TfootComponent={[Function]}
+      ThComponent={[Function]}
+      TheadComponent={[Function]}
+      TrComponent={[Function]}
+      TrGroupComponent={[Function]}
+      aggregatedKey="_aggregated"
+      className="-striped -highlight"
+      collapseOnDataChange={true}
+      collapseOnPageChange={true}
+      collapseOnSortingChange={true}
+      column={
+        Object {
+          "Aggregated": undefined,
+          "Cell": undefined,
+          "Expander": undefined,
+          "Filter": undefined,
+          "Footer": undefined,
+          "Header": undefined,
+          "Pivot": undefined,
+          "PivotValue": undefined,
+          "aggregate": undefined,
+          "className": "",
+          "filterAll": false,
+          "filterMethod": undefined,
+          "filterable": undefined,
+          "footerClassName": "",
+          "footerStyle": Object {},
+          "getFooterProps": [Function],
+          "getHeaderProps": [Function],
+          "getProps": [Function],
+          "headerClassName": "",
+          "headerStyle": Object {},
+          "minWidth": 100,
+          "resizable": undefined,
+          "show": true,
+          "sortMethod": undefined,
+          "sortable": undefined,
+          "style": Object {},
+        }
+      }
+      columns={
+        Array [
+          Object {
+            "Header": "Timestamp",
+            "headerStyle": Object {
+              "textAlign": "left",
+            },
+            "id": "expDate",
+            "maxWidth": 250,
+          },
+          Object {
+            "Header": "Filter",
+            "headerStyle": Object {
+              "textAlign": "left",
+            },
+            "maxWidth": 120,
+          },
+          Object {
+            "Header": "Science proposals",
+          },
+        ]
+      }
+      data={Array []}
+      defaultExpanded={Object {}}
+      defaultFilterMethod={[Function]}
+      defaultFiltered={Array []}
+      defaultPageSize={0}
+      defaultResized={Array []}
+      defaultSortDesc={false}
+      defaultSortMethod={[Function]}
+      defaultSorted={Array []}
+      expanderDefaults={
+        Object {
+          "filterable": false,
+          "resizable": false,
+          "sortable": false,
+          "width": 35,
+        }
+      }
+      filterable={false}
+      freezeWhenExpanded={false}
+      getLoadingProps={[Function]}
+      getNoDataProps={[Function]}
+      getPaginationProps={[Function]}
+      getProps={[Function]}
+      getResizerProps={[Function]}
+      getTableProps={[Function]}
+      getTbodyProps={[Function]}
+      getTdProps={[Function]}
+      getTfootProps={[Function]}
+      getTfootTdProps={[Function]}
+      getTfootTrProps={[Function]}
+      getTheadFilterProps={[Function]}
+      getTheadFilterThProps={[Function]}
+      getTheadFilterTrProps={[Function]}
+      getTheadGroupProps={[Function]}
+      getTheadGroupThProps={[Function]}
+      getTheadGroupTrProps={[Function]}
+      getTheadProps={[Function]}
+      getTheadThProps={[Function]}
+      getTheadTrProps={[Function]}
+      getTrGroupProps={[Function]}
+      getTrProps={[Function]}
+      groupedByPivotKey="_groupedByPivot"
+      indexKey="_index"
+      loading={false}
+      loadingText="Loading..."
+      multiSort={true}
+      nestingLevelKey="_nestingLevel"
+      nextText="Next"
+      noDataText=""
+      ofText="of"
+      onExpandedChange={undefined}
+      onFetchData={[Function]}
+      onFilteredChange={undefined}
+      onPageChange={undefined}
+      onPageSizeChange={undefined}
+      onResizedChange={undefined}
+      onSortedChange={undefined}
+      originalKey="_original"
+      pageSize={0}
+      pageSizeOptions={
+        Array [
+          5,
+          10,
+          20,
+          25,
+          50,
+          100,
+        ]
+      }
+      pageText="Page"
+      pivotBy={undefined}
+      pivotDefaults={Object {}}
+      pivotIDKey="_pivotID"
+      pivotValKey="_pivotVal"
+      previousText="Previous"
+      resizable={true}
+      rowsText="rows"
+      showPageJump={true}
+      showPageSizeOptions={true}
+      showPagination={true}
+      showPaginationBottom={false}
+      showPaginationTop={false}
+      sortable={false}
+      style={Object {}}
+      subRowsKey="_subRows"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "height": "calc(100% - 35px)",
+      }
+    }
+  >
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={false}
+      autoHideDuration={200}
+      autoHideTimeout={1000}
+      className="scrollbar"
+      hideTracksWhenNotNeeded={false}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <ReactTable
+        AggregatedComponent={[Function]}
+        ExpanderComponent={[Function]}
+        FilterComponent={[Function]}
+        LoadingComponent={[Function]}
+        NextComponent={undefined}
+        NoDataComponent={[Function]}
+        PadRowComponent={[Function]}
+        PaginationComponent={[Function]}
+        PivotComponent={undefined}
+        PivotValueComponent={[Function]}
+        PreviousComponent={undefined}
+        ResizerComponent={[Function]}
+        TableComponent={[Function]}
+        TbodyComponent={[Function]}
+        TdComponent={[Function]}
+        TfootComponent={[Function]}
+        ThComponent={[Function]}
+        TheadComponent={[Function]}
+        TrComponent={[Function]}
+        TrGroupComponent={[Function]}
+        aggregatedKey="_aggregated"
+        className="-highlight -no-header"
+        collapseOnDataChange={true}
+        collapseOnPageChange={true}
+        collapseOnSortingChange={true}
+        column={
+          Object {
+            "Aggregated": undefined,
+            "Cell": undefined,
+            "Expander": undefined,
+            "Filter": undefined,
+            "Footer": undefined,
+            "Header": undefined,
+            "Pivot": undefined,
+            "PivotValue": undefined,
+            "aggregate": undefined,
+            "className": "",
+            "filterAll": false,
+            "filterMethod": undefined,
+            "filterable": undefined,
+            "footerClassName": "",
+            "footerStyle": Object {},
+            "getFooterProps": [Function],
+            "getHeaderProps": [Function],
+            "getProps": [Function],
+            "headerClassName": "",
+            "headerStyle": Object {},
+            "minWidth": 100,
+            "resizable": undefined,
+            "show": true,
+            "sortMethod": undefined,
+            "sortable": undefined,
+            "style": Object {},
+          }
+        }
+        columns={
+          Array [
+            Object {
+              "Header": "Timestamp",
+              "accessor": [Function],
+              "id": "expDate",
+              "maxWidth": 250,
+            },
+            Object {
+              "Cell": [Function],
+              "Header": "Filter",
+              "accessor": "filterName",
+              "maxWidth": 120,
+            },
+            Object {
+              "Header": "Science proposals",
+              "accessor": [Function],
+              "id": "lst",
+            },
+          ]
+        }
+        data={
+          Array [
+            "x",
+            "y",
+            "z",
+          ]
+        }
+        defaultExpanded={Object {}}
+        defaultFilterMethod={[Function]}
+        defaultFiltered={Array []}
+        defaultPageSize={11}
+        defaultResized={Array []}
+        defaultSortDesc={false}
+        defaultSortMethod={[Function]}
+        defaultSorted={Array []}
+        expanderDefaults={
+          Object {
+            "filterable": false,
+            "resizable": false,
+            "sortable": false,
+            "width": 35,
+          }
+        }
+        filterable={false}
+        freezeWhenExpanded={false}
+        getLoadingProps={[Function]}
+        getNoDataProps={[Function]}
+        getPaginationProps={[Function]}
+        getProps={[Function]}
+        getResizerProps={[Function]}
+        getTableProps={[Function]}
+        getTbodyProps={[Function]}
+        getTdProps={[Function]}
+        getTfootProps={[Function]}
+        getTfootTdProps={[Function]}
+        getTfootTrProps={[Function]}
+        getTheadFilterProps={[Function]}
+        getTheadFilterThProps={[Function]}
+        getTheadFilterTrProps={[Function]}
+        getTheadGroupProps={[Function]}
+        getTheadGroupThProps={[Function]}
+        getTheadGroupTrProps={[Function]}
+        getTheadProps={[Function]}
+        getTheadThProps={[Function]}
+        getTheadTrProps={[Function]}
+        getTrGroupProps={[Function]}
+        getTrProps={[Function]}
+        groupedByPivotKey="_groupedByPivot"
+        indexKey="_index"
+        loading={false}
+        loadingText="Loading..."
+        multiSort={true}
+        nestingLevelKey="_nestingLevel"
+        nextText="Next"
+        noDataText=""
+        ofText="of"
+        onExpandedChange={undefined}
+        onFetchData={[Function]}
+        onFilteredChange={undefined}
+        onPageChange={undefined}
+        onPageSizeChange={undefined}
+        onResizedChange={undefined}
+        onSortedChange={undefined}
+        originalKey="_original"
+        pageSize={10}
+        pageSizeOptions={
+          Array [
+            5,
+            10,
+            20,
+            25,
+            50,
+            100,
+          ]
+        }
+        pageText="Page"
+        pivotBy={undefined}
+        pivotDefaults={Object {}}
+        pivotIDKey="_pivotID"
+        pivotValKey="_pivotVal"
+        previousText="Previous"
+        resizable={true}
+        rowsText="rows"
+        showPageJump={true}
+        showPageSizeOptions={true}
+        showPagination={true}
+        showPaginationBottom={false}
+        showPaginationTop={false}
+        sortable={false}
+        style={Object {}}
+        subRowsKey="_subRows"
+      />
+    </Scrollbars>
+  </div>
+</div>
+`;
+
+exports[`ObservationsTable_Test renders correctly without clickedField setted 1`] = `
+<div
+  className="observations-table-wrapper"
+>
+  <div
+    style={
+      Object {
+        "height": "35px",
+      }
+    }
+  >
+    <ReactTable
+      AggregatedComponent={[Function]}
+      ExpanderComponent={[Function]}
+      FilterComponent={[Function]}
+      LoadingComponent={[Function]}
+      NextComponent={undefined}
+      NoDataComponent={[Function]}
+      PadRowComponent={[Function]}
+      PaginationComponent={[Function]}
+      PivotComponent={undefined}
+      PivotValueComponent={[Function]}
+      PreviousComponent={undefined}
+      ResizerComponent={[Function]}
+      TableComponent={[Function]}
+      TbodyComponent={[Function]}
+      TdComponent={[Function]}
+      TfootComponent={[Function]}
+      ThComponent={[Function]}
+      TheadComponent={[Function]}
+      TrComponent={[Function]}
+      TrGroupComponent={[Function]}
+      aggregatedKey="_aggregated"
+      className="-striped -highlight"
+      collapseOnDataChange={true}
+      collapseOnPageChange={true}
+      collapseOnSortingChange={true}
+      column={
+        Object {
+          "Aggregated": undefined,
+          "Cell": undefined,
+          "Expander": undefined,
+          "Filter": undefined,
+          "Footer": undefined,
+          "Header": undefined,
+          "Pivot": undefined,
+          "PivotValue": undefined,
+          "aggregate": undefined,
+          "className": "",
+          "filterAll": false,
+          "filterMethod": undefined,
+          "filterable": undefined,
+          "footerClassName": "",
+          "footerStyle": Object {},
+          "getFooterProps": [Function],
+          "getHeaderProps": [Function],
+          "getProps": [Function],
+          "headerClassName": "",
+          "headerStyle": Object {},
+          "minWidth": 100,
+          "resizable": undefined,
+          "show": true,
+          "sortMethod": undefined,
+          "sortable": undefined,
+          "style": Object {},
+        }
+      }
+      columns={
+        Array [
+          Object {
+            "Header": "Timestamp",
+            "headerStyle": Object {
+              "textAlign": "left",
+            },
+            "id": "expDate",
+            "maxWidth": 250,
+          },
+          Object {
+            "Header": "Filter",
+            "headerStyle": Object {
+              "textAlign": "left",
+            },
+            "maxWidth": 120,
+          },
+          Object {
+            "Header": "Science proposals",
+          },
+        ]
+      }
+      data={Array []}
+      defaultExpanded={Object {}}
+      defaultFilterMethod={[Function]}
+      defaultFiltered={Array []}
+      defaultPageSize={0}
+      defaultResized={Array []}
+      defaultSortDesc={false}
+      defaultSortMethod={[Function]}
+      defaultSorted={Array []}
+      expanderDefaults={
+        Object {
+          "filterable": false,
+          "resizable": false,
+          "sortable": false,
+          "width": 35,
+        }
+      }
+      filterable={false}
+      freezeWhenExpanded={false}
+      getLoadingProps={[Function]}
+      getNoDataProps={[Function]}
+      getPaginationProps={[Function]}
+      getProps={[Function]}
+      getResizerProps={[Function]}
+      getTableProps={[Function]}
+      getTbodyProps={[Function]}
+      getTdProps={[Function]}
+      getTfootProps={[Function]}
+      getTfootTdProps={[Function]}
+      getTfootTrProps={[Function]}
+      getTheadFilterProps={[Function]}
+      getTheadFilterThProps={[Function]}
+      getTheadFilterTrProps={[Function]}
+      getTheadGroupProps={[Function]}
+      getTheadGroupThProps={[Function]}
+      getTheadGroupTrProps={[Function]}
+      getTheadProps={[Function]}
+      getTheadThProps={[Function]}
+      getTheadTrProps={[Function]}
+      getTrGroupProps={[Function]}
+      getTrProps={[Function]}
+      groupedByPivotKey="_groupedByPivot"
+      indexKey="_index"
+      loading={false}
+      loadingText="Loading..."
+      multiSort={true}
+      nestingLevelKey="_nestingLevel"
+      nextText="Next"
+      noDataText=""
+      ofText="of"
+      onExpandedChange={undefined}
+      onFetchData={[Function]}
+      onFilteredChange={undefined}
+      onPageChange={undefined}
+      onPageSizeChange={undefined}
+      onResizedChange={undefined}
+      onSortedChange={undefined}
+      originalKey="_original"
+      pageSize={0}
+      pageSizeOptions={
+        Array [
+          5,
+          10,
+          20,
+          25,
+          50,
+          100,
+        ]
+      }
+      pageText="Page"
+      pivotBy={undefined}
+      pivotDefaults={Object {}}
+      pivotIDKey="_pivotID"
+      pivotValKey="_pivotVal"
+      previousText="Previous"
+      resizable={true}
+      rowsText="rows"
+      showPageJump={true}
+      showPageSizeOptions={true}
+      showPagination={true}
+      showPaginationBottom={false}
+      showPaginationTop={false}
+      sortable={false}
+      style={Object {}}
+      subRowsKey="_subRows"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "height": "calc(100% - 35px)",
+      }
+    }
+  >
+    <Scrollbars
+      autoHeight={false}
+      autoHeightMax={200}
+      autoHeightMin={0}
+      autoHide={false}
+      autoHideDuration={200}
+      autoHideTimeout={1000}
+      className="scrollbar"
+      hideTracksWhenNotNeeded={false}
+      renderThumbHorizontal={[Function]}
+      renderThumbVertical={[Function]}
+      renderTrackHorizontal={[Function]}
+      renderTrackVertical={[Function]}
+      renderView={[Function]}
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
+      tagName="div"
+      thumbMinSize={30}
+      universal={false}
+    >
+      <ReactTable
+        AggregatedComponent={[Function]}
+        ExpanderComponent={[Function]}
+        FilterComponent={[Function]}
+        LoadingComponent={[Function]}
+        NextComponent={undefined}
+        NoDataComponent={[Function]}
+        PadRowComponent={[Function]}
+        PaginationComponent={[Function]}
+        PivotComponent={undefined}
+        PivotValueComponent={[Function]}
+        PreviousComponent={undefined}
+        ResizerComponent={[Function]}
+        TableComponent={[Function]}
+        TbodyComponent={[Function]}
+        TdComponent={[Function]}
+        TfootComponent={[Function]}
+        ThComponent={[Function]}
+        TheadComponent={[Function]}
+        TrComponent={[Function]}
+        TrGroupComponent={[Function]}
+        aggregatedKey="_aggregated"
+        className="-highlight -no-header"
+        collapseOnDataChange={true}
+        collapseOnPageChange={true}
+        collapseOnSortingChange={true}
+        column={
+          Object {
+            "Aggregated": undefined,
+            "Cell": undefined,
+            "Expander": undefined,
+            "Filter": undefined,
+            "Footer": undefined,
+            "Header": undefined,
+            "Pivot": undefined,
+            "PivotValue": undefined,
+            "aggregate": undefined,
+            "className": "",
+            "filterAll": false,
+            "filterMethod": undefined,
+            "filterable": undefined,
+            "footerClassName": "",
+            "footerStyle": Object {},
+            "getFooterProps": [Function],
+            "getHeaderProps": [Function],
+            "getProps": [Function],
+            "headerClassName": "",
+            "headerStyle": Object {},
+            "minWidth": 100,
+            "resizable": undefined,
+            "show": true,
+            "sortMethod": undefined,
+            "sortable": undefined,
+            "style": Object {},
+          }
+        }
+        columns={
+          Array [
+            Object {
+              "Header": "Timestamp",
+              "accessor": [Function],
+              "id": "expDate",
+              "maxWidth": 250,
+            },
+            Object {
+              "Cell": [Function],
+              "Header": "Filter",
+              "accessor": "filterName",
+              "maxWidth": 120,
+            },
+            Object {
+              "Header": "Science proposals",
+              "accessor": [Function],
+              "id": "lst",
+            },
+          ]
+        }
+        data={Array []}
+        defaultExpanded={Object {}}
+        defaultFilterMethod={[Function]}
+        defaultFiltered={Array []}
+        defaultPageSize={11}
+        defaultResized={Array []}
+        defaultSortDesc={false}
+        defaultSortMethod={[Function]}
+        defaultSorted={Array []}
+        expanderDefaults={
+          Object {
+            "filterable": false,
+            "resizable": false,
+            "sortable": false,
+            "width": 35,
+          }
+        }
+        filterable={false}
+        freezeWhenExpanded={false}
+        getLoadingProps={[Function]}
+        getNoDataProps={[Function]}
+        getPaginationProps={[Function]}
+        getProps={[Function]}
+        getResizerProps={[Function]}
+        getTableProps={[Function]}
+        getTbodyProps={[Function]}
+        getTdProps={[Function]}
+        getTfootProps={[Function]}
+        getTfootTdProps={[Function]}
+        getTfootTrProps={[Function]}
+        getTheadFilterProps={[Function]}
+        getTheadFilterThProps={[Function]}
+        getTheadFilterTrProps={[Function]}
+        getTheadGroupProps={[Function]}
+        getTheadGroupThProps={[Function]}
+        getTheadGroupTrProps={[Function]}
+        getTheadProps={[Function]}
+        getTheadThProps={[Function]}
+        getTheadTrProps={[Function]}
+        getTrGroupProps={[Function]}
+        getTrProps={[Function]}
+        groupedByPivotKey="_groupedByPivot"
+        indexKey="_index"
+        loading={false}
+        loadingText="Loading..."
+        multiSort={true}
+        nestingLevelKey="_nestingLevel"
+        nextText="Next"
+        noDataText=""
+        ofText="of"
+        onExpandedChange={undefined}
+        onFetchData={[Function]}
+        onFilteredChange={undefined}
+        onPageChange={undefined}
+        onPageSizeChange={undefined}
+        onResizedChange={undefined}
+        onSortedChange={undefined}
+        originalKey="_original"
+        pageSize={10}
+        pageSizeOptions={
+          Array [
+            5,
+            10,
+            20,
+            25,
+            50,
+            100,
+          ]
+        }
+        pageText="Page"
+        pivotBy={undefined}
+        pivotDefaults={Object {}}
+        pivotIDKey="_pivotID"
+        pivotValKey="_pivotVal"
+        previousText="Previous"
+        resizable={true}
+        rowsText="rows"
+        showPageJump={true}
+        showPageSizeOptions={true}
+        showPagination={true}
+        showPaginationBottom={false}
+        showPaginationTop={false}
+        sortable={false}
+        style={Object {}}
+        subRowsKey="_subRows"
+      />
+    </Scrollbars>
+  </div>
+</div>
+`;

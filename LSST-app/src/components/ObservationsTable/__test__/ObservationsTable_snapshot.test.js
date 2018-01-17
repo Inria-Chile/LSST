@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import shallowRenderer from 'react-test-renderer/shallow';
-import ObservationsTable from './ObservationsTable';
+import ObservationsTable from '../ObservationsTable';
 
 
 
@@ -15,15 +15,11 @@ describe('ObservationsTable_Test',function(){
           expect(tree).toMatchSnapshot();
       });
     
-      
-      it('renders correctly without shallowRender', () => {
+      it('renders correctly without clickedField setted',()=> {
         const clickedField = ['x','y','z'];
-        const tree = renderer
-          .create(<ObservationsTable clickedField = {clickedField} />)
-          .toJSON();
-        expect(tree).toMatchSnapshot();
+        const renderer = new shallowRenderer();
+        const tree = renderer.render(
+          <ObservationsTable clickedField = {null} />);
+          expect(tree).toMatchSnapshot();
       });
-})
-
-
-/*---- other test ----*/
+});
