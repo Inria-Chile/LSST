@@ -46,7 +46,6 @@ describe('Nested component props are good',function(){
         }
         socket.socketClient.emit('DomePosition',message);
         DomeState = DomeComponent().state();  
-        console.log('dome state',DomeState);
     });
   
 
