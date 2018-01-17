@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellHoverInfo_Test renders correctly with fieldId and expDate setted 1`] = `
+<div
+  className="hover-div"
+>
+  <div>
+    FieldID: 
+    10
+  </div>
+  <div>
+    Timestamp: 
+    2018-01-04T19:44:10.611Z
+  </div>
+  <div>
+    Filter: 
+     
+    <FilterIndicator
+      filterName="x"
+    />
+  </div>
+</div>
+`;
+
+exports[`CellHoverInfo_Test renders correctly with filtername setted 1`] = `
+<div
+  className="hover-div"
+>
+  <div>
+    FieldID: 
+    
+  </div>
+  <div>
+    Timestamp: 
+    
+  </div>
+  <div>
+    Filter: 
+     
+    <FilterIndicator
+      filterName="x"
+    />
+  </div>
+</div>
+`;
