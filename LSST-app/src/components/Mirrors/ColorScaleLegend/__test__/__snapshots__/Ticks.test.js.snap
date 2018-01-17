@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ColorScaleLegend_Test renders correctly 1`] = `
+exports[`Ticks_Test renders correctly 1`] = `
 <g
   className="legend axis"
   transform="translate(0, 0)"

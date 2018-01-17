@@ -1,5 +1,5 @@
 import React from 'react';
-import ColorScaleLegend from './ColorScaleLegend';
+import ColorScaleLegend from '../ColorScaleLegend';
 import renderer from 'react-test-renderer';
 //import shallowRenderer from 'react-test-renderer/shallow';
 import * as d3 from 'd3';
