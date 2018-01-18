@@ -68,8 +68,6 @@ COPY ts_sal.sh /home/docker/lsst/ts_sal.sh
 COPY Makefile.sacpp_SAL_python.template /home/docker/lsst/Makefile.sacpp_SAL_python.template
 COPY LSST-server/requirements.txt /home/docker/lsst/LSST-server/requirements.txt
 
-RUN yum -y install libmysqlclient-dev
-
 RUN pip3 install -r /home/docker/lsst/LSST-server/requirements.txt
 
 RUN cp /home/docker/lsst/Makefile.sacpp_SAL_python.template /home/root/workspace/ts_sal/lsstsal/scripts/code/templates/Makefile.sacpp_SAL_python.template
