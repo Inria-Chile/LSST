@@ -4,6 +4,8 @@ import Adapter from 'enzyme-adapter-react-16';
 import {mount} from "enzyme"; 
 import DateSelection  from "../DateSelection";
 import sinon from 'sinon';
+import moment from 'moment';
+import { lsstEpoch } from '../../../Utils/Utils';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('DateSelection mount test',function(){
@@ -71,5 +73,22 @@ describe('DateSelection mount test',function(){
     
     });
     
+    describe('handleChangeInitial and handleChangeEnd work right',function(){
+        it('should set the right state when handleChangeInitial is called',()=>{
+           let date = moment("2018-01-18T17:36:26.892");
+            dateSelectionComponent().instance().handleChangeInitial(date);
+            let startDate = Math.max((date-lsstEpoch)/1000,0);            
+            expect(dateSelectionComponent().state().startDate).toEqual(startDate);
+            expect(dateSelectionComponent().state().startMomentDate).toEqual(date);
+        });
+
+        it('should set the right state when handleChangeEnd is called',()=>{
+            let date = moment("2018-01-18T17:36:26.892");
+             dateSelectionComponent().instance().handleChangeEnd(date);
+             let endDate = Math.max((date-lsstEpoch)/1000,0);            
+             expect(dateSelectionComponent().state().endDate).toEqual(endDate);
+             expect(dateSelectionComponent().state().endMomentDate).toEqual(date);
+         });
+    });
     
 });
