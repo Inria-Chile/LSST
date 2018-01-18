@@ -6,25 +6,6 @@ import './Scatterplot.css';
 
 class Scatterplot extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-            displayedData: null
-        };
-        this.data=null;
-    }
-
-    componentDidMount() {
-        var dom = ReactDOM.findDOMNode(this);
-        this.createScatterplot(dom, this.props);
-    }
-
-    componentDidUpdate() {
-        var dom = ReactDOM.findDOMNode(this);
-        this.removeScatterplot(dom);
-        this.createScatterplot(dom, this.props);
-    }
-
     createScatterplot(dom, props){
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
@@ -39,11 +20,11 @@ class Scatterplot extends Component {
         var x = d3.scaleLinear().range([0, width]);
         var y = d3.scaleLinear().range([height,0]);
     
-        if(this.state.displayedData==null && this.data!=null){
+        if(this.props.displayedData==null && this.data!=null){
             this.setData(this.props.data);
         }
-        if(this.state.displayedData!=null){
-            let data = this.state.displayedData;
+        if(this.props.displayedData!=null){
+            let data = this.props.displayedData;
             x.domain(d3.extent(data, function(d) { return d.fieldRA; }));
             let maxy = Math.abs(d3.max(data, function(d) { return d.fieldDec; }));
             let miny = Math.abs(d3.min(data, function(d) { return d.fieldDec; }));
@@ -82,39 +63,19 @@ class Scatterplot extends Component {
         d3.select(dom).select('svg').remove();
     }
 
-    setData(data){
-        // console.log("lalal")
-        // console.log("data: ",data)
-        if(data && data.length > 0){
-            this.data = data;
-            this.setState({
-                displayedData:data
-            });
-        }
-        else{
-            this.data = null;
-            this.setState({
-                displayedData:null
-            });
-       
-        }
-    }
     
-    setDisplayedDateLimits(start,end){
-        let data = this.data;
-        if(!data)
-            return;
-        let dataToBeDisplayed = data.filter(function(d){
-            
-            return d.expDate >= start && d.expDate<= end;
-        });
-        this.setState({
-            displayedData: dataToBeDisplayed
-        });
-
-    }
-
     render() {
+        let dom = ReactDOM.findDOMNode(this);
+
+        if(dom){
+            
+            if ( dom.childNodes.length >0 ){
+                this.removeScatterplot(dom);
+            }
+
+            this.createScatterplot(dom, this.props);
+        }
+
         return(
         <div></div>);
     }
