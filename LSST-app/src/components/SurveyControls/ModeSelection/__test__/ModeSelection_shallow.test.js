@@ -50,9 +50,9 @@ describe('Model selection behavior test',function(){
             it('should highlight the playback span',()=>{
                 expect(wrapper.find('.highlight-text').first().text()).toBe('Playback');   
             });
-
-
-    
+            it('should call setPlaybackMode',()=>{
+                expect(setPlaybackMode.calledOnce).toBe(true);
+            });   
         });
         
         describe('Set live state when button is pressed',function(){
@@ -60,11 +60,11 @@ describe('Model selection behavior test',function(){
                 wrapper.find('span').at(2).simulate('click');               
             });
 
-            it('set playbackModeActive state right',()=>{
+            it('set playbackModeActive state false',()=>{
              expect(wrapper.state().playbackModeActive).toBe(false);
                
             });
-            it('should highlight the playback span',()=>{
+            it('should highlight the live span',()=>{
                 expect(wrapper.find('.highlight-text').first().text()).toBe('Live');
             });
 
@@ -92,7 +92,7 @@ describe('Model selection behavior test',function(){
                 wrapper.find('input').first().simulate('change'); 
             });
 
-            it('set playbackModeActive right',()=>{
+            it('set playbackModeActive true',()=>{
                 expect(wrapper.state().playbackModeActive).toBe(true);
             });
 
@@ -128,11 +128,21 @@ describe('Model selection behavior test',function(){
         });
 
 
-                it('change to the right state after click and change',()=>{
-            wrapper.find('span').first().simulate('click');
-            wrapper.find('input').first().simulate('change');
-            expect(wrapper.state().playbackModeActive).toBe(false);
-            expect(wrapper.find('.highlight-text').first().text()).toBe('Live');
-        });
+        describe('change to the right state after click and change',function(){
+            beforeEach(()=>{
+                wrapper.find('span').first().simulate('click');
+                wrapper.find('input').first().simulate('change');
+            });
+
+            it('should set playbackModeActive false',()=>{
+               
+                expect(wrapper.state().playbackModeActive).toBe(false);
+            });
+
+            it('should highlight the right span',()=>{
+                expect(wrapper.find('.highlight-text').first().text()).toBe('Live');
+            });
+        })
+        
     });
 });
