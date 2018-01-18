@@ -1,4 +1,8 @@
-.building-container {
+.building-container > .draggable-title {
+    margin-bottom: -5px;
+}
+
+.building-container-main {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
@@ -8,7 +12,7 @@
     display: flex;
     object-fit: cover;
     flex-flow: column;
-    flex: 1 1 2%;
+    flex: 1 1 2.7%;
     margin-left: 10px;
 }
 
@@ -22,11 +26,17 @@
 
 .selected-floor-container {
     flex: 1 1 80%;
-    margin: 10px;
+    margin: 10px 10px 0 10px;
+}
+
+.selected-floor-container > img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .selected-floor-container.alarm {
-    box-shadow: 0 0 0 3px red;
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.7);
 }
 
 .floor-thumbnail-wrapper {
@@ -34,6 +44,8 @@
     flex: 1 1 10%;
     margin-top: 10px;
     position: relative;
+    /* padding: 10px; */
+    background: var(--theme-div-background);
 }
 
 .floor-thumbnail-wrapper.alarm:before {
@@ -44,7 +56,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255,0,0, 0.07);
+    background: rgba(255,0,0, 0.0);
     transition: all 0.1s linear;
     height: 100%;
     animation-duration: 1.0s;
@@ -83,7 +95,7 @@
 }
 
 .selected-floor-container {
-    height: 100%;
     width: 100%;
     object-fit: cover;    
+    background: var(--theme-div-background);
 }

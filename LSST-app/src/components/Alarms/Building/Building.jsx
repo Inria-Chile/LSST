@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './Building.css';
 import SelectedFloor from './SelectedFloor';
 import FloorThumbnails from './FloorThumbnails';
+import DraggableTitle from '../../Utils/DraggableTitle';
 // import openSocket from 'socket.io-client';
 
 class Building extends Component {
@@ -42,8 +43,11 @@ class Building extends Component {
         }
         return (
             <div className="building-container">
-                <FloorThumbnails {...this.state} {...setters}/>
-                <SelectedFloor {...this.state}/>
+                <DraggableTitle title='Alarms'/>
+                <div className="building-container-main">
+                    <FloorThumbnails {...this.state} {...setters}/>
+                    <SelectedFloor {...this.state}/>
+                </div>
             </div>
         );
     }

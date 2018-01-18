@@ -20,19 +20,20 @@ class FloorThumbnails extends Component {
     // }
 
     render() {
-        let imgSrc = FloorThumbnails[this.props.FloorThumbnails];
-        if(!imgSrc)
-            imgSrc = "";
         return (
             <div className="floor-plan-thumbnails-container">
                 {
                     Object.keys(FloorThumbnails.floorPlanThumbnails).map(key => {
+                        let imgSrc = FloorThumbnails.floorPlanThumbnails[key];
+                        let isAlarm = this.props.floorAlarms.indexOf(key) > -1;
+                        // if(isAlarm)
+                        //     imgSrc = imgSrc.replace('thumbnail', 'thumbnail_alarm');
                         return (
                             <div className={["floor-thumbnail-wrapper", 
                                             this.props.selectedFloor === key ? 'selected':'',
-                                            this.props.floorAlarms.indexOf(key) > -1 ? 'alarm':''].join(' ')} 
+                                            isAlarm ? 'alarm':''].join(' ')} 
                                 key={key} onClick={() => this.props.setSelectedFloor(key)}>
-                                <img src={FloorThumbnails.floorPlanThumbnails[key]} 
+                                <img src={imgSrc}
                                     className={"floor-plan-thumbnail"} 
                                     alt="floor thumbnail"/>
                             </div>
