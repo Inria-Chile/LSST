@@ -33,7 +33,7 @@ describe('DateSelection mount test',function(){
             spy = sinon.spy(DateSelection.prototype,'componentDidUpdate');
             const wrapper = dateSelectionComponent();
             expect(spy.calledOnce).toEqual(false);
-            wrapper.setState({startDate : "2018-02-04T19:44:10.611Z" , endDate :"2018-05-04T19:44:10.611Z" });
+            wrapper.setState({startDate : new Date("2018-02-04T19:44:10.611Z") , endDate : new Date("2018-05-04T19:44:10.611Z") });
             expect(spy.calledOnce).toEqual(true);
             spy.restore();
         });
@@ -42,7 +42,7 @@ describe('DateSelection mount test',function(){
             let spy1 = sinon.spy(dateSelectionComponent().instance(),'setDate')
             const wrapper = dateSelectionComponent();
             expect(spy1.calledOnce).toEqual(false);
-            wrapper.setState({startDate : "2018-02-04T19:44:10.611Z" , endDate :"2018-05-04T19:44:10.611Z" });
+            wrapper.setState({startDate : new Date("2018-02-04T19:44:10.611Z") , endDate :new Date("2018-05-04T19:44:10.611Z")});
             expect(spy1.calledOnce).toEqual(true);
         });
     
@@ -71,7 +71,7 @@ describe('DateSelection mount test',function(){
         });
 
     
-    });
+    }); 
     
     describe('handleChangeInitial and handleChangeEnd work right',function(){
         it('should set the right state when handleChangeInitial is called',()=>{
