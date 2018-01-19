@@ -16,7 +16,7 @@ exports[`Settings snapshot test renders correctly with shallowRender 1`] = `
   <div
     className="sidebar "
   >
-    skymap
+    Skymap
     <div
       className="checkbox"
     >

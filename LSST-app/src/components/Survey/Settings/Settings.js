@@ -79,7 +79,7 @@ class Settings extends Component {
                 <button className="settings-button" type="button" onClick={this.toggleSidebar} aria-label="Settings">
                     <i className="fa fa-cog" aria-hidden="true"></i>
                 </button>
-                <div className={"sidebar " + (this.state.sidebarOpen ? 'sidebar-open' : '')}>skymap
+                <div className={"sidebar " + (this.state.sidebarOpen ? 'sidebar-open' : '')}>Skymap
                     <div className="checkbox">
                         <label className='selectable'>
                             <input type="checkbox" value="" onChange={this.toggleEcliptic} defaultChecked={this.state.showEcliptic}/> Ecliptic plane
