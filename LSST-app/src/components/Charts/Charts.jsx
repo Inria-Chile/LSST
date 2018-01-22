@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 import * as d3 from 'd3';
 import {lsstEpoch} from '../Utils/Utils'
 import {lsstToJs} from '../Utils/Utils'
-// import {lsstEpoch} from '../Utils/Utils'
 
 
 class Charts extends Component {
@@ -18,11 +17,7 @@ class Charts extends Component {
         today.setDate(today.getDate() + 1);
         this.tomorrow=today;
         this.state={
-            data: null, 
-            start: new Date(), 
-            end: today,
-            startAt: new Date(),
-            endAt: today            
+            data: null,        
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
@@ -37,21 +32,21 @@ class Charts extends Component {
         
     }
 
-    setDate(start,end){
-        if(this.props.mode==="playback"){
-            this.setState({
-                start: new Date(lsstToJs(start)),
-                startAt: new Date(lsstToJs(start)),
-                end:new Date(lsstToJs(end)),
-                endAt:new Date(lsstToJs(end)),
-            })
-            if(this.g){
-                this.g.remove();
-                this.g=null;
-            }
-        }
+    // setDate(start,end){
+    //     if(this.props.mode==="playback"){
+    //         this.setState({
+    //             start: new Date(lsstToJs(start)),
+    //             startAt: new Date(lsstToJs(start)),
+    //             end:new Date(lsstToJs(end)),
+    //             endAt:new Date(lsstToJs(end)),
+    //         })
+    //         if(this.g){
+    //             this.g.remove();
+    //             this.g=null;
+    //         }
+    //     }
        
-    }
+    // }
 
     setData(data){
         let newData = JSON.parse(JSON.stringify(data));
@@ -112,23 +107,23 @@ class Charts extends Component {
             let svg = dom.childNodes[dom.childNodes.length-1];
             let width = dom.offsetWidth;
             this.svg=svg;
-            this.x= d3.scaleTime().domain([this.state.startAt, this.state.endAt])
+            this.x= d3.scaleTime().domain([this.props.startDate, this.props.endDate])
             .range([this.margin.left,width-this.margin.right-15]);
           
             if(this.props.mode==="playback"){
                 let g = d3.select(svg).append("g");
                 this.g = g;
-                let x = this.x(this.state.startAt);
-                this.drawPBLine(x, this.state.startAt);
+                let x = this.x(this.props.startDate);
+                this.drawPBLine(x, this.props.startDate);
             }
         }
     }
 
     updatePBLine(currentTime){
-        this.x.domain([this.state.startAt, this.state.endAt]);
+        this.x.domain([this.props.startDate, this.props.endDate]);
         let x = this.x(currentTime);
        
-        if(this.state.startAt<=currentTime && currentTime < this.state.endAt){
+        if(this.props.startDate<=currentTime && currentTime < this.props.endDate){
             this.togglePBLine(this.visibleStyle);
             this.movePBLine(x, currentTime);
         }
@@ -209,34 +204,61 @@ class Charts extends Component {
     }
 
     handleZoom(event){
-        let start = this.state.startAt;
-        let end = this.state.endAt;
+        let start = this.props.startDate;
+        let end = this.props.endDate;
         let delta = (end-start)/1000 //seconds elapsed between the two dates
         let wheelDirection = event.deltaY/Math.abs(event.deltaY)
         let change = (delta/10)*(wheelDirection)
         
         start.setSeconds(start.getSeconds()-change);
         end.setSeconds(end.getSeconds()+change);
-        if(start > this.state.start && end < this.state.end && delta > 60){
+        if(start > this.props.startDate && end < this.props.endDate && delta > 60){
             this.setSelection(start,end);
             this.slider.setSelection(start,end);
         }
-        else if(start <= this.state.start || end >= this.state.end){
-            this.setSelection(this.state.start, this.state.end);
+        else if(start <= this.props.startDate || end >= this.props.endDate){
+            this.setSelection(this.props.startDate, this.props.endDate);
             this.slider.setSelection();
         }
     }
 
     render() {
+
+        if(this.props.mode==="playback"){
+        //     // this.setState({
+        //     //     start: new Date(lsstToJs(this.props.startDate)),
+        //     //     startAt: new Date(lsstToJs(this.props.startDate)),
+        //     //     end:new Date(lsstToJs(this.props.endDate)),
+        //     //     endAt:new Date(lsstToJs(this.props.endDate)),
+        //     // })
+            if(this.g){
+                this.g.remove();
+                this.g=null;
+            }
+        }
+       
         return (
             <div className = "charts-container" onDrag={()=> this.handleDrag()} onWheel={(e)=> this.handleZoom(e)}>
                 <h5>Date-range summary</h5>
                     <Slider ref={instance => { this.slider = instance; }}
-                     start={this.state.start} end={this.state.end} margin={this.margin} setExtent={this.setSelection}/>
+                     start={this.props.startDate}
+                     end={this.props.endDate}
+                     margin={this.margin}
+                     setExtent={this.setSelection}/>
+                    
                     <Histogram ref={instance => { this.histogram = instance; }} 
-                    data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                    data={this.state.data}
+                    start={this.props.startDate}
+                    end={this.props.endDate}
+                    ticks={this.ticks}
+                    margin={this.margin}/>
+                    
                     <Timeline ref={instance => { this.timeline = instance; }}
-                     data={this.state.data} start={this.state.startAt} end={this.state.endAt} ticks={this.ticks} margin={this.margin}/>
+                     data={this.state.data}
+                     start={this.props.startDate}
+                     end={this.props.endDate}
+                     ticks={this.ticks}
+                     margin={this.margin}/>
 
                     <svg id="charts" className="d3 charts" width="100%" height="280px"></svg>
                      

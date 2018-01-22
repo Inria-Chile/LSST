@@ -12,6 +12,7 @@ import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
 import DraggableTitle from '../Utils/DraggableTitle';
 import openSocket from 'socket.io-client';
 import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
+import {lsstToJs} from '../Utils/Utils'
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -166,7 +167,7 @@ class Survey extends PureComponent {
             });
             this.setDate(new Date(parseInt(endDate, 10)));
         })
-        this.charts.setDate(startDate,endDate)
+        // this.charts.setDate(startDate,endDate)
     }
 
     setDate = (date) => {
@@ -306,7 +307,10 @@ class Survey extends PureComponent {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
 
-                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/> 
+                             <Charts ref={instance => { this.charts = instance; }} 
+                                 mode={this.state.selectedMode}
+                                 endDate={new Date(lsstToJs(this.state.endDate))}
+                                 startDate={new Date(lsstToJs(this.state.startDate))}/> 
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
