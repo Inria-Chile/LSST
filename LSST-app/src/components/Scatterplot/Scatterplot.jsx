@@ -63,18 +63,18 @@ class Scatterplot extends Component {
         d3.select(dom).select('svg').remove();
     }
 
-    
-    render() {
+    componentDidMount() {
         let dom = ReactDOM.findDOMNode(this);
+        this.createScatterplot(dom, this.props);
+    }
 
-        if(dom){
-            
-            if ( dom.childNodes.length >0 ){
-                this.removeScatterplot(dom);
-            }
+    componentDidUpdate() {
+        let dom = ReactDOM.findDOMNode(this);
+        this.removeScatterplot(dom);
+        this.createScatterplot(dom, this.props);
+    }
 
-            this.createScatterplot(dom, this.props);
-        }
+    render() {
 
         return(
         <div></div>);
