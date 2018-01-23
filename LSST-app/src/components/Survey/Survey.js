@@ -118,18 +118,18 @@ class Survey extends PureComponent {
     setDisplayedDateLimits = (startDate, endDate) => {
         let startDateEpoch = new Date(startDate.getTime());
         let endDateEpoch = new Date(endDate.getTime());
-
+    
         let displayedData = [];
         if( startDateEpoch || endDateEpoch ){
             for(let i=0;i<this.state.data.length;++i){
                 if(this.state.data[i].expDate > startDateEpoch && this.state.data[i].expDate < endDateEpoch)
                     displayedData.push(this.state.data[i]);
+                }
             }
-        }
 
         this.setState({displayedData: displayedData});        
 
-        this.charts.setDisplayedDateLimits(endDate);
+        //this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
         this.setDate(endDateEpoch);
         this.updateObservationsTable();
@@ -157,7 +157,7 @@ class Survey extends PureComponent {
     setDataByDate = (startDate, endDate) => {
         this.fetchDataByDate(startDate, endDate, (res) => {
             for(var i=0;i<res.results.length;++i)
-                res.results[i]['fieldDec'] += 30;
+            res.results[i]['fieldDec'] += 30;
             this.setData(res.results);
             this.setState({
                 data: res.results,
@@ -166,7 +166,7 @@ class Survey extends PureComponent {
             });
             this.setDate(new Date(parseInt(endDate, 10)));
         })
-        this.charts.setDate(startDate,endDate)
+        //this.charts.setDate(startDate,endDate)
     }
 
     setDate = (date) => {
@@ -189,7 +189,7 @@ class Survey extends PureComponent {
     setData = (data) => {
         this.setState({displayedData: data});
         // this.displayedData = data;
-        this.charts.setData(data);
+        //this.charts.setData(data);
         this.updateObservationsTable();
     }
 
@@ -305,9 +305,8 @@ class Survey extends PureComponent {
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
-
-                             <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/> 
-                            <div className="row">
+                       
+                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
                                         <Settings {...setters} />
@@ -326,7 +325,8 @@ class Survey extends PureComponent {
                                         />                                         
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
-                                            <div className="scatterplot">                                                <Scatterplot displayedData={this.state.displayedData} />
+                                            <div className="scatterplot">
+                                                <Scatterplot displayedData={this.state.displayedData} />
                                             </div>                                            
                                         </div>
                                         
