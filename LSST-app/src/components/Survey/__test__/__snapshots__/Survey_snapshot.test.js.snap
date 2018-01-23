@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Survey snapshot test renders correctly 1`] = `
+<div
+  className="survey-container"
+>
+  <DraggableTitle
+    title="Survey Progress"
+  />
+  <div
+    className="main-container"
+  >
+    <div
+      className="left-container"
+    >
+      <SurveyControls
+        endDate={null}
+        selectedMode="playback"
+        setDataByDate={[Function]}
+        setDisplayedDateLimits={[Function]}
+        setLiveMode={[Function]}
+        setPlaybackMode={[Function]}
+        setTimeWindow={[Function]}
+        startDate={null}
+      />
+      <div
+        className="bottom-left-container"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <div
+              className="main-skymap-wrapper"
+            >
+              <Settings
+                setEcliptic={[Function]}
+                setGalactic={[Function]}
+                setMoon={[Function]}
+                setProjection={[Function]}
+                setTelescopeRange={[Function]}
+              />
+              <div
+                style={
+                  Object {
+                    "display": "block",
+                  }
+                }
+              >
+                <Skymap
+                  cellClickCallback={[Function]}
+                  cellHoverCallback={[Function]}
+                  cellUpdateCallback={[Function]}
+                  className="mainSkymap"
+                  displayedData={Array []}
+                  filter="all"
+                  nodeRef="mainNode"
+                  projection="aitoff"
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "position": "absolute",
+                    "top": 0,
+                    "visibility": "hidden",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="scatterplot"
+                >
+                  <Scatterplot
+                    displayedData={Array []}
+                    height={400}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="col-6"
+          >
+            <ObservationsTable
+              clickedField={Array []}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-container"
+    >
+      <MiniSkymaps
+        displayedData={Array []}
+        fontSize={0}
+        gridOpacity={0}
+        onMinimapClick={[Function]}
+        selectedFilter="all"
+      />
+      <div
+        className="scatterplot-container"
+        onClick={[Function]}
+      >
+        <h4>
+           Right Ascention / Declination 
+        </h4>
+        <Scatterplot
+          displayedData={Array []}
+          height={183}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
