@@ -19,8 +19,8 @@ describe('Survey lifecycle test',function(){
     }    
     //const primero = [{expDate :"1995-12-20T13:14:05.000Z"} ,4,5]
     //const segundo = [{expDate : "1993-11-20T13:14:05.000Z"},6,7]
-    const primero = {expDate : 756893245000};
-    const segundo = {expDate : 756894245000}
+    const primero = {expDate : 756893245000,fieldDec : -40.22279999994};
+    const segundo = {expDate : 756894245000,fieldDec :  -40.22279999996}
     res.results.push(primero);
     res.results.push(segundo);
     fetch.mockResponse(JSON.stringify(res));
@@ -42,10 +42,10 @@ describe('Survey lifecycle test',function(){
         socket.on('data',timestamp=>{
           timestamp.expDate = timestamp.request_time;
           surveyComponent().instance().addObservation(timestamp);
-          surveyComponent().instance().setDate((new Date(parseInt(timestamp.request_time, 10))));  
-          mountedSurvey = undefined;
+          surveyComponent().instance().setDate((new Date(parseInt(timestamp.request_time, 10)))); 
+          mountedSurvey = undefined; 
         });
-
+        
         timestamp = {
             expDate : new Date("2018-01-04T19:44:10.611Z"),
             request_time : new Date("2018-03-04T19:44:10.611Z"),
@@ -135,27 +135,23 @@ describe('Survey lifecycle test',function(){
 
         describe('playerControls calls setDisplayedDateLimits',function(){
             beforeEach(()=>{
+                mountedSurvey = undefined; 
                 //we call setDataByDate to simulate that we already picked start and end date. 
-                console.log('displayedData before',surveyComponent().state().displayedData);
                 for(var i=0;i<res.results.length;++i)
-                    console.log('estoy en el for de la funcion del fetch');    
-                //res.results[i]['fieldDec'] += 30;
+                    res.results[i]['fieldDec'] += 30;
                 surveyComponent().instance().setData(res.results);
                 surveyComponent().setState({
                     data: res.results,
                     startDate: 756393245000, 
                     endDate: 757393245000
                 });
-                console.log('it already fetched');
                 surveyComponent().instance().setDate(new Date(parseInt(2, 10)));
-
             });
             
             it('should change state when previous button is pressed',()=>{
                 
                 let playbackControls = surveyComponent().find('SurveyControls').first().find('PlayerControls').first().find('PlaybackControls');
                 let prevButton = playbackControls.find('PrevButton');
-                console.log('PlayBackControls',surveyComponent().state().data);
                 prevButton.simulate('click');    
                 expect(surveyComponent().state().displayedData).toEqual([]);          
             });
@@ -163,12 +159,83 @@ describe('Survey lifecycle test',function(){
             it('should change state when next button is pressed',()=>{
                 let playbackControls = surveyComponent().find('SurveyControls').first().find('PlayerControls').first().find('PlaybackControls');
                 let prevButton = playbackControls.find('NextButton');
-                console.log('PlayBackControls',surveyComponent().state().data);
                 prevButton.simulate('click');    
-                console.log('displayedData after',surveyComponent().state().displayedData)    
-                expect(surveyComponent().state().displayedData).toEqual([{expDate: 756893245000}, {expDate: 756894245000 }])
+                expect(surveyComponent().state().displayedData).toEqual([{"expDate": 756893245000, "fieldDec": 19.77720000006}, {"expDate": 756894245000, "fieldDec": 19.777200000039997}]
+            )
             
             });
+        });
+
+        describe('Settings set properties of the skymap',function(){
+            beforeEach(()=>{
+                mountedSurvey = undefined; 
+            })
+
+            describe('set ecpliptic',function(){
+                it('set ecpliptic to false',()=>{
+                    let settings = surveyComponent().find('Settings').first();
+                    expect(surveyComponent().state().showEcliptic).toEqual(true);
+                    settings.find('input').first().simulate('change');
+                    expect(surveyComponent().state().showEcliptic).toEqual(false);
+                });
+    
+                it('set ecpliptic to true',()=>{
+                    let settings = surveyComponent().find('Settings').first();
+                    expect(surveyComponent().state().showEcliptic).toEqual(true);
+                    settings.find('input').first().simulate('change');
+                    settings.find('input').first().simulate('change');
+                    expect(surveyComponent().state().showEcliptic).toEqual(true);
+                });
+            })
+            
+            describe('set galactic plane',function(){
+                it('set galactic to false',()=>{
+                    expect(surveyComponent().state().showGalactic).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();                    
+                    settings.find('input').at(1).simulate('change');
+                    expect(surveyComponent().state().showGalactic).toEqual(false);
+                });
+                it('set galactic to true',()=>{
+                    expect(surveyComponent().state().showGalactic).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();
+                    settings.find('input').at(1).simulate('change');
+                    settings.find('input').at(1).simulate('change');
+                    expect(surveyComponent().state().showGalactic).toEqual(true);
+                });
+            });
+
+            describe('set elevation limit',function(){
+                it('set elevation limit to false',()=>{
+                    expect(surveyComponent().state().showTelescopeRange).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();                    
+                    settings.find('input').at(2).simulate('change');
+                    expect(surveyComponent().state().showTelescopeRange).toEqual(false);
+                });
+                it('set elevation limit to true',()=>{
+                    expect(surveyComponent().state().showTelescopeRange).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();
+                    settings.find('input').at(2).simulate('change');
+                    settings.find('input').at(2).simulate('change');
+                    expect(surveyComponent().state().showTelescopeRange).toEqual(true);
+                });
+            });
+
+            describe('set moon input',function(){
+                it('set moon input to false',()=>{
+                    expect(surveyComponent().state().showMoon).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();                    
+                    settings.find('input').at(3).simulate('change');
+                    expect(surveyComponent().state().showMoon).toEqual(false);
+                });
+                it('set moon input to true',()=>{
+                    expect(surveyComponent().state().showMoon).toEqual(true);
+                    let settings = surveyComponent().find('Settings').first();
+                    settings.find('input').at(3).simulate('change');
+                    settings.find('input').at(3).simulate('change');
+                    expect(surveyComponent().state().showMoon).toEqual(true);
+                });
+            });
+            
         });
 
     });
