@@ -16,9 +16,9 @@ class Charts extends Component {
         var today = new Date();
         today.setDate(today.getDate() + 1);
         this.tomorrow=today;
-        this.state={
-            data: null,        
-        };
+        // this.state={
+        //     data: null,        
+        // };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;
         this.timeline = null;
@@ -48,47 +48,47 @@ class Charts extends Component {
        
     // }
 
-    setData(data){
-        let newData = JSON.parse(JSON.stringify(data));
-        newData.sort((a,b)=>{
-            if(a.expDate > b.expDate) return 1;
-            if(a.expDate < b.expDate) return -1;
-            return 0;
-        })
+    setData(){
+        // let newData = JSON.parse(JSON.stringify(data));
+        // let newData = data;
+        // newData.sort((a,b)=>{
+        //     if(a.expDate > b.expDate) return 1;
+        //     if(a.expDate < b.expDate) return -1;
+        //     return 0;
+        // });
 
-        newData.map((d)=>{
-            // console.log("numeric", d.expDate)
-            d.expDate=new Date(lsstToJs(d.expDate));
-            // console.log("date",d.expDate)
-            return null;
-        });
-        if(data && data.length > 0){
-            if(this.props.mode==="playback"){
-                this.setState({
-                    data:newData
-                });
-            }
-            else{
-                this.setState({
-                    data:newData, 
-                    start:newData[0].expDate, 
-                    end:newData[newData.length-1].expDate,
-                    startAt:newData[0].expDate,
-                    endAt:newData[newData.length-1].expDate
-                });
-            }
+        // convert dates from numeric to Date objects
+        // newData.map((d)=>{
+        //     d.expDate = new Date(lsstToJs(d.expDate));
+        //     return null;
+        // });
+        // if(data && data.length > 0){
+            // if(this.props.mode==="playback"){
+            //     this.setState({
+            //         data:newData
+            //     });
+            // }
+            // else{
+            //     this.setState({
+            //         data:newData, 
+            //         start:newData[0].expDate, 
+            //         end:newData[newData.length-1].expDate,
+            //         startAt:newData[0].expDate,
+            //         endAt:newData[newData.length-1].expDate
+            //     });
+            // }
            
             
-        }
-        else{
-            this.setState({
-                data:null, 
-                start:new Date(), 
-                end: this.tomorrow,
-                startAt:new Date(),
-                endAt:this.tomorrow
-            });
-        }
+        // }
+        // else{
+            // this.setState({
+            //     data:null, 
+            //     start:new Date(), 
+            //     end: this.tomorrow,
+            //     startAt:new Date(),
+            //     endAt:this.tomorrow
+            // });
+        // }
         var dom = ReactDOM.findDOMNode(this);
         this.slider.updateSlider(dom, true);
     }
@@ -247,14 +247,14 @@ class Charts extends Component {
                      setExtent={this.setSelection}/>
                     
                     <Histogram ref={instance => { this.histogram = instance; }} 
-                    data={this.state.data}
+                    data={this.props.data}
                     start={this.props.startDate}
                     end={this.props.endDate}
                     ticks={this.ticks}
                     margin={this.margin}/>
                     
                     <Timeline ref={instance => { this.timeline = instance; }}
-                     data={this.state.data}
+                     data={this.props.data}
                      start={this.props.startDate}
                      end={this.props.endDate}
                      ticks={this.ticks}

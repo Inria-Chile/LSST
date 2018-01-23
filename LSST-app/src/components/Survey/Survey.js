@@ -188,6 +188,21 @@ class Survey extends PureComponent {
     }
 
     setData = (data) => {
+        
+        data.sort((a,b)=>{
+            if(a.expDate > b.expDate) return 1;
+            if(a.expDate < b.expDate) return -1;
+            return 0;
+        });
+
+
+        // convert dates from numeric to Date objects
+        data.map((d)=>{
+            d.expDate = new Date(lsstToJs(d.expDate));
+            return null;
+        });
+
+
         this.setState({displayedData: data});
         // this.displayedData = data;
         this.charts.setData(data);
@@ -310,7 +325,8 @@ class Survey extends PureComponent {
                              <Charts ref={instance => { this.charts = instance; }} 
                                  mode={this.state.selectedMode}
                                  endDate={new Date(lsstToJs(this.state.endDate))}
-                                 startDate={new Date(lsstToJs(this.state.startDate))}/> 
+                                 startDate={new Date(lsstToJs(this.state.startDate))}
+                                 data={this.state.displayedData}/> 
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
