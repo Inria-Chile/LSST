@@ -36,13 +36,13 @@ class Survey extends PureComponent {
             endDate: null,
             showSkyMap: true,
 
-            currentDate: null,
             showEcliptic: true,
             showGalactic: true,
             showMoon: true,
             showTelescopeRange: true,
             projection: "aitoff",
 
+            data: [],
             displayedData: []
         }
 
@@ -63,7 +63,7 @@ class Survey extends PureComponent {
     receiveMsg(msg){
         msg.expDate = msg.request_time;
         this.addObservation(msg);
-        this.setDate(new Date(parseInt(msg.request_time, 10)));
+        // this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
 
     setEcliptic = (show) => {
@@ -115,28 +115,6 @@ class Survey extends PureComponent {
         }
         this.setState({showSkyMap:!showSkyMap});
     }
-    
-    setDisplayedDateLimits = (startDate, endDate) => {
-        let startDateEpoch = new Date(startDate.getTime());
-        let endDateEpoch = new Date(endDate.getTime());
-
-        let displayedData = [];
-        if( startDateEpoch || endDateEpoch ){
-            for(let i=0;i<this.state.data.length;++i){
-                if(this.state.data[i].expDate > startDateEpoch && this.state.data[i].expDate < endDateEpoch)
-                    displayedData.push(this.state.data[i]);
-            }
-        }
-
-        this.setState({displayedData: displayedData});        
-
-        this.charts.setDisplayedDateLimits(endDate);
-        this.currentTime = endDate;
-        this.setDate(endDateEpoch);
-        this.updateObservationsTable();
-    }
-
-    //function to set the start and end dates selected by the slider
 
     setLiveMode = () => {
         console.log('setlivemode')
@@ -154,28 +132,34 @@ class Survey extends PureComponent {
         this.socket.off('data');
         this.setData([]);
     }
-
-    setDataByDate = (startDate, endDate) => {
-        this.fetchDataByDate(startDate, endDate, (res) => {
-            for(var i=0;i<res.results.length;++i)
-                res.results[i]['fieldDec'] += 30;
-            this.setData(res.results);
-            this.setState({
-                data: res.results,
-                startDate: startDate, 
-                endDate: endDate
-            });
-            this.setDate(new Date(parseInt(endDate, 10)));
-        })
-        // this.charts.setDate(startDate,endDate)
-    }
-
-    setDate = (date) => {
-        if(this.state.showSkyMap){
-            this.setState({currentDate: date});
-        }
-    }
     
+    setDisplayedDateLimits = (startDate, endDate) => {
+        /*
+            Used by PlayerControls, sets the range of the data displayed on Skymaps and Scatterplots,
+            subset of the already fetched data.
+            Also moves the vertical bar of Charts to the 'endDate'
+
+            The startDate is given only for generality and maybe compatibility (?)
+        */
+        let startDateEpoch = new Date(startDate.getTime());
+        let endDateEpoch = new Date(endDate.getTime());
+
+        let displayedData = [];
+        if( startDateEpoch || endDateEpoch ){
+            for(let i=0;i<this.state.data.length;++i){
+                if(this.state.data[i].expDate > startDateEpoch && this.state.data[i].expDate < endDateEpoch)
+                    displayedData.push(this.state.data[i]);
+            }
+        }
+
+        this.setState({displayedData: displayedData});        
+
+        this.charts.setDisplayedDateLimits(endDate);
+        this.currentTime = endDate;
+        // this.setDate(endDateEpoch);
+        this.updateObservationsTable();
+    }
+
     fetchDataByDate = (startDate, endDate, cb) => {
         let lsstStartDate = startDate;
         let lsstEndDate = endDate;
@@ -187,7 +171,33 @@ class Survey extends PureComponent {
         .then(cb);
     }
 
+    setDataByDate = (startDate, endDate) => {
+        /*
+            Used by DateSelection, invoked after component updates
+            Gets the data from the database and resets all data, displayedData and date states            
+        */
+        this.fetchDataByDate(startDate, endDate, (res) => {
+            
+            for(var i=0;i<res.results.length;++i)
+                res.results[i]['fieldDec'] += 30;
+            
+            this.setData(res.results);
+            
+            this.setState({
+                data: res.results,
+                startDate: startDate, 
+                endDate: endDate
+            });
+            
+            // this.setDate(new Date(parseInt(endDate, 10)));
+        })
+        // this.charts.setDate(startDate,endDate)
+    }
+
     setData = (data) => {
+        /*
+            Sets data array as current source for all components
+        */
         
         data.sort((a,b)=>{
             if(a.expDate > b.expDate) return 1;
@@ -205,9 +215,17 @@ class Survey extends PureComponent {
 
         this.setState({displayedData: data});
         // this.displayedData = data;
-        this.charts.setData(data);
+        // this.charts.setData(data);
         this.updateObservationsTable();
     }
+    
+
+    // setDate = (date) => {
+    //     if(this.state.showSkyMap){
+    //         this.setState({currentDate: date});
+    //     }
+    // }
+    
 
     addObservation = (obs) => {
         let added = false;
@@ -225,15 +243,13 @@ class Survey extends PureComponent {
         this.setData(displayedData);
     }
 
-    componentDidMount() {
+    // componentDidMount() {
         // console.log("componentDidMount")
         // this.fetchDataByDate(0, 99994323, (res) => {
-        this.fetchDataByDate(0, 2, (res) => {
-            for(var i=0;i<res.results.length;++i)
-                res.results[i][2] += 30;
+        // this.fs  res.results[i][2] += 30;
             // this.setData(res.results);
-        });
-    }
+        // });
+    // }
 
     cellHoverCallback = (fieldID, polygon) => {
         let latestField = null;
@@ -321,12 +337,13 @@ class Survey extends PureComponent {
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
-
+ 
                              <Charts ref={instance => { this.charts = instance; }} 
                                  mode={this.state.selectedMode}
-                                 endDate={new Date(lsstToJs(this.state.endDate))}
-                                 startDate={new Date(lsstToJs(this.state.startDate))}
-                                 data={this.state.displayedData}/> 
+                                 displayedEndDate={new Date(lsstToJs(this.state.endDate))}
+                                 displayedStartDate={new Date(lsstToJs(this.state.startDate))}
+                                 data={this.state.data}/> 
+                                  
                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
@@ -346,7 +363,8 @@ class Survey extends PureComponent {
                                         />                                         
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
-                                            <div className="scatterplot">                                                <Scatterplot displayedData={this.state.displayedData} />
+                                            <div className="scatterplot">
+                                                <Scatterplot displayedData={this.state.displayedData} />
                                             </div>                                            
                                         </div>
                                         
