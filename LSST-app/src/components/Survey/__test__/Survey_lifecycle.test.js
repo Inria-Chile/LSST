@@ -17,10 +17,35 @@ describe('Survey lifecycle test',function(){
     res = {
         results : []
     }    
-    //const primero = [{expDate :"1995-12-20T13:14:05.000Z"} ,4,5]
-    //const segundo = [{expDate : "1993-11-20T13:14:05.000Z"},6,7]
-    const primero = {expDate : 756893245000,fieldDec : -40.22279999994};
-    const segundo = {expDate : 756894245000,fieldDec :  -40.22279999996}
+
+   
+    const primero = {airmass: 1.3828,
+        count: 1,
+        expDate: 756893245000,
+        expTime: 34,
+        fieldDec: -40.227999999999994,
+        fieldID: 166,
+        fieldRA: 91.217,
+        filterName: "z",
+        lst: 1.0884,
+        rotSkyPos: 0.375884,
+        seeing: 1.00583,
+        skybrightness_modified: 19.4018}
+    
+    const segundo = {
+        airmass: 1.3828,
+        count: 1,
+        expDate:  756894245000,
+        expTime: 34,
+        fieldDec: -40.227999999999996,
+        fieldID: 166,
+        fieldRA: 91.217,
+        filterName: "z",
+        lst: 1.0884,
+        rotSkyPos: 0.375884,
+        seeing: 1.00583,
+        skybrightness_modified: 19.4018
+    }
     res.results.push(primero);
     res.results.push(segundo);
     fetch.mockResponse(JSON.stringify(res));
@@ -37,20 +62,8 @@ describe('Survey lifecycle test',function(){
     };
     
     beforeEach(()=>{
-        
-        socket = new SocketMock();
-        socket.on('data',timestamp=>{
-          timestamp.expDate = timestamp.request_time;
-          surveyComponent().instance().addObservation(timestamp);
-          surveyComponent().instance().setDate((new Date(parseInt(timestamp.request_time, 10)))); 
-          mountedSurvey = undefined; 
-        });
-        
-        timestamp = {
-            expDate : new Date("2018-01-04T19:44:10.611Z"),
-            request_time : new Date("2018-03-04T19:44:10.611Z"),
-        };
-        socket.socketClient.emit('data',timestamp);
+        mountedSurvey = undefined;
+
         
     });
     describe('componentDidMount test',function(){
@@ -61,16 +74,6 @@ describe('Survey lifecycle test',function(){
             expect(spy.calledOnce).toEqual(true);
             spy.reset();
         });
-
-
-        //TODO: buscar la forma de espiar en metodos que son variables!!!!
-       /* it('calls fetchDataByDate',()=>{
-            const spy = sinon.spy(surveyComponent().instance(),'fetchDataByDate');
-            expect(spy.calledOnce).toEqual(false);
-            surveyComponent().update();
-            expect(spy.calledOnce).toEqual(true);
-            spy.restore();
-        });*/
     });
 
     describe('componentDidUpdate test',function(){
@@ -93,25 +96,51 @@ describe('Survey lifecycle test',function(){
     });
 
     describe('SurveyControls lifecycle',function(){
+        describe('ModeSelection sets the mode',function(){
+            beforeEach(()=>{
+                socket = new SocketMock();
+                socket.on('data',timestamp=>{
+                    timestamp.expDate = timestamp.request_time;
+                    surveyComponent().instance().addObservation(timestamp);
+                    surveyComponent().instance().setDate((new Date(parseInt(timestamp.request_time, 10)))); 
+                    mountedSurvey = undefined; 
+                });
+        
+                timestamp = {
+                    count: 1,
+                    expDate: 759422730.3235774,
+                    expTime: 34,
+                    fieldDec: -1,
+                    fieldID: "live153",
+                    fieldRA: 13,
+                    filterName: "u",
+                    request_time: 759422730.3235774,     
+                };
+                socket.socketClient.emit('data',timestamp);
+            });
 
-        it('ModeSelection set live mode after click',()=>{
-            expect(surveyComponent().state().selectedMode).toBe('playback');
-            let modeSelection = surveyComponent().find('SurveyControls').first().find('ModeSelection').first();
-            modeSelection.find('span').at(2).simulate('click');
-            expect(surveyComponent().state().selectedMode).toBe('live');
+            it('ModeSelection set live mode after click',()=>{
+                expect(surveyComponent().state().selectedMode).toBe('playback');
+                let modeSelection = surveyComponent().find('SurveyControls').first().find('ModeSelection').first();
+                modeSelection.find('span').at(2).simulate('click');
+                expect(surveyComponent().state().selectedMode).toBe('live');
+                expect(surveyComponent().state().displayedData).toEqual([]);
+            });
+    
+            it('ModeSelection set live mode after change',()=>{
+                let modeSelection = surveyComponent().find('SurveyControls').first().find('ModeSelection').first();
+                modeSelection.find('input').first().simulate('change');
+                expect(surveyComponent().state().selectedMode).toEqual('live');
+                expect(surveyComponent().state().displayedData).toEqual([]);
+            });
+    
         });
-
-        it('ModeSelection set live mode after change',()=>{
-            let modeSelection = surveyComponent().find('SurveyControls').first().find('ModeSelection').first();
-            modeSelection.find('input').first().simulate('change');
-            expect(surveyComponent().state().selectedMode).toEqual('live');
-        });
-
+        
         it('TimeWindow set the window time',()=>{
             surveyComponent().setState({ selectedMode : 'live'});
             let timeWindow = surveyComponent().find('SurveyControls').first().find('TimeWindow').first();
-            timeWindow.find('input').first().simulate('change',{target : {value : 5}});
-            expect(surveyComponent().state().timeWindow).toEqual(5);            
+            timeWindow.find('input').first().simulate('change',{target : {value : 600}});
+            expect(surveyComponent().state().timeWindow).toEqual(600);            
         });
 
         describe('dateSelection calls setDataByDate',function(){
@@ -151,16 +180,20 @@ describe('Survey lifecycle test',function(){
                 let playbackControls = surveyComponent().find('SurveyControls').first().find('PlayerControls').first().find('PlaybackControls');
                 let prevButton = playbackControls.find('PrevButton');
                 prevButton.simulate('click');    
-                expect(surveyComponent().state().displayedData).toEqual([]);          
+                let startDate = new Date("1993-12-20T13:14:05.000Z");
+                expect(surveyComponent().state().displayedData).toEqual([]);   
+                expect(surveyComponent().state().currentDate).toEqual(new Date(startDate.getTime()));       
             });
 
             it('should change state when next button is pressed',()=>{
                 let playbackControls = surveyComponent().find('SurveyControls').first().find('PlayerControls').first().find('PlaybackControls');
                 let prevButton = playbackControls.find('NextButton');
                 prevButton.simulate('click');    
-                expect(surveyComponent().state().displayedData).toEqual([{"expDate": 756893245000, "fieldDec": 19.77720000006}, {"expDate": 756894245000, "fieldDec": 19.777200000039997}]
-            )
-            
+                let endDate = new Date("1994-01-01T03:00:45.000Z");
+
+                expect(surveyComponent().state().displayedData).toEqual( [{"airmass": 1.3828, "count": 1, "expDate": 756893245000, "expTime": 34, "fieldDec": 19.772000000000006, "fieldID": 166, "fieldRA": 91.217, "filterName": "z", "lst": 1.0884, "rotSkyPos": 0.375884, "seeing": 1.00583, "skybrightness_modified": 19.4018},
+                 {"airmass": 1.3828, "count": 1, "expDate": 756894245000, "expTime": 34, "fieldDec": 19.772000000000006, "fieldID": 166, "fieldRA": 91.217, "filterName": "z", "lst": 1.0884, "rotSkyPos": 0.375884, "seeing": 1.00583, "skybrightness_modified": 19.4018}])
+                expect(surveyComponent().state().currentDate).toEqual(new Date(endDate.getTime()));
             });
         });
 
@@ -240,7 +273,7 @@ describe('Survey lifecycle test',function(){
 
         //-----------test skymap callbacks here-----------------//
 
-        //test miniskymaps
+
     describe('MiniSkyMap lifecycle',function(){
         beforeEach(()=>{
             mountedSurvey = undefined;
@@ -249,15 +282,17 @@ describe('Survey lifecycle test',function(){
             let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
             let all = miniSkyMaps.find('div').at(3);
             all.simulate('click');
-            expect(surveyComponent().state().displayedFilter).toEqual('all');               
+            expect(surveyComponent().state().displayedFilter).toEqual('all');   
+            expect(surveyComponent().state().showSkyMap).toEqual(true);            
         });
-        
+
         it('select u filter',()=>{
             let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
             let ufilter = miniSkyMaps.find('div').at(8);
             expect(surveyComponent().state().displayedFilter).toEqual('all');  
             ufilter.simulate('click');
-            expect(surveyComponent().state().displayedFilter).toEqual('u');        
+            expect(surveyComponent().state().displayedFilter).toEqual('u');    
+            expect(surveyComponent().state().showSkyMap).toEqual(true);     
         });
 
         it('select g filter',()=>{
@@ -265,17 +300,44 @@ describe('Survey lifecycle test',function(){
             let gfilter = miniSkyMaps.find('div').at(10);
             expect(surveyComponent().state().displayedFilter).toEqual('all');  
             gfilter.simulate('click');
-            expect(surveyComponent().state().displayedFilter).toEqual('g');     
+            expect(surveyComponent().state().displayedFilter).toEqual('g');   
+            expect(surveyComponent().state().showSkyMap).toEqual(true);   
         });
 
-        it('select r filter',()=>{
-            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
-            let rfilter = miniSkyMaps.find('.row').at(2).children().at(0);
-            expect(surveyComponent().state().displayedFilter).toEqual('all');  
-            console.log('rfilter',rfilter.props());
-            rfilter.simulate('click');
-            expect(surveyComponent().state().displayedFilter).toEqual('r');    
+        describe('it sets the filter and shows the mainSkyMap',function(){
+            beforeEach(()=>{
+                let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+                let rfilter = miniSkyMaps.find('.row').at(2).children().at(0);
+                expect(surveyComponent().state().displayedFilter).toEqual('all');  
+                rfilter.simulate('click');
+            });
+
+            it('select r filter',()=>{                
+                expect(surveyComponent().state().displayedFilter).toEqual('r');
+            });
+
+            it('displays the mainSkymap',()=>{
+                expect(surveyComponent().state().showSkyMap).toEqual(true);  
+            });
+
+            it('sets mainSkymap style to visible',()=>{
+                let visibleStyle = {
+                    display:'block'
+                };
+                expect(surveyComponent().instance().mainSkymapStyle).toEqual(visibleStyle);
+            });
+
+            it('sets mainScatterplotStyle to hidden',()=>{
+                let hiddenStyle = {
+                    visibility: 'hidden',
+                    position: 'absolute',
+                    width: '100%',
+                    top: 0
+                };
+                expect(surveyComponent().instance().mainScatterplotStyle).toEqual(hiddenStyle);
+            });
         });
+
         
         it('select i filter',()=>{
             let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
@@ -283,6 +345,7 @@ describe('Survey lifecycle test',function(){
             expect(surveyComponent().state().displayedFilter).toEqual('all');  
             ifilter.simulate('click');
             expect(surveyComponent().state().displayedFilter).toEqual('i');
+            expect(surveyComponent().state().showSkyMap).toEqual(true); 
         });
 
         it('select z filter', ()=>{
@@ -291,6 +354,7 @@ describe('Survey lifecycle test',function(){
             expect(surveyComponent().state().displayedFilter).toEqual('all');  
             zfilter.simulate('click');
             expect(surveyComponent().state().displayedFilter).toEqual('z');
+            expect(surveyComponent().state().showSkyMap).toEqual(true); 
         });
 
         it('select y filter',()=>{
@@ -299,12 +363,39 @@ describe('Survey lifecycle test',function(){
             expect(surveyComponent().state().displayedFilter).toEqual('all');  
             yfilter.simulate('click');
             expect(surveyComponent().state().displayedFilter).toEqual('y');    
-        });
-
-        
+            expect(surveyComponent().state().showSkyMap).toEqual(true); 
+        });        
     });
 
-    //TODO: component did update
-    //TODO: probar los botones de a uno, segun los setters que hayan en cada componente anidada.
-   
+
+    describe('toggle MainSkymap and Scatterplot',function(){
+        let scatterplotContainer;
+        let visibleStyle = {
+            display:'block'
+        };
+
+        let hiddenStyle = {
+            visibility: 'hidden',
+            position: 'absolute',
+            width: '100%',
+            top: 0
+        };
+        beforeEach(()=>{
+            scatterplotContainer = surveyComponent().find('.scatterplot-container');
+            scatterplotContainer.simulate('click');
+        });
+
+        it('shows the Scatterplot',()=>{
+            expect(surveyComponent().instance().mainSkymapStyle).toEqual(hiddenStyle);
+            expect(surveyComponent().instance().mainScatterplotStyle).toEqual(visibleStyle);
+            expect(surveyComponent().state().showSkyMap).toEqual(false);
+        });
+
+        it('shows the MainSkymap',()=>{
+            scatterplotContainer.simulate('click');
+            expect(surveyComponent().instance().mainSkymapStyle).toEqual(visibleStyle);
+            expect(surveyComponent().instance().mainScatterplotStyle).toEqual(hiddenStyle);
+            expect(surveyComponent().state().showSkyMap).toEqual(true);
+        });
+    });    
 });
