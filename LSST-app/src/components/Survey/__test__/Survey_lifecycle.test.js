@@ -77,9 +77,10 @@ describe('Survey lifecycle test',function(){
         it('calls componentDidUpdate',()=>{
             let spy = sinon.spy(Survey.prototype,'componentDidUpdate');
             expect(spy.calledOnce).toEqual(false);
-            surveyComponent().setState({displayedFiler : 'y'});
-            expect(spy.calledOnce).toBe(true);
-            spy.reset();
+            surveyComponent().setState({displayedFilter : 'y'},()=>{
+                expect(spy.calledOnce).toBe(true);
+                spy.reset();
+            });            
         });
 
         it('calls updateObervationsTable when setState is called',()=>{
@@ -92,9 +93,6 @@ describe('Survey lifecycle test',function(){
     });
 
     describe('SurveyControls lifecycle',function(){
-        it('consoleLOG',()=>{
-            console.log('selectedMmode',surveyComponent().state().selectedMode);
-        })
 
         it('ModeSelection set live mode after click',()=>{
             expect(surveyComponent().state().selectedMode).toBe('playback');
@@ -237,8 +235,75 @@ describe('Survey lifecycle test',function(){
             });
             
         });
-
+    
     });
+
+        //-----------test skymap callbacks here-----------------//
+
+        //test miniskymaps
+    describe('MiniSkyMap lifecycle',function(){
+        beforeEach(()=>{
+            mountedSurvey = undefined;
+        })
+        it('select all filters',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let all = miniSkyMaps.find('div').at(3);
+            all.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('all');               
+        });
+        
+        it('select u filter',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let ufilter = miniSkyMaps.find('div').at(8);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            ufilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('u');        
+        });
+
+        it('select g filter',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let gfilter = miniSkyMaps.find('div').at(10);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            gfilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('g');     
+        });
+
+        it('select r filter',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let rfilter = miniSkyMaps.find('.row').at(2).children().at(0);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            console.log('rfilter',rfilter.props());
+            rfilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('r');    
+        });
+        
+        it('select i filter',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let ifilter = miniSkyMaps.find('.row').at(2).children().at(1);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            ifilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('i');
+        });
+
+        it('select z filter', ()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let zfilter = miniSkyMaps.find('.row').at(3).children().at(0);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            zfilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('z');
+        });
+
+        it('select y filter',()=>{
+            let miniSkyMaps = surveyComponent().find('MiniSkymaps').first();
+            let yfilter = miniSkyMaps.find('.row').at(3).children().at(1);
+            expect(surveyComponent().state().displayedFilter).toEqual('all');  
+            yfilter.simulate('click');
+            expect(surveyComponent().state().displayedFilter).toEqual('y');    
+        });
+
+        
+    });
+
     //TODO: component did update
     //TODO: probar los botones de a uno, segun los setters que hayan en cada componente anidada.
    
