@@ -7,10 +7,12 @@ Large Synoptic Survey Telescope control interface
 * Go to http://localhost:3000
 
 ### Run without Docker:
-* virtualenv -p python3 virtualenv
-* source virtualenv/bin/activate
-* pip3 install -r LSST-server/requirements.txt
-* wget -O LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db 
-* cd LSST-app
-* npm install
-* npm start
+- virtualenv -p python3 virtualenv
+- source virtualenv/bin/activate
+- sudo apt-get install libmysqlclient-dev
+- pip3 install -r LSST-server/requirements.txt
+- wget -O LSST-server/circumpolar.db http://artifactory.inria.cl:8081/artifactory/generic-local/circumpolar.db
+- cd LSST-app
+- npm install -g npm@5.2.0
+- npm install
+- npm start
