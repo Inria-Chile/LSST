@@ -4,7 +4,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import {shallow} from "enzyme"; 
 import DomePerspectives from '../DomePerspectives';
 import Dome from '../../Dome';
-import FrontView from '../FrontView/FrontView';
 
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -155,9 +154,6 @@ describe('DomePerspectives renders all nested components',function(){
                 let infoDIV = domePerspectives.find('div').at(6).children();//inside col-4 dome-perspectives-info
                 expect(infoDIV.at(1).text()).toBe('Aperture: 30.5 m ');
             });
-
-            
-
         });
 
         describe('Should show Top windscreen position',function(){

@@ -1,7 +1,11 @@
 import React from 'react';
 import DomePerspectives from '../DomePerspectives';
-import renderer from 'react-test-renderer';
-import shallowRenderer from 'react-test-renderer/shallow';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import {shallow} from "enzyme"; 
+import toJson from 'enzyme-to-json';
+import SocketMock from 'socket.io-mock'
+Enzyme.configure({ adapter: new Adapter() });
 
 
 /*---- Snapshot testing ----*/
@@ -9,20 +13,10 @@ describe('DomePerspectives test', function(){
     const shuttersAperture = 10 ;
     const updateShuttersAperture = 10; 
 
-    it('renders correctly  without shallow',()=>{
-        const tree = renderer
-            .create(<DomePerspectives shuttersAperture={shuttersAperture} 
-                updateShuttersAperture={updateShuttersAperture} />) 
-            .toJSON();
-        expect(tree).toMatchSnapshot();
-    })
-
-    it('renders correctly with shallow', ()=>{
-        const renderer = new shallowRenderer();
-        const tree = renderer.render(<DomePerspectives shuttersAperture={shuttersAperture}
-             updateShuttersAperture={updateShuttersAperture} />);
-        expect(tree).toMatchSnapshot();
-
-    })
-})
+    it('renders with shallow',()=>{
+        let tree = shallow(<DomePerspectives shuttersAperture={shuttersAperture}
+            updateShuttersAperture={updateShuttersAperture} />);
+        expect(toJson(tree)).toMatchSnapshot();
+    });
+});
 
