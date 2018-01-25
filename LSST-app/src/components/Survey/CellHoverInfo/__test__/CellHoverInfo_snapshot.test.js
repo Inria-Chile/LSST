@@ -7,8 +7,19 @@ import CellHoverInfo from '../CellHoverInfo';
 
 /*---- Snapshot test ----*/
 describe('CellHoverInfo_Test',function(){
-    it('renders correctly with filtername setted',()=> {
-        const selectedField = {filterName : 'x'};
+    it('renders correctly with only filtername setted',()=> {
+        const selectedField = {
+            airmass: 2.49149,
+            count: 1,
+            expTime: 34,
+            fieldDec: -50.2,
+            fieldRA: 196.858,
+            filterName: "y",
+            lst: 1.24181,
+            rotSkyPos: 2.30015,
+            seeing: 0.98908,
+            skybrightness_modified: 17     
+        };
         const renderer = new shallowRenderer();
         const tree = renderer.render(
           <CellHoverInfo selectedField={selectedField}/>);
@@ -17,9 +28,18 @@ describe('CellHoverInfo_Test',function(){
 
       it('renders correctly with fieldId and expDate setted',()=>{
         const selectedField = {
-            filterName : 'x',
-            fieldID : 10,
-            expDate : "2018-01-04T19:44:10.611Z",
+            airmass: 2.49149,
+            count: 1,
+            expDate: 2594813,
+            expTime: 34,
+            fieldDec: -50.2,
+            fieldID: 39,
+            fieldRA: 196.858,
+            filterName: "y",
+            lst: 1.24181,
+            rotSkyPos: 2.30015,
+            seeing: 0.98908,
+            skybrightness_modified: 17,  
         };
         const renderer = new shallowRenderer();
         const tree = renderer.render(
