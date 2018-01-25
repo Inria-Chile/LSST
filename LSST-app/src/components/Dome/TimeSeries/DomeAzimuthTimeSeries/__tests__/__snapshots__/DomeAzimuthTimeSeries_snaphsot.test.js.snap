@@ -47,7 +47,7 @@ exports[`DomeAzimuthTimeSeries_Test renders correctly when timestamp is not sett
           },
           Object {
             "x": 2018-01-04T19:44:10.611Z,
-            "y": null,
+            "y": 0,
           },
         ],
       },
@@ -92,7 +92,7 @@ exports[`DomeAzimuthTimeSeries_Test renders correctly when timestamp is not sett
           },
           Object {
             "x": 2018-01-04T19:44:10.611Z,
-            "y": null,
+            "y": 0,
           },
         ],
       },
@@ -137,7 +137,7 @@ exports[`DomeAzimuthTimeSeries_Test renders correctly when timestamp is not sett
           },
           Object {
             "x": 2018-01-04T19:44:10.611Z,
-            "y": null,
+            "y": 0,
           },
         ],
       },
