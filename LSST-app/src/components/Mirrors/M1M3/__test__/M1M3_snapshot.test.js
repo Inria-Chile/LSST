@@ -50,45 +50,4 @@ describe('M1M3_Test',function(){
     expect(tree).toMatchSnapshot();
   });
 
-  describe('Update state test',function(){
-    let mountedM1M3;
-    let mirrorSize = 250;
-    let mirrorMargin = 30;
-    let colormap1 = d3.scaleSequential((t) => d3.hsl(360, 1.0-t*t*0.1, 0.12+t*t*0.58) + "");
-    let colormap2 = d3.scaleSequential((t) => d3.hsl(270, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
-    let colormap3 = d3.scaleSequential((t) => d3.hsl(140, 0.9+t*t*0.1, 0.7-t*t*0.58) + "");
-    const M1M3Component = ()=>{
-      if(!mountedM1M3){
-        mountedM1M3 = mount(
-          <M1M3 width={mirrorSize} height={mirrorSize} id="m3" margin={mirrorMargin} colormap={colormap1}/>
-        );
-      }
-      return mountedM1M3;
-    };
-
-    beforeEach(()=>{
-      mountedM1M3 = undefined;
-    });
-
-    afterEach(()=>{
-      spy.restore();
-    });
-    it('should call component did update when setProps',()=>{
-      spy = sinon.spy(M1M3.prototype,'componentDidUpdate');
-      const tree = M1M3Component();
-      expect(spy.calledOnce).toEqual(false);
-      tree.setState({xRadius : 2});
-      expect(spy.calledOnce).toEqual(true);
-    });
-
-    it('should create the right snapshot',()=>{
-      spy = sinon.spy(M1M3.prototype,'componentDidUpdate');
-      let tree = M1M3Component();
-      expect(spy.calledOnce).toEqual(false);
-      tree.setState({xRadius : 5});
-      tree = M1M3Component();
-      expect(toJson(tree)).toMatchSnapshot();
-    });
-
-  });  
 });
