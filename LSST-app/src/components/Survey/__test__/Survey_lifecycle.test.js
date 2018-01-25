@@ -74,7 +74,7 @@ describe('Survey lifecycle test',function(){
             expect(spy.calledOnce).toEqual(false);
             const wrapper = surveyComponent();
             expect(spy.calledOnce).toEqual(true);
-            spy.reset();
+            spy.restore();
         });
     });
 
@@ -84,17 +84,9 @@ describe('Survey lifecycle test',function(){
             expect(spy.calledOnce).toEqual(false);
             surveyComponent().setState({displayedFilter : 'y'},()=>{
                 expect(spy.calledOnce).toBe(true);
-                spy.reset();
+                spy.restore();
             });            
         });
-
-        it('calls updateObervationsTable when setState is called',()=>{
-
-        });
-
-        //updateObservationsTable will be tested when cellClickCallback is tested.
-
-
     });
 
     describe('SurveyControls lifecycle',function(){
@@ -147,7 +139,8 @@ describe('Survey lifecycle test',function(){
 
         describe('dateSelection calls setDataByDate',function(){
 
-            it('shouldnt change the initial date if the endDate is not setted',async()=>{                
+            it('shouldnt change the initial date if the endDate is not setted',async()=>{         
+                expect(surveyComponent().state().endDate).toEqual(null);       
                 let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
                 console.log('end date before setState',surveyComponent().state().endDate);
                 let datePicker = dateSelection.find('div').at(2);
