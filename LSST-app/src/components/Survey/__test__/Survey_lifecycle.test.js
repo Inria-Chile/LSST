@@ -147,24 +147,39 @@ describe('Survey lifecycle test',function(){
 
         describe('dateSelection calls setDataByDate',function(){
 
-            beforeEach(async()=>{
-                //we use the Promise to handle that setDataByDate has a fetch request (asynchronous)
-                let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
-                let datePicker = dateSelection.find('div').at(7);
-                datePicker.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-03")}});
-                await new Promise(resolve=> setTimeout(resolve,1));
-            })
-            it('change the initial date',async()=>{                
+            it('shouldnt change the initial date if the endDate is not setted',async()=>{                
                 let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
                 console.log('end date before setState',surveyComponent().state().endDate);
                 let datePicker = dateSelection.find('div').at(2);
                 datePicker.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-01")}});
                 await new Promise(resolve=> setTimeout(resolve,1));
                 console.log('startDate after the promise is resolved',surveyComponent().state().startDate);
-                expect(surveyComponent().state().startDate).toEqual(5097555);
+                expect(surveyComponent().state().startDate).toEqual(null);
+               
             });
 
+            it('should change the initial date when the endDate is setted',async()=>{
+                //set startDate
+                let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
+                console.log('end date before setState',surveyComponent().state().endDate);
+                let datePickerStart = dateSelection.find('div').at(2);
+                datePickerStart.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-01")}});
+                await new Promise(resolve=> setTimeout(resolve,1));
+
+                //setEndDate
+                let datePickerEnd = dateSelection.find('div').at(7);
+                datePickerEnd.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-03")}});
+                await new Promise(resolve=> setTimeout(resolve,1));
+
+                expect(surveyComponent().state().startDate).toEqual(5097555);
+                expect(surveyComponent().state().endDate).toBe(5270355);
+            });
             it('change the end date',async()=>{
+                  //we use the Promise to handle that setDataByDate has a fetch request (asynchronous)
+                  let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
+                  let datePicker = dateSelection.find('div').at(7);
+                  datePicker.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-03")}});
+                  await new Promise(resolve=> setTimeout(resolve,1));
                 //the simulation of the change of the endDate is done in the beforeEach part.
                 expect(surveyComponent().state().endDate).toBe(5270355);
             });
