@@ -6,6 +6,7 @@ import Survey  from "../Survey";
 import sinon from 'sinon';
 import SocketMock from 'socket.io-mock'
 import moment from 'moment';
+import { setTimeout } from 'timers';
 Enzyme.configure({ adapter: new Adapter() });
 
 
@@ -19,7 +20,7 @@ describe('Survey lifecycle test',function(){
     }    
 
    
-    const primero = {airmass: 1.3828,
+    const firstElement = {airmass: 1.3828,
         count: 1,
         expDate: 756893245000,
         expTime: 34,
@@ -32,7 +33,7 @@ describe('Survey lifecycle test',function(){
         seeing: 1.00583,
         skybrightness_modified: 19.4018}
     
-    const segundo = {
+    const secondElement = {
         airmass: 1.3828,
         count: 1,
         expDate:  756894245000,
@@ -46,8 +47,8 @@ describe('Survey lifecycle test',function(){
         seeing: 1.00583,
         skybrightness_modified: 19.4018
     }
-    res.results.push(primero);
-    res.results.push(segundo);
+    res.results.push(firstElement);
+    res.results.push(secondElement);
     fetch.mockResponse(JSON.stringify(res));
 
     const surveyComponent = ()=>{      
@@ -67,6 +68,7 @@ describe('Survey lifecycle test',function(){
         
     });
     describe('componentDidMount test',function(){
+        //couldnt test that fetchDataByDate is called because, it is a property and not a method of the component. 
         it('calls componentDidMount',()=>{
             let spy = sinon.spy(Survey.prototype,'componentDidMount');
             expect(spy.calledOnce).toEqual(false);
@@ -144,18 +146,27 @@ describe('Survey lifecycle test',function(){
         });
 
         describe('dateSelection calls setDataByDate',function(){
-            //TODO: lograr simular el cambio de la fecha!!!!
-            /*it('change the initial date',()=>{
-                console.log('date before',surveyComponent().state().startDate);
-                console.log('nodes',surveyComponent().find('SurveyControls').first().find('DateSelection').first().find('div').first().props())
-                let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection');
-                let datePicker = dateSelection.find('div');
-                datePicker.simulate('click',{target : {value : moment()}});
-                console.log('date after',surveyComponent().state().startDate);
-            });*/
 
-            it('change the end date',()=>{
-                //TODO: lograr simular el cambio de la fecha!!!
+            beforeEach(async()=>{
+                //we use the Promise to handle that setDataByDate has a fetch request (asynchronous)
+                let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
+                let datePicker = dateSelection.find('div').at(7);
+                datePicker.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-03")}});
+                await new Promise(resolve=> setTimeout(resolve,1));
+            })
+            it('change the initial date',async()=>{                
+                let dateSelection = surveyComponent().find('SurveyControls').first().find('DateSelection').first();
+                console.log('end date before setState',surveyComponent().state().endDate);
+                let datePicker = dateSelection.find('div').at(2);
+                datePicker.children().at(0).find('input').simulate('change',{target : {value : moment("1994-03-01")}});
+                await new Promise(resolve=> setTimeout(resolve,1));
+                console.log('startDate after the promise is resolved',surveyComponent().state().startDate);
+                expect(surveyComponent().state().startDate).toEqual(5097555);
+            });
+
+            it('change the end date',async()=>{
+                //the simulation of the change of the endDate is done in the beforeEach part.
+                expect(surveyComponent().state().endDate).toBe(5270355);
             });
 
         });
