@@ -195,27 +195,6 @@ describe('mounted DomePostion test',function(){
         expect(spy.calledOnce).toEqual(false);
         wrapper.setState({data : []});
         expect(spy.calledOnce).toEqual(true);
-      });
-
-
-      //ASK : como cambiar el hidden para poder probar esto, osino quitarselo al codigo para ver si funciona. 
-      if(!document.hidden){
-        it('calls setDomeAzimuth',()=>{
-          const spy = sinon.spy(DomePosition.prototype,'setDomeAzimuth');
-          const wrapper = domePositionComponent();
-          expect(spy.calledOnce).toEqual(false);
-          wrapper.setState({data : []});
-          expect(spy.calledOnce).toEqual(true);
-        });
-
-        it('calls requiestAnimationFrame',()=>{
-          const spy = sinon.spy(DomePosition.prototype,'requestAnimationFrame');
-          const wrapper = domePositionComponent();
-          expect(spy.calledOnce).toEqual(false);
-          wrapper.setState({data : []});
-          expect(spy.calledOnce).toEqual(true);
-        });
-      }
-      
+      });      
     });
 });
