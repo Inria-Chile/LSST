@@ -17,13 +17,13 @@ exports[`Dome test renders correctly with shallowRender 1`] = `
         className="col-12"
       >
         <DomePosition
-          domeAzimuth={null}
+          domeAzimuth={0}
           height={300}
           id="dome-top"
-          mountAzimuth={null}
+          mountAzimuth={0}
           scale={1.4}
           shuttersAperture={null}
-          telescopeElevation={null}
+          telescopeElevation={0}
           updateDomePos={[Function]}
           width={330}
           xOffset={-0.05}
@@ -43,11 +43,11 @@ exports[`Dome test renders correctly with shallowRender 1`] = `
           Azimuth
         </h5>
         <DomeAzimuthTimeSeries
-          domeAzimuth={null}
+          domeAzimuth={0}
           domeOptimalAzimuth={null}
-          domeTargetAzimuth={null}
+          domeTargetAzimuth={0}
           height={350}
-          timestamp={null}
+          timestamp="2018-01-04T19:44:10.611Z"
           width={600}
         />
       </div>
@@ -57,10 +57,10 @@ exports[`Dome test renders correctly with shallowRender 1`] = `
         </h5>
         <DomeElevationTimeSeries
           height={350}
-          telescopeElevation={null}
+          telescopeElevation={0}
           telescopeOptimalElevation={null}
-          telescopeTargetElevation={null}
-          timestamp={null}
+          telescopeTargetElevation={0}
+          timestamp="2018-01-04T19:44:10.611Z"
           width={600}
         />
       </div>
