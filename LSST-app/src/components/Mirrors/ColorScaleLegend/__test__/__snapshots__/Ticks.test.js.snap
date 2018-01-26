@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ticks_Test renders correctly 1`] = `
+<g
+  className="legend axis"
+  transform="translate(0, 0)"
+>
+  <g
+    className="tick"
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+    transform="translate(0,230)"
+  >
+    <line
+      x1={14}
+      x2={20}
+      y1="0"
+      y2="0"
+    />
+    <text
+      dy=".32em"
+      style={
+        Object {
+          "textAnchor": "end",
+        }
+      }
+      x="9"
+      y="0"
+    >
+      0
+    </text>
+  </g>
+  <g
+    className="tick"
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+    transform="translate(0,0)"
+  >
+    <line
+      x1={14}
+      x2={20}
+      y1="0"
+      y2="0"
+    />
+    <text
+      dy=".32em"
+      style={
+        Object {
+          "textAnchor": "end",
+        }
+      }
+      x="9"
+      y="0"
+    >
+      10
+    </text>
+  </g>
+</g>
+`;

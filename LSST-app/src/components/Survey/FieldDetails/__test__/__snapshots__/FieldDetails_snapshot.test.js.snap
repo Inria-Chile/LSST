@@ -1,0 +1,755 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Fields details test renders correctly with shallowRender 1`] = `
+<Rnd
+  className="field-details-popup"
+  default={
+    Object {
+      "height": 580,
+      "width": 1560,
+      "x": 800,
+      "y": 100,
+    }
+  }
+  disableDragging={false}
+  dragGrid={
+    Array [
+      20,
+      20,
+    ]
+  }
+  dragHandleClassName=".move-button"
+  enableResizing={
+    Object {
+      "bottom": true,
+      "bottomLeft": true,
+      "bottomRight": true,
+      "left": true,
+      "right": true,
+      "top": true,
+      "topLeft": true,
+      "topRight": true,
+    }
+  }
+  maxHeight={9007199254740991}
+  maxWidth={9007199254740991}
+  onDrag={[Function]}
+  onDragStart={[Function]}
+  onDragStop={[Function]}
+  onResize={[Function]}
+  onResizeStart={[Function]}
+  onResizeStop={[Function]}
+  resizeGrid={
+    Array [
+      20,
+      20,
+    ]
+  }
+  resizeHandleClassName=".close-button"
+  resizeHandleWrapperClass="field-details-popup"
+>
+  <div
+    className="field-details"
+  >
+    <DraggableTitle
+      customClass="field-details-title"
+      onCloseClick={[Function]}
+      showClose={true}
+      title="Field ID: 15"
+    />
+    <div
+      className="field-details-content"
+    >
+      <div
+        className="summary-data"
+      >
+        <h5>
+          Summary
+        </h5>
+        <div
+          className="summary-data-content"
+        >
+          <div>
+            FieldID: 
+            15
+          </div>
+          <div>
+            Timestamp: 
+            Invalid Date Invalid Date
+          </div>
+          <div>
+            Filter: 
+            <FilterIndicator
+              filterName="y"
+            />
+          </div>
+          <div>
+            Observations: 
+            1
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Rotation angle
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              NaN,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              360,
+            ]
+          }
+          height={150}
+          id="rotation-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Rotation [deg]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className="histogram barchart"
+      >
+        <h5>
+          Filters
+        </h5>
+        <Unknown
+          barPadding={0.5}
+          colorByLabel={false}
+          colorScale={[Function]}
+          data={
+            Array [
+              Object {
+                "label": "filters",
+                "values": Array [
+                  Object {
+                    "x": "u",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "g",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "r",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "i",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "z",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "y",
+                    "y": 1,
+                  },
+                ],
+              },
+            ]
+          }
+          height={190}
+          label={[Function]}
+          margin={
+            Object {
+              "bottom": 30,
+              "left": 30,
+              "right": 20,
+              "top": 20,
+            }
+          }
+          offset="zero"
+          order="default"
+          tooltipContained={false}
+          tooltipHtml={null}
+          tooltipMode="mouse"
+          tooltipOffset={
+            Object {
+              "left": 0,
+              "top": -35,
+            }
+          }
+          values={[Function]}
+          width={350}
+          x={[Function]}
+          xScale={null}
+          y={[Function]}
+          y0={[Function]}
+          yAxis={
+            Object {
+              "label": "Count",
+              "tickArguments": Array [
+                5,
+              ],
+            }
+          }
+          yScale={null}
+        />
+      </div>
+      <div
+        className="histogram barchart"
+      >
+        <h5>
+          Alerts
+        </h5>
+        <Unknown
+          barPadding={0.5}
+          colorByLabel={false}
+          colorScale={[Function]}
+          data={
+            Array [
+              Object {
+                "label": "somethingA",
+                "values": Array [
+                  Object {
+                    "x": "Moving",
+                    "y": 10,
+                  },
+                  Object {
+                    "x": "Variable",
+                    "y": 4,
+                  },
+                  Object {
+                    "x": "Outburst",
+                    "y": 1,
+                  },
+                  Object {
+                    "x": "New",
+                    "y": 5,
+                  },
+                  Object {
+                    "x": "Vanished",
+                    "y": 9,
+                  },
+                ],
+              },
+            ]
+          }
+          height={190}
+          label={[Function]}
+          margin={
+            Object {
+              "bottom": 30,
+              "left": 30,
+              "right": 20,
+              "top": 20,
+            }
+          }
+          offset="zero"
+          order="default"
+          tooltipContained={false}
+          tooltipHtml={null}
+          tooltipMode="mouse"
+          tooltipOffset={
+            Object {
+              "left": 0,
+              "top": -35,
+            }
+          }
+          values={[Function]}
+          width={350}
+          x={[Function]}
+          xScale={null}
+          y={[Function]}
+          y0={[Function]}
+          yAxis={
+            Object {
+              "label": "Count",
+              "tickArguments": Array [
+                5,
+              ],
+            }
+          }
+          yScale={null}
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Airmass
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              3,
+            ]
+          }
+          height={150}
+          id="airmass-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Airmass [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Seeing
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              2,
+            ]
+          }
+          height={150}
+          id="seeing-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Seeing [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Sky brightness
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          height={150}
+          id="sky-brightness-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Sky brightness [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Time baselines
+        </h5>
+        <GenericHistogram
+          data={Array []}
+          height={150}
+          id="time-baselines-hist"
+          logScale={true}
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Time baseline [s]"
+          yLabel="Count"
+        />
+      </div>
+    </div>
+  </div>
+</Rnd>
+`;
+
+exports[`Fields details test renders correctly with shallowRender without fieldData 1`] = `
+<Rnd
+  className="field-details-popup"
+  default={
+    Object {
+      "height": 580,
+      "width": 1560,
+      "x": 800,
+      "y": 100,
+    }
+  }
+  disableDragging={false}
+  dragGrid={
+    Array [
+      20,
+      20,
+    ]
+  }
+  dragHandleClassName=".move-button"
+  enableResizing={
+    Object {
+      "bottom": true,
+      "bottomLeft": true,
+      "bottomRight": true,
+      "left": true,
+      "right": true,
+      "top": true,
+      "topLeft": true,
+      "topRight": true,
+    }
+  }
+  maxHeight={9007199254740991}
+  maxWidth={9007199254740991}
+  onDrag={[Function]}
+  onDragStart={[Function]}
+  onDragStop={[Function]}
+  onResize={[Function]}
+  onResizeStart={[Function]}
+  onResizeStop={[Function]}
+  resizeGrid={
+    Array [
+      20,
+      20,
+    ]
+  }
+  resizeHandleClassName=".close-button"
+  resizeHandleWrapperClass="field-details-popup"
+>
+  <div
+    className="field-details"
+  >
+    <DraggableTitle
+      customClass="field-details-title"
+      onCloseClick={[Function]}
+      showClose={true}
+      title="Field ID: 0"
+    />
+    <div
+      className="field-details-content"
+    >
+      <div
+        className="summary-data"
+      >
+        <h5>
+          Summary
+        </h5>
+        <div
+          className="summary-data-content"
+        >
+          <div>
+            FieldID: 
+            0
+          </div>
+          <div>
+            Timestamp: 
+            Invalid Date Invalid Date
+          </div>
+          <div>
+            Filter: 
+            <FilterIndicator
+              filterName={undefined}
+            />
+          </div>
+          <div>
+            Observations: 
+            1
+          </div>
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Rotation angle
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              NaN,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              360,
+            ]
+          }
+          height={150}
+          id="rotation-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Rotation [deg]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className="histogram barchart"
+      >
+        <h5>
+          Filters
+        </h5>
+        <Unknown
+          barPadding={0.5}
+          colorByLabel={false}
+          colorScale={[Function]}
+          data={
+            Array [
+              Object {
+                "label": "filters",
+                "values": Array [
+                  Object {
+                    "x": "u",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "g",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "r",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "i",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "z",
+                    "y": 0,
+                  },
+                  Object {
+                    "x": "y",
+                    "y": 0,
+                  },
+                ],
+              },
+            ]
+          }
+          height={190}
+          label={[Function]}
+          margin={
+            Object {
+              "bottom": 30,
+              "left": 30,
+              "right": 20,
+              "top": 20,
+            }
+          }
+          offset="zero"
+          order="default"
+          tooltipContained={false}
+          tooltipHtml={null}
+          tooltipMode="mouse"
+          tooltipOffset={
+            Object {
+              "left": 0,
+              "top": -35,
+            }
+          }
+          values={[Function]}
+          width={350}
+          x={[Function]}
+          xScale={null}
+          y={[Function]}
+          y0={[Function]}
+          yAxis={
+            Object {
+              "label": "Count",
+              "tickArguments": Array [
+                5,
+              ],
+            }
+          }
+          yScale={null}
+        />
+      </div>
+      <div
+        className="histogram barchart"
+      >
+        <h5>
+          Alerts
+        </h5>
+        <Unknown
+          barPadding={0.5}
+          colorByLabel={false}
+          colorScale={[Function]}
+          data={
+            Array [
+              Object {
+                "label": "somethingA",
+                "values": Array [
+                  Object {
+                    "x": "Moving",
+                    "y": 10,
+                  },
+                  Object {
+                    "x": "Variable",
+                    "y": 4,
+                  },
+                  Object {
+                    "x": "Outburst",
+                    "y": 1,
+                  },
+                  Object {
+                    "x": "New",
+                    "y": 5,
+                  },
+                  Object {
+                    "x": "Vanished",
+                    "y": 9,
+                  },
+                ],
+              },
+            ]
+          }
+          height={190}
+          label={[Function]}
+          margin={
+            Object {
+              "bottom": 30,
+              "left": 30,
+              "right": 20,
+              "top": 20,
+            }
+          }
+          offset="zero"
+          order="default"
+          tooltipContained={false}
+          tooltipHtml={null}
+          tooltipMode="mouse"
+          tooltipOffset={
+            Object {
+              "left": 0,
+              "top": -35,
+            }
+          }
+          values={[Function]}
+          width={350}
+          x={[Function]}
+          xScale={null}
+          y={[Function]}
+          y0={[Function]}
+          yAxis={
+            Object {
+              "label": "Count",
+              "tickArguments": Array [
+                5,
+              ],
+            }
+          }
+          yScale={null}
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Airmass
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              3,
+            ]
+          }
+          height={150}
+          id="airmass-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Airmass [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Seeing
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          domain={
+            Array [
+              0,
+              2,
+            ]
+          }
+          height={150}
+          id="seeing-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Seeing [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Sky brightness
+        </h5>
+        <GenericHistogram
+          data={
+            Array [
+              undefined,
+            ]
+          }
+          height={150}
+          id="sky-brightness-hist"
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Sky brightness [?]"
+          yLabel="Count"
+        />
+      </div>
+      <div
+        className=""
+      >
+        <h5>
+          Time baselines
+        </h5>
+        <GenericHistogram
+          data={Array []}
+          height={150}
+          id="time-baselines-hist"
+          logScale={true}
+          margin={60}
+          nBins={36}
+          nTicks={5}
+          width={310}
+          xLabel="Time baseline [s]"
+          yLabel="Count"
+        />
+      </div>
+    </div>
+  </div>
+</Rnd>
+`;

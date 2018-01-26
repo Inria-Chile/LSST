@@ -76,6 +76,7 @@ class FieldDetails extends PureComponent {
         console.log(d3.schemeCategory10)
         console.log(filtersColor)
 
+
         
         return (
             <Rnd default={{
