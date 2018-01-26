@@ -13,7 +13,7 @@ describe('PlayerControls_Test',function(){
     let setDisplayedDateLimits = jest.fn();
     const renderer = new shallowRenderer();
     const tree = renderer.render(
-        <PlayerControls startDate={moment(moment("1994-01-01"))} 
+        <PlayerControls startDate={moment("1994-01-01")} 
         endDate={moment("1994-01-01")} 
         setDisplayedDateLimits={setDisplayedDateLimits}/>);
       expect(tree).toMatchSnapshot();

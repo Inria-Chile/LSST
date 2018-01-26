@@ -1,6 +1,3 @@
-//actualizar el estado y ver que se llmao a componentDidupdate
-//probar con varios estados para que se cumplan los if
-//ver que se setee bien el estado al actualizar,
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -9,6 +6,7 @@ import PlayerControls  from "../PlayerControls";
 import sinon from 'sinon';
 import moment from 'moment';
 import { lsstEpoch } from '../../../Utils/Utils';
+import { PlaybackControls } from 'react-player-controls';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('PlayerControls mount test',function(){
@@ -27,11 +25,9 @@ describe('PlayerControls mount test',function(){
 
     beforeEach(()=>{
         mountedPlayerControls = undefined;
+        setDisplayedDateLimits.reset();
     });
     
-      //el componentDidUpdate llama a setIntervar asi que habra que simular que pase el tiempo para ver que se usar animate.
-      //en animate hay q ver que se setee el state y que se llame a stropAnimating
-      //hay que revisar entonces que se setee el estado denuevo.
     describe('componentDidUpdate work',function(){
         it('calls componentDidUpdate',()=>{
             spy= sinon.spy(PlayerControls.prototype,'componentDidUpdate');
@@ -112,9 +108,37 @@ describe('PlayerControls mount test',function(){
                     expect(setDisplayedDateLimits.calledOnce).toEqual(true);
                 });
             });
-
-        
+ 
         });
-        
+
+    });
+    
+    describe('PlaybackControls calls the right handler for each button',()=>{
+                
+        describe('simulates the prev button',function(){
+            it('set currentTime on 0',()=>{
+                PlayerControlsComponent().find('PlaybackControls').first().find('PrevButton').first().simulate('click');
+                expect(PlayerControlsComponent().state().currentTime).toEqual(0);
+            });
+
+            it('calls setDisplayedLimits',()=>{
+                PlayerControlsComponent().find('PlaybackControls').first().find('PrevButton').first().simulate('click');
+                expect(setDisplayedDateLimits.calledOnce).toEqual(true);
+            });
+           
+        });
+
+        describe('simulates the next button',function(){
+            it('set currentTime on endData',()=>{
+                PlayerControlsComponent().find('PlaybackControls').first().find('NextButton').first().simulate('click');
+                expect(PlayerControlsComponent().state().currentTime).toEqual(73872877095096 );
+            });
+
+            it('calls setDisplayedLimits',()=>{
+                PlayerControlsComponent().find('PlaybackControls').first().find('NextButton').first().simulate('click');
+                expect(setDisplayedDateLimits.calledOnce).toEqual(true);
+            });
+
+        });
     });
 });

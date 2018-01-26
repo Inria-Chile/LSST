@@ -23,6 +23,7 @@ class PlayerControls extends Component {
 
     playbackChange = (isPlaying) => {
         // console.log("playbackChange");
+        console.log('isPlaying',isPlaying);
         let currentTime = this.state.currentTime;
         if(isPlaying){
             if(this.state.currentTime === this.props.endDate || this.state.currentTime === Infinity)
