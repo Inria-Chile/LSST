@@ -63,8 +63,8 @@ class Scatterplot extends Component {
         d3.select(dom).select('svg').remove();
     }
 
-    
-    render() {
+    componentDidUpdate(){
+
         let dom = ReactDOM.findDOMNode(this);
 
         if(dom){
@@ -75,6 +75,8 @@ class Scatterplot extends Component {
 
             this.createScatterplot(dom, this.props);
         }
+    }    
+    render() {
 
         return(
         <div></div>);
