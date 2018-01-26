@@ -139,7 +139,7 @@ class Skymap extends PureComponent {
     // this.setupCelestial();
   }
 
-  render() {
+  componentDidUpdate(){
     let cel = this.getCelestial();
     if(cel){
       let cfg = this.Celestial.cfg;
@@ -166,6 +166,10 @@ class Skymap extends PureComponent {
       cel.redraw(); // antes esto ocurria solo cuando no existian ni startDate ni endDate
 
     }
+
+  }
+
+  render() {
 
     return (
       //
