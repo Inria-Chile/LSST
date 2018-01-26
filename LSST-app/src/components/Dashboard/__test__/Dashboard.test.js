@@ -6,7 +6,6 @@ import {shallow} from "enzyme";
 import toJson from 'enzyme-to-json';
 Enzyme.configure({ adapter: new Adapter() });
 
-global.fetch = require('jest-fetch-mock');
 
 describe('Dahshboard test',function(){
     it('renders correctly with shallow renderer',()=>{
