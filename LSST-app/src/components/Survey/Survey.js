@@ -12,7 +12,7 @@ import ObservationsTable from '../ObservationsTable/ObservationsTable';
 import CellHoverInfo from './CellHoverInfo/CellHoverInfo';
 import DraggableTitle from '../Utils/DraggableTitle';
 import openSocket from 'socket.io-client';
-import { checkStatus, parseJSON, jsToLsstTime } from "../Utils/Utils"
+import { checkStatus, parseJSON, jsToLsstTime, lsstToJs } from "../Utils/Utils"
 
 import './Survey.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -189,8 +189,21 @@ class Survey extends PureComponent {
     }
 
     setData = (data) => {
+        let newData = JSON.parse(JSON.stringify(data));
+        newData.sort((a,b)=>{
+            if(a.expDate > b.expDate) return 1;
+            if(a.expDate < b.expDate) return -1;
+            return 0;
+        })
+
+        newData.map((d)=>{
+            // console.log("numeric", d.expDate)
+            d.expDate=new Date(lsstToJs(d.expDate));
+            // console.log("date",d.expDate)
+            return null;
+        });
         this.displayedData = data;
-        this.charts.setData(data);
+        this.charts.setData(newData);
         this.miniScatterplot.setData(data);
         this.miniSkymap.setData(data);
         this.mainSkymap.setData(data);

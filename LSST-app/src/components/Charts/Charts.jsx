@@ -55,32 +55,20 @@ class Charts extends Component {
     }
 
     setData(data){
-        let newData = JSON.parse(JSON.stringify(data));
-        newData.sort((a,b)=>{
-            if(a.expDate > b.expDate) return 1;
-            if(a.expDate < b.expDate) return -1;
-            return 0;
-        })
-
-        newData.map((d)=>{
-            // console.log("numeric", d.expDate)
-            d.expDate=new Date(lsstToJs(d.expDate));
-            // console.log("date",d.expDate)
-            return null;
-        });
+        // let data = data;
         if(data && data.length > 0){
             if(this.props.mode==="playback"){
                 this.setState({
-                    data:newData
+                    data:data
                 });
             }
             else{
                 this.setState({
-                    data:newData, 
-                    dataStart:newData[0].expDate, 
-                    dataEnd:newData[newData.length-1].expDate,
-                    timeWindowStart:newData[0].expDate,
-                    timeWindowEnd:newData[newData.length-1].expDate
+                    data:data, 
+                    dataStart:data[0].expDate, 
+                    dataEnd:data[data.length-1].expDate,
+                    timeWindowStart:data[0].expDate,
+                    timeWindowEnd:data[data.length-1].expDate
                 });
             }
            
