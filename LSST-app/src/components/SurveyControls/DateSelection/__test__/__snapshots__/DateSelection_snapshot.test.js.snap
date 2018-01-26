@@ -1,5 +1,256 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DateSelection_Test renders correctly when the end date is picked 1`] = `
+<DateSelection
+  setDataByDate={[Function]}
+>
+  <div
+    className="date-selection"
+  >
+    <div
+      className="date-inputs-wrapper"
+    >
+      <FaCalendar
+        className="calendar-icon"
+      >
+        <IconBase
+          className="calendar-icon"
+          viewBox="0 0 40 40"
+        >
+          <svg
+            className="calendar-icon"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            style={
+              Object {
+                "color": undefined,
+                "verticalAlign": "middle",
+              }
+            }
+            viewBox="0 0 40 40"
+            width="1em"
+          >
+            <g>
+              <path
+                d="m4.4 37.1h6.4v-6.4h-6.4v6.4z m7.8 0h7.2v-6.4h-7.2v6.4z m-7.8-7.8h6.4v-7.2h-6.4v7.2z m7.8 0h7.2v-7.2h-7.2v7.2z m-7.8-8.6h6.4v-6.4h-6.4v6.4z m16.4 16.4h7.1v-6.4h-7.1v6.4z m-8.6-16.4h7.2v-6.4h-7.2v6.4z m17.2 16.4h6.4v-6.4h-6.4v6.4z m-8.6-7.8h7.1v-7.2h-7.1v7.2z m-7.9-19.3v-6.4q0-0.3-0.2-0.5t-0.5-0.2h-1.4q-0.3 0-0.5 0.2t-0.2 0.5v6.4q0 0.3 0.2 0.5t0.5 0.2h1.4q0.3 0 0.5-0.2t0.2-0.5z m16.5 19.3h6.4v-7.2h-6.4v7.2z m-8.6-8.6h7.1v-6.4h-7.1v6.4z m8.6 0h6.4v-6.4h-6.4v6.4z m0.7-10.7v-6.4q0-0.3-0.2-0.5t-0.5-0.2h-1.5q-0.3 0-0.5 0.2t-0.2 0.5v6.4q0 0.3 0.2 0.5t0.5 0.2h1.5q0.2 0 0.5-0.2t0.2-0.5z m8.5-1.4v28.5q0 1.2-0.8 2.1t-2 0.8h-31.4q-1.2 0-2.1-0.9t-0.8-2v-28.5q0-1.2 0.8-2t2.1-0.9h2.8v-2.1q0-1.5 1.1-2.6t2.5-1h1.4q1.5 0 2.5 1.1t1.1 2.5v2.1h8.6v-2.1q0-1.5 1-2.6t2.5-1h1.5q1.4 0 2.5 1.1t1 2.5v2.1h2.9q1.1 0 2 0.9t0.8 2z"
+              />
+            </g>
+          </svg>
+        </IconBase>
+      </FaCalendar>
+      <div
+        className="date-input date-left"
+      >
+        <t
+          allowSameDay={false}
+          dateFormat="YYYY/MM/DD hh:mm A"
+          dateFormatCalendar="MMMM YYYY"
+          disabled={false}
+          disabledKeyboardNavigation={false}
+          dropdownMode="scroll"
+          monthsShown={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onClickOutside={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMonthChange={[Function]}
+          onSelect={[Function]}
+          openToDate={"2018-01-04T03:00:00.000Z"}
+          placeholderText="Select start date"
+          selected={null}
+          shouldCloseOnSelect={true}
+          showTimeSelect={true}
+          timeIntervals={15}
+          utcOffset={-180}
+          withPortal={false}
+        >
+          <t
+            hidePopper={true}
+            popperComponent={null}
+            popperModifiers={
+              Object {
+                "preventOverflow": Object {
+                  "boundariesElement": "viewport",
+                  "enabled": true,
+                  "escapeWithReference": true,
+                },
+              }
+            }
+            popperPlacement="bottom-start"
+            targetComponent={
+              <div
+                className="react-datepicker__input-container"
+              >
+                <input
+                  autoComplete={undefined}
+                  autoFocus={undefined}
+                  className=""
+                  disabled={false}
+                  id={undefined}
+                  name={undefined}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Select start date"
+                  readOnly={undefined}
+                  required={undefined}
+                  tabIndex={undefined}
+                  title={undefined}
+                  type="text"
+                  value=""
+                />
+              </div>
+            }
+          >
+            <t
+              tag="div"
+            >
+              <div>
+                <c
+                  className="react-datepicker-wrapper"
+                >
+                  <div
+                    className="react-datepicker-wrapper"
+                  >
+                    <div
+                      className="react-datepicker__input-container"
+                    >
+                      <input
+                        className=""
+                        disabled={false}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Select start date"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </c>
+              </div>
+            </t>
+          </t>
+        </t>
+      </div>
+      <div
+        className="date-separator"
+      >
+        to
+      </div>
+      <div
+        className="date-input date-right"
+      >
+        <t
+          allowSameDay={false}
+          dateFormat="YYYY/MM/DD hh:mm A"
+          dateFormatCalendar="MMMM YYYY"
+          disabled={false}
+          disabledKeyboardNavigation={false}
+          dropdownMode="scroll"
+          maxDate={"2018-01-04T03:00:00.000Z"}
+          minDate={null}
+          monthsShown={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onClickOutside={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMonthChange={[Function]}
+          onSelect={[Function]}
+          openToDate={"2018-01-04T03:00:00.000Z"}
+          placeholderText="Select end date"
+          selected={"2018-01-04T03:00:00.000Z"}
+          shouldCloseOnSelect={true}
+          showTimeSelect={true}
+          timeIntervals={15}
+          utcOffset={-180}
+          withPortal={false}
+        >
+          <t
+            hidePopper={true}
+            popperComponent={null}
+            popperModifiers={
+              Object {
+                "preventOverflow": Object {
+                  "boundariesElement": "viewport",
+                  "enabled": true,
+                  "escapeWithReference": true,
+                },
+              }
+            }
+            popperPlacement="bottom-start"
+            targetComponent={
+              <div
+                className="react-datepicker__input-container"
+              >
+                <input
+                  autoComplete={undefined}
+                  autoFocus={undefined}
+                  className=""
+                  disabled={false}
+                  id={undefined}
+                  name={undefined}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  placeholder="Select end date"
+                  readOnly={undefined}
+                  required={undefined}
+                  tabIndex={undefined}
+                  title={undefined}
+                  type="text"
+                  value="2018/01/04 12:00 AM"
+                />
+              </div>
+            }
+          >
+            <t
+              tag="div"
+            >
+              <div>
+                <c
+                  className="react-datepicker-wrapper"
+                >
+                  <div
+                    className="react-datepicker-wrapper"
+                  >
+                    <div
+                      className="react-datepicker__input-container"
+                    >
+                      <input
+                        className=""
+                        disabled={false}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Select end date"
+                        type="text"
+                        value="2018/01/04 12:00 AM"
+                      />
+                    </div>
+                  </div>
+                </c>
+              </div>
+            </t>
+          </t>
+        </t>
+      </div>
+    </div>
+  </div>
+</DateSelection>
+`;
+
 exports[`DateSelection_Test renders correctly without shallowRender 1`] = `
 <div
   className="date-selection"
@@ -7,59 +258,36 @@ exports[`DateSelection_Test renders correctly without shallowRender 1`] = `
   <div
     className="date-inputs-wrapper"
   >
-    <svg
+    <FaCalendar
       className="calendar-icon"
-      fill="currentColor"
-      height="1em"
-      preserveAspectRatio="xMidYMid meet"
-      style={
-        Object {
-          "color": undefined,
-          "verticalAlign": "middle",
-        }
-      }
-      viewBox="0 0 40 40"
-      width="1em"
-    >
-      <g>
-        <path
-          d="m4.4 37.1h6.4v-6.4h-6.4v6.4z m7.8 0h7.2v-6.4h-7.2v6.4z m-7.8-7.8h6.4v-7.2h-6.4v7.2z m7.8 0h7.2v-7.2h-7.2v7.2z m-7.8-8.6h6.4v-6.4h-6.4v6.4z m16.4 16.4h7.1v-6.4h-7.1v6.4z m-8.6-16.4h7.2v-6.4h-7.2v6.4z m17.2 16.4h6.4v-6.4h-6.4v6.4z m-8.6-7.8h7.1v-7.2h-7.1v7.2z m-7.9-19.3v-6.4q0-0.3-0.2-0.5t-0.5-0.2h-1.4q-0.3 0-0.5 0.2t-0.2 0.5v6.4q0 0.3 0.2 0.5t0.5 0.2h1.4q0.3 0 0.5-0.2t0.2-0.5z m16.5 19.3h6.4v-7.2h-6.4v7.2z m-8.6-8.6h7.1v-6.4h-7.1v6.4z m8.6 0h6.4v-6.4h-6.4v6.4z m0.7-10.7v-6.4q0-0.3-0.2-0.5t-0.5-0.2h-1.5q-0.3 0-0.5 0.2t-0.2 0.5v6.4q0 0.3 0.2 0.5t0.5 0.2h1.5q0.2 0 0.5-0.2t0.2-0.5z m8.5-1.4v28.5q0 1.2-0.8 2.1t-2 0.8h-31.4q-1.2 0-2.1-0.9t-0.8-2v-28.5q0-1.2 0.8-2t2.1-0.9h2.8v-2.1q0-1.5 1.1-2.6t2.5-1h1.4q1.5 0 2.5 1.1t1.1 2.5v2.1h8.6v-2.1q0-1.5 1-2.6t2.5-1h1.5q1.4 0 2.5 1.1t1 2.5v2.1h2.9q1.1 0 2 0.9t0.8 2z"
-        />
-      </g>
-    </svg>
+    />
     <div
       className="date-input date-left"
     >
-      <div>
-        <div
-          className="react-datepicker-wrapper"
-        >
-          <div
-            className="react-datepicker__input-container"
-          >
-            <input
-              autoComplete={undefined}
-              autoFocus={undefined}
-              className=""
-              disabled={false}
-              id={undefined}
-              name={undefined}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Select start date"
-              readOnly={undefined}
-              required={undefined}
-              tabIndex={undefined}
-              title={undefined}
-              type="text"
-              value=""
-            />
-          </div>
-        </div>
-      </div>
+      <t
+        allowSameDay={false}
+        dateFormat="YYYY/MM/DD hh:mm A"
+        dateFormatCalendar="MMMM YYYY"
+        disabled={false}
+        disabledKeyboardNavigation={false}
+        dropdownMode="scroll"
+        monthsShown={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClickOutside={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMonthChange={[Function]}
+        onSelect={[Function]}
+        openToDate={"2018-01-04T19:44:10.611Z"}
+        placeholderText="Select start date"
+        selected={null}
+        shouldCloseOnSelect={true}
+        showTimeSelect={true}
+        timeIntervals={15}
+        utcOffset={-180}
+        withPortal={false}
+      />
     </div>
     <div
       className="date-separator"
@@ -69,36 +297,32 @@ exports[`DateSelection_Test renders correctly without shallowRender 1`] = `
     <div
       className="date-input date-right"
     >
-      <div>
-        <div
-          className="react-datepicker-wrapper"
-        >
-          <div
-            className="react-datepicker__input-container"
-          >
-            <input
-              autoComplete={undefined}
-              autoFocus={undefined}
-              className=""
-              disabled={false}
-              id={undefined}
-              name={undefined}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Select end date"
-              readOnly={undefined}
-              required={undefined}
-              tabIndex={undefined}
-              title={undefined}
-              type="text"
-              value=""
-            />
-          </div>
-        </div>
-      </div>
+      <t
+        allowSameDay={false}
+        dateFormat="YYYY/MM/DD hh:mm A"
+        dateFormatCalendar="MMMM YYYY"
+        disabled={false}
+        disabledKeyboardNavigation={false}
+        dropdownMode="scroll"
+        maxDate={"2018-01-04T19:44:10.611Z"}
+        minDate={null}
+        monthsShown={1}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClickOutside={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMonthChange={[Function]}
+        onSelect={[Function]}
+        openToDate={"2018-01-04T19:44:10.611Z"}
+        placeholderText="Select end date"
+        selected={null}
+        shouldCloseOnSelect={true}
+        showTimeSelect={true}
+        timeIntervals={15}
+        utcOffset={-180}
+        withPortal={false}
+      />
     </div>
   </div>
 </div>
