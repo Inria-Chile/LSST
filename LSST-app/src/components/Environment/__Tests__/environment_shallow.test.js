@@ -3,28 +3,47 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {mount,shallow} from "enzyme"; 
 import Environment from '../Environment';
+import SocketMock from 'socket.io-mock'
 
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("Environment shallow testing",function(){
-    describe("When a temperature is passed",function(){
-      let environment,props;
+  let socket = new SocketMock();
+  socket.on('Weather',msg=>{
+    console.log('recieveEnvironmentData',msg);
+  });
+  let message={
+    DomeAzPos : 0,
+    DomeElPos : 0,
+    DomeAzCMD : 0,
+    DomeElCMD : 0,
+    DomeAzPos : 0,
+    timestamp : "2018-01-04T19:44:10.611Z",
+  }
+
+  describe("When a temperature is passed",function(){
+    let environment,props;
   
       /*set up*/
       beforeEach(()=>{
+        
         props = {
           temperature : 50,
         }
         environment = shallow(<Environment {...props}/>)
+        socket.socketClient.emit('Weather',message);
+
       })
   
       /*tests*/
       it('renders 1 table',()=>{
+       
         expect(environment.find('table').length).toEqual(1);
       })
   
       it('should contain 6 table columns',()=>{
+
         expect(environment.find("td").length).toBe(6);
       })
   
@@ -53,6 +72,7 @@ describe("Environment shallow testing",function(){
   
       /*tests*/
       it('renders 1 table',()=>{
+        
         expect(environment.find('table').length).toEqual(1);
       })
   

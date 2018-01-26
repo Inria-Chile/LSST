@@ -56,7 +56,6 @@ class Environment extends Component {
 
     render() {
         let temperature = this.props.temperature;
-        console.log("TEMPERATURA",temperature);
         return (
             <div className="environment-container">
                 <DraggableTitle title='Environment'/>
