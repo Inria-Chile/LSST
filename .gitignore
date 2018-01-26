@@ -1,6 +1,7 @@
 ts_visit_simulator
 lsst_rsa
 virtualenv
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
