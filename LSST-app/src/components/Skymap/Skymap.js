@@ -139,34 +139,51 @@ class Skymap extends PureComponent {
     // this.setupCelestial();
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps, prevState) {
     let cel = this.getCelestial();
     if(cel){
       let cfg = this.Celestial.cfg;
             
-      cfg.lines.ecliptic.show = this.props.showEcliptic;
-      cfg.lines.galactic.show = this.props.showGalactic;
-      cfg.moon.show = this.props.showMoon;
-      cfg.telescopeRange.show = this.props.showTelescopeRange;
-      cel.apply(cfg);
-
-      cfg.projection = this.props.projection;
-      cel.reproject(cfg);
+      let changed = false;
+      if( prevProps.showEcliptic !== this.props.showEcliptic  ) {
+        cfg.lines.ecliptic.show = this.props.showEcliptic;
+        changed = true;
+      }
+      if( prevProps.showGalactic !== this.props.showGalactic){
+        cfg.lines.galactic.show = this.props.showGalactic;
+        changed = true;
+      }
       
-      cel.cfg = cel.cfg;
+      if( prevProps.showMoon !== this.props.showMoon){
+        cfg.moon.show = this.props.showMoon;
+        changed = true;
+      }
 
+      if( prevProps.showTelescopeRange !== this.props.showTelescopeRange) {
+        cfg.telescopeRange.show = this.props.showTelescopeRange;
+        changed = true;
+      }
+      
+      if(changed) cel.apply(cfg);
+      
+  
+      if( prevProps.projection !== this.props.projection){
+        cfg.projection = this.props.projection;
+        cel.reproject(cfg);
+
+      }
+  
       // set filters
       
       let filters = this.props.filter==='all'?  ["u", "g", "r", "i", "z", "y"] : [this.props.filter];
-
+  
       this.setDisplayedFilters(filters);
-
+  
       cel.updateCells(this.props.displayedData);    
           
       cel.redraw(); // antes esto ocurria solo cuando no existian ni startDate ni endDate
-
+  
     }
-
   }
 
   render() {
