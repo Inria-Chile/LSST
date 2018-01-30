@@ -21,3 +21,33 @@ td.telemetry-name {
     font-weight: bold;
     width: 170px;
 }
+
+.tick text {
+    fill: #dddddd;
+}
+
+.environment-container .hidden svg {
+    max-height: 0;
+}
+
+.environment-container  svg {
+    max-height: 300px;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.environment-container .plot-div {
+}
+
+.environment-container .plot-column {
+}
+
+.environment-container tr {
+    vertical-align: top;
+    cursor: pointer;
+}
+
+.environment-container td {
+    vertical-align: top;
+    cursor: pointer;
+
+}

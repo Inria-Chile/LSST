@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import './Environment.css';
 import DraggableTitle from '../Utils/DraggableTitle';
+import {LineChart} from 'react-easy-chart';
+import update from 'react-addons-update';
 import openSocket from 'socket.io-client';
+import moment from 'moment';
 
 class Environment extends Component {
 
@@ -10,9 +13,13 @@ class Environment extends Component {
         super(props);
         this.state = {
             temperature: null,
+            precipitation: null,
+            dewPoint: null,
             humidity: null,
             pressure: null,
             temperatureArray: [],
+            precipitationArray: [],
+            dewPointArray: [],
             humidityArray: [],
             pressureArray: [],
         }
@@ -21,37 +28,88 @@ class Environment extends Component {
     }
 
     receiveEnvironmentData = (msg) => {
-        console.log('receiveEnvironmentData', msg);
-        // if(msg.position_actual){
-        //     this.setState({
-        //         louversAperture: msg.position_actual
-        //     });
-        // }
+        let maxArrayLength = 12;
+        this.setState({
+            temperature: msg.ambient_temp,
+            humidity: msg.humidity,
+            pressure: msg.pressure,
+            precipitation: 1,
+            dewPoint: 1,
+            temperatureArray: update(this.state.temperatureArray, {
+                $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.temperature}],
+                $splice: this.state.temperatureArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+            }),
+            precipitationArray: update(this.state.precipitationArray, {
+                $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.precipitation}],
+                $splice: this.state.precipitationArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+            }),
+            humidityArray: update(this.state.humidityArray, {
+                $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.humidity}],
+                $splice: this.state.humidityArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+            }),
+            pressureArray: update(this.state.pressureArray, {
+                $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.pressure}],
+                $splice: this.state.pressureArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+            }),
+            dewPointArray: update(this.state.dewPointArray, {
+                $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.dewPoint}],
+                $splice: this.state.dewPointArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+            }),
+        });
     }
 
     componentDidMount() {
         this.setState({
             temperature: 32,
+            precipitation: 1,
+            dewPoint: 1,
             humidity: 57,
             pressure: 770,
-            temperatureArray: [],
-            humidityArray: [],
-            pressureArray: [],
         })
     }
 
-    componentWillReceiveProps() {
-        let maxArrayLength = 100;
-        this.state.temperatureArray.push(this.props.temperature);
-        this.state.humidityArray.push(this.props.humidity);
-        this.state.pressureArray.push(this.props.pressure);
-        
-        if (this.state.temperatureArray.length > maxArrayLength)
-            this.state.temperatureArray.shift();
-        if (this.state.humidityArray.length > maxArrayLength)
-            this.state.humidityArray.shift();
-        if (this.state.pressureArray.length > maxArrayLength)
-            this.state.pressureArray.shift();
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return nextState.temperature !== this.state.temperature;
+    // }
+
+    // componentWillUpdate() {
+    //     let maxArrayLength = 12;
+    //     this.setState({
+    //         temperatureArray: update(this.state.temperatureArray, {
+    //             $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.temperature}],
+    //             $splice: this.state.temperatureArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+    //         }),
+    //         precipitationArray: update(this.state.precipitationArray, {
+    //             $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.precipitation}],
+    //             $splice: this.state.precipitationArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
+    //         }),
+    //     });
+    // }
+
+    getLimits(array, tolerance, minimum) {
+        return [Math.max(minimum, Math.min(...array.map(x => x.y))-tolerance), Math.max(...array.map(x => x.y))+tolerance];
+    }
+
+    toggleRow(row) {
+        switch(row){
+            case 'temperature':
+                this.setState({displayTemperaturePlot: !this.state.displayTemperaturePlot});
+                break;
+            case 'precipitation':
+                this.setState({displayPrecipitationPlot: !this.state.displayPrecipitationPlot});
+                break;
+            case 'humidity':
+                this.setState({displayHumidityPlot: !this.state.displayHumidityPlot});
+                break;
+            case 'pressure':
+                this.setState({displayPressurePlot: !this.state.displayPressurePlot});
+                break;
+            case 'dewPoint':
+                this.setState({displayDewPointPlot: !this.state.displayDewPointPlot});
+                break;
+            default:
+                return;
+        }
     }
 
     render() {
@@ -61,7 +119,7 @@ class Environment extends Component {
                 <div className='table-wrapper'>
                     <table>
                         <tbody>
-                            <tr>
+                            <tr onClick={() => this.toggleRow('temperature')}>
                                 <td className='telemetry-name'>Temperature</td>
                                 {
                                     this.state.temperature ?
@@ -69,25 +127,154 @@ class Environment extends Component {
                                     :
                                     <td>Unavailable</td>
                                 }
+                                {
+                                    <td className={this.state.displayTemperaturePlot ? 'plot-column':'hidden'}>
+                                        <div className={'plot-div'}>
+                                            <LineChart
+                                                margin={{top: 10, right: 30, bottom: 30, left: 70}}
+                                                data={[this.state.temperatureArray]}
+                                                xType={'time'}
+                                                datePattern={'%H:%M:%S'}
+                                                width={450}
+                                                height={100}
+                                                axisLabels={{x: '', y: 'ºC'}}
+                                                interpolate={'cardinal'}
+                                                lineColors={['red']}
+                                                yDomainRange={this.getLimits(this.state.temperatureArray, 5, -Infinity)}
+                                                axes
+                                                xTicks={3}
+                                                yTicks={3}
+                                                tickTimeDisplayFormat={'%H:%M:%S'}
+                                            />
+                                        </div> 
+                                    </td>
+                                }
                             </tr>
-                            <tr>
+                            <tr onClick={() => this.toggleRow('humidity')}>
                                 <td className='telemetry-name'>Humidity</td>
                                 {
                                     this.state.humidity ?
-                                    <td>{this.state.humidity}%</td>
+                                    <td>{this.state.humidity.toFixed(1)}%</td>
                                     :
                                     <td>Unavailable</td>
                                 }
+                                {
+                                    <td className={this.state.displayHumidityPlot ? 'plot-column':'hidden'}>
+                                        <div className={'plot-div'}>
+                                            <LineChart
+                                                margin={{top: 10, right: 30, bottom: 30, left: 70}}
+                                                data={[this.state.humidityArray]}
+                                                xType={'time'}
+                                                datePattern={'%H:%M:%S'}
+                                                width={450}
+                                                height={100}
+                                                axisLabels={{x: '', y: '%'}}
+                                                interpolate={'cardinal'}
+                                                lineColors={['red']}
+                                                yDomainRange={this.getLimits(this.state.humidityArray, 5, 0)}
+                                                axes
+                                                xTicks={3}
+                                                yTicks={3}
+                                                tickTimeDisplayFormat={'%H:%M:%S'}
+                                            />
+                                        </div>
+                                    </td>
+                                }
                             </tr>
-                            <tr>
+                            <tr onClick={() => this.toggleRow('pressure')}>
                                 <td className='telemetry-name'>Pressure</td>
                                 {
                                     this.state.pressure ?
-                                    <td>{this.state.pressure} mmHg</td>
+                                    <td>{this.state.pressure.toFixed(1)} mmHg</td>
                                     :
                                     <td>Unavailable</td>
                                 }
+                                {
+                                    <td className={this.state.displayPressurePlot ? 'plot-column':'hidden'}>
+                                        <div className={'plot-div'}>
+                                            <LineChart
+                                                margin={{top: 10, right: 30, bottom: 30, left: 70}}
+                                                data={[this.state.pressureArray]}
+                                                xType={'time'}
+                                                datePattern={'%H:%M:%S'}
+                                                width={450}
+                                                height={100}
+                                                axisLabels={{x: '', y: 'mmHg'}}
+                                                interpolate={'cardinal'}
+                                                lineColors={['red']}
+                                                yDomainRange={this.getLimits(this.state.pressureArray, 5, 0)}
+                                                axes
+                                                xTicks={3}
+                                                yTicks={3}
+                                                tickTimeDisplayFormat={'%H:%M:%S'}
+                                            />
+                                        </div>
+                                    </td>
+                                }
                             </tr>
+                            <tr onClick={() => this.toggleRow('precipitation')}>
+                                <td className='telemetry-name'>Precipitation</td>
+                                {
+                                    this.state.precipitation ?
+                                    <td>{this.state.precipitation.toFixed(1)}mm</td>
+                                    :
+                                    <td>Unavailable</td>
+                                }
+                                {
+                                    <td className={this.state.displayPrecipitationPlot ? 'plot-column':'hidden'}>
+                                        <div className={'plot-div'}>
+                                            <LineChart
+                                                margin={{top: 10, right: 30, bottom: 30, left: 70}}
+                                                data={[this.state.precipitationArray]}
+                                                xType={'time'}
+                                                datePattern={'%H:%M:%S'}
+                                                width={450}
+                                                height={100}
+                                                axisLabels={{x: '', y: 'mm'}}
+                                                interpolate={'cardinal'}
+                                                lineColors={['red']}
+                                                yDomainRange={this.getLimits(this.state.precipitationArray, 5, 0)}
+                                                axes
+                                                xTicks={3}
+                                                yTicks={3}
+                                                tickTimeDisplayFormat={'%H:%M:%S'}
+                                            />
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                            <tr onClick={() => this.toggleRow('dewPoint')}>
+                                <td className='telemetry-name'>Dew Point</td>
+                                {
+                                    this.state.dewPoint ?
+                                    <td>{(this.state.dewPoint*9/5+32).toFixed(1)}ºF / {this.state.dewPoint.toFixed(1)}ºC</td>
+                                    :
+                                    <td>Unavailable</td>
+                                }
+                                {
+                                    <td className={this.state.displayDewPointPlot ? 'plot-column':'hidden'}>
+                                        <div className={'plot-div'}>
+                                            <LineChart
+                                                margin={{top: 10, right: 30, bottom: 30, left: 70}}
+                                                data={[this.state.dewPointArray]}
+                                                xType={'time'}
+                                                datePattern={'%H:%M:%S'}
+                                                width={450}
+                                                height={100}
+                                                axisLabels={{x: '', y: 'ºC'}}
+                                                interpolate={'cardinal'}
+                                                lineColors={['red']}
+                                                yDomainRange={this.getLimits(this.state.dewPointArray, 5, 0)}
+                                                axes
+                                                xTicks={3}
+                                                yTicks={3}
+                                                tickTimeDisplayFormat={'%H:%M:%S'}
+                                            />
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+
                         </tbody>
                     </table>                    
                 </div>

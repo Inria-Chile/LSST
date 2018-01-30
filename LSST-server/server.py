@@ -51,9 +51,11 @@ if __name__ == '__main__':
         from emitters.ObservationEmitter import start_listening_fake
         from emitters.ServerAlerts import start_listening_fake_alerts
         from emitters.CableWraps import start_listening_fake_cable_wraps
+        from emitters.Weather import start_listening_fake_weather
         print('Spawning eventlet')
         eventlet.spawn(start_listening_fake, app, socketio)
         eventlet.spawn(start_listening_fake_alerts,app,socketio)
         eventlet.spawn(start_listening_fake_cable_wraps,app,socketio)
+        eventlet.spawn(start_listening_fake_weather, app, socketio)
     socketio.run(app, host='0.0.0.0')
     send('message')
