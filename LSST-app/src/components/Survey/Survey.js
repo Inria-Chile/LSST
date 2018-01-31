@@ -129,7 +129,7 @@ class Survey extends PureComponent {
 
         this.setState({displayedData: displayedData});        
 
-        //this.charts.setDisplayedDateLimits(endDate);
+        this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
         this.setDate(endDateEpoch);
         this.updateObservationsTable();
@@ -166,7 +166,7 @@ class Survey extends PureComponent {
             });
             this.setDate(new Date(parseInt(endDate, 10)));
         })
-        //this.charts.setDate(startDate,endDate)
+        this.charts.setDate(startDate,endDate)
     }
 
     setDate = (date) => {
@@ -189,7 +189,7 @@ class Survey extends PureComponent {
     setData = (data) => {
         this.setState({displayedData: data});
         // this.displayedData = data;
-        //this.charts.setData(data);
+        this.charts.setData(data);
         this.updateObservationsTable();
     }
 
@@ -305,7 +305,8 @@ class Survey extends PureComponent {
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
-                       
+
+                        <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>                       
                              <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
