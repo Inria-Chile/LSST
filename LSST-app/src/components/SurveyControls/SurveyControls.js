@@ -15,8 +15,8 @@ class SurveyControls extends PureComponent {
                     <ModeSelection selectedMode={this.props.selectedMode} setPlaybackMode={this.props.setPlaybackMode} setLiveMode={this.props.setLiveMode} />
                     { this.props.selectedMode === 'live' && <TimeWindow setTimeWindow={this.props.setTimeWindow} /> }
                     { this.props.selectedMode === 'playback' && <DateSelection setDataByDate={this.props.setDataByDate} /> }
-                    { this.props.selectedMode === 'playback' && <PlayerControls startDate={this.props.startDate} 
-                                                                                endDate={this.props.endDate} 
+                    { this.props.selectedMode === 'playback' && <PlayerControls dataStartDate={this.props.dataStartDate} 
+                                                                                dataEndDate={this.props.dataEndDate} 
                                                                                 setDisplayedDateLimits={this.props.setDisplayedDateLimits} /> }
                 </div>
             </div>

@@ -25,7 +25,7 @@ class PlayerControls extends Component {
         // console.log("playbackChange");
         let currentTime = this.state.currentTime;
         if(isPlaying){
-            if(this.state.currentTime === this.props.endDate || this.state.currentTime === Infinity)
+            if(this.state.currentTime === this.props.dataEndDate || this.state.currentTime === Infinity)
                 currentTime = 0;
             // this.playbackTimerId = setInterval(this.animate, 300);
         }else
@@ -36,13 +36,13 @@ class PlayerControls extends Component {
     showPrevious = () => {
         // console.log('showPrevious', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: 0});
-        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.startDate));
+        this.props.setDisplayedDateLimits(new Date(this.props.dataStartDate), new Date(this.props.dataEndDate));
     }
 
     showNext = () => {
         // console.log('showNext', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime));
         this.setState({currentTime: this.props.endDate});
-        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(this.props.endDate));
+        this.props.setDisplayedDateLimits(new Date(this.props.dataStartDate), new Date(this.props.dataEndDate));
     }
 
     seekEnd = (time) => {
@@ -50,18 +50,18 @@ class PlayerControls extends Component {
     }
 
     getTimeInterval = () => {
-        return this.props?(this.props.endDate - this.props.startDate)/100 : 1000;
+        return this.props?(this.props.dataEndDate - this.props.dataStartDate)/100 : 1000;
     }
 
     animate = () => {
-        if(this.props.startDate === null || this.props.endDate === null || this.state.currentTime > this.props.endDate){
-            this.setState({currentTime: this.props.endDate});
+        if(this.props.dataStartDate === null || this.props.dataEndDate === null || this.state.currentTime > this.props.dataEndDate){
+            this.setState({currentTime: this.props.dataEndDate});
             this.stopAnimating();
             return;            
         }
         // console.log('animating', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime + this.getTimeInterval()));
         this.setState({currentTime: this.state.currentTime + this.getTimeInterval()});
-        this.props.setDisplayedDateLimits(new Date(this.props.startDate), new Date(Math.min(this.props.endDate, this.props.startDate + this.state.currentTime + this.getTimeInterval())));
+        this.props.setDisplayedDateLimits(new Date(this.props.dataStartDate), new Date(Math.min(this.props.dataEndDate, this.props.dataStartDate + this.state.currentTime + this.getTimeInterval())));
     }
 
     stopAnimating = () => {
@@ -73,8 +73,8 @@ class PlayerControls extends Component {
     componentDidUpdate(prevProps, prevState){
         if((this.state.isPlaying && !prevState) || (this.state.isPlaying && !prevState.isPlaying))
             this.playbackTimerId = setInterval(this.animate, 300);
-        if(prevProps.endDate !== this.props.endDate)
-            this.setState({currentTime: this.props.endDate});
+        if(prevProps.dataEndDate !== this.props.dataEndDate)
+            this.setState({currentTime: this.props.dataEndDate});
     }
 
     render() {
@@ -93,7 +93,7 @@ class PlayerControls extends Component {
                 />
 
                 <ProgressBar
-                    totalTime={this.props.endDate - this.props.startDate}
+                    totalTime={this.props.dataEndDate - this.props.dataStartDate}
                     currentTime={this.state.currentTime}
                     isSeekable={this.state.isSeekable}
                     onSeek={time => this.setState(() => ({ currentTime: time }))}

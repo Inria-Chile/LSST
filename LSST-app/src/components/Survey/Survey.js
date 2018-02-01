@@ -317,8 +317,8 @@ class Survey extends PureComponent {
                                         setLiveMode={this.setLiveMode} 
                                         setDataByDate={this.setDataByDate}
                                         selectedMode={this.state.selectedMode}
-                                        startDate={this.state.startDate} 
-                                        endDate={this.state.endDate}
+                                        dataStartDate={this.state.startDate} 
+                                        dataEndDate={this.state.endDate}
                                         setTimeWindow={this.setTimeWindow}
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
