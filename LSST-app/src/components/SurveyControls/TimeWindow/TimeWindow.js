@@ -21,10 +21,6 @@ class TimeWindow extends PureComponent {
         }
     }
 
-    setDate = () => {
-        this.props.setDataByDate(this.state.startDate, this.state.endDate);
-    }
-
     handleChange = (changeEvent) => {
         let tw = parseInt(changeEvent.target.value, 10)
         this.props.setTimeWindow(tw);
