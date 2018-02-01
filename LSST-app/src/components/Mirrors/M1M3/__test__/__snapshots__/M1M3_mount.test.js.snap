@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Update state test should create the right snapshot 1`] = `
+<M1M3
+  colormap={[Function]}
+  height={250}
+  id="m3"
+  margin={30}
+  width={250}
+>
+  <div
+    className="mirror-container"
+  >
+    <svg
+      className="svg-container"
+      height="250px"
+      width="250px"
+    >
+      <circle
+        className="circle-overlay"
+        cx={30.096153846153847}
+        cy={30}
+        fill="#04070a"
+        id="background-circle-m3"
+        key="background"
+        pointerEvents="all"
+        r={0}
+      />
+      <g
+        className="scatter"
+        id="scatter-m3"
+      />
+      <circle
+        cx={30.096153846153847}
+        cy={30}
+        fill="none"
+        id="circle-overlay-m3"
+        key="overlay"
+        pointerEvents="all"
+        r={0}
+      />
+    </svg>
+  </div>
+</M1M3>
+`;

@@ -58,7 +58,7 @@ class PlayerControls extends Component {
             this.setState({currentTime: this.props.dataEndDate});
             this.stopAnimating();
             return;            
-        }
+        }    
         // console.log('animating', this.props.startDate, this.props.endDate, Math.min(this.props.endDate, this.state.currentTime + this.getTimeInterval()));
         this.setState({currentTime: this.state.currentTime + this.getTimeInterval()});
         this.props.setDisplayedDateLimits(new Date(this.props.dataStartDate), new Date(Math.min(this.props.dataEndDate, this.props.dataStartDate + this.state.currentTime + this.getTimeInterval())));

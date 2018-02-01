@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 // import ReactDOM from 'react-dom';
-import MainSkymap from '../Skymap/MainSkymap';
+import Skymap from '../Skymap/Skymap';
 import MiniSkymaps from '../Skymap/MiniSkymaps';
 import Charts from '../Charts/Charts';
-import MiniScatterplot from '../Scatterplot/MiniScatterplot'
-import MainScatterplot from '../Scatterplot/MainScatterplot'
+import Scatterplot from '../Scatterplot/Scatterplot';
 import Settings from './Settings/Settings';
 import SurveyControls from '../SurveyControls/SurveyControls';
 import TimeWindow from '../SurveyControls/TimeWindow/TimeWindow';
@@ -23,17 +22,11 @@ class Survey extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.mainSkymap = null;
-        this.miniSkymap = null;
         this.charts = null;
-        this.miniScatterplot = null;
-        this.mainScatterplot = null;
-        this.displayedData = [];
         this.socket = openSocket(window.location.origin + '');
         this.currentTime = Infinity;
         this.state = {
             selectedMode: 'playback',
-            // selectedMode: 'playback',
             timeWindow: TimeWindow.timeWindowOptions[Object.keys(TimeWindow.timeWindowOptions)[0]],
             hoveredField: null,
             selectedFieldData: [],
@@ -41,6 +34,15 @@ class Survey extends PureComponent {
             startDate: null,
             endDate: null,
             showSkyMap: true,
+
+            currentDate: null,
+            showEcliptic: true,
+            showGalactic: true,
+            showMoon: true,
+            showTelescopeRange: true,
+            projection: "aitoff",
+
+            displayedData: []
         }
 
         this.hiddenStyle = {
@@ -63,40 +65,31 @@ class Survey extends PureComponent {
         this.setDate(new Date(parseInt(msg.request_time, 10)));
     }
 
-    drawFrame = (timestamp) => {
-        // console.log('Parent Drawframe')
-        this.mainSkymap.drawFrame(timestamp);
-        this.miniSkymap.drawFrame(timestamp);
-        requestAnimationFrame(this.drawFrame);
-    }
-    
     setEcliptic = (show) => {
-        this.mainSkymap.setEcliptic(show);
+        this.setState({showEcliptic:show});
     }
     
     setGalactic = (show) => {
-        this.mainSkymap.setGalactic(show);
+        this.setState({showGalactic:show});
     }
     
     setMoon = (show) => {
-        this.mainSkymap.setMoon(show);
+        this.setState({showMoon:show});
     }
     
     setTelescopeRange = (show) => {
-        this.mainSkymap.setTelescopeRange(show);
+        this.setState({showTelescopeRange:show});
     }
     
     setProjection = (proj) => {
-        this.mainSkymap.setProjection(proj);
+        this.setState({projection:proj});
     }
     
     setDisplayedFilter = (filter) => {
         this.setState({
             displayedFilter: filter
         })
-        this.mainSkymap.setDisplayedFilter(filter);
-        this.displayMainSkymap();
-       
+        this.displayMainSkymap();       
     }
 
     setTimeWindow = (timeWindow) => {
@@ -125,10 +118,17 @@ class Survey extends PureComponent {
     setDisplayedDateLimits = (startDate, endDate) => {
         let startDateEpoch = new Date(startDate.getTime());
         let endDateEpoch = new Date(endDate.getTime());
-        this.mainSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.miniSkymap.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.mainScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
-        this.miniScatterplot.setDisplayedDateLimits(startDateEpoch, endDateEpoch);
+    
+        let displayedData = [];
+        if( startDateEpoch || endDateEpoch ){
+            for(let i=0;i<this.state.data.length;++i){
+                if(this.state.data[i].expDate > startDateEpoch && this.state.data[i].expDate < endDateEpoch)
+                    displayedData.push(this.state.data[i]);
+                }
+            }
+
+        this.setState({displayedData: displayedData});        
+
         this.charts.setDisplayedDateLimits(endDate);
         this.currentTime = endDate;
         this.setDate(endDateEpoch);
@@ -136,11 +136,6 @@ class Survey extends PureComponent {
     }
 
     //function to set the start and end dates selected by the slider
-
-    // setSliderTimeWindow = (startDate, endDate) => {
-    //     this.startDisplayedDate = startDate;
-    //     this.endDisplayedDate = endDate;
-    // }
 
     setLiveMode = () => {
         console.log('setlivemode')
@@ -162,9 +157,13 @@ class Survey extends PureComponent {
     setDataByDate = (startDate, endDate) => {
         this.fetchDataByDate(startDate, endDate, (res) => {
             for(var i=0;i<res.results.length;++i)
-                res.results[i]['fieldDec'] += 30;
+            res.results[i]['fieldDec'] += 30;
             this.setData(res.results);
-            this.setState({startDate: startDate, endDate: endDate});
+            this.setState({
+                data: res.results,
+                startDate: startDate, 
+                endDate: endDate
+            });
             this.setDate(new Date(parseInt(endDate, 10)));
         })
         this.charts.setDate(startDate,endDate)
@@ -172,9 +171,8 @@ class Survey extends PureComponent {
 
     setDate = (date) => {
         if(this.state.showSkyMap){
-            this.mainSkymap.setDate(date);
+            this.setState({currentDate: date});
         }
-        this.miniSkymap.setDate(date);
     }
     
     fetchDataByDate = (startDate, endDate, cb) => {
@@ -214,15 +212,17 @@ class Survey extends PureComponent {
     addObservation = (obs) => {
         let added = false;
         let currentTime = jsToLsstTime((new Date()).getTime());
-        for(let i=0;i<this.displayedData.length;++i){
-            if(this.state.timeWindow < currentTime - this.displayedData[i]['expDate']){
-                this.displayedData.splice(i, 1);
+        let displayedData = this.state.displayedData.slice();
+
+        for(let i=0;i<displayedData.length;++i){
+            if(this.state.timeWindow < currentTime - displayedData[i]['expDate']){
+                displayedData.splice(i, 1);
                 --i;
             }
         }
         if(!added)
-            this.displayedData.push(obs);
-        this.setData(this.displayedData);
+            displayedData.push(obs);
+        this.setData(displayedData);
     }
 
     componentDidMount() {
@@ -239,12 +239,12 @@ class Survey extends PureComponent {
         let latestField = null;
         let latestExpDate = 0;
         if(fieldID){
-            for(let i=0;i<this.displayedData.length;++i){
-                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all')){
-                    if(this.displayedData[i].expDate > latestExpDate){
-                        latestExpDate = this.displayedData[i].expDate;
-                        latestField = this.displayedData[i];
+            for(let i=0;i<this.state.displayedData.length;++i){
+                if(String(this.state.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.state.displayedData[i].filterName || this.state.displayedFilter === 'all')){
+                    if(this.state.displayedData[i].expDate > latestExpDate){
+                        latestExpDate = this.state.displayedData[i].expDate;
+                        latestField = this.state.displayedData[i];
                     }
                 }
             }
@@ -258,11 +258,11 @@ class Survey extends PureComponent {
         let fieldID = this.lastFieldID;
         let selectedFieldData = [];
         if(fieldID){
-            for(let i=0;i<this.displayedData.length;++i){
-                if(String(this.displayedData[i].fieldID) === String(fieldID) &&
-                    (this.state.displayedFilter === this.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
-                    (this.displayedData[i].expDate < this.currentTime)){
-                    selectedFieldData.push(this.displayedData[i]);
+            for(let i=0;i<this.state.displayedData.length;++i){
+                if(String(this.state.displayedData[i].fieldID) === String(fieldID) &&
+                    (this.state.displayedFilter === this.state.displayedData[i].filterName || this.state.displayedFilter === 'all') &&
+                    (this.state.displayedData[i].expDate < this.currentTime)){
+                    selectedFieldData.push(this.state.displayedData[i]);
                 }
             }
         }
@@ -304,7 +304,6 @@ class Survey extends PureComponent {
             setGalactic: this.setGalactic,
             setMoon: this.setMoon,
             setTelescopeRange: this.setTelescopeRange,
-            setSidebar: this.setSidebar,
             setProjection: this.setProjection
         }
 
@@ -323,26 +322,29 @@ class Survey extends PureComponent {
                                         setDisplayedDateLimits={this.setDisplayedDateLimits}/>
                         <div className="bottom-left-container">
 
-                            <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>
-                            <div className="row">
+                        <Charts ref={instance => { this.charts = instance; }} mode={this.state.selectedMode}/>                       
+                             <div className="row">
                                 <div className="col-6">
                                     <div className="main-skymap-wrapper">
-                                        <Settings ref={instance => { this.sidebar = instance; }} {...setters} skymap={this.mainSkymap} />
+                                        <Settings {...setters} />
                                         <div style = {this.mainSkymapStyle}>
-                                        <MainSkymap ref={instance => { this.mainSkymap = instance; }} 
-                                            data={this.displayedData} 
-                                            filter={this.state.displayedFilter}
-                                            startDate = {this.state.startDate} 
-                                            endDate={this.state.endDate}
-                                            cellHoverCallback={this.cellHoverCallback} 
-                                            cellClickCallback={this.cellClickCallback} 
-                                            cellUpdateCallback={this.cellUpdateCallback} 
-                                         />
+                                        <Skymap nodeRef='mainNode' className="mainSkymap"
+                                                cellHoverCallback={this.cellHoverCallback} 
+                                                cellUpdateCallback={this.cellUpdateCallback} 
+                                                cellClickCallback={this.cellClickCallback} 
+                                                showEcliptic={this.state.showEcliptic}
+                                                showGalactic={this.state.showGalactic}
+                                                showMoon={this.state.showMoon}
+                                                showTelescopeRange={this.state.showTelescopeRange}
+                                                projection={this.state.projection}
+                                                filter={this.state.displayedFilter}
+                                                displayedData={this.state.displayedData}
+                                        />                                         
                                          </div>
                                         <div style = {this.mainScatterplotStyle}>
-                                        <MainScatterplot ref={instance => {this.mainScatterplot=instance;}} 
-                                            data={this.displayedData}
-                                            />
+                                            <div className="scatterplot">
+                                                <Scatterplot displayedData={this.state.displayedData} />
+                                            </div>                                            
                                         </div>
                                         
                                         {
@@ -352,14 +354,23 @@ class Survey extends PureComponent {
                                     </div>
                                 </div>
                                 <div className="col-6">
-                                    <ObservationsTable clickedField={this.state.selectedFieldData} />
+                                     <ObservationsTable clickedField={this.state.selectedFieldData} /> 
                                 </div>
                             </div>                        
                         </div>                        
                     </div>
-                    <div className="right-container">
-                        <MiniSkymaps ref={instance => { this.miniSkymap = instance; }} onMinimapClick={this.setDisplayedFilter} />
-                        <MiniScatterplot ref={instance => {this.miniScatterplot=instance;}} onScatterplotClick={this.toggleMapScatterplot}/>
+                    <div className="right-container">                        
+                          <MiniSkymaps 
+                            onMinimapClick={this.setDisplayedFilter} 
+                            displayedData={this.state.displayedData}
+                            fontSize={0}
+                            gridOpacity={0}
+                            selectedFilter={this.state.displayedFilter}
+                          />  
+                        <div className="scatterplot-container" onClick={ () => this.toggleMapScatterplot()}>
+                            <h4> Right Ascention / Declination </h4>
+                            <Scatterplot height={183} displayedData={this.state.displayedData}/>
+                        </div>                         
                     </div>
                 </div>
                 

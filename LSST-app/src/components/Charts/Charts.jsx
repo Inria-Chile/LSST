@@ -19,11 +19,18 @@ class Charts extends Component {
         this.tomorrow=today;
         this.state={
             data: null, 
+<<<<<<< HEAD
             dataStart: new Date(), 
             dataEnd: today,
             selectionStart: new Date(),
             selectionEnd: today,
             
+=======
+            start: new Date(), 
+            end: today,
+            startAt: new Date(),
+            endAt: today            
+>>>>>>> 5b442d3a213d6b0e0d6b0537086c0aaeb5cfcbd0
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
         this.histogram = null;

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scatterplot snapshot test Renders correctly 1`] = `
+<Scatterplot
+  displayedData={
+    Array [
+      Object {
+        "airmass": 1.3828,
+        "count": 1,
+        "expDate": 955592,
+        "expTime": 34,
+        "fieldDec": -40.227999999999994,
+        "fieldID": 166,
+        "fieldRA": 91.217,
+        "filterName": "z",
+        "lst": 1.0884,
+        "rotSkyPos": 0.375884,
+        "seeing": 1.00583,
+        "skybrightness_modified": 19.4018,
+      },
+    ]
+  }
+  height={400}
+>
+  <div />
+</Scatterplot>
+`;

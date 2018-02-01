@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DomeElevationTimeSeries_Test renders correctly 1`] = `
+<Unknown
+  barPadding={0.5}
+  colorScale={[Function]}
+  data={
+    Array [
+      Object {
+        "label": "target",
+        "values": Array [
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+        ],
+      },
+      Object {
+        "label": "optimal",
+        "values": Array [
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+        ],
+      },
+      Object {
+        "label": "elevation",
+        "values": Array [
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+          Object {
+            "x": 2018-01-04T19:44:10.611Z,
+            "y": null,
+          },
+        ],
+      },
+    ]
+  }
+  defined={[Function]}
+  height={350}
+  interpolate="linear"
+  label={[Function]}
+  margin={
+    Object {
+      "bottom": 50,
+      "left": 50,
+      "right": 20,
+      "top": 10,
+    }
+  }
+  shape="circle"
+  shapeColor={null}
+  stroke={
+    Object {
+      "strokeDasharray": [Function],
+      "strokeWidth": [Function],
+    }
+  }
+  tooltipContained={false}
+  tooltipHtml={null}
+  tooltipMode="mouse"
+  tooltipOffset={
+    Object {
+      "left": 0,
+      "top": -35,
+    }
+  }
+  values={[Function]}
+  width={600}
+  x={[Function]}
+  xAxis={
+    Object {
+      "label": "Time",
+      "tickArguments": Array [
+        5,
+      ],
+      "tickFormat": [Function],
+      "tickPadding": 5,
+    }
+  }
+  xScale={[Function]}
+  y={[Function]}
+  y0={[Function]}
+  yAxis={
+    Object {
+      "domain": Array [
+        0,
+        0,
+      ],
+      "label": "Angle [deg]",
+      "tickArguments": Array [
+        7,
+      ],
+    }
+  }
+  yScale={[Function]}
+/>
+`;
