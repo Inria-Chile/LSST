@@ -202,10 +202,10 @@ class Survey extends PureComponent {
         });
         this.displayedData = data;
         this.charts.setData(newData);
-        this.miniScatterplot.setData(data);
-        this.miniSkymap.setData(data);
-        this.mainSkymap.setData(data);
-        this.mainScatterplot.setData(data);
+        // this.miniScatterplot.setData(data);
+        // this.miniSkymap.setData(data);
+        // this.mainSkymap.setData(data);
+        // this.mainScatterplot.setData(data);
         this.updateObservationsTable();
     }
 
