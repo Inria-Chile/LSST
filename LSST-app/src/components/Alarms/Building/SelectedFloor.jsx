@@ -28,22 +28,28 @@ class SelectedFloor extends Component {
 
         return (
 
-            <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}
-                style={{position:'relative'}}>
-                <svg  height="100%" width="100%" style={{position:"absolute",opacity:"70%"}}>
-                    <Alarm position= {[(2251.5+10)/2989*100, (403+20)/1369*100]}/>
-                </svg>
+            <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
+                <div  height="100%" width="100%" style={{position:"relative",opacity:"70%"}}>
+                    
+                    <Alarm position= {[(2251.5)/2989*100, (403)/1369*100]}/>
                 <img src={imgSrc} className="selected-floor-plan" alt="selected floor" />
+                {/* <Alarm/> */}
+                </div>
             </div>
         );
     }
 }                
 class Alarm extends Component{
     render(){
-        const r = 20;
             
         return(
-            <circle cx={this.props.position[0]+"%"} cy={this.props.position[1]+"%"} r={20/2989*100+"%"} stroke="black" strokeWidth="3" fill="red"  />
+            <img src="/img/floor_plans/fire_alarm-on.svg" 
+                    style={{
+                        left:this.props.position[0]+"%",
+                        top:this.props.position[1]+"%",
+                        position:'absolute',
+                        width:"60px", 
+                        height:"40px"}}/>
         );
     }
 }
