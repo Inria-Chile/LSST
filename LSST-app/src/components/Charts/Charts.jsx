@@ -21,8 +21,8 @@ class Charts extends Component {
             data: null, 
             dataStart: new Date(), 
             dataEnd: today,
-            timeWindowStart: new Date(),
-            timeWindowEnd: today,
+            selectionStart: new Date(),
+            selectionEnd: today,
             
         };
         this.margin={ top: 0, right: 40, bottom: 20, left: 120 }
@@ -42,9 +42,9 @@ class Charts extends Component {
         if(this.props.mode==="playback"){
             this.setState({
                 dataStart: new Date(lsstToJs(start)),
-                timeWindowStart: new Date(lsstToJs(start)),
+                selectionStart: new Date(lsstToJs(start)),
                 dataEnd:new Date(lsstToJs(end)),
-                timeWindowEnd:new Date(lsstToJs(end)),
+                selectionEnd:new Date(lsstToJs(end)),
             })
             if(this.g){
                 this.g.remove();
@@ -67,8 +67,8 @@ class Charts extends Component {
                     data:data, 
                     dataStart:data[0].expDate, 
                     dataEnd:data[data.length-1].expDate,
-                    timeWindowStart:data[0].expDate,
-                    timeWindowEnd:data[data.length-1].expDate
+                    selectionStart:data[0].expDate,
+                    selectionEnd:data[data.length-1].expDate
                 });
             }
            
@@ -79,18 +79,18 @@ class Charts extends Component {
                 data:null, 
                 dataStart:new Date(), 
                 dataEnd: this.tomorrow,
-                timeWindowStart:new Date(),
-                timeWindowEnd:this.tomorrow
+                selectionStart:new Date(),
+                selectionEnd:this.tomorrow
             });
         }
         var dom = ReactDOM.findDOMNode(this);
         this.slider.updateSlider(dom, true);
     }
 
-    setSelection = (timeWindowStart, timeWindowEnd)=>{
+    setSelection = (selectionStart, selectionEnd)=>{
         this.setState({
-            timeWindowStart: timeWindowStart,
-            timeWindowEnd: timeWindowEnd
+            selectionStart: selectionStart,
+            selectionEnd: selectionEnd
         })
 
     }
@@ -101,23 +101,23 @@ class Charts extends Component {
             let svg = dom.childNodes[dom.childNodes.length-1];
             let width = dom.offsetWidth;
             this.svg=svg;
-            this.x= d3.scaleTime().domain([this.state.timeWindowStart, this.state.timeWindowEnd])
+            this.x= d3.scaleTime().domain([this.state.selectionStart, this.state.selectionEnd])
             .range([this.margin.left,width-this.margin.right-15]);
           
             if(this.props.mode==="playback"){
                 let g = d3.select(svg).append("g");
                 this.g = g;
-                let x = this.x(this.state.timeWindowStart);
-                this.drawPBLine(x, this.state.timeWindowStart);
+                let x = this.x(this.state.selectionStart);
+                this.drawPBLine(x, this.state.selectionStart);
             }
         }
     }
 
     updatePBLine(currentTime){
-        this.x.domain([this.state.timeWindowStart, this.state.timeWindowEnd]);
+        this.x.domain([this.state.selectionStart, this.state.selectionEnd]);
         let x = this.x(currentTime);
        
-        if(this.state.timeWindowStart<=currentTime && currentTime < this.state.timeWindowEnd){
+        if(this.state.selectionStart<=currentTime && currentTime < this.state.selectionEnd){
             this.togglePBLine(this.visibleStyle);
             this.movePBLine(x, currentTime);
         }
@@ -198,23 +198,29 @@ class Charts extends Component {
     }
 
     handleZoom(event){
-        let timeWindowStart = this.state.timeWindowStart;
-        let timeWindowEnd = this.state.timeWindowEnd;
-        let delta = (this.state.timeWindowEnd-this.state.timeWindowStart)/1000 //seconds elapsed between the two dates
+        let selectionStart = this.state.selectionStart;
+        let selectionEnd = this.state.selectionEnd;
+        let delta = (this.state.selectionEnd-this.state.selectionStart)/1000 //seconds elapsed between the two dates
         let wheelDirection = event.deltaY/Math.abs(event.deltaY)
         let change = (delta/10)*(wheelDirection)
         
-        timeWindowStart.setSeconds(timeWindowStart.getSeconds()-change);
-        timeWindowEnd.setSeconds(timeWindowEnd.getSeconds()+change);
+        selectionStart.setSeconds(selectionStart.getSeconds()-change);
+        selectionEnd.setSeconds(selectionEnd.getSeconds()+change);
         
-        if(timeWindowStart > this.state.dataStart && timeWindowEnd < this.state.dataEnd && delta > 60){
-            this.setSelection(timeWindowStart,timeWindowEnd);
-            this.slider.setSelection(timeWindowStart,timeWindowEnd);
+        if(selectionStart > this.state.dataStart && selectionEnd < this.state.dataEnd && delta > 60){
+            this.setSelection(selectionStart,selectionEnd);
+            // this.slider.setSelection(selectionStart,selectionEnd);
         }
-        else if(timeWindowStart <= this.state.dataStart || timeWindowEnd >= this.state.dataEnd){
+        else if(selectionStart <= this.state.dataStart || selectionEnd >= this.state.dataEnd){
             this.setSelection(this.state.dataStart, this.state.dataEnd);
-            this.slider.setSelection();
+            // this.slider.setSelection();
         }
+
+
+        // this.setState({
+        //     selectionStart: selectionStart,
+        //     selectionEnd: selectionEnd
+        // });
     }
 
     render() {
@@ -223,11 +229,17 @@ class Charts extends Component {
             <div className = "charts-container" onDrag={()=> this.handleDrag()} onWheel={(e)=> this.handleZoom(e)}>
                 <h5>Date-range summary</h5>
                     <Slider ref={instance => { this.slider = instance; }}
-                     start={this.state.dataStart} end={this.state.dataEnd} margin={this.margin} setExtent={this.setSelection}/>
+                     dataStart={this.state.dataStart}
+                     dataEnd={this.state.dataEnd}
+                     selectionStart={this.state.selectionStart}
+                     selectionEnd={this.state.selectionEnd}
+                     margin={this.margin}
+                     setExtent={this.setSelection}
+                    />
                     <Histogram ref={instance => { this.histogram = instance; }} 
-                    data={this.state.data} start={this.state.timeWindowStart} end={this.state.timeWindowEnd} ticks={this.ticks} margin={this.margin}/>
+                    data={this.state.data} start={this.state.selectionStart} end={this.state.selectionEnd} ticks={this.ticks} margin={this.margin}/>
                     <Timeline ref={instance => { this.timeline = instance; }}
-                     data={this.state.data} start={this.state.timeWindowStart} end={this.state.timeWindowEnd} ticks={this.ticks} margin={this.margin}/>
+                     data={this.state.data} start={this.state.selectionStart} end={this.state.selectionEnd} ticks={this.ticks} margin={this.margin}/>
 
                     <svg id="charts" className="d3 charts" width="100%" height="280px"></svg>
                      

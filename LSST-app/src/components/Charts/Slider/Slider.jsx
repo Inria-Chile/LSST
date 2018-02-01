@@ -29,7 +29,7 @@ class Slider extends Component {
         let width = elem.offsetWidth;
         width = width - this.props.margin.left - this.props.margin.right;
         var svg = d3.select(dom).append('svg').attr('class', 'd3 slider-container').attr('width', width).attr('height', 50);
-        this.x= d3.scaleTime().domain([this.props.start, this.props.end]).range([0,width]);
+        this.x= d3.scaleTime().domain([this.props.dataStart, this.props.dataEnd]).range([0,width]);
         let x = this.x;
         svg.append("g")
         .attr("class", "x")
@@ -43,7 +43,7 @@ class Slider extends Component {
         let width = elem.offsetWidth;
         width = width-this.props.margin.left-this.props.margin.right
         d3.select(dom).select('.x').remove();
-        this.x = d3.scaleTime().domain([this.props.start, this.props.end]).range([0,width]);
+        this.x = d3.scaleTime().domain([this.props.dataStart, this.props.dataEnd]).range([0,width]);
         let x = this.x;
         var svg = d3.select(dom).select('.slider-container');
         var self = this;
@@ -69,25 +69,42 @@ class Slider extends Component {
         .call(d3.axisBottom(x).ticks(this.ticks));
     }
 
+
+    // setSelection(start,end){
+    //     let x = this.x;
+    //         var dom = ReactDOM.findDOMNode(this);
+    //     if(start && end && this.x != null){
+    //         d3.select(dom).select('.brush').call(this.brush.move, [x(start),x(end)])
+    //     }
+    //     else{
+    //         d3.select(dom).select('.brush').call(this.brush.move, x.range())
+    //     }
+    // }
     componentDidMount(){
         var dom = ReactDOM.findDOMNode(this);
         this.createSlider(dom);
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps,prevState){
         var dom = ReactDOM.findDOMNode(this);
         this.updateSlider(dom);
-    }
+        
+        
+        if(prevProps.selectionStart.getTime() !== this.props.selectionStart.getTime() || 
+           prevProps.selectionEnd.getTime() !== this.props.selectionEnd.getTime()){
 
-    setSelection(start,end){
-        let x = this.x;
-            var dom = ReactDOM.findDOMNode(this);
-        if(start && end && this.x != null){
-            d3.select(dom).select('.brush').call(this.brush.move, [x(start),x(end)])
+            let x = this.x;
+            if(this.props.selectionStart && this.props.selectionEnd && this.x !== null){
+                d3.select(dom).select('.brush').call(this.brush.move, [x(this.props.selectionStart),x(this.props.selectionEnd)]);
+            }
+            else{
+                d3.select(dom).select('.brush').call(this.brush.move, x.range())
+            }
+
         }
-        else{
-            d3.select(dom).select('.brush').call(this.brush.move, x.range())
-        }
+        
+
+
     }
 
     render() {
