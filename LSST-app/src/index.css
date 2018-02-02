@@ -26,6 +26,8 @@ body {
   --theme-windscreens: #5f8caa;
   --theme-histogram-bar: #5f8caa;
   --theme-histogram-bar-latest: #aed4ea;
+  --theme-platform-lift: #3f5b72;
+  --theme-platform-lift-moving: #cc324f;
   --dome-text-size: 1.3rem;
   --separator-size: 3px;
 }
