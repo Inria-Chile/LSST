@@ -17,6 +17,7 @@ import Alarms from './components/Alarms/Alarms';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import { Switch, Route, Redirect } from 'react-router-dom'
+import PlatformLift from './components/Alarms/PlatformLift/PlatformLift';
 
 ReactDOM.render((
     <BrowserRouter>
@@ -34,6 +35,7 @@ ReactDOM.render((
             <Route path='/cable_wraps' component={CableWraps}/>
             <Route path='/environment' component={Environment}/>
             <Route path='/alarms' component={Alarms}/>
+            <Route path='/lift' component={PlatformLift}/>
         </Switch>
     </BrowserRouter>), document.getElementById('root'));
 
