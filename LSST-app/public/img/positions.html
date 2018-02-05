@@ -1,0 +1,24 @@
+<head>
+    <style>
+        body {
+            background-color:black;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <img id="floor" src="floor_plans/floor1.png">
+
+    <script>
+        let img = document.getElementById("floor");
+        console.log(img);
+        console.log('width',img.clientWidth);
+        console.log('height',img.clientHeight);
+        img.onclick = (e) => {
+            console.log(e.clientX-img.x+window.pageXOffset, e.clientY-img.y+window.pageYOffset, '\t', img.clientWidth, img.clientHeight);
+        }
+
+    </script>
+</body>
