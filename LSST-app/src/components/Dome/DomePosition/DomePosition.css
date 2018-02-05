@@ -24,12 +24,21 @@
     color: var(--theme-active-text);
 }
 
-.cardinal-points {
+/* .cardinal-points {
 
 }
 
 .cardinal-points img {
     filter: invert(60%) sepia(100%) hue-rotate(160deg);
+} */
+
+.north-img {
+    width: 20%;
+    position: absolute;
+}
+
+.dome-wrapper {
+    position: relative;
 }
 
 .dome-position-container .svg-container {
