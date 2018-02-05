@@ -30,7 +30,8 @@ class SelectedFloor extends Component {
 
     static floorPlanImages = {
         floor1: '/img/floor_plans/floor1.png',
-        floor2: '/img/floor_plans/floor2.png',
+        floor2: '/img/floor_plans/floor1_noalarms.svg',
+        // floor2: '/img/floor_plans/floor2.png',
         floor3: '/img/floor_plans/floor3.png',
         floor4: '/img/floor_plans/floor4.png',
         floor5: '/img/floor_plans/floor5.png',
@@ -51,8 +52,8 @@ class SelectedFloor extends Component {
             imgSrc = "";
 
 
-        const h = 16 ;
-        const w = 16 ;
+        const h = 25;
+        const w = 25 ;
         return (
 
             <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
@@ -70,7 +71,11 @@ class SelectedFloor extends Component {
 
                     <img src={imgSrc} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
                         console.log(e.clientX,e.clientY);
-                    }} />
+                    }}/>
+
+                    {/* <img src={SelectedFloor.floorPlanImages[this.props.selectedFloor]} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
+                        console.log(e.clientX,e.clientY);
+                    }}/> */}
 
                 </div>
             </div>
