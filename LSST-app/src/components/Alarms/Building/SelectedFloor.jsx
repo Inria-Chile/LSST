@@ -57,9 +57,10 @@ class SelectedFloor extends Component {
             <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
                 <div height="100%" width="100%" style={{ position: "relative", opacity: "70%" }}>
 
-                    {this.alarmsCoordinates.map(alarmCoordinate => {
+                    {this.alarmsCoordinates.map( (alarmCoordinate, index) => {
                         return(                    
                             <Alarm
+                            key = {index.toString()}
                             position={[(alarmCoordinate[0]  -0.5*w) / 3391 * 100, (alarmCoordinate[1] -0.5*h) / 1555.86 * 100]}
                             width={w}
                             height={h} />
@@ -76,16 +77,33 @@ class SelectedFloor extends Component {
     }
 }
 class Alarm extends Component {
+    constructor(props){
+        super(props);
+        this.images =[
+            "/img/floor_plans/fire_alarm-on.svg",
+            "/img/floor_plans/fire_alarm-off.svg"
+        ];
+
+        this.state = {
+            isOn: true
+        };
+    }
     render() {
         return (
-            <img src="/img/floor_plans/fire_alarm-on.svg"
+            <img alt="alarm icon"
+                src= {this.state.isOn? this.images[0]: this.images[1]}
                 style={{
                     left: this.props.position[0] + "%",
                     top: this.props.position[1] + "%",
                     position: 'absolute',
                     width: this.props.width + "px",
                     height: this.props.height + "px"
-                }} />
+                }} 
+                onClick = {(e) =>{
+                    this.setState({
+                        isOn: !this.state.isOn
+                    });
+                }}/>
         );
     }
 }
