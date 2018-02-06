@@ -117,7 +117,7 @@ exports[`DomePosition test renders correctly 1`] = `
       <span
         className="dome-data"
       >
-        10º
+        10.0º
       </span>
     </div>
   </div>

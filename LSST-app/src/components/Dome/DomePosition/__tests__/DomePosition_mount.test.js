@@ -8,8 +8,8 @@ import sinon from 'sinon';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('mounted DomePostion test',function(){
-    let props,mountedDomePosition,infoDiv,spans;;
-    
+    let props,mountedDomePosition,infoDiv,spans;
+
 
     describe('domePosition props are set',function(){
       const domePositionComponent = ()=>{
@@ -63,7 +63,11 @@ describe('mounted DomePostion test',function(){
             id="dome-top" 
             scale={1.4} xOffset={-0.05} yOffset={0.15}
             telescopeElevation={0} 
-            updateDomePos={Dome.updateDomePos}/>
+            updateDomePos={Dome.updateDomePos}
+            shuttersAperture={null} 
+            domeAzimuth={null}
+            telescopeElevation={null} 
+            mountAzimuth={null}/>
           );
         }
         return mountedDomePosition;
@@ -153,7 +157,7 @@ describe('mounted DomePostion test',function(){
       it('should have the right info in Camera FOV, props.shuttersAperture = 50.6',()=>{
         infoDiv = domePositionComponent(50.0,50,50,50.0).find('.dome-position-info').first();
         spans = infoDiv.find('span');
-        expect(spans.at(5).text()).toBe('50.6º');  
+        expect(spans.at(5).text()).toBe('50.0º');  
       });
 
       it('should have the right info in Camera FOV, props.shuttersAperture = 0',()=>{

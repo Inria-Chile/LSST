@@ -26,6 +26,9 @@ exports[`Survey snapshot test renders correctly 1`] = `
       <div
         className="bottom-left-container"
       >
+        <Charts
+          mode="playback"
+        />
         <div
           className="row"
         >
@@ -148,6 +151,9 @@ exports[`Survey snapshot test shows cellHoverInfo when a field in the skymap is 
       <div
         className="bottom-left-container"
       >
+        <Charts
+          mode="playback"
+        />
         <div
           className="row"
         >
@@ -288,6 +294,9 @@ exports[`Survey snapshot test shows mainskymap when scatterplot container is cli
       <div
         className="bottom-left-container"
       >
+        <Charts
+          mode="playback"
+        />
         <div
           className="row"
         >
@@ -410,6 +419,9 @@ exports[`Survey snapshot test shows scatterplot instead of mainskymap when scatt
       <div
         className="bottom-left-container"
       >
+        <Charts
+          mode="playback"
+        />
         <div
           className="row"
         >
