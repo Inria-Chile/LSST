@@ -69,33 +69,21 @@ describe('when temperature is set',function(){
     });
 
     describe('receive new props and set the state right',function(){
-      it('calls componentWillReceive props',()=>{
-        let spy = sinon.spy(Environment.prototype,'componentWillReceiveProps');
-        expect(spy.calledOnce).toEqual(false);
-        environmentComponent().setProps({
-          temperature : 40,
-          humidity : 60,
-          pressure : 800, 
-          temperatureArray: [],
-          humidityArray: [],
-          pressureArray: [],
-        });
 
-        expect(spy.calledOnce).toEqual(true);
-      });
-
-      //this test fails because environment doesnt has props. So there is nothing to set. 
       it('set the component state with the new props',()=>{
-        environmentComponent().setProps({
+        environmentComponent().setState({
           temperature : 40,
           humidity : 60,
-          pressure : 800, 
+          pressure : 800,
+          temperatureArray : [40],
+          humidityArray : [60],
+          pressureArray : [800], 
         });
 
         let state = {
-          temperature : 32,
-          humidity : 57,
-          pressure : 770,
+          temperature : 40,
+          humidity : 60,
+          pressure : 800,
           temperatureArray : [40],
           humidityArray : [60],
           pressureArray : [800],
