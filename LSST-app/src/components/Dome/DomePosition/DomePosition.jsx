@@ -102,19 +102,19 @@ class DomePosition extends PureComponent {
                     <div className="dome-azimuth-text">
                         <span>Dome azimuth: </span> 
                         <span>
-                            {this.props.domeAzimuth ? this.props.domeAzimuth.toFixed(1)+'º' : 'None'}
+                            { this.props.domeAzimuth  !== null ? this.props.domeAzimuth.toFixed(1)+'º' : 'None'}
                         </span>
                     </div>
                     <div>
                         <span className="dome-data-label">Mount azimuth: </span> 
                         <span className="dome-data">
-                            {this.props.mountAzimuth ? this.props.mountAzimuth.toFixed(1)+'º' : 'None'}
+                            {this.props.mountAzimuth  !== null ? this.props.mountAzimuth.toFixed(1)+'º' : 'None'}
                         </span>
                     </div>
                     <div>
                         <span className="dome-data-label">Camera FOV: </span> 
                         <span className="dome-data">
-                            {this.props.shuttersAperture ? this.props.shuttersAperture+'º' : 'None'}
+                            { this.props.shuttersAperture !== null ? this.props.shuttersAperture.toFixed(1)+'º' : 'None'}
                         </span>
                     </div>
                 </div>

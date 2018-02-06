@@ -88,8 +88,22 @@ class Skymap extends PureComponent {
     Celestial.display(config);
     Celestial.cfg = config;
     this.Celestial = Celestial;
-    if(this.props.onLoaded)
-      this.props.onLoaded();
+
+    if(typeof this.props.fontSize !==  'undefined' && this.props.fontSize  !== null)
+      this.setFontSize(0);
+    if(typeof this.props.gridOpacity !== 'undefined' && this.props.gridOpacity !== null)
+      this.setGridOpacity(0);
+
+
+    window.addEventListener("resize", ()=>{
+      // 0 defaults to current view width
+      this.getCelestial().resize({width:0});
+    });
+  }
+
+  componentWillUnmount() {
+    // good practice when adding event listeners
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   setFontSize(fsize) {
@@ -113,61 +127,6 @@ class Skymap extends PureComponent {
     this.updateConfig(config);
   }
 
-  setEcliptic(show){
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.lines.ecliptic.show = show;
-    cel.apply(cfg);
-  }
-
-  setGalactic = (show) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.lines.galactic.show = show;
-    cel.apply(cfg);
-    cel.cfg = cfg;
-  }
-
-  setMoon = (show) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.moon.show = show;
-    cel.apply(cfg);
-    cel.cfg = cfg;
-  }
-
-  setTelescopeRange = (show) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.telescopeRange.show = show;
-    cel.apply(cfg);
-    cel.cfg = cfg;
-  }
-
-  setSidebar = (show) => {
-    this.sidebar.setState({
-      sidebarOpen: show
-    })
-  }
-
-  setProjection = (proj) => {
-    let cfg = this.Celestial.cfg;
-    let cel = this.getCelestial();
-    cfg.projection = proj;
-    cel.reproject(cfg);
-    cel.cfg = cfg;
-  }
-
-  displayAllFilters() {
-    var filters = ["u", "g", "r", "i", "z", "y"];
-    this.setDisplayedFilters(filters);
-  }
-
-  displayFilter(filter) {
-    var filters = [filter];
-    this.setDisplayedFilters(filters);
-  }
-
   updateConfig(config) {
     this.Celestial.apply(config);
     this.Celestial.cfg = config;
@@ -180,9 +139,58 @@ class Skymap extends PureComponent {
     // this.setupCelestial();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    let cel = this.getCelestial();
+    if(cel){
+      let cfg = this.Celestial.cfg;
+            
+      let changed = false;
+      if( prevProps.showEcliptic !== this.props.showEcliptic  ) {
+        cfg.lines.ecliptic.show = this.props.showEcliptic;
+        changed = true;
+      }
+      if( prevProps.showGalactic !== this.props.showGalactic){
+        cfg.lines.galactic.show = this.props.showGalactic;
+        changed = true;
+      }
+      
+      if( prevProps.showMoon !== this.props.showMoon){
+        cfg.moon.show = this.props.showMoon;
+        changed = true;
+      }
+
+      if( prevProps.showTelescopeRange !== this.props.showTelescopeRange) {
+        cfg.telescopeRange.show = this.props.showTelescopeRange;
+        changed = true;
+      }
+      
+      if(changed) cel.apply(cfg);
+      
+  
+      if( prevProps.projection !== this.props.projection){
+        cfg.projection = this.props.projection;
+        cel.reproject(cfg);
+
+      }
+  
+      // set filters
+      
+      let filters = this.props.filter==='all'?  ["u", "g", "r", "i", "z", "y"] : [this.props.filter];
+  
+      this.setDisplayedFilters(filters);
+  
+      cel.updateCells(this.props.displayedData);    
+          
+      cel.redraw(); // antes esto ocurria solo cuando no existian ni startDate ni endDate
+  
+    }
+  }
+
   render() {
+
     return (
-      <div ref={this.props.nodeRef} className={this.props.className}>
+      //
+      <div  ref={this.props.nodeRef} className={this.props.className}>
         <Script
           url="/lib/d3.geo.projection.min.js"
           onError={ (x) => console.log(x+'onereror')}

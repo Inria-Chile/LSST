@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SurveyControls_Test renders correctly whith shallowRender live mode 1`] = `
+<div
+  className="survey-control-bar"
+>
+  <div
+    className="survey-controls"
+  >
+    <ModeSelection
+      selectedMode="live"
+      setLiveMode={undefined}
+      setPlaybackMode={undefined}
+    />
+    <TimeWindow
+      setTimeWindow={undefined}
+    />
+  </div>
+</div>
+`;
+
+exports[`SurveyControls_Test renders correctly whith shallowRender playback mode 1`] = `
+<div
+  className="survey-control-bar"
+>
+  <div
+    className="survey-controls"
+  >
+    <ModeSelection
+      selectedMode="playback"
+      setLiveMode={undefined}
+      setPlaybackMode={undefined}
+    />
+    <DateSelection
+      setDataByDate={undefined}
+    />
+    <PlayerControls
+      endDate={"1994-01-01T03:00:00.000Z"}
+      setDisplayedDateLimits={undefined}
+      startDate={"1994-01-01T03:00:00.000Z"}
+    />
+  </div>
+</div>
+`;

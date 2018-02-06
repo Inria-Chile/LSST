@@ -1,0 +1,519 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Survey snapshot test renders correctly 1`] = `
+<div
+  className="survey-container"
+>
+  <DraggableTitle
+    title="Survey Progress"
+  />
+  <div
+    className="main-container"
+  >
+    <div
+      className="left-container"
+    >
+      <SurveyControls
+        endDate={null}
+        selectedMode="playback"
+        setDataByDate={[Function]}
+        setDisplayedDateLimits={[Function]}
+        setLiveMode={[Function]}
+        setPlaybackMode={[Function]}
+        setTimeWindow={[Function]}
+        startDate={null}
+      />
+      <div
+        className="bottom-left-container"
+      >
+        <Charts
+          mode="playback"
+        />
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <div
+              className="main-skymap-wrapper"
+            >
+              <Settings
+                setEcliptic={[Function]}
+                setGalactic={[Function]}
+                setMoon={[Function]}
+                setProjection={[Function]}
+                setTelescopeRange={[Function]}
+              />
+              <div
+                style={
+                  Object {
+                    "display": "block",
+                  }
+                }
+              >
+                <Skymap
+                  cellClickCallback={[Function]}
+                  cellHoverCallback={[Function]}
+                  cellUpdateCallback={[Function]}
+                  className="mainSkymap"
+                  displayedData={Array []}
+                  filter="all"
+                  nodeRef="mainNode"
+                  projection="aitoff"
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "position": "absolute",
+                    "top": 0,
+                    "visibility": "hidden",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="scatterplot"
+                >
+                  <Scatterplot
+                    displayedData={Array []}
+                    height={400}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="col-6"
+          >
+            <ObservationsTable
+              clickedField={Array []}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-container"
+    >
+      <MiniSkymaps
+        displayedData={Array []}
+        fontSize={0}
+        gridOpacity={0}
+        onMinimapClick={[Function]}
+        selectedFilter="all"
+      />
+      <div
+        className="scatterplot-container"
+        onClick={[Function]}
+      >
+        <h4>
+           Right Ascention / Declination 
+        </h4>
+        <Scatterplot
+          displayedData={Array []}
+          height={183}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Survey snapshot test shows cellHoverInfo when a field in the skymap is selected 1`] = `
+<div
+  className="survey-container"
+>
+  <DraggableTitle
+    title="Survey Progress"
+  />
+  <div
+    className="main-container"
+  >
+    <div
+      className="left-container"
+    >
+      <SurveyControls
+        endDate={null}
+        selectedMode="playback"
+        setDataByDate={[Function]}
+        setDisplayedDateLimits={[Function]}
+        setLiveMode={[Function]}
+        setPlaybackMode={[Function]}
+        setTimeWindow={[Function]}
+        startDate={null}
+      />
+      <div
+        className="bottom-left-container"
+      >
+        <Charts
+          mode="playback"
+        />
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <div
+              className="main-skymap-wrapper"
+            >
+              <Settings
+                setEcliptic={[Function]}
+                setGalactic={[Function]}
+                setMoon={[Function]}
+                setProjection={[Function]}
+                setTelescopeRange={[Function]}
+              />
+              <div
+                style={
+                  Object {
+                    "display": "block",
+                  }
+                }
+              >
+                <Skymap
+                  cellClickCallback={[Function]}
+                  cellHoverCallback={[Function]}
+                  cellUpdateCallback={[Function]}
+                  className="mainSkymap"
+                  displayedData={Array []}
+                  filter="all"
+                  nodeRef="mainNode"
+                  projection="aitoff"
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "position": "absolute",
+                    "top": 0,
+                    "visibility": "hidden",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="scatterplot"
+                >
+                  <Scatterplot
+                    displayedData={Array []}
+                    height={400}
+                  />
+                </div>
+              </div>
+              <CellHoverInfo
+                selectedField={
+                  Object {
+                    "airmass": 2.49149,
+                    "count": 1,
+                    "expDate": 2594813,
+                    "expTime": 34,
+                    "fieldDec": -50.2,
+                    "fieldID": 39,
+                    "fieldRA": 196.858,
+                    "filterName": "y",
+                    "lst": 1.24181,
+                    "rotSkyPos": 2.30015,
+                    "seeing": 0.98908,
+                    "skybrightness_modified": 17,
+                  }
+                }
+              />
+            </div>
+          </div>
+          <div
+            className="col-6"
+          >
+            <ObservationsTable
+              clickedField={Array []}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-container"
+    >
+      <MiniSkymaps
+        displayedData={Array []}
+        fontSize={0}
+        gridOpacity={0}
+        onMinimapClick={[Function]}
+        selectedFilter="all"
+      />
+      <div
+        className="scatterplot-container"
+        onClick={[Function]}
+      >
+        <h4>
+           Right Ascention / Declination 
+        </h4>
+        <Scatterplot
+          displayedData={Array []}
+          height={183}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Survey snapshot test shows mainskymap when scatterplot container is clicked 1`] = `
+<div
+  className="survey-container"
+>
+  <DraggableTitle
+    title="Survey Progress"
+  />
+  <div
+    className="main-container"
+  >
+    <div
+      className="left-container"
+    >
+      <SurveyControls
+        endDate={null}
+        selectedMode="playback"
+        setDataByDate={[Function]}
+        setDisplayedDateLimits={[Function]}
+        setLiveMode={[Function]}
+        setPlaybackMode={[Function]}
+        setTimeWindow={[Function]}
+        startDate={null}
+      />
+      <div
+        className="bottom-left-container"
+      >
+        <Charts
+          mode="playback"
+        />
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <div
+              className="main-skymap-wrapper"
+            >
+              <Settings
+                setEcliptic={[Function]}
+                setGalactic={[Function]}
+                setMoon={[Function]}
+                setProjection={[Function]}
+                setTelescopeRange={[Function]}
+              />
+              <div
+                style={
+                  Object {
+                    "display": "block",
+                  }
+                }
+              >
+                <Skymap
+                  cellClickCallback={[Function]}
+                  cellHoverCallback={[Function]}
+                  cellUpdateCallback={[Function]}
+                  className="mainSkymap"
+                  displayedData={Array []}
+                  filter="all"
+                  nodeRef="mainNode"
+                  projection="aitoff"
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "position": "absolute",
+                    "top": 0,
+                    "visibility": "hidden",
+                    "width": "100%",
+                  }
+                }
+              >
+                <div
+                  className="scatterplot"
+                >
+                  <Scatterplot
+                    displayedData={Array []}
+                    height={400}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="col-6"
+          >
+            <ObservationsTable
+              clickedField={Array []}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-container"
+    >
+      <MiniSkymaps
+        displayedData={Array []}
+        fontSize={0}
+        gridOpacity={0}
+        onMinimapClick={[Function]}
+        selectedFilter="all"
+      />
+      <div
+        className="scatterplot-container"
+        onClick={[Function]}
+      >
+        <h4>
+           Right Ascention / Declination 
+        </h4>
+        <Scatterplot
+          displayedData={Array []}
+          height={183}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Survey snapshot test shows scatterplot instead of mainskymap when scatterplot container is clicked 1`] = `
+<div
+  className="survey-container"
+>
+  <DraggableTitle
+    title="Survey Progress"
+  />
+  <div
+    className="main-container"
+  >
+    <div
+      className="left-container"
+    >
+      <SurveyControls
+        endDate={null}
+        selectedMode="playback"
+        setDataByDate={[Function]}
+        setDisplayedDateLimits={[Function]}
+        setLiveMode={[Function]}
+        setPlaybackMode={[Function]}
+        setTimeWindow={[Function]}
+        startDate={null}
+      />
+      <div
+        className="bottom-left-container"
+      >
+        <Charts
+          mode="playback"
+        />
+        <div
+          className="row"
+        >
+          <div
+            className="col-6"
+          >
+            <div
+              className="main-skymap-wrapper"
+            >
+              <Settings
+                setEcliptic={[Function]}
+                setGalactic={[Function]}
+                setMoon={[Function]}
+                setProjection={[Function]}
+                setTelescopeRange={[Function]}
+              />
+              <div
+                style={
+                  Object {
+                    "position": "absolute",
+                    "top": 0,
+                    "visibility": "hidden",
+                    "width": "100%",
+                  }
+                }
+              >
+                <Skymap
+                  cellClickCallback={[Function]}
+                  cellHoverCallback={[Function]}
+                  cellUpdateCallback={[Function]}
+                  className="mainSkymap"
+                  displayedData={Array []}
+                  filter="all"
+                  nodeRef="mainNode"
+                  projection="aitoff"
+                  showEcliptic={true}
+                  showGalactic={true}
+                  showMoon={true}
+                  showTelescopeRange={true}
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "display": "block",
+                  }
+                }
+              >
+                <div
+                  className="scatterplot"
+                >
+                  <Scatterplot
+                    displayedData={Array []}
+                    height={400}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="col-6"
+          >
+            <ObservationsTable
+              clickedField={Array []}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-container"
+    >
+      <MiniSkymaps
+        displayedData={Array []}
+        fontSize={0}
+        gridOpacity={0}
+        onMinimapClick={[Function]}
+        selectedFilter="all"
+      />
+      <div
+        className="scatterplot-container"
+        onClick={[Function]}
+      >
+        <h4>
+           Right Ascention / Declination 
+        </h4>
+        <Scatterplot
+          displayedData={Array []}
+          height={183}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

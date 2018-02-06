@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayerControls_Test renders correctly with shallowRender 1`] = `
+<div
+  className="player-controls"
+>
+  <PlaybackControls
+    childClasses={Object {}}
+    childrenStyles={Object {}}
+    className="PlaybackControls"
+    extraClasses=""
+    hasNext={true}
+    hasPrevious={true}
+    isPlayable={true}
+    isPlaying={false}
+    onNext={[Function]}
+    onPlaybackChange={[Function]}
+    onPrevious={[Function]}
+    showNext={true}
+    showPrevious={true}
+    style={Object {}}
+  />
+  <ProgressBar
+    childClasses={Object {}}
+    childrenStyles={Object {}}
+    className="ProgressBar"
+    currentTime={Infinity}
+    extraClasses=""
+    isSeekable={true}
+    onIntent={[Function]}
+    onSeek={[Function]}
+    onSeekEnd={[Function]}
+    onSeekStart={[Function]}
+    style={Object {}}
+    totalTime={0}
+  />
+</div>
+`;
