@@ -12,6 +12,15 @@ class Alarm extends Component {
             isOn: true
         };
     }
+
+    componentDidMount(){
+        setInterval(()=>{
+            this.setState({
+                isOn: !this.state.isOn
+            });       
+        }, 4000*(Math.random()+0.2));
+    }
+
     render() {
         return (
             <img alt="alarm icon"

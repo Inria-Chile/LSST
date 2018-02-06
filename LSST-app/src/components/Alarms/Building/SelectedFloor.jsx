@@ -73,10 +73,6 @@ class SelectedFloor extends Component {
                         console.log(e.clientX,e.clientY);
                     }}/>
 
-                    {/* <img src={SelectedFloor.floorPlanImages[this.props.selectedFloor]} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
-                        console.log(e.clientX,e.clientY);
-                    }}/> */}
-
                 </div>
             </div>
         );
