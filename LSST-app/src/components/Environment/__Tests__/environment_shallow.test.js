@@ -44,7 +44,7 @@ describe("Environment shallow testing",function(){
   
       it('should contain 6 table columns',()=>{
 
-        expect(environment.find("td").length).toBe(6);
+        expect(environment.find("td").length).toBe(15);
       })
   
       it('should have the right message',()=>{
@@ -77,7 +77,7 @@ describe("Environment shallow testing",function(){
       })
   
       it('should contain 6 table columns',()=>{
-        expect(environment.find("td").length).toBe(6);
+        expect(environment.find("td").length).toBe(15);
       })
   
   

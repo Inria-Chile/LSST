@@ -61,9 +61,13 @@ describe('when temperature is set',function(){
         temperature: 32,
         humidity: 57,
         pressure: 770,
+        dewPoint: 1,
+        precipitation: 1,
         temperatureArray: [],
         humidityArray: [],
         pressureArray: [],
+        dewPointArray: [],
+        precipitationArray: [],
       };
       expect(environmentComponent().state()).toEqual(state);
     });
@@ -75,18 +79,26 @@ describe('when temperature is set',function(){
           temperature : 40,
           humidity : 60,
           pressure : 800,
+          precipitation: 1,
+          dewPoint: 1,
           temperatureArray : [40],
           humidityArray : [60],
           pressureArray : [800], 
+          precipitationArray: [],
+          dewPointArray: [],
         });
 
         let state = {
           temperature : 40,
           humidity : 60,
           pressure : 800,
+          precipitation: 1,
+          dewPoint: 1,
           temperatureArray : [40],
           humidityArray : [60],
           pressureArray : [800],
+          precipitationArray: [],
+          dewPointArray: [],
         }
         expect(environmentComponent().state()).toEqual(state);
       });
