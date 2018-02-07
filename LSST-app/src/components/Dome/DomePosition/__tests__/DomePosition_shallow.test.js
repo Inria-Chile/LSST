@@ -34,7 +34,7 @@ describe("DomePosition renders all nested components",function(){
 
         it('renders the right picture',()=>{
             let pic = domePosition.find('img').first();
-            expect(pic.props().src).toBe("/img/Cardinal_directions.png");
+            expect(pic.props().src).toBe("/img/Cardinal_directions.svg");
         });
     });
     

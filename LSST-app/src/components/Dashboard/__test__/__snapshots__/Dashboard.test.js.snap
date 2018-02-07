@@ -7,7 +7,7 @@ exports[`Dahshboard test doesnt render FieldDetails when showFieldDetails is set
   <div
     id="dashboard-content2"
   >
-    <WidthProvider
+    <_class
       breakpoints={
         Object {
           "lg": 3200,
@@ -115,7 +115,7 @@ exports[`Dahshboard test doesnt render FieldDetails when showFieldDetails is set
       >
         <Environment />
       </div>
-    </WidthProvider>
+    </_class>
   </div>
 </div>
 `;
@@ -127,7 +127,7 @@ exports[`Dahshboard test renders FieldDetails when showFieldDetails is setted tr
   <div
     id="dashboard-content2"
   >
-    <WidthProvider
+    <_class
       breakpoints={
         Object {
           "lg": 3200,
@@ -235,7 +235,7 @@ exports[`Dahshboard test renders FieldDetails when showFieldDetails is setted tr
       >
         <Environment />
       </div>
-    </WidthProvider>
+    </_class>
   </div>
   <FieldDetails
     setFieldDetailsVisibility={[Function]}
@@ -251,7 +251,7 @@ exports[`Dahshboard test renders correctly with shallow renderer 1`] = `
   <div
     id="dashboard-content2"
   >
-    <WidthProvider
+    <_class
       breakpoints={
         Object {
           "lg": 3200,
@@ -359,7 +359,7 @@ exports[`Dahshboard test renders correctly with shallow renderer 1`] = `
       >
         <Environment />
       </div>
-    </WidthProvider>
+    </_class>
   </div>
 </div>
 `;
