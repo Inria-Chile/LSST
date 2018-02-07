@@ -13,3 +13,13 @@
     height: 100%;
 }
 
+.rotator-diff {
+    font-size: 17px;
+    margin-bottom: 0;
+    margin-left: 10px;
+}
+
+.rotator-diff-value {
+    font-weight: bold;
+    margin-left: 10px;
+}
