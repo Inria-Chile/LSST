@@ -1,0 +1,24 @@
+.alarms-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.building-container {
+    /* flex: 1 0 75%; */
+}
+
+.alarms-bottom-row {
+    display: flex;
+    margin-top: 5px;
+    /* flex: 1 0 25%; */
+}
+
+.platform-lift-container {
+    flex: 1 0;
+    margin-right: 0px;
+}
+.cable-wraps-container {
+    flex: 1 0;
+    margin-left: 0;
+}

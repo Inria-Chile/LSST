@@ -54,50 +54,52 @@ class DomePosition extends PureComponent {
         return (
             <div className="dome-position-container" ref="container">
                 {/* <h4>Dome Position</h4> */}
-                <div className="cardinal-points">
-                    <img src="/img/Cardinal_directions.png" alt="cardinal-points"></img>
-                </div>
-                <svg 
-                    className="svg-container"
-                    height={this.props.height+100}
-                    width={this.props.width+100}>
-                    <g id="dome-angle"
-                        transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
-                        height={this.props.height}
-                        width={this.props.width}>
-                        <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={1.0} xlinkHref="/img/dome_top.png"/>
-                        <line id="dome-angle-top"
-                            className="dome-angle"
-                            x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} />
-                        <line id="dome-angle-bot"
-                            className="dome-angle"
-                            x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} />
+                {/* <div className="cardinal-points">
+                </div> */}
+                <div className="dome-wrapper">
+                    <img className="north-img" src="/img/Cardinal_directions.svg" alt="North direction"></img>
+                    <svg 
+                        className="svg-container"
+                        height={this.props.height+100}
+                        width={this.props.width+100}>
+                        <g id="dome-angle"
+                            transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
+                            height={this.props.height}
+                            width={this.props.width}>
+                            <image id="dome-background" x={-this.props.width/2} y={-this.props.height/2} width={this.props.width} height={this.props.height} opacity={1.0} xlinkHref="/img/dome_top.png"/>
+                            <line id="dome-angle-top"
+                                className="dome-angle"
+                                x1={0} y1={0} 
+                                x2={-this.props.width/2} y2={0} />
+                            <line id="dome-angle-bot"
+                                className="dome-angle"
+                                x1={0} y1={0} 
+                                x2={-this.props.width/2} y2={0} />
 
-                        <circle id={"test-circle"}
-                            className="dome-angle"
-                            cx={0} cy={0} r={5}
-                            key={'overlay'}
-                            pointerEvents="all"
-                        />
-                    </g>
-                    <g id="mount-angle"
-                        transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
-                        height={this.props.height}
-                        width={this.props.width}>
-                        <line id="mount-angle-top"
-                            className="mount-angle"
-                            x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} />
-                        <line id="mount-angle-bot"
-                            className="mount-angle"
-                            x1={0} y1={0} 
-                            x2={-this.props.width/2} y2={0} 
-                            strokeWidth={4} />
-                    </g>
-                </svg>
+                            <circle id={"test-circle"}
+                                className="dome-angle"
+                                cx={0} cy={0} r={5}
+                                key={'overlay'}
+                                pointerEvents="all"
+                            />
+                        </g>
+                        <g id="mount-angle"
+                            transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
+                            height={this.props.height}
+                            width={this.props.width}>
+                            <line id="mount-angle-top"
+                                className="mount-angle"
+                                x1={0} y1={0} 
+                                x2={-this.props.width/2} y2={0} 
+                                strokeWidth={4} />
+                            <line id="mount-angle-bot"
+                                className="mount-angle"
+                                x1={0} y1={0} 
+                                x2={-this.props.width/2} y2={0} 
+                                strokeWidth={4} />
+                        </g>
+                    </svg>
+                </div>                
                 <div className="dome-position-info">
                     <div className="dome-azimuth-text">
                         <span>Dome azimuth: </span> 

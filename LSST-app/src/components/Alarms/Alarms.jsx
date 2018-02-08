@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './Alarms.css';
 import Building from './Building/Building';
 import CableWraps from './CableWraps/CableWraps';
+import PlatformLift from './PlatformLift/PlatformLift';
 // import openSocket from 'socket.io-client';
 
 class Alarms extends Component {
@@ -15,7 +16,10 @@ class Alarms extends Component {
         return (
             <div className="alarms-container">
                 <Building />
-                <CableWraps />
+                <div className="alarms-bottom-row">
+                    <PlatformLift />
+                    <CableWraps />
+                </div>
             </div>
         );
     }

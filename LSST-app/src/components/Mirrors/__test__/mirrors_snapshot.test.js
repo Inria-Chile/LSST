@@ -15,11 +15,13 @@ describe('Mirrors test', function(){
    }
 
   const primero = {
-    position : [3,4]
+    position : [3,4],
+    actuatorID: '1'
   }
 
   const segundo = {
-    position : [5,6]
+    position : [5,6],
+    actuatorID: '2'    
   }
 
   data.results.push(primero);
