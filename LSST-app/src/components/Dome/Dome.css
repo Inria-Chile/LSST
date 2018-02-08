@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.dome-container .draggable-title {
+    display: block;
+}
+
 .dome-container h2 {
     margin: 0px;
     margin-bottom: 5px;

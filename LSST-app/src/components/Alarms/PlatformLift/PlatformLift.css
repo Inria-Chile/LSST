@@ -1,8 +1,11 @@
 #platform-lift-content {
     display: inline-block;
     position: relative;
-    width: 100%;
     overflow: hidden;
+    background: var(--theme-div-background);
+    margin-right: 5px;
+    margin-left: -5px;
+    width: 100%;
 }
 
 #lift {
@@ -48,6 +51,7 @@
 #platform-building-container {
     position: relative;
     width: 100%;
+    max-width: 760px;
 }
 
 #platform-building-container img {

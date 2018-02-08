@@ -3,6 +3,7 @@ import './CableWraps.css';
 // import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
+import DraggableTitle from '../../Utils/DraggableTitle';
 import * as d3 from 'd3';
 import openSocket from 'socket.io-client';
 
@@ -98,19 +99,19 @@ class CableWraps extends Component {
     render() {
         return (
             <div className="cable-wraps-container">
-                {/* <DraggableTitle title='Cable Wraps'/> */}
-                <div className="container pull-left">
+                <DraggableTitle title='Cable Wraps' />
+                <div className="cable-wraps-content pull-left">
                     <div className="row">
                         <div className="cam-cable col-md-6">
                             <h4>Camera Cable Wrap</h4>
                             {
                                 this.state.cable_wraps ?
-                                <p className='rotator-diff'>Rotator angle difference: 
+                                    <p className='rotator-diff'>Rotator angle difference:
                                     <span className='rotator-diff-value'>
-                                    {(this.state.cable_wraps.camera.cable - this.state.cable_wraps.camera.rotator).toFixed(2)+'º'} 
-                                    </span>
-                                </p>:
-                                <p></p>
+                                            {(this.state.cable_wraps.camera.cable - this.state.cable_wraps.camera.rotator).toFixed(2) + 'º'}
+                                        </span>
+                                    </p> :
+                                    <p></p>
                             }
                             <CameraCableWrap
                                 height={300}
@@ -124,12 +125,12 @@ class CableWraps extends Component {
                             <h4>Azimuth Cable Wrap</h4>
                             {
                                 this.state.cable_wraps ?
-                                <p className='rotator-diff'>Rotator angle difference: 
+                                    <p className='rotator-diff'>Rotator angle difference:
                                     <span className='rotator-diff-value'>
-                                    {(this.state.cable_wraps.az.cable - this.state.cable_wraps.az.rotator).toFixed(2)+'º'} 
-                                    </span>
-                                </p>:
-                                <p></p>
+                                            {(this.state.cable_wraps.az.cable - this.state.cable_wraps.az.rotator).toFixed(2) + 'º'}
+                                        </span>
+                                    </p> :
+                                    <p></p>
                             }
                             <AZCableWrap
                                 height={300}
@@ -139,8 +140,9 @@ class CableWraps extends Component {
                                 arcTween={this.arcTween}
                                 cable_wrap={(this.state.cable_wraps) ? this.state.cable_wraps.az : null} />
                         </div>
-
-                    </div></div></div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

@@ -2,15 +2,17 @@
     display: flex;
     flex-direction: column;
     margin: 5px;
-    color: #96a3b3;
     height: 100%;  
+    margin-top: 0;
 }
 
-.cable-wraps-container .container {
-    background: #3a4d61;
-    width: 100%;
+.cable-wraps-container .cable-wraps-content {
+    color: #96a3b3;
+    background: var(--theme-div-background);
     margin: 5px;
     height: 100%;
+    margin-top: 0;
+    padding-right: 5px;
 }
 
 .rotator-diff {
