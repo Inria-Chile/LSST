@@ -2,6 +2,7 @@
     display: inline-block;
     position: relative;
     width: 100%;
+    overflow: hidden;
 }
 
 #lift {
@@ -9,14 +10,15 @@
     left: 0;
     bottom: 0;
     transition: bottom 1.5s ease-in-out;
+    width: 100%;
 }
 
 #lift.above {
-    filter: hue-rotate(125deg);
+    /* filter: hue-rotate(125deg); */
 }
 
 #lift.under {
-    filter: hue-rotate(320deg);    
+    /* filter: hue-rotate(320deg);     */
 }
 
 .indicator {
@@ -36,9 +38,18 @@
 }
 
 #height-indicator {
-    top: 32%;    
+    top: 25%;    
 }
 
 #motion-indicator.moving {
     background: var(--theme-platform-lift-moving);
+}
+
+#platform-building-container {
+    position: relative;
+    width: 100%;
+}
+
+#platform-building-container img {
+    width: 100%;
 }

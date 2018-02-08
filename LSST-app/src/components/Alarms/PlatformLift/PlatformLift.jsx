@@ -45,22 +45,32 @@ class PlatformLift extends Component {
 
     render() {
         let buildingHeight = 70;
-        let minHeight = 60;
+        let minHeight = 53;
         let displayedHeight = (1-this.state.height/100)*(100-minHeight);
         
         return (
             <div className="platform-lift-container">
                 <DraggableTitle title='Platform lift'/>
                 <div id="platform-lift-content">
-                    <img src="img/platform_lift/dome_side.png" alt="Platform background"/>
                     <div id="motion-indicator" className={'indicator ' + (this.state.status !== 'STOPPED' ? 'moving':'')}>
                         {PlatformLift.status[this.state.status]}
                     </div>
                     <div id="height-indicator" className={'indicator'}>
-                        Target height: {this.state.height.toFixed(1)}
+                    {
+                        this.state.status === 'STOPPED' ?
+                        'Height: ' + this.state.height.toFixed(1) :
+                        'Target height: ' + this.state.height.toFixed(1)
+                    }
                     </div>
-                    <div id="lift" className={this.state.height > buildingHeight ? 'above':'under'} style={{bottom:'-'+displayedHeight+'%'}}>
-                        <img src="img/platform_lift/lift.png" alt="Lift"/>
+                    <div id="platform-building-container">
+                        <img src="img/platform_lift/building.png" alt="Platform background"/>
+                        <div id="lift" className={this.state.height > buildingHeight ? 'above':'under'} style={{bottom:'-'+displayedHeight+'%'}}>
+                            {
+                                this.state.height > buildingHeight ? 
+                                <img src="img/platform_lift/platform-alert.png" alt="Lift"/> :
+                                <img src="img/platform_lift/platform-normal.png" alt="Lift"/>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
