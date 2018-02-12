@@ -63,7 +63,7 @@
     "start-client": "npm-run-all -p watch-css start-js",
     "start": "./node_modules/.bin/concurrently \"cd ../LSST-server && python3 server.py\" \"npm-run-all -p watch-css start-js\"",
     "build": "npm run build-css && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --silent",
     "eject": "react-scripts eject"
   }
 }

@@ -60,7 +60,7 @@ class Dashboard2 extends Component {
                         <div key="b" data-grid={{x: 6, y: 0, w: 2, h: 12}}>
                             <Mirrors />
                         </div>
-                        <div key="c" data-grid={{x: 8, y: 0, w: 4, h: 19}}>
+                        <div key="c" data-grid={{x: 8, y: 0, w: 4, h: 20}}>
                             <Dome />
                         </div>
                         <div key="d" data-grid={{x: 0, y: 10, w: 3, h: 5}}>
