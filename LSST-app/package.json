@@ -27,13 +27,22 @@
     "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "concurrently": "^3.5.0",
     "d3": "^4.10.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
+    "jest-fetch-mock": "^1.4.0",
     "npm-run-all": "^4.0.2",
     "react-addons-update": "^15.6.2",
     "react-easy-chart": "^1.0.0",
     "react-scripts": "1.0.10",
-    "react-table": "^6.5.3"
+    "react-table": "^6.5.3",
+    "react-test-renderer": "^16.2.0",
+    "sinon": "^4.1.5",
+    "socket.io-mock": "^1.2.3"
   },
   "proxy": {
     "/socket.io": {

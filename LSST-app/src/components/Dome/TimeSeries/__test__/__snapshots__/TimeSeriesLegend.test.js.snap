@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeSeriesLegend_Test renders correctly 1`] = `
+<div
+  className="timeseries-legend"
+>
+  <div
+    className="timeseries-legend-element"
+  >
+    <svg
+      height="30"
+      width="40"
+    >
+      <line
+        style={
+          Object {
+            "stroke": "#ddd",
+            "strokeDasharray": 0,
+            "strokeWidth": 7,
+          }
+        }
+        x1="0"
+        x2="35"
+        y1="15"
+        y2="15"
+      />
+    </svg>
+    <span>
+      Current value
+    </span>
+  </div>
+  <div
+    className="timeseries-legend-element"
+  >
+    <svg
+      height="30"
+      width="40"
+    >
+      <line
+        style={
+          Object {
+            "stroke": "#5e8ba9",
+            "strokeDasharray": 0,
+            "strokeWidth": 7,
+          }
+        }
+        x1="0"
+        x2="35"
+        y1="15"
+        y2="15"
+      />
+    </svg>
+    <span>
+      Target
+    </span>
+  </div>
+  <div
+    className="timeseries-legend-element"
+  >
+    <svg
+      height="30"
+      width="40"
+    >
+      <line
+        style={
+          Object {
+            "stroke": "#3e6b89",
+            "strokeDasharray": 7,
+            "strokeWidth": 7,
+          }
+        }
+        x1="0"
+        x2="35"
+        y1="15"
+        y2="15"
+      />
+    </svg>
+    <span>
+      Optimal
+    </span>
+  </div>
+</div>
+`;

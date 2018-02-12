@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColorScaleLegend_Test renders correctly 1`] = `
+<div
+  className="legend-container"
+>
+  <svg
+    height={250}
+    id="legend-svg"
+    width={83.33333333333333}
+  >
+    <g
+      transform="translate(20,10)"
+    >
+      <defs>
+        <linearGradient
+          id="colormap1"
+          spreadMethod="pad"
+          x1="0%"
+          x2="0%"
+          y1="100%"
+          y2="0%"
+        >
+          <stop
+            offset="0%"
+            stopColor="rgb(61, 0, 0)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="11.11111111111111%"
+            stopColor="rgb(65, 0, 0)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="22.22222222222222%"
+            stopColor="rgb(76, 0, 0)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="33.33333333333333%"
+            stopColor="rgb(94, 1, 1)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="44.44444444444444%"
+            stopColor="rgb(118, 1, 1)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="55.55555555555556%"
+            stopColor="rgb(150, 2, 2)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="66.66666666666666%"
+            stopColor="rgb(188, 4, 4)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="77.77777777777779%"
+            stopColor="rgb(233, 7, 7)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="88.88888888888889%"
+            stopColor="rgb(247, 48, 48)"
+            stopOpacity="1"
+          />
+          <stop
+            offset="100%"
+            stopColor="rgb(247, 110, 110)"
+            stopOpacity="1"
+          />
+        </linearGradient>
+      </defs>
+      <rect
+        className="colormap-rect"
+        height={230}
+        style={
+          Object {
+            "fill": "url(\\"#colormap1\\")",
+          }
+        }
+        transform="translate(16.666666666666664,0)"
+        width={16.666666666666664}
+        x1="0"
+        y1="0"
+      />
+      <g
+        className="legend axis"
+        transform="translate(0, 0)"
+      >
+        <g
+          className="tick"
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          transform="translate(0,230)"
+        >
+          <line
+            x1={14}
+            x2={20}
+            y1="0"
+            y2="0"
+          />
+          <text
+            dy=".32em"
+            style={
+              Object {
+                "textAnchor": "end",
+              }
+            }
+            x="9"
+            y="0"
+          >
+            0
+          </text>
+        </g>
+        <g
+          className="tick"
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          transform="translate(0,0)"
+        >
+          <line
+            x1={14}
+            x2={20}
+            y1="0"
+            y2="0"
+          />
+          <text
+            dy=".32em"
+            style={
+              Object {
+                "textAnchor": "end",
+              }
+            }
+            x="9"
+            y="0"
+          >
+            10
+          </text>
+        </g>
+      </g>
+    </g>
+  </svg>
+</div>
+`;

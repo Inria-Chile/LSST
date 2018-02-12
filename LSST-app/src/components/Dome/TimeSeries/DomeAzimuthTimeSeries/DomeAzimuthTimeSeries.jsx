@@ -77,8 +77,8 @@ class DomeAzimuthTimeSeries extends Component {
                 xAxis={{label: 'Time', tickPadding:5, tickArguments: [5], tickFormat: (date) => date.toLocaleTimeString()}}
             />
         );
-    }
-}
+    };
+};
 
 
 export default DomeAzimuthTimeSeries;
