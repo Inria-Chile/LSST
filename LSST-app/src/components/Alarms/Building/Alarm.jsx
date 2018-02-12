@@ -29,8 +29,8 @@ class Alarm extends Component {
                     left: this.props.position[0] + "%",
                     top: this.props.position[1] + "%",
                     position: 'absolute',
-                    width: this.props.width + "px",
-                    height: this.props.height + "px"
+                    width: this.props.width + "%",
+                    height: this.props.height + "%"
                 }} 
                 onClick = {(e) =>{
                     this.setState({

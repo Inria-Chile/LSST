@@ -8,26 +8,28 @@ class SelectedFloor extends Component {
         super(props);
         const offsetX = 433+7;
         const offsetY = 52+4;
-        this.alarmsCoordinates = [[2954-offsetX, 520-offsetY],
-        [2952-offsetX, 761-offsetY],
-        [3154-offsetX, 207-offsetY],
-        [3216-offsetX, 206-offsetY],
-        [3193-offsetX, 274-offsetY],
-        [3193-offsetX, 368-offsetY],
-        [3192-offsetX, 525-offsetY],
-        [3193-offsetX, 690-offsetY],
-        [3193-offsetX, 782-offsetY],
-        [3315-offsetX, 196-offsetY],
-        [3380-offsetX, 151-offsetY],
-        [3443-offsetX, 368-offsetY],
-        [3444-offsetX, 527-offsetY],
-        [3443-offsetX, 691-offsetY],
-        [3444-offsetX, 781-offsetY],
-        [3637-offsetX, 198-offsetY],
-        [3636-offsetX, 432-offsetY],
-        [3634-offsetX, 546-offsetY],
-        [3635-offsetX, 645-offsetY],
-        [3635-offsetX, 833-offsetY]];
+        this.alarmsCoordinates = [[2954, 520],
+        [2952, 761],
+        [3154, 207],
+        [3216, 206],
+        [3193, 274],
+        [3193, 368],
+        [3192, 525],
+        [3193, 690],
+        [3193, 782],
+        [3315, 196],
+        [3380, 151],
+        [3443, 368],
+        [3444, 527],
+        [3443, 691],
+        [3444, 781],
+        [3637, 198],
+        [3636, 432],
+        [3634, 546],
+        [3635, 645],
+        [3635, 833]].map((coord) =>{
+            return [(coord[0]-offsetX)/3333*100, (coord[1]-offsetY)/1530*100];
+        });
     }
 
     static floorPlanImages = {
@@ -54,8 +56,8 @@ class SelectedFloor extends Component {
             imgSrc = "";
 
 
-        const w = 25;
-        const h = 25;
+        const w = 25/3333*100;
+        const h = 25/1530*100;
         return (
 
             <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
@@ -65,7 +67,7 @@ class SelectedFloor extends Component {
                         return(                    
                             <Alarm
                             key = {index.toString()}
-                            position={[(alarmCoordinate[0]  - 0.5*w)/ 3333 * 100, (alarmCoordinate[1]-0.5*h)/ 1530  * 100]}
+                            position={[(alarmCoordinate[0]  - 0.5*w), (alarmCoordinate[1]-0.5*h) ]}
                             width={w}
                             height={h} />
                         );
