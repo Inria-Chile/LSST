@@ -39,30 +39,7 @@
     box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.7);
 }
 
-.floor-thumbnail-wrapper {
-    object-fit: cover;
-    flex: 1 1 10%;
-    margin-top: 10px;
-    position: relative;
-    /* padding: 10px; */
-    background: var(--theme-div-background);
-}
 
-.floor-thumbnail-wrapper.alarm:before {
-    content: "";
-    position: absolute;
-    display: block;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255,0,0, 0.0);
-    transition: all 0.1s linear;
-    height: 100%;
-    animation-duration: 1.0s;
-    animation-name: blinker;
-    animation-iteration-count: 5;
-}
 
 @keyframes blinker {
     from {
@@ -86,9 +63,7 @@
     }
 }
 
-.floor-thumbnail-wrapper img {
-    width: 100%;
-}
+
 
 .selected-floor-container img {
     width: 100%;
