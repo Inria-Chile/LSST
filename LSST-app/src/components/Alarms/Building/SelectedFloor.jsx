@@ -64,7 +64,8 @@ class SelectedFloor extends Component {
                     }}/>
 
                     <div className={'side-thumbnail-container'}>
-                        <img src="/img/floor_plans/n1-side_thumbnail-danger.svg"/>
+                        <img src="/img/floor_plans/n1-side_thumbnail-danger.svg"
+                        alt="side view thumbnail"/>
                     </div>
                 </div>
 

@@ -33,9 +33,11 @@ class FloorThumbnails extends Component {
                                             this.props.selectedFloor === key ? 'selected':'',
                                             isAlarm ? 'alarm':''].join(' ')} 
                                 key={key} onClick={() => this.props.setSelectedFloor(key)}>
-                                <img src={imgSrc}
-                                    className={"floor-plan-thumbnail"} 
+
+                                <p> Label
+                                <img src={imgSrc} 
                                     alt="floor thumbnail"/>
+                                </p>
                             </div>
                             )
                     })
