@@ -9,7 +9,7 @@ class Alarm extends Component {
         ];
 
         this.state = {
-            isOn: true
+            isOn: false
         };
     }
 
@@ -18,7 +18,7 @@ class Alarm extends Component {
             this.setState({
                 isOn: !this.state.isOn
             });       
-        }, 4000*(Math.random()+0.2));
+        }, 8000*(Math.random()+0.1));
     }
 
     render() {
