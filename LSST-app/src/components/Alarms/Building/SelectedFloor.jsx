@@ -63,7 +63,11 @@ class SelectedFloor extends Component {
                         console.log(e.clientX,e.clientY);
                     }}/>
 
+                    <div className={'side-thumbnail-container'}>
+                        <img src="/img/floor_plans/n1-side_thumbnail-danger.svg"/>
+                    </div>
                 </div>
+
             </div>
         );
     }
