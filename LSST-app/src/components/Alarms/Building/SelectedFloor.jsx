@@ -47,7 +47,7 @@ class SelectedFloor extends Component {
         return (
 
             <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
-                <div height="100%" width="100%" style={{ position: "relative", opacity: "70%" }}>
+                <div style={{ position: "relative", opacity: "70%" }}>
 
                     {alarmsCoordinates.map( (alarmCoordinate, index) => {
                         return(                    
@@ -65,7 +65,7 @@ class SelectedFloor extends Component {
 
                     <div className={'side-thumbnail-container'}>
                         <img src="/img/floor_plans/n1-side_thumbnail-danger.svg"
-                        alt="side view thumbnail"/>
+                        alt="side view thumbnail" />
                     </div>
                 </div>
 
