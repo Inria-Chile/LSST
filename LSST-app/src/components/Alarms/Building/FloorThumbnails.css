@@ -25,10 +25,14 @@
 
 
 .floor-thumbnail-wrapper img {
-    width: 57.4%;
+    width: 40.4%;
     margin: 5%;
+    display: inline-block;
 }
 
 .floor-thumbnail-wrapper p {
-    margin: 2.5%;
+    margin: 5%;
+    display: inline-block;
+    width:'auto';
+    height:'100%';
 }
