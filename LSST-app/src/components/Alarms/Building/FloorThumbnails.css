@@ -35,5 +35,6 @@
     display: inline-block;
     width:'auto';
     height:'100%';
-    font-size: 30px;
+    font-size: 1.4em;
+    font-weight: bold;
 }
