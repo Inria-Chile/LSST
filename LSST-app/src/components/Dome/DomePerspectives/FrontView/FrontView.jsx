@@ -41,7 +41,8 @@ class FrontView extends PureComponent {
     }
 
     componentDidMount() {
-        
+        this.setShuttersAperture(this.props.shuttersAperture);
+        this.setWindScreensPositions(this.props.topWindScreenPos, this.props.bottomWindScreenPos);
     }
 
     

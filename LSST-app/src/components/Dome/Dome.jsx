@@ -68,6 +68,7 @@ class Dome extends PureComponent {
     }
 
     componentDidMount() {
+        this.updateShuttersAperture(11);
         if(DEMO_MODE){
             setInterval(() => {
                 let newAzimuth = this.normalizeAngle(this.state.domeTargetAzimuth, 360);
