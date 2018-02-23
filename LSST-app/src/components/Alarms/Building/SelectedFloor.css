@@ -7,10 +7,5 @@
 
 .selected-floor-container{
     padding-left: 2.43%;
-    padding-bottom: 3%;
-}
-
-.selected-floor-container img{
-    position:absolute;
-    max-height:1200px;
+    padding-bottom: 0.3%;
 }
