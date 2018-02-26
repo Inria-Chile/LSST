@@ -112,7 +112,7 @@ class Dome extends PureComponent {
                                 telescopeElevation={this.state.telescopeElevation} mountAzimuth={this.state.mountAzimuth} updateDomePos={this.updateDomePos} />
                         </div>
                     </div>
-                    <DomePerspectives shuttersAperture={this.state.shuttersAperture} updateShuttersAperture={this.updateShuttersAperture} />
+                    <DomePerspectives shuttersAperture={this.state.shuttersAperture} updateShuttersAperture={this.updateShuttersAperture} telescopeElevation={this.state.telescopeElevation}/>
                     <div className='time-series-container'>
                         <div>
                             <h5>Azimuth</h5>
