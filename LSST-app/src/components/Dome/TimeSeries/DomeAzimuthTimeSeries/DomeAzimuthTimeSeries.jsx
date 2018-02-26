@@ -56,7 +56,9 @@ class DomeAzimuthTimeSeries extends Component {
     }
 
     render() {
-        let limits = this.getLimits(this.state.data[0].values);
+        let limitsTarget = this.getLimits(this.state.data[0].values);
+        let limitsAzimuth = this.getLimits(this.state.data[2].values);
+        let limits = [Math.min(limitsAzimuth[0], limitsTarget[0]), Math.max(limitsAzimuth[1], limitsTarget[1])];
         let timestamp = this.props.timestamp == null ? new Date() : this.props.timestamp*1000;
         let padding = 3;
         this.state.xScale.domain([this.state.data[0].values[0].x, new Date(timestamp)]);

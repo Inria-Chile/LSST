@@ -33,7 +33,6 @@ class DomePerspectives extends PureComponent {
 
     componentWillReceiveProps(nextProps){
         if(this.props.telescopeElevation !== nextProps.telescopeElevation){
-            console.log('Elevation changed', nextProps.telescopeElevation);
             this.setState({
                 topWindScreenPos: Math.min(70, 90-(nextProps.telescopeElevation+11)).toFixed(2),//min
                 bottomWindScreenPos: Math.max(5, Math.min(50, (nextProps.telescopeElevation-11)).toFixed(2)),//min
