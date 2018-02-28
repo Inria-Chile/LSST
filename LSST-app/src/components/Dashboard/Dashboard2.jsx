@@ -17,6 +17,7 @@ class Dashboard2 extends Component {
         super(props);
         this.state = {
             showFieldDetails: false,
+            environmentOpenRows: 0,
         }
     }
 
@@ -30,6 +31,14 @@ class Dashboard2 extends Component {
         this.setState({
             selectedFieldData: data
         });
+    }
+
+    setEnvironmentOpenRows = (rows) => {
+        this.setState(
+            {
+                environmentOpenRows: rows,
+            }
+        )
     }
 
     render() {
@@ -64,7 +73,7 @@ class Dashboard2 extends Component {
                             <Dome />
                         </div>
                         <div key="d" data-grid={{x: 0, y: 10, w: 3, h: 5}}>
-                            <Environment />
+                            <Environment setOpenRows={this.setEnvironmentOpenRows}/>
                         </div>
                     </ResponsiveReactGridLayout>
                 </div>

@@ -90,7 +90,7 @@ class Environment extends Component {
         return [Math.max(minimum, Math.min(...array.map(x => x.y))-tolerance), Math.max(...array.map(x => x.y))+tolerance];
     }
 
-    toggleRow(row) {
+    toggleRow = (row) => {
         switch(row){
             case 'temperature':
                 this.setState({displayTemperaturePlot: !this.state.displayTemperaturePlot});
@@ -110,6 +110,22 @@ class Environment extends Component {
             default:
                 return;
         }
+        this.props.setOpenRows(this.getNumberOfOpenRows());
+    }
+
+    getNumberOfOpenRows = () => {
+        let openRows = 0;
+        if(this.state.displayTemperaturePlot)
+            openRows++;
+        if(this.state.displayPrecipitationPlot)
+            openRows++;
+        if(this.state.displayHumidityPlot)
+            openRows++;
+        if(this.state.displayPressurePlot)
+            openRows++;
+        if(this.state.displayDewPointPlot)
+            openRows++;
+        return openRows;
     }
 
     render() {
