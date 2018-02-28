@@ -18,11 +18,16 @@ class PlatformLift extends Component {
             status: 'STOPPED',
             height: 0,
         };
+        this.i = 0;
         this.interval = setInterval(() => {
-            this.setHeight(Math.min(100, Math.random()*150));
+            // this.setHeight(Math.min(100, Math.random()*150));
+            this.setHeight((Math.cos(this.i*Math.PI/3)+1)/2*100+50);
+            this.i++;
             setTimeout(() => {
                 this.stopMoving();
-            }, 1500);
+            }, 1000);
+
+            
         }, 3000);
     }
 
@@ -44,10 +49,14 @@ class PlatformLift extends Component {
     }
 
     render() {
-        let buildingHeight = 70;
-        let minHeight = 53;
-        let displayedHeight = (1-this.state.height/100)*(100-minHeight);
+        const buildingHeight = 70;
+        const minHeight = 53;
+        const displayedHeight = (1-this.state.height/100)*(100-minHeight);
         
+        const isAboveUtilityLevel = this.state.height > buildingHeight;
+
+        const aboveUtilityLevelAlert = isAboveUtilityLevel ? ' Above utility level' : '';
+
         return (
             <div className="platform-lift-container">
                 <DraggableTitle title='Platform lift'/>
@@ -58,10 +67,11 @@ class PlatformLift extends Component {
                     <div id="height-indicator" className={'indicator'}>
                     {
                         this.state.status === 'STOPPED' ?
-                        'Height: ' + this.state.height.toFixed(1) :
+                        'Height: ' + this.state.height.toFixed(1) + aboveUtilityLevelAlert:
                         'Target height: ' + this.state.height.toFixed(1)
                     }
                     </div>
+
                     <div id="platform-building-container">
                         <img src="img/platform_lift/building.png" alt="Platform background"/>
                         <div id="lift" className={this.state.height > buildingHeight ? 'above':'under'} style={{bottom:'-'+displayedHeight+'%'}}>
