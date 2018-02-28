@@ -12,7 +12,7 @@ class SelectedFloor extends Component {
         this.iconHeight = 25/1611*100;
     }
 
-        static floorPlans = {
+    static floorPlans = {
         floor1: { 
             url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', 
             alarmsCoordinates: [[2955,247],[2973,863],[3169,245],[3169,526],[3170,863],[3215,114],[3367,242],[3422,194],[3407,564],[3388,863],[3663,295],[3663,567],[3659,863]]
@@ -21,24 +21,37 @@ class SelectedFloor extends Component {
             url:'/img/floor_plans/n2-floor_plan.svg' ,
             alarmsCoordinates: [[2947,598],[2943,841],[3143,288],[3208,288],[3183,353],[3184,447],[3182,605],[3180,769],[3182,862],[3306,278],[3370,232],[3433,448],[3433,605],[3435,770],[3433,862],[3624,281],[3621,507],[3624,627],[3624,724],[3624,912]]   
         },
-        floor3:{ url: '/img/floor_plans/floor3.png', alarmsCoordinates: []},
-        floor4:{ url: '/img/floor_plans/floor4.png', alarmsCoordinates: []},
-        floor5:{ url: '/img/floor_plans/floor5.png', alarmsCoordinates: []},
-        floor6:{ url: '/img/floor_plans/floor6.png', alarmsCoordinates: []},
-        floor7:{ url: '/img/floor_plans/floor7.png', alarmsCoordinates: []},
-        floor8:{ url: '/img/floor_plans/floor8.png', alarmsCoordinates: []},
+        floor3:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor4:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor5:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor6:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor7:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor8:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
     }
 
 
+    static sideThumbnails =  {
+        floor1: '/img/floor_plans/n1-side_thumbnail-danger.svg',
+        floor2: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor3: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor4: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor5: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor6: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor7: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor8: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+    }
 
     // constructor(props) {
     //     super(props);
     // }
 
     render() {
-        let imgSrc = SelectedFloor.floorPlans[this.props.selectedFloor].url;
-        if (!imgSrc)
-            imgSrc = "";
+        let floorPlanImage = SelectedFloor.floorPlans[this.props.selectedFloor].url;
+        if (!floorPlanImage)
+            floorPlanImage = "";
+
+        let sideThumbnailImage = SelectedFloor.sideThumbnails[this.props.selectedFloor];
+
         let alarmsCoordinates = SelectedFloor.floorPlans[this.props.selectedFloor].alarmsCoordinates.map((coord) =>{
             return [(coord[0]-this.offsetX)/3333*100, (coord[1]-this.offsetY)/1611*100];
         });
@@ -59,12 +72,12 @@ class SelectedFloor extends Component {
                         );
                     })}
 
-                    <img src={imgSrc} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
+                    <img src={floorPlanImage} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
                         console.log(e.clientX,e.clientY);
                     }}/>
 
                     <div className={'side-thumbnail-container'}>
-                        <img src="/img/floor_plans/n1-side_thumbnail-danger.svg"
+                        <img src={sideThumbnailImage}
                         alt="side view thumbnail" />
                     </div>
                 </div>
