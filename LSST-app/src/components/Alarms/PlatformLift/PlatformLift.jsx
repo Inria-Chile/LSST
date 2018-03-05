@@ -59,7 +59,7 @@ class PlatformLift extends Component {
 
         return (
             <div className="platform-lift-container">
-                <DraggableTitle title='Platform lift'/>
+                <h2> Platform lift </h2>
                 <div id="platform-lift-content">
                     <div id="motion-indicator" className={'indicator ' + (this.state.status !== 'STOPPED' ? 'moving':'')}>
                         {PlatformLift.status[this.state.status]}

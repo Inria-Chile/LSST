@@ -99,7 +99,7 @@ class CableWraps extends Component {
     render() {
         return (
             <div className="cable-wraps-container">
-                <DraggableTitle title='Cable Wraps' />
+                <h2> Cable Wraps </h2>
                 <div className="cable-wraps-content pull-left">
                     <div className="row">
                         <div className="cam-cable col-md-6">

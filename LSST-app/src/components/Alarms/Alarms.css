@@ -11,6 +11,7 @@
 .alarms-bottom-row {
     display: flex;
     margin-top: 5px;
+    height:18%;/*24%*/;
     /* flex: 1 0 25%; */
 }
 
