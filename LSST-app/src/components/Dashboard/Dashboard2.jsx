@@ -7,16 +7,23 @@ import Environment from '../Environment/Environment';
 import FieldDetails from '../Survey/FieldDetails/FieldDetails';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 import './Dashboard2.css';
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ReactGridLayout = WidthProvider(Responsive);
 
 class Dashboard2 extends Component {
     
     static viewComponents = [Survey, Mirrors];
-
+    static layout = {
+        'survey': {i: 'survey', x: 0, y: 0, w: 6, h: 10},
+        'mirrors': {i: 'mirrors', x: 6, y: 0, w: 2, h: 12},
+        'dome': {i: 'dome', x: 8, y: 0, w: 4, h: 20},
+        'environment': {i: 'environment', x: 0, y: 10, w: 3, h: 3}
+    };
     constructor(props){
         super(props);
         this.state = {
             showFieldDetails: false,
+            environmentOpenRows: 0,
+            layout: Object.values(Dashboard2.layout),
         }
     }
 
@@ -32,12 +39,26 @@ class Dashboard2 extends Component {
         });
     }
 
+    setComponentHeight = (component, height) => {
+        let newLayout = JSON.parse(JSON.stringify(this.state.layout));
+        newLayout.map((l, i) => {
+            if(l.i === component)
+                newLayout[i] = {...newLayout[i], h:height};
+        });
+        this.setState({
+            layout: newLayout
+        });
+    }
+
+    setEnvironmentOpenRows = (rows) => {
+        this.setComponentHeight('environment', 3+rows);
+    }
+
+    onLayoutChange = (layout) => {
+        this.setState({layout: layout});
+    }
+
     render() {
-        let layout = [
-            {i: 'a', x: 0, y: 0, w: 6, h: 5},
-            {i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4},
-            {i: 'c', x: 4, y: 0, w: 1, h: 2}
-          ];
         return (
             <div id="dashboard" ref={(dashboard) => {
                 if(!this.state.dashboardNode){
@@ -47,26 +68,26 @@ class Dashboard2 extends Component {
                 }
             }}>
                 <div id="dashboard-content2">
-                    <ResponsiveReactGridLayout className="layout" layout={layout} rowHeight={90} width={3840}
+                    <ReactGridLayout className="layout" layouts={{lg: this.state.layout}} rowHeight={90} width={3840}
                         breakpoints={{lg: 3200, md: 996, sm: 768, xs: 480, xxs: 0}} draggableHandle={'.move-button'}
-                        cols={{lg: 12, md: 6, sm: 6, xs: 6, xxs: 6}}>
+                        cols={{lg: 12, md: 6, sm: 6, xs: 6, xxs: 6}} onLayoutChange={this.onLayoutChange}>
 
-                        <div key="a" data-grid={{x: 0, y: 0, w: 6, h: 10}}>
+                        <div key="survey">
                             <Survey parentNode={this.state.dashboardNode} 
                                     setFieldDetailsVisibility={this.setFieldDetailsVisibility} 
                                     showFieldDetails={this.state.showFieldDetails}
                                     setSelectedFieldData={this.setSelectedFieldData}/>
                         </div>
-                        <div key="b" data-grid={{x: 6, y: 0, w: 2, h: 12}}>
+                        <div key="mirrors">
                             <Mirrors />
                         </div>
-                        <div key="c" data-grid={{x: 8, y: 0, w: 4, h: 20}}>
+                        <div key="dome">
                             <Dome />
                         </div>
-                        <div key="d" data-grid={{x: 0, y: 10, w: 3, h: 5}}>
-                            <Environment />
+                        <div key="environment">
+                            <Environment setOpenRows={this.setEnvironmentOpenRows}/>
                         </div>
-                    </ResponsiveReactGridLayout>
+                    </ReactGridLayout>
                 </div>
                     {
                         this.state.showFieldDetails ? 

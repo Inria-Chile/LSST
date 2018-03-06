@@ -21,13 +21,22 @@ class DomePerspectives extends PureComponent {
         if(DEMO_MODE){
             setInterval( () => {
                 this.props.updateShuttersAperture(11);
-                let angle_0 = 25;
+                let angle_0 = 35;
                 let angle = Math.max(3.5, Math.ceil(Math.random()*(90-angle_0-10)));
                 this.setState({
                     topWindScreenPos: angle,
                     bottomWindScreenPos: 90-(angle+angle_0),
                 })
-            }, 4000)
+            }, 2000)
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.telescopeElevation !== nextProps.telescopeElevation){
+            this.setState({
+                topWindScreenPos: Math.min(70, 90-(nextProps.telescopeElevation+11)).toFixed(2),//min
+                bottomWindScreenPos: Math.max(5, Math.min(50, (nextProps.telescopeElevation-11)).toFixed(2)),//min
+            })
         }
     }
 
