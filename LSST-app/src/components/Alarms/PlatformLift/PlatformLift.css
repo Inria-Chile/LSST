@@ -25,7 +25,7 @@
     /* filter: hue-rotate(320deg);     */
 }
 
-.indicator {
+#platform-lift-content .indicator {
     background: var(--theme-platform-lift);
     position: absolute;
     left: 70%;

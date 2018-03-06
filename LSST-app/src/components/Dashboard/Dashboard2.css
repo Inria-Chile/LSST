@@ -24,13 +24,13 @@
     width: 3vw;
 }
 
+.field-details-popup {
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);    
+}
+
 .react-draggable {
     overflow: hidden;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
-}
-
-.field-details-popup {
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);    
 }
 
 .react-draggable-dragging {

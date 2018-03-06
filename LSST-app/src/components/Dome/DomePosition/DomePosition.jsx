@@ -39,8 +39,8 @@ class DomePosition extends PureComponent {
         if(!document.hidden){
             window.requestAnimationFrame(
                 () => {
-                    this.setDomeAzimuth(this.props.domeAzimuth);
-                    this.setMountAzimuth(this.props.mountAzimuth);
+                    this.setDomeAzimuth(this.props.domeAzimuth != null ? this.props.domeAzimuth : 0);
+                    this.setMountAzimuth(this.props.mountAzimuth != null ? this.props.mountAzimuth : 0);
                 }
             );
         }
@@ -111,12 +111,6 @@ class DomePosition extends PureComponent {
                         <span className="dome-data-label">Mount azimuth: </span> 
                         <span className="dome-data">
                             {this.props.mountAzimuth  !== null ? this.props.mountAzimuth.toFixed(1)+'º' : 'None'}
-                        </span>
-                    </div>
-                    <div>
-                        <span className="dome-data-label">Camera FOV: </span> 
-                        <span className="dome-data">
-                            { this.props.shuttersAperture !== null ? this.props.shuttersAperture.toFixed(1)+'º' : 'None'}
                         </span>
                     </div>
                 </div>

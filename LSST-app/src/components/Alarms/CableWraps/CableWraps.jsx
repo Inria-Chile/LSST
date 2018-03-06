@@ -111,10 +111,10 @@ class CableWraps extends Component {
                                             {(this.state.cable_wraps.camera.cable - this.state.cable_wraps.camera.rotator).toFixed(2) + 'º'}
                                         </span>
                                     </p> :
-                                    <p></p>
+                                    <p className='rotator-diff'><span className='rotator-diff-value'> </span></p>
                             }
                             <CameraCableWrap
-                                height={300}
+                                height={315}
                                 width={400}
                                 drawBackground={this.drawBackground}
                                 drawLimits={this.drawLimits}
