@@ -130,7 +130,8 @@ class CableWraps extends Component {
                                             {(this.state.cable_wraps.az.cable - this.state.cable_wraps.az.rotator).toFixed(2) + 'º'}
                                         </span>
                                     </p> :
-                                    <p></p>
+                                    // <p></p>
+                                    <p className='rotator-diff'><span className='rotator-diff-value'> </span></p>
                             }
                             <AZCableWrap
                                 height={300}
