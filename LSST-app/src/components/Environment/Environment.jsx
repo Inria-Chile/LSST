@@ -23,7 +23,8 @@ class Environment extends Component {
             humidityArray: [],
             pressureArray: [],
         }
-        this.socket = openSocket(window.location.origin + '/weather');      
+        this.socket = openSocket(window.location.origin + '/weather');
+        this.openRows = 0;
         console.log('Environment\'s socket listening', this.socket.on('Weather', msg => this.receiveEnvironmentData(msg)));
     }
 
@@ -67,25 +68,7 @@ class Environment extends Component {
             pressure: 770,
         })
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return nextState.temperature !== this.state.temperature;
-    // }
-
-    // componentWillUpdate() {
-    //     let maxArrayLength = 12;
-    //     this.setState({
-    //         temperatureArray: update(this.state.temperatureArray, {
-    //             $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.temperature}],
-    //             $splice: this.state.temperatureArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
-    //         }),
-    //         precipitationArray: update(this.state.precipitationArray, {
-    //             $push: [{x: moment(Date.now()).format('H:mm:ss'), y:this.state.precipitation}],
-    //             $splice: this.state.precipitationArray.length > maxArrayLength ? [[0,1]] : [[0,0]],
-    //         }),
-    //     });
-    // }
-
+    
     getLimits(array, tolerance, minimum) {
         return [Math.max(minimum, Math.min(...array.map(x => x.y))-tolerance), Math.max(...array.map(x => x.y))+tolerance];
     }
@@ -110,9 +93,15 @@ class Environment extends Component {
             default:
                 return;
         }
-        this.props.setOpenRows(this.getNumberOfOpenRows());
     }
-
+    
+    componentDidUpdate = (prevProps, prevState) => {
+        if(this.openRows !== this.getNumberOfOpenRows()) {
+            this.props.setOpenRows(this.getNumberOfOpenRows());
+            this.openRows = this.getNumberOfOpenRows();
+        }
+    }
+    
     getNumberOfOpenRows = () => {
         let openRows = 0;
         if(this.state.displayTemperaturePlot)
