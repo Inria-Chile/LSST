@@ -23,7 +23,7 @@ class FloorThumbnails extends Component {
         return (
             <div className="floor-plan-thumbnails-container">
                 {
-                    Object.keys(FloorThumbnails.floorPlanThumbnails).map(key => {
+                    Object.keys(FloorThumbnails.floorPlanThumbnails).map((key, index) => {
                         let imgSrc = FloorThumbnails.floorPlanThumbnails[key];
                         let isAlarm = this.props.floorAlarms.indexOf(key) > -1;
                         // if(isAlarm)
@@ -34,10 +34,10 @@ class FloorThumbnails extends Component {
                                             isAlarm ? 'alarm':''].join(' ')} 
                                 key={key} onClick={() => this.props.setSelectedFloor(key)}>
 
-                                <p> Label
+                                <p> {'FLOOR '+(index+1)}
+                                </p>
                                 <img src={imgSrc} 
                                     alt="floor thumbnail"/>
-                                </p>
                             </div>
                             )
                     })

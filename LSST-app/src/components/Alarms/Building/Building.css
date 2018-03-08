@@ -25,7 +25,8 @@
 }
 
 .selected-floor-container {
-    flex: 1 1 80%;
+    /* the third number is the shrink ratio, 1 1 0% means dont shrink at all, */
+    flex: 1 1 70%;
     margin: 10px 10px 0 10px;
 }
 

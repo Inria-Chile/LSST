@@ -99,7 +99,7 @@ class CableWraps extends Component {
     render() {
         return (
             <div className="cable-wraps-container">
-                <DraggableTitle title='Cable Wraps' />
+                <h2> Cable Wraps </h2>
                 <div className="cable-wraps-content pull-left">
                     <div className="row">
                         <div className="cam-cable col-md-6">
@@ -111,10 +111,10 @@ class CableWraps extends Component {
                                             {(this.state.cable_wraps.camera.cable - this.state.cable_wraps.camera.rotator).toFixed(2) + 'º'}
                                         </span>
                                     </p> :
-                                    <p></p>
+                                    <p className='rotator-diff'><span className='rotator-diff-value'> </span></p>
                             }
                             <CameraCableWrap
-                                height={300}
+                                height={315}
                                 width={400}
                                 drawBackground={this.drawBackground}
                                 drawLimits={this.drawLimits}
@@ -130,7 +130,8 @@ class CableWraps extends Component {
                                             {(this.state.cable_wraps.az.cable - this.state.cable_wraps.az.rotator).toFixed(2) + 'º'}
                                         </span>
                                     </p> :
-                                    <p></p>
+                                    // <p></p>
+                                    <p className='rotator-diff'><span className='rotator-diff-value'> </span></p>
                             }
                             <AZCableWrap
                                 height={300}

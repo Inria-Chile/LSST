@@ -1,9 +1,10 @@
 .side-thumbnail-container {
-    max-width: 20%;
+    max-width: 12%;
     position: absolute;
-    bottom: 0%;
+    bottom: 2%;
+    left: 5%;
 }
 
 .selected-floor-container{
-    padding: 0.43%
+    padding: 0.8%;
 }

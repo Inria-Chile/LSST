@@ -1,7 +1,7 @@
 .floor-thumbnail-wrapper {
     object-fit: cover;
     flex: 1 1 10%;
-    margin-top: 10px;
+    margin-top: 5px;
     position: relative;
     /* padding: 10px; */
     background: var(--theme-div-background);
@@ -25,10 +25,16 @@
 
 
 .floor-thumbnail-wrapper img {
-    width: 57.4%;
-    margin: 5%;
+    width: 55.4%;
+    margin: 2%;
+    display: inline-block;
 }
 
 .floor-thumbnail-wrapper p {
-    margin: 2.5%;
+    margin: 5%;
+    display: inline-block;
+    width:'auto';
+    height:'100%';
+    font-size: 1.4em;
+    font-weight: bold;
 }
