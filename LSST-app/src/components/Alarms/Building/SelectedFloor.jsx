@@ -14,19 +14,19 @@ class SelectedFloor extends Component {
 
     static floorPlans = {
         floor1: { 
-            url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', 
-            alarmsCoordinates: [[2955,247],[2973,863],[3169,245],[3169,526],[3170,863],[3215,114],[3367,242],[3422,194],[3407,564],[3388,863],[3663,295],[3663,567],[3659,863]]
+            url: '/img/floor_plans/floor_01/1-fire.svg', 
+            alarmsCoordinates: []
         },
         floor2: {
-            url:'/img/floor_plans/n2-floor_plan.svg' ,
-            alarmsCoordinates: [[2947,598],[2943,841],[3143,288],[3208,288],[3183,353],[3184,447],[3182,605],[3180,769],[3182,862],[3306,278],[3370,232],[3433,448],[3433,605],[3435,770],[3433,862],[3624,281],[3621,507],[3624,627],[3624,724],[3624,912]]   
+            url:'/img/floor_plans/floor_02/2-fire.svg' ,
+            alarmsCoordinates: []   
         },
-        floor3:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
-        floor4:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
-        floor5:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
-        floor6:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
-        floor7:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
-        floor8:{ url: '/img/floor_plans/n1-floor_plan-text-noalarms.svg', alarmsCoordinates: []},
+        floor3:{ url: '/img/floor_plans/floor_03/3-fire.svg', alarmsCoordinates: []},
+        floor4:{ url: '/img/floor_plans/floor_04/4-fire.svg', alarmsCoordinates: []},
+        floor5:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
+        floor6:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
+        floor7:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
+        floor8:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
     }
 
 
