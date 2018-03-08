@@ -9,8 +9,8 @@ class Rack extends Component {
         this.split=2;
     }
 
-    displayPopUp=(details, pos, hOf1)=>{
-        this.props.displayPopUp(details,pos,hOf1,this.props.index);
+    displayPopUp=(details, pos, hOf1, rackIndex, slotName)=>{
+        this.props.displayPopUp(details,pos,hOf1,this.props.index,slotName);
     }
     componentWillUpdate(){
         // console.log("updated")
@@ -27,7 +27,9 @@ class Rack extends Component {
         let slotWidth = widthPdu;
         let totalSlotHeight = this.props.height-heightPdu;
         let id ="rack-"+this.props.index;
-        // console.log("gonna render")
+        let alerts= [false,false,false];
+        if(this.props.slot[0])
+            alerts = (this.props.slot[0].name===alert.server_id)?this.props.getAlertsStatus():[false,false,false];
         return (
             <g id={id}className="rack-active">
                 <text x={xtext} y={this.props.y}
@@ -62,7 +64,9 @@ class Rack extends Component {
                 details = {this.props.slot}
                 displayPopUp={this.displayPopUp}
                 alert={this.props.alert}
-                
+                alerts={alerts}
+                getAlertsStatus={this.props.getAlertsStatus}
+                selectedSlotName={this.props.selectedSlotName}
                 />
             </g>
         );

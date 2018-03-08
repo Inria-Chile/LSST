@@ -44,6 +44,7 @@ class Dashboard2 extends Component {
         newLayout.map((l, i) => {
             if(l.i === component)
                 newLayout[i] = {...newLayout[i], h:height};
+            return l;
         });
         this.setState({
             layout: newLayout

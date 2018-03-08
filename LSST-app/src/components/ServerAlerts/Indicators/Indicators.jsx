@@ -4,13 +4,12 @@ class Indicator extends Component {
     constructor(props){
         super(props);
         this.offsetTop = 5;
-        this.offsetLeft = 10;
-        this.offset =9;
-        this.size=6;
+        this.offsetLeft = 13;
+        this.offset =12;
+        this.size=8;
     }
 
     render() {
-      
         return (
             <g>
                  <rect 
@@ -18,16 +17,17 @@ class Indicator extends Component {
                     y={this.props.y} 
                     width={this.props.width+.5} 
                     height={this.props.height} 
-                    className="slot"/>
+                    className={['slot-bar', this.props.selected?'selected':''].join(' ')}/>
+                    
 
                 {this.props.indicators.map((indicator, index)=>{
                     return(
                         <rect 
                         x={this.props.x-this.offsetLeft} 
-                        y={this.offsetTop+this.props.y + index*this.offset} 
+                        y={this.props.height/2 - (this.props.indicators.length/2*(this.size))+this.props.y + index*this.offset - this.size/2} 
                         width={this.size} 
                         height={this.size} 
-                        className="indicator"
+                        className={this.props.alerts[index] ? "indicator-alert":"indicator"}
                         key = {index}/>
                     )
                  
