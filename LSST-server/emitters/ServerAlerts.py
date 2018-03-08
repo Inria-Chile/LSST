@@ -33,7 +33,7 @@ def start_listening_fake_alerts(app, socketio):
     initial_date = 10000
     date_step = 1000
     while True:
-        time.sleep(2)
+        time.sleep(8)
         with app.test_request_context('/'):
             server_id = server_ids[random.randint(0, len(server_ids)-1)]
             cpu = random.random()

@@ -20,13 +20,13 @@ class ServerAlerts extends Component {
         this.hasPdu = [true, true,true,false,true,true,false,false,true,true,true,true,true,true,true,true]
         this.rackItems = [
             //Rack 01
-            [{name:'Patch Panel', slot:1, size:1, position: 3, indicators:[]},
+            [{name:'Patch Panel 1', slot:1, size:1, position: 3, indicators:[]},
             {name:'DWDM', slot:2, size:5, position: 4, indicators:[]} ],
             //Rack 02
             [{name:'Spine 201',slot:1, size:2, position: 0, indicators:['UPS']},
-            {name:'Patch Panel',slot:2, size:0.5, position: 2,indicators:[]},
+            {name:'Patch Panel 2',slot:2, size:0.5, position: 2,indicators:[]},
             {name:'Spine 202',slot:3, size:2, position: 3.5,indicators:['UPS']},
-            {name:'Patch Panel',slot:4, size:0.5, position: 5.5, indicators:[]},
+            {name:'Patch Panel 3',slot:4, size:0.5, position: 5.5, indicators:[]},
             {name:'APICS',slot:5, size:2, position: 6, indicators:['UPS']}],
             //Rack 03
             [{name:'Firewall',slot:1, size:0.7, position:0, indicators:['CPU','Disk','UPS']},
@@ -40,7 +40,7 @@ class ServerAlerts extends Component {
             {name:'Leaf 102',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
             {name:'MMCS',slot:3, size:2, position: 1, indicators:['CPU','Disk','UPS']}],
             //Rack 06
-            [{name:'IPMI',slot:1, size:2.5, position: 0, indicators:['CPU','Disk','UPS']},
+            [{name:'IPMI 1',slot:1, size:2.5, position: 0, indicators:['CPU','Disk','UPS']},
             {name:'AUX Calibration',slot:2, size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
             {name:'AUX Scheduler',slot:3, size:0.5, position: 3, indicators:['CPU','Disk','UPS']},
             {name:'AUX Spectograph',slot:4, size:0.5, position: 3.5, indicators:['CPU','Disk','UPS']},
@@ -50,8 +50,8 @@ class ServerAlerts extends Component {
             {name:'AUX Bridgs',slot:8, size:0.5, position: 5.5, indicators:['CPU','Disk','UPS']},
             {name:'Sw to AUX',slot:9, size:0.5, position: 6, indicators:['CPU','Disk','UPS']}],
             //Rack 07
-            [{name:'DQ',slot:1, size:1, position: 0, indicators:['CPU','Disk','UPS']},
-            {name:'DQ',slot:2, size:1, position: 1, indicators:['CPU','Disk','UPS']}],
+            [{name:'DQ 1',slot:1, size:1, position: 0, indicators:['CPU','Disk','UPS']},
+            {name:'DQ 2',slot:2, size:1, position: 1, indicators:['CPU','Disk','UPS']}],
             //Rack 08 is empty
             [
                 // {name:'', size:9, position:0}
@@ -61,7 +61,7 @@ class ServerAlerts extends Component {
             //Rack 10
             [{name:'Leaf 103',slot:1, size:0.5, position: 0, indicators:['UPS']},
             {name:'Leaf 104',slot:2, size:0.5, position: 0.5, indicators:['UPS']},
-            {name:'IPMI',slot:3, size:0.5, position: 1, indicators:['CPU','Disk','UPS']},
+            {name:'IPMI 2',slot:3, size:0.5, position: 1, indicators:['CPU','Disk','UPS']},
             {name:'Camera DB',slot:4, size:0.5, position: 1.5,  indicators:['CPU','Disk','UPS']},
             {name:'Master Control',slot:5, size:0.5, position: 2, indicators:['CPU','Disk','UPS']},
             {name:'Lock Manager',slot:6, size:0.5, position: 2.5, indicators:['CPU','Disk','UPS']},
@@ -79,16 +79,16 @@ class ServerAlerts extends Component {
             //Rack 13
             [{name:'Leaf 105 Sum/13-2',slot:1, size:0.5, position: 0, indicators:['UPS']},
             {name:'Leaf 106 Sum/13-4',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
-            {name:'IPMI',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']}
+            {name:'IPMI 3',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']}
             // ,
             // {name:'', size:17.5, position: 1.5}
             ],
             // Rack 14
-            [{name:'Visualization',slot:1, size:1.4, position: 2, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization',slot:2, size:1.4, position: 3.4, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization',slot:3, size:1.4, position: 4.8, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization',slot:4, size:1.4, position: 6.2, indicators:['CPU','Disk','UPS']},
-            {name:'Visualization',slot:5, size:1.4, position: 7.6, indicators:['CPU','Disk','UPS']}],
+            [{name:'Visualization 1',slot:1, size:1.4, position: 2, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization 2',slot:2, size:1.4, position: 3.4, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization 3',slot:3, size:1.4, position: 4.8, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization 4',slot:4, size:1.4, position: 6.2, indicators:['CPU','Disk','UPS']},
+            {name:'Visualization 5',slot:5, size:1.4, position: 7.6, indicators:['CPU','Disk','UPS']}],
             //Rack 15
             [{name:'TCS M1/M3',slot:1, size:0.7, position: 0, indicators:['CPU','Disk','UPS']},
             {name:'ECS Basbon',slot:2, size:0.7, position: 0.7, indicators:['CPU','Disk','UPS']},
@@ -106,11 +106,11 @@ class ServerAlerts extends Component {
             //Rack 16
             [{name:'Leaf 107',slot:1, size:0.5, position: 0, indicators:['UPS']},
             {name:'Leaf 108',slot:2, size:0.5, position: 0.5,indicators:['UPS']},
-            {name:'IPMI',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']},
+            {name:'IPMI 4',slot:3, size:1, position: 1, indicators:['CPU','Disk','UPS']},
             {name:'OCS Maint',slot:4, size:1.17, position: 2, indicators:['CPU','Disk','UPS']},
             {name:'OCS Scheduler',slot:5, size:1.17, position: 3.17, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Telemetry',slot:6, size:1.17, position: 4.34, indicators:['CPU','Disk','UPS']},
-            {name:'OCS Telemetry',slot:7, size:1.17, position: 5.51, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Telemetry 1',slot:6, size:1.17, position: 4.34, indicators:['CPU','Disk','UPS']},
+            {name:'OCS Telemetry 2',slot:7, size:1.17, position: 5.51, indicators:['CPU','Disk','UPS']},
             {name:'OCS Application',slot:8, size:1.17, position: 6.68, indicators:['CPU','Disk','UPS']},
             {name:'TCS Wavefront Sensing',slot:9, size:1.17, position:7.85, indicators:['CPU','Disk','UPS']}
             ]
@@ -124,7 +124,9 @@ class ServerAlerts extends Component {
         }
         this.racks = [];
         this.socket = openSocket(window.location.origin+'')
-        
+        this.criticalCPU = 0.9;
+        this.criticalDisk = 0.9;
+        this.criticalTemp = 90;
     }
     componentDidMount(){
         this.socket.on('server_alerts', timestamp => this.receiveMsg(timestamp));
@@ -135,11 +137,10 @@ class ServerAlerts extends Component {
         // console.log(msg)
         this.setState({
             alerts:[msg]
-        })
-
+        });
     }
 
-    displayRackDetails=(details,pos,hOf1,rackIndex)=>{
+    displayRackDetails=(details,pos,hOf1,rackIndex,slotName)=>{
         let show = this.state.showRackDetails;
         if(this.state.rackIndex==null){
             this.hiddeOtherRacks(rackIndex);
@@ -149,7 +150,10 @@ class ServerAlerts extends Component {
                 rackIndex: rackIndex,
                 showRackDetails: !show,
                 heightOf1Slot: hOf1,
-                clickOverRack: true
+                clickOverRack: true,
+                slotIndex: details.slot,
+                slotName: details.name,
+                selectedSlotName: slotName,
             });
         }
         else if(this.state.rackIndex === rackIndex &&
@@ -160,15 +164,21 @@ class ServerAlerts extends Component {
                     showRackDetails: false,
                     rackDetails : null,
                     detailsPosition : null,
-                    rackIndex: null
-                })
+                    rackIndex: null,
+                    slotIndex: details.slot,
+                    slotName: null,
+                    selectedSlotName: null,
+            })
             }
         }
         else if(this.state.rackIndex === rackIndex){
             this.hiddeOtherRacks(rackIndex);
             this.setState({
                 rackDetails: details,
-                detailsPosition: pos
+                detailsPosition: pos,
+                slotIndex: details.slot,
+                slotName: details.name,
+                selectedSlotName: slotName,
             });
         }
         else{
@@ -177,7 +187,10 @@ class ServerAlerts extends Component {
                 showRackDetails: false,
                 rackDetails : null,
                 detailsPosition : null,
-                rackIndex: null
+                rackIndex: null,
+                slotIndex: details.slot,
+                slotName: null,
+                selectedSlotName: null,
             })
         
         }
@@ -214,7 +227,8 @@ class ServerAlerts extends Component {
                 showRackDetails: false,
                 rackDetails : null,
                 detailsPosition : null,
-                rackIndex: null
+                rackIndex: null,
+                selectedSlotName: null,
             })
         }
     }
@@ -244,6 +258,15 @@ class ServerAlerts extends Component {
         }
         return rackDetails;
     }
+
+    getAlertsStatus = () => {
+        let alerts = this.state.alerts[0];
+        return [
+            alerts.server_CPU >= this.criticalCPU,
+            alerts.server_disk >= this.criticalDisk,
+            alerts.server_temperature >= this.criticalTemp
+        ];
+    }
     
     render() {
         let totalWidth = window.innerWidth-this.margin.left-this.margin.right-this.offset;
@@ -251,11 +274,6 @@ class ServerAlerts extends Component {
         let rackWidth = (totalWidth-(this.ncols)*this.verticalSplit)/(this.ncols);
         let rackHeight = (totalHeight-(this.nrows)*this.horizontalSplit)/this.nrows;
         let rackDetails = this.getRacksCoords(rackWidth, rackHeight);
-        // let alerts = this.state.alerts[this.state.alerts.length-1];
-        // let rackAlert = alerts.rack;
-        // let slotAlert = alerts.slot;
-        // console.log(rackAlert)
-        // console.log(this.state)
 
         return (
             <div className="server-alerts-container" ref="container">
@@ -288,6 +306,8 @@ class ServerAlerts extends Component {
                                             hasPdu = {this.hasPdu[index]}
                                             displayPopUp = {this.displayRackDetails}
                                             alert = {this.state.alerts[0]}
+                                            getAlertsStatus = {this.getAlertsStatus}
+                                            selectedSlotName={this.state.selectedSlotName}
                                             />
                                     )
                                 })  
@@ -296,10 +316,13 @@ class ServerAlerts extends Component {
                             <g className="pop-up-container">
                                 {this.state.showRackDetails && 
                                 <SlotDetails 
-                                position = {this.state.detailsPosition} 
-                                details={this.state.rackDetails}
-                                hOf1={this.state.heightOf1Slot}
-                                alerts={false}
+                                    position = {this.state.detailsPosition} 
+                                    details={this.state.rackDetails}
+                                    hOf1={this.state.heightOf1Slot}
+                                    alerts={this.state.alerts[0]}
+                                    slotIndex={this.state.slotIndex}
+                                    slotName={this.state.slotName}
+                                    getAlertsStatus = {this.getAlertsStatus}
                                 />}
                             </g>
                         </svg>

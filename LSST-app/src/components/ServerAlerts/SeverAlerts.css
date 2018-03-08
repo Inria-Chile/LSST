@@ -1,8 +1,13 @@
+.server-alerts-container{
+    background: #3A4D61;
+}
+
 .slot{
     fill: #3f5b72;
 }
 .slot-alert{
     fill: #be4052;
+    stroke: #cc5b6c;
 }
 .empty-slot{
     fill: #39546a;
@@ -13,25 +18,36 @@
 .text{
     font-size:1 em;
     fill: white;
+    font-weight: bold;
 }
+
+.slot-bar {
+    fill: #354e63;
+}
+
+.slot-bar.selected {
+    fill: #354e63;
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
 .slot-text{
-    /* font-size:1 em; */
-    /* font-size: fit-width; */
     fill: white;
     font-size: 1vmin;
 }
 .indicator{
-    fill: #57ad5d;
+    stroke: #b5fdba;
+    fill: #6ec674;
 }
 
 .indicator-alert{
+    stroke: #e4576c;
     fill: #be4052;
 }
 
 .slotDetails{
     z-index:1;
-    fill: #2a3d50;
-    stroke: #fff;
+    fill: #2D3D4E;
 }
 .rack-active{
     opacity: 1;
@@ -40,7 +56,23 @@
     opacity: 0.2;
 }
 
-/* .minitext{
-    fill: white;
-    font-size: 12px;
-} */
+.details-connectors {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
+.details-connectors.animate {
+    stroke-dasharray: 500px;
+    stroke-dashoffset: 500px;
+    animation-name: draw;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
