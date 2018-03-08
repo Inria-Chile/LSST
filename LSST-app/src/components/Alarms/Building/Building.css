@@ -66,12 +66,12 @@
 
 
 
-.selected-floor-container img {
+/* .selected-floor-container img {
     width: 100%;
-}
+} */
 
-.selected-floor-container {
+/* .selected-floor-container {
     width: 100%;
     object-fit: cover;    
     background: var(--theme-div-background);
-}
+} */

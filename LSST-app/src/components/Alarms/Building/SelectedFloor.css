@@ -1,10 +1,17 @@
 .side-thumbnail-container {
-    max-width: 12%;
+    width: 10%;
     position: absolute;
-    bottom: 2%;
+    bottom: 1%;
     left: 5%;
 }
-
-.selected-floor-container{
+.selected-floor-container {
+    width: 100%;
+    object-fit: cover;    
+    background: var(--theme-div-background);
     padding: 0.8%;
+}
+
+.selected-floor-plan{
+    height:1500px;
+    width:100%;
 }
