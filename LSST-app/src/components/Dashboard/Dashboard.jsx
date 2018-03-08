@@ -9,7 +9,7 @@ import './Dashboard.css';
 
 class Dashboard extends Component {
 
-    static viewComponents = [Survey, Mirrors];
+    static viewComponents = [Survey, Mirrors, Dome];
     static viewConfigs = {
         survey: {
             x: 0, y: 0,
