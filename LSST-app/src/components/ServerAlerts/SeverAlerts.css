@@ -1,5 +1,14 @@
 .server-alerts-container{
+    overflow: hidden;
+    height: 100vh;
+}
+
+.server-alerts-main{
     background: #3A4D61;
+}
+
+.server-alerts-container > .draggable-title {
+    margin-bottom: 0px;
 }
 
 .slot{
@@ -65,7 +74,7 @@
     stroke-dasharray: 500px;
     stroke-dashoffset: 500px;
     animation-name: draw;
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     animation-fill-mode: forwards;
     animation-iteration-count: 1;
     animation-timing-function: linear;

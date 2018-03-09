@@ -4,13 +4,14 @@ import Rack from './Rack/Rack';
 import './SeverAlerts.css';
 import SlotDetails from './SlotDetails/SlotDetails'
 import openSocket from 'socket.io-client';
+import DraggableTitle from '../Utils/DraggableTitle';
 
 class ServerAlerts extends Component {
     constructor(props){
         super(props);
         this.ncols = 8;
         this.nrows = 2;
-        this.margin = { top: 20, right: 10, bottom: 20, left: 20 }
+        this.margin = { top: -50, right: 10, bottom: 50, left: 40 }
         this.structureWidth = 5;
         this.verticalSplit = 30;
         this.horizontalSplit = 150;
@@ -277,7 +278,8 @@ class ServerAlerts extends Component {
 
         return (
             <div className="server-alerts-container" ref="container">
-                <div className ="row">
+                <DraggableTitle title='Server alerts'/>            
+                <div className ="server-alerts-main row">
                     <div className ="col-md-12">
                         <svg 
                         className="svg-container"
