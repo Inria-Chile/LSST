@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import './PlatformLift.css';
-import DraggableTitle from '../../Utils/DraggableTitle';
 // import openSocket from 'socket.io-client';
 
 class PlatformLift extends Component {
@@ -20,15 +19,15 @@ class PlatformLift extends Component {
         };
         this.i = 0;
         this.interval = setInterval(() => {
-            // this.setHeight(Math.min(100, Math.random()*150));
-            this.setHeight((Math.cos(this.i*Math.PI/3)+1)/2*100+50);
+            this.setHeight(Math.min(100, Math.random()*150));
+            // this.setHeight((Math.cos(this.i*Math.PI/3)+1)/2*100+50);
             this.i++;
             setTimeout(() => {
                 this.stopMoving();
-            }, 1000);
+            }, 2000);
 
             
-        }, 3000);
+        }, 6000);
     }
 
     setHeight = (height) => {
@@ -55,19 +54,19 @@ class PlatformLift extends Component {
         
         const isAboveUtilityLevel = this.state.height > buildingHeight;
 
-        const aboveUtilityLevelAlert = isAboveUtilityLevel ? ' Above utility level' : '';
+        const aboveUtilityLevelAlert = isAboveUtilityLevel ? ' (Above utility level)' : '';
 
         return (
             <div className="platform-lift-container">
                 <h2> Platform lift </h2>
                 <div id="platform-lift-content">
                     <div id="motion-indicator" className={'indicator ' + (this.state.status !== 'STOPPED' ? 'moving':'')}>
-                        {PlatformLift.status[this.state.status]}
+                        {PlatformLift.status[this.state.status] + aboveUtilityLevelAlert}
                     </div>
                     <div id="height-indicator" className={'indicator'}>
                     {
                         this.state.status === 'STOPPED' ?
-                        'Height: ' + this.state.height.toFixed(1) + aboveUtilityLevelAlert:
+                        'Height: ' + this.state.height.toFixed(1):
                         'Target height: ' + this.state.height.toFixed(1)
                     }
                     </div>

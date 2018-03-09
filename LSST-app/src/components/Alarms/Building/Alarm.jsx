@@ -16,7 +16,7 @@ class Alarm extends Component {
     componentDidMount(){
         setInterval(()=>{
             this.setState({
-                isOn: !this.state.isOn
+                isOn: Math.random()>0.9,
             });       
         }, 8000*(Math.random()+0.1));
     }

@@ -3,7 +3,6 @@ import './CableWraps.css';
 // import DraggableTitle from '../Utils/DraggableTitle';
 import AZCableWrap from './AZCableWrap/AZCableWrap';
 import CameraCableWrap from './CameraCableWrap/CameraCableWrap';
-import DraggableTitle from '../../Utils/DraggableTitle';
 import * as d3 from 'd3';
 import openSocket from 'socket.io-client';
 

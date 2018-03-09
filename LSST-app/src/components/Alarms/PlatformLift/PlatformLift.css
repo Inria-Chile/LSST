@@ -13,7 +13,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    transition: bottom 1s ease-in-out;
+    transition: bottom 2s ease-in-out;
     width: 100%;
 }
 

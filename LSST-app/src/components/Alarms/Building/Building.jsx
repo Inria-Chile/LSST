@@ -5,6 +5,7 @@ import SelectedFloor from './SelectedFloor';
 import FloorThumbnails from './FloorThumbnails';
 import DraggableTitle from '../../Utils/DraggableTitle';
 // import openSocket from 'socket.io-client';
+// import update from 'react-addons-update';
 
 class Building extends Component {
 
@@ -12,15 +13,15 @@ class Building extends Component {
         super(props);
         this.state = {
             selectedFloor: 'floor1',
-            floorAlarms: ['floor2']
+            floorAlarms: ['floor1'],
         }
 
         this.intervals = 0;
         setInterval((time) => {
             if(this.intervals++ % 3 === 0)
-                this.setFloorAlarms([]);            
+                this.setFloorAlarms(['floor1']);            
             else
-                this.setFloorAlarms(['floor'+Math.ceil(Math.random() * Math.ceil(8))]);
+                this.setFloorAlarms(['floor1', 'floor'+Math.ceil(Math.random() * Math.ceil(8))]);
         }, 10000);
     }
 
@@ -33,8 +34,17 @@ class Building extends Component {
     setFloorAlarms = (floors) => {
         this.setState({
             floorAlarms: floors
-        })
+        });
     }
+
+    // TO DO
+    // setFloorAlarm = (floor, state) => {
+    //     let newAlarms = this.state.floorAlarms;
+    //     newAlarms[floor] = state;
+    //     this.setState({
+    //         floorAlarms: update(this.state.floorAlarms, )
+    //     });
+    // }
 
     render() {
         let setters = {
