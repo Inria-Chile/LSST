@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import './Building.css';
-import SelectedFloor from './SelectedFloor';
-import FloorThumbnails from './FloorThumbnails';
+import SelectedFloor from './SelectedFloor/SelectedFloor';
+import FloorThumbnails from './FloorThumbnails/FloorThumbnails';
 import DraggableTitle from '../../Utils/DraggableTitle';
 // import openSocket from 'socket.io-client';
 // import update from 'react-addons-update';
