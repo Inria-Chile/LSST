@@ -24,7 +24,7 @@ class Alarm extends Component {
     render() {
         return (
             <img alt="alarm icon"
-                src= {this.state.isOn? this.images[0]: this.images[1]}
+                src= {(this.state.isOn && this.props.floorHasAlarmsOn) ? this.images[0]: this.images[1]}
                 style={{
                     left: this.props.position[0] + "%",
                     top: this.props.position[1] + "%",
@@ -32,7 +32,7 @@ class Alarm extends Component {
                     width: this.props.width + "%",
                     height: this.props.height + "%"
                 }} 
-                onClick = {(e) =>{
+                onClick = {(e) => {
                     this.setState({
                         isOn: !this.state.isOn
                     });

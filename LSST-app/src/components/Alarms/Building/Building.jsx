@@ -37,15 +37,6 @@ class Building extends Component {
         });
     }
 
-    // TO DO
-    // setFloorAlarm = (floor, state) => {
-    //     let newAlarms = this.state.floorAlarms;
-    //     newAlarms[floor] = state;
-    //     this.setState({
-    //         floorAlarms: update(this.state.floorAlarms, )
-    //     });
-    // }
-
     render() {
         let setters = {
             setSelectedFloor: this.setSelectedFloor,
@@ -56,7 +47,7 @@ class Building extends Component {
                 <DraggableTitle title='Alarms'/>
                 <div className="building-container-main">
                     <FloorThumbnails {...this.state} {...setters}/>
-                    <SelectedFloor {...this.state}/>
+                    <SelectedFloor {...this.state} floorAlarms={this.state.floorAlarms}/>
                 </div>
             </div>
         );

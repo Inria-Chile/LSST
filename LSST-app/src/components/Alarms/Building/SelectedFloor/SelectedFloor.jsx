@@ -76,7 +76,8 @@ class SelectedFloor extends Component {
                             key = {index.toString()}
                             position={[(alarmCoordinate[0]  - 0.5*this.iconWidth), (alarmCoordinate[1]-0.5*this.iconHeight) ]}
                             width={this.iconWidth}
-                            height={this.iconHeight} />
+                            height={this.iconHeight} 
+                            floorHasAlarmsOn={this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1}/>
                         );
                     })}
 
