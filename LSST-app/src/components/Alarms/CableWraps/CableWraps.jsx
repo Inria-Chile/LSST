@@ -120,6 +120,8 @@ class CableWraps extends Component {
                                 arcTween={this.arcTween}
                                 cable_wrap={(this.state.cable_wraps) ? this.state.cable_wraps.camera : null} />
                         </div>
+                        <div className="cable-wrap-separator">
+                        </div>
                         <div className="az-cable col-md-6">
                             <h4>Azimuth Cable Wrap</h4>
                             {

@@ -33,7 +33,7 @@
 } */
 
 .north-img {
-    width: 20%;
+    width: 8%;
     position: absolute;
 }
 
@@ -43,4 +43,8 @@
 
 .dome-position-container .svg-container {
     padding: 50px;
+}
+
+.dome-wrapper .svg-container {
+    padding-left: 150px;
 }

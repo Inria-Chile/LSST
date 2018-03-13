@@ -7,6 +7,7 @@
 .slider-container {
     margin-bottom: 40px;
     margin-left: 120px;
+    overflow: visible !important;
   }
   .x text{
     fill: white;

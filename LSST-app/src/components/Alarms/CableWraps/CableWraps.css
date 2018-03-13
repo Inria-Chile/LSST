@@ -13,6 +13,7 @@
     height: 100%;
     margin-top: 0;
     padding-right: 5px;
+    padding-left: 20px;
 }
 
 .rotator-diff {
@@ -24,4 +25,17 @@
 .rotator-diff-value {
     font-weight: bold;
     margin-left: 10px;
+}
+
+.cam-cable {
+    max-width: 20%;
+}
+
+.cable-wrap-separator {
+    height: 290px;
+    width: 3px;
+    margin-top: 40px;
+    margin-right: 50px;
+    border-radius: 10px;
+    background: #2d3d4e;
 }

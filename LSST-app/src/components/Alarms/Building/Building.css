@@ -17,12 +17,27 @@
 }
 
 .floor-plan-thumbnails-container > .alarm {
-    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.7);
+    background: rgba(255, 85, 117, 0.32);
+}
+
+.floor-thumbnail-wrapper {
+    padding-right: 13px;    
 }
 
 .floor-plan-thumbnails-container > .selected {
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7);
+    background: #ffffff38;
+    border-right: 13px solid #ffffff;
+    padding-right: 0px;
 }
+
+.floor-plan-thumbnails-container > .alarm.selected {
+    background: rgba(255, 69, 104, 0.52);
+    border-right: 13px solid #ff5071;
+    padding-right: 0px;
+}
+/* 
+box-shadow: none;
+background: rgba(255, 85, 117, 0.32); */
 
 .selected-floor-container {
     /* the third number is the shrink ratio, 1 1 0% means dont shrink at all, */
@@ -36,31 +51,25 @@
     transform: translateY(-50%);
 }
 
-.selected-floor-container.alarm {
-    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.7);
-}
-
-
-
 @keyframes blinker {
     from {
-        background: rgba(255,0,0, 0.1);
+        background: rgba(190, 64, 82, 0.1);
     }
 
     20% {
-        background: rgba(255,0,0, 0.1);        
+        background: rgba(190, 64, 82, 0.1);        
     }
 
     50% {
-        background: rgba(255,0,0, 0.01);        
+        background: rgba(190, 64, 82, 0.01);        
     }
 
     80% {
-        background: rgba(255,0,0, 0.1);        
+        background: rgba(190, 64, 82, 0.1);        
     }
 
     to {
-        background: rgba(255,0,0, 0.1);
+        background: rgba(190, 64, 82, 0.1);
     }
 }
 

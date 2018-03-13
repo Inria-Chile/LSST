@@ -14,7 +14,7 @@ class Dashboard2 extends Component {
     static viewComponents = [Survey, Mirrors];
     static layout = {
         'survey': {i: 'survey', x: 0, y: 0, w: 6, h: 10},
-        'mirrors': {i: 'mirrors', x: 6, y: 0, w: 2, h: 12},
+        'mirrors': {i: 'mirrors', x: 6, y: 0, w: 2, h: 11},
         'dome': {i: 'dome', x: 8, y: 0, w: 4, h: 20},
         'environment': {i: 'environment', x: 0, y: 10, w: 3, h: 3}
     };

@@ -51,7 +51,8 @@ class DateSelection extends Component {
         return (
             <div className="date-selection">
                 <div className="date-inputs-wrapper">
-                    <FaCalendar className='calendar-icon' />
+                    {/* <FaCalendar className='calendar-icon' /> */}
+                    <img className="calendar-icon" src="/img/calendar.png" />
                     <div className='date-input date-left'>
                         <DatePicker
                             selected={this.state.startMomentDate}

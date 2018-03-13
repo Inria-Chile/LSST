@@ -61,7 +61,8 @@ class DomePosition extends PureComponent {
                     <svg 
                         className="svg-container"
                         height={this.props.height+100}
-                        width={this.props.width+100}>
+                        width={this.props.width+500}>
+                            <image id="dome-base" x={0} y={0} width={this.props.width+400} height={this.props.height} opacity={1.0} xlinkHref="/img/dome_base.png"/>
                         <g id="dome-angle"
                             transform={"translate("+this.props.width/2+","+this.props.height/2+")"}
                             height={this.props.height}

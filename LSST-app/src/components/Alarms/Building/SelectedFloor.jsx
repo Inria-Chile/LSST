@@ -31,7 +31,10 @@ class SelectedFloor extends Component {
             url: '/img/floor_plans/floor_04/4-blueprint.svg', 
             alarmsCoordinates: [[1573,355],[1778,321],[2040,321],[2320,319],[2558,322],[2850,320],[3132,319],[3401,341],[3344,411],[3597,410],[3470,526],[1779,457],[2007,459]]
         },
-        floor5:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
+        floor5:{ 
+            url: '/img/floor_plans/floor_05/5-blueprint.svg', 
+            alarmsCoordinates: []
+        },
         floor6:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
         floor7:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
         floor8:{ url: '/img/floor_plans/floor_01/1-fire.svg', alarmsCoordinates: []},
@@ -39,14 +42,14 @@ class SelectedFloor extends Component {
 
 
     static sideThumbnails =  {
-        floor1: '/img/floor_plans/n1-side_thumbnail-danger.svg',
-        floor2: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor3: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor4: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor5: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor6: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor7: '/img/floor_plans/n2-side_thumbnail-danger.svg',
-        floor8: '/img/floor_plans/n2-side_thumbnail-danger.svg',
+        floor1: '/img/floor_plans/floor_01/1-side_thumbnail-alert.svg',
+        floor2: '/img/floor_plans/floor_02/2-side_thumbnail-alert.svg',
+        floor3: '/img/floor_plans/floor_03/3-side_thumbnail-alert.svg',
+        floor4: '/img/floor_plans/floor_04/4-side_thumbnail-alert.svg',
+        floor5: '/img/floor_plans/floor_01/5-side_thumbnail-alert.svg',
+        floor6: '/img/floor_plans/floor_01/1-side_thumbnail-alert.svg',
+        floor7: '/img/floor_plans/floor_01/1-side_thumbnail-alert.svg',
+        floor8: '/img/floor_plans/floor_01/1-side_thumbnail-alert.svg',
     }
 
     // constructor(props) {
@@ -67,7 +70,8 @@ class SelectedFloor extends Component {
 
         return (
 
-            <div className={["selected-floor-container", this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
+            <div className={["selected-floor-container",  
+                            this.props.floorAlarms.indexOf(this.props.selectedFloor) > -1 ? 'alarm' : ''].join(' ')}>
                 <div style={{ position: "relative", opacity: "70%" }}>
 
                     {alarmsCoordinates.map( (alarmCoordinate, index) => {
@@ -80,7 +84,44 @@ class SelectedFloor extends Component {
                         );
                     })}
 
-                    <img src={floorPlanImage} className="selected-floor-plan" alt="selected floor" onClick={(e) => {
+                    <img src={"/img/floor_plans/floor_01/1-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('1-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_02/2-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('2-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_03/3-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('3-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_04/4-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('4-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_05/5-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('5-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_06/6-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('6-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_07/7-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('7-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
+                        console.log('['+e.clientX+','+e.clientY+']');
+                    }}/>
+                    <img src={"/img/floor_plans/floor_08/8-blueprint.svg"} 
+                        className={["selected-floor-plan", floorPlanImage.indexOf('8-') < 1?"hidden":""].join(' ')} 
+                        alt="selected floor" onClick={(e) => {
                         console.log('['+e.clientX+','+e.clientY+']');
                     }}/>
 

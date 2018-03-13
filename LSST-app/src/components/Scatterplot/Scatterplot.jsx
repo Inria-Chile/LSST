@@ -10,9 +10,9 @@ class Scatterplot extends Component {
         let elem = ReactDOM.findDOMNode(this);
         let width = elem.offsetWidth;
         let height = this.props.height;
-
+        console.log('height', height)
         let svg = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height);
-        let margin = { top: 10, right: 15, bottom: 20, left: 25 };
+        let margin = { top: 30, right: 15, bottom: 20, left: 45 };
         width = +svg.attr("width") - margin.left - margin.right;
         height = +svg.attr("height") - margin.top - margin.bottom;
         var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");   
@@ -84,7 +84,7 @@ class Scatterplot extends Component {
 }
 
 Scatterplot.defaultProps = {
-    height: 400,
+    height: 500,
   };
 
 export default Scatterplot;

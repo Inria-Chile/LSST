@@ -55,6 +55,7 @@ h4 {
 .bottom-left-container > * {
   background: #3a4d61;
   padding-bottom: 0px;
+  padding-top: 15px;
 }
 
 .left-container {
@@ -111,7 +112,7 @@ h4 {
   right: 0;
   bottom: 0;
   margin: 5px;
-  padding: 5px;
+  padding: 15px;
   flex-grow: 1;
 }
 
@@ -139,6 +140,8 @@ h4 {
 .observations-table-wrapper {
   background: #31475c;
   height: 100%;
+  border: solid #5b6b7b 3px;
+  border-radius: 5px;
 }
 
 .observations-table-wrapper > div:nth-child(2) > div:first-child {
@@ -147,6 +150,20 @@ h4 {
 
 .observations-table-wrapper > div:nth-child(2) > div:first-child > div:first-child {
   margin-right: -16px !important;
+}
+
+.brush .handle {
+  width: 10px;
+  fill: white;
+  height: 30px;
+  y: 10;
+  rx: 4.8;
+  background-image: url('/img/Cardinal_directions.svg')
+}
+
+.observations-table-parent {
+  flex: 0 0 47.666667%;
+  max-width: 47.666667%;
 }
 /* 
 .ReactTable:first-child > div:first-child {

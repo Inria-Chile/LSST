@@ -337,7 +337,7 @@ class Survey extends PureComponent {
                                         } 
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-6 observations-table-parent">
                                      <ObservationsTable clickedField={this.state.selectedFieldData} /> 
                                 </div>
                             </div>                        
@@ -352,8 +352,8 @@ class Survey extends PureComponent {
                             selectedFilter={this.state.displayedFilter}
                           />  
                         <div className="scatterplot-container" onClick={ () => this.toggleMapScatterplot()}>
-                            <h4> Right Ascention / Declination </h4>
-                            <Scatterplot height={183} displayedData={this.state.displayedData}/>
+                            <h5> Right Ascention / Declination </h5>
+                            <Scatterplot height={250} displayedData={this.state.displayedData}/>
                         </div>                         
                     </div>
                 </div>

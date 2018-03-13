@@ -130,3 +130,7 @@
 .react-datepicker__day--selected {
     background-color: #5b6b7b;
 }
+
+.calendar-icon {
+    height: 0.5em;
+}

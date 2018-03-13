@@ -5,14 +5,14 @@ import './FloorThumbnails.css';
 class FloorThumbnails extends Component {
 
     static floorPlanThumbnails = {
-        floor1: '/img/floor_plans/floor1_thumbnail.png',
-        floor2: '/img/floor_plans/floor2_thumbnail.png',
-        floor3: '/img/floor_plans/floor3_thumbnail.png',
-        floor4: '/img/floor_plans/floor4_thumbnail.png',
-        floor5: '/img/floor_plans/floor5_thumbnail.png',
-        floor6: '/img/floor_plans/floor6_thumbnail.png',
-        floor7: '/img/floor_plans/floor7_thumbnail.png',
-        floor8: '/img/floor_plans/floor8_thumbnail.png',
+        floor1: '/img/floor_plans/floor_01/1-blueprint-thumbnail.svg',
+        floor2: '/img/floor_plans/floor_02/2-blueprint-thumbnail.svg',
+        floor3: '/img/floor_plans/floor_03/3-blueprint-thumbnail.svg',
+        floor4: '/img/floor_plans/floor_04/4-blueprint-thumbnail.svg',
+        floor5: '/img/floor_plans/floor_05/5-blueprint-thumbnail.svg',
+        floor6: '/img/floor_plans/floor_01/1-blueprint-thumbnail.svg',
+        floor7: '/img/floor_plans/floor_01/1-blueprint-thumbnail.svg',
+        floor8: '/img/floor_plans/floor_01/1-blueprint-thumbnail.svg',
     }
 
     // constructor(props) {

@@ -35,7 +35,7 @@ class Slider extends Component {
         .attr("class", "x")
         .attr("transform", "translate(0," + 30 + ")")
         .call(d3.axisBottom(x).ticks(this.ticks));
-        this.drawBackgoround(svg,elem.offsetWidth,elem.offsetHeight,x)
+        this.drawBackgoround(svg,elem.offsetWidth-130,elem.offsetHeight,x)
     }
 
     updateSlider(dom, dataUpdate){

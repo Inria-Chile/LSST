@@ -7,12 +7,12 @@
 
 .status-circle-open:before {
     content: ' \25CF';
-    color: green
+    color: #6ec674;
 }
 
 .status-circle-closed:before {
     content: ' \25CF';
-    color: red
+    color: #be4052;
 }
 
 .shutter {
